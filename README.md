@@ -23,22 +23,28 @@
 	- 생산성과 협업의 효율성 극대화
 
 ## 📑 목차
-[Ⅰ) 기술 스택](#Ⅰ)-기술-스택)
-[Ⅱ) 컨벤션](#Ⅱ)-컨벤션)
-[Ⅲ) 프로젝트의 목표와 기능](#Ⅲ)-프로젝트의-목표와-기능)
-[Ⅳ) 요구사항과 기능명세](#Ⅳ)-요구사항과-기능명세)
-[Ⅴ) 프로젝트 구조와 개발 일정](#Ⅴ)-프로젝트-구조와-개발-일정)
-[Ⅵ) 와이어프레임 / UI](#Ⅵ)-와이어프레임-/-UI)
-[Ⅶ) 개발하며 느낀점](#Ⅶ)-개발하며-느낀점)
+[Ⅰ. 기술 스택](#Ⅰ.-기술-스택)
 
-##  Ⅰ) 기술 스택
+[Ⅱ. 컨벤션](#Ⅱ.-컨벤션)
+
+[Ⅲ. 프로젝트의 목표와 기능](#Ⅲ.-프로젝트의-목표와-기능)
+
+[Ⅳ. 요구사항과 기능명세](#Ⅳ.-요구사항과-기능명세)
+
+[Ⅴ. 프로젝트 구조와 개발 일정](#Ⅴ.-프로젝트-구조와-개발-일정)
+
+[Ⅵ. 와이어프레임 / UI](#Ⅵ.-와이어프레임-/-UI)
+
+[Ⅶ. 개발하며 느낀점](#Ⅶ.-개발하며-느낀점)
+
+##  Ⅰ. 기술 스택
 ### 1. 공통
 ![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=GitHub&logoColor=white)
 ### 2. IDE
 ![](https://img.shields.io/badge/Visual%20Studio%20Code-007ACC?style=flat-square&logo=Visual%20Studio%20Code&logoColor=white)
 ### 3. 사용 언어
 ![리액트]( https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=black ) ![다음.js]( https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=Nextdotjs&logoColor=white ) ![CSS 모듈]( https://img.shields.io/badge/CSS%20Modules-000000?style=for-the-badge&logo=CSSModules&logoColor=white ) ![Firebase](https://img.shields.io/badge/Firebase-DD2C00?style=for-the-badge&logo=Firebase&logoColor=white)
-## Ⅱ) 컨벤션
+## Ⅱ. 컨벤션
 ###  Git 컨벤션
 #### 1. Commit 메시지
 - 깃모지 사용 : commit 유형에 따라 아래 표에 따라 이모지를 사용합니다.
@@ -80,7 +86,7 @@
 	- 컴포넌트 파일과 CSS 모듈 파일은 동일한 이름으로 작성.
 		- 예: `Header` →`Header.module.css`
 	
-## Ⅲ) 프로젝트의 목표와 기능
+## Ⅲ. 프로젝트의 목표와 기능
 
 ###  1.1 프로젝트의 목표
 - 우리는 꿈을 꿉니다. 꿈을 기록하고 모두와 함께 공유해보세요.
@@ -100,28 +106,28 @@
 	- 선택한 유저가 작성한 게시글을 모아서 볼 수 있는 페이지.
 	- 본인페이지일경우 프로필 편집이 가능
 	
-## Ⅳ) 요구사항과 기능명세
+## Ⅳ. 요구사항과 기능명세
 ### 4.1 요구사항
 머메이드
 
 ### 4.2 기능명세
 명세서
 
-## Ⅴ) 프로젝트 구조와 개발 일정
+## Ⅴ. 프로젝트 구조와 개발 일정
 ### 5.1 프로젝트 구조
 폴더구조
 
 ### 5.2 개발 일정
 타임라인
 
-## Ⅵ) 와이어프레임 / UI
+## Ⅵ. 와이어프레임 / UI
 ### 6.1 와이어프레임
 피그마 사진
 
 ### 6.2 UI
 시현영상 gif 삽입
 
-## Ⅶ) 개발하며 느낀점
+## Ⅶ. 개발하며 느낀점
 ### [FE]황초희
 ``` 3차프로젝트 진행하면서 느낀점 ```
 
