@@ -1,11 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { loginSuccess } from "@/store/authSlice";
 
 export function useSignupSubmit() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const dispatch = useDispatch();
   const { idToken } = useSelector((state) => state.auth);
 
   const submitSignup = async (formData) => {
@@ -29,6 +31,18 @@ export function useSignupSubmit() {
       const data = await response.json();
 
       if (data.success) {
+        // Redux 상태 업데이트
+        dispatch(
+          loginSuccess({
+            user: {
+              uid: data.uid,
+              email: data.email,
+              userName: formData.userName,
+            },
+            token: idToken,
+            isRegistrationComplete: true,
+          })
+        );
         return true;
       } else {
         throw new Error(data.message);
