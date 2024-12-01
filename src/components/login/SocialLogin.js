@@ -9,7 +9,7 @@ import { loginSuccess, logout } from "@/store/authSlice";
 
 export default function SocialLogin() {
   const router = useRouter();
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState("");
   const [error, setError] = useState("");
   const dispatch = useDispatch();
   const { idToken } = useSelector((state) => state.auth);
@@ -109,23 +109,6 @@ export default function SocialLogin() {
     }
   };
 
-  const handleLogout = async () => {
-    try {
-      await signOut(auth);
-
-      await fetch("/api/auth/logout", {
-        method: "POST",
-      });
-
-      setUser(null);
-      setError("");
-      router.push("/");
-    } catch (error) {
-      setError("로그아웃 중 오류가 발생했습니다.");
-      console.error("Logout error:", error);
-    }
-  };
-
   return (
     <section className="loginContainer">
       {error && (
@@ -134,22 +117,9 @@ export default function SocialLogin() {
         </p>
       )}
 
-      {!user ? (
-        <button
-          onClick={handleGoogleLogin}
-          className="loginButton"
-          type="button"
-        >
-          Google로 로그인
-        </button>
-      ) : (
-        <div>
-          <p>환영합니다, {user.userName}님!</p>
-          <button onClick={handleLogout} className="logoutButton" type="button">
-            로그아웃
-          </button>
-        </div>
-      )}
+      <button onClick={handleGoogleLogin} className="loginButton" type="button">
+        Google로 로그인
+      </button>
     </section>
   );
 }
