@@ -1,20 +1,21 @@
-// Firestore에서 사용자를 확인하는 API
-
-import { cookies } from "next/headers";
+import { headers } from "next/headers";
 import { auth, db } from "@/lib/firebaseAdmin";
 import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
-    const cookieStore = cookies();
-    const token = cookieStore.get("auth_token");
+    const headersList = headers();
+    const authorization = headersList.get("Authorization");
 
-    if (!token) {
+    if (!authorization?.startsWith("Bearer ")) {
       return NextResponse.json({ exists: false }, { status: 401 });
     }
 
+    // Bearer 토큰에서 ID 토큰 추출
+    const idToken = authorization.split("Bearer ")[1];
+
     // Firebase Admin을 사용하여 토큰 검증 및 uid 획득
-    const decodedToken = await auth.verifyIdToken(token.value);
+    const decodedToken = await auth.verifyIdToken(idToken);
     const uid = decodedToken.uid;
     const email = decodedToken.email;
     const via = decodedToken.firebase.sign_in_provider;
@@ -24,6 +25,7 @@ export async function GET() {
 
     return NextResponse.json({
       exists: userDoc.exists,
+      userName: userDoc.data()?.userName,
       email: email,
       via: via,
       uid: uid,
