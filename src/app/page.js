@@ -1,13 +1,16 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { useSelector, useDispatch } from "react-redux";
 import Image from "next/image";
 import styles from "./page.module.css";
 import SocialLogin from "@/components/login/SocialLogin";
 import { loginSuccess, logout } from "@/store/authSlice";
+import Loading from "@/components/Loading";
 
 export default function Home() {
+  const router = useRouter();
   const { user } = useSelector((state) => state.auth);
 
   if (!user) {
@@ -18,6 +21,16 @@ export default function Home() {
           <SocialLogin />
         </section>
       </main>
+    );
+  }
+
+  if (!user.isRegistrationComplete) {
+    router.push("/signup");
+
+    return (
+      <>
+        <Loading />
+      </>
     );
   }
 
