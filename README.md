@@ -21,8 +21,7 @@
 	- 팀원 간 업무 진행 상황 공유
 	- 신속한 문제점 파악 및 해결방안 논의
 	- 생산성과 협업의 효율성 극대화
- - 회의록
-   [회의록](https://docs.google.com/document/d/190_bRMI_2bKHqnrjNN5EuhqaSQyekBChzm9lYwNLlMA/edit?usp=sharing)
+ - [회의록](https://docs.google.com/document/d/190_bRMI_2bKHqnrjNN5EuhqaSQyekBChzm9lYwNLlMA/edit?usp=sharing)
 
 ## 📑 목차
 
