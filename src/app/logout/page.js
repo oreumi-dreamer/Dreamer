@@ -16,6 +16,7 @@ export default function Logout() {
       // Firebase 로그아웃
       await signOut(auth);
 
+      // API 로그아웃 및 쿠키 초기화
       const res = await fetch("/api/auth/logout", {
         method: "POST",
         credentials: "include",
