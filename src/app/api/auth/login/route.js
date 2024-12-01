@@ -2,7 +2,9 @@ import { NextResponse } from "next/server";
 
 export async function POST(request) {
   try {
-    const { token } = await request.json();
+    const result = await request.json();
+
+    const token = result.refreshToken;
 
     // Response 객체 생성
     const response = NextResponse.json({ success: true });
