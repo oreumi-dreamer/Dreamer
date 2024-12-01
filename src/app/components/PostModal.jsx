@@ -12,7 +12,12 @@ export default function PostModal() {
             <h2 className="sr-only">글 본문 내용 확인</h2>
             <section>
               <h3 className="sr-only">작성자 정보 및 본문 관련 버튼 모음</h3>
-              <Image width={49} height={49} className={styles.profile}></Image>
+              <Image
+                src="/images/rabbit.svg"
+                width={27.97}
+                height={35.3}
+                className={styles.profile}
+              ></Image>
               <p>
                 {"JINI"}
                 <Link href="/">@jini</Link>
@@ -21,33 +26,60 @@ export default function PostModal() {
               <ul className={styles["button-list"]}>
                 <li>
                   <button>
-                    별 버튼
-                    <Image></Image>
+                    <Image
+                      src="/images/star.svg"
+                      alt="좋아요반짝"
+                      width={30}
+                      height={30}
+                    ></Image>
                   </button>
                   <span>{"1200"}명의 관심을 받고 있는 꿈이에요</span>
                 </li>
                 <li>
                   <button>
-                    공유버튼
-                    <Image></Image>
+                    <Image
+                      src="/images/share.svg"
+                      alt="공유하기"
+                      width={30}
+                      height={30}
+                    ></Image>
                   </button>
                 </li>
                 <li>
                   <button>
-                    스크랩버튼
-                    <Image></Image>
+                    <Image
+                      src="/images/mark.svg"
+                      alt="스크랩하기"
+                      width={30}
+                      height={30}
+                    ></Image>
                   </button>
                 </li>
                 <li>
                   <button>
-                    더보기버튼
-                    <Image></Image>
+                    <Image
+                      src="/images/more.svg"
+                      alt="더보기"
+                      width={30}
+                      height={30}
+                    ></Image>
                   </button>
                 </li>
               </ul>
             </section>
             <section>
               <h3 className="sr-only">본문 내용</h3>
+              <div>
+                <ul>
+                  <li>친구</li>
+                  <li>가족</li>
+                  <li>외계인</li>
+                </ul>
+
+                <span>{"혼란스러움,무서움,분노"}</span>
+
+                <span>오늘의 꿈 별점: {"★☆☆☆☆"}</span>
+              </div>
               <p>{`나는 오늘 꿈에서 ${(<Link href="/">친구</Link>)}를 만났다. 친구와 놀이터에 가서 놀았다. 놀고 있는데 외계인이 침공했다. 너무 무서웠다. 국가는 외계인 침공에 대항해야 할 것이다. 국가는 무엇을 하는가 우리의 세금은 잔뜩 가져가면서 침공에 대한 방안에는 무엇이 있는가 내일까지 작성해오세요.`}</p>
               <Image width={555} height={330}></Image>
             </section>
@@ -55,6 +87,9 @@ export default function PostModal() {
           <hr className={styles.dash} />
           <section>
             <h2 className="sr-only">댓글 작성 및 확인</h2>
+            <button>
+              <Image src="/images/close.svg" width={30} height={30}></Image>
+            </button>
 
             <form action="#">
               <label htmlFor="comment" className="sr-only">
@@ -74,9 +109,10 @@ export default function PostModal() {
                 <input type="checkbox" />
                 비공개
               </label>
+
               <button type="submit">
-                전송버튼
-                <Image width={31} height={31}></Image>
+                {" "}
+                <Image src="/images/send.svg" width={30} height={30}></Image>
               </button>
             </form>
             {/* 컴포넌트 분리 예정 */}
