@@ -1,5 +1,5 @@
 /* 따로 container 사용 시 사용 예정 */
-/* .dimmed {
+.dimmed {
   position: fixed;
   top: 0px;
   left: 0px;
@@ -10,7 +10,7 @@
   background-color: var(--background-dimmed);
 
   padding: 4rem 0;
-} 
+}
 .post-modal {
   z-index: 1000;
   position: relative;
@@ -20,21 +20,8 @@
   border-radius: 1rem;
   background-color: var(--background-white);
   border: none;
-}  
 
-*/
-
-.post-modal {
-  margin: 4rem auto;
-  width: 155.4rem;
-  height: 100rem;
-  border-radius: 1rem;
-  background-color: var(--background-white);
-  border: none;
-}
-
-.post-modal::backdrop {
-  background-color: var(--background-dimmed);
+  display: flex;
 }
 
 .time {
