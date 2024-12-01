@@ -8,6 +8,13 @@ export default function PostModal() {
     <>
       <div className={styles.dimmed}>
         <dialog className={styles["post-modal"]} open>
+          <Image
+            className={styles.bookmark}
+            src="/images/bookmark.svg"
+            width={54}
+            height={131}
+          ></Image>
+
           <section>
             <h2 className="sr-only">글 본문 내용 확인</h2>
             <section className={styles["post-info-section"]}>
@@ -66,33 +73,65 @@ export default function PostModal() {
             </section>
             <section className={styles["post-text"]}>
               <h3 className="sr-only">본문 내용</h3>
-              <div>
-                <ul>
+              <div className={styles["post-text-header"]}>
+                <ul className={styles["post-tag"]}>
                   <li>친구</li>
                   <li>가족</li>
                   <li>외계인</li>
                 </ul>
 
-                <span>{"혼란스러움,무서움,분노"}</span>
+                <span className={styles["dream-felt"]}>
+                  {"혼란스러움,무서움,분노"}
+                </span>
 
-                <span>오늘의 꿈 별점: {"★☆☆☆☆"}</span>
+                <span className={styles["dream-score"]}>
+                  오늘의 꿈 별점: {"★☆☆☆☆"}
+                </span>
               </div>
-              <p>{`나는 오늘 꿈에서 ${(<Link href="/">친구</Link>)}를 만났다. 친구와 놀이터에 가서 놀았다. 놀고 있는데 외계인이 침공했다. 너무 무서웠다. 국가는 외계인 침공에 대항해야 할 것이다. 국가는 무엇을 하는가 우리의 세금은 잔뜩 가져가면서 침공에 대한 방안에는 무엇이 있는가 내일까지 작성해오세요.`}</p>
+              <p>
+                나는 오늘 꿈에서<Link href="/">친구</Link>를 만났다.
+                <br />
+                친구와놀이터에 가서 놀았다.
+                <br />
+                놀고 있는데 외계인이 침공했다. 너무 무서웠다.
+                <br />
+                국가는 외계인 침공에 대항해야 할 것이다.
+                <br />
+                국가는 무엇을 하는가 우리의 세금은 잔뜩 가져가면서
+                <br />
+                침공에 대한 방안에는 무엇이 있는가 내일까지 작성해오세요.
+                <br />
+                <br />
+                그림
+                <br />
+                <br />
+                <br />
+                <br />
+                이런식으로
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+              </p>
               <Image width={555} height={330}></Image>
             </section>
           </section>
           <hr className={styles.dash} />
           <section>
             <h2 className="sr-only">댓글 작성 및 확인</h2>
-            <button>
+            <button className={styles["close-btn"]}>
               <Image src="/images/close.svg" width={30} height={30}></Image>
             </button>
 
-            <form action="#">
+            <form action="#" className={styles["comment-form"]}>
               <label htmlFor="comment" className="sr-only">
                 댓글 입력
               </label>
               <input
+                className={styles["comment-input"]}
                 id="comment"
                 type="textarea"
                 maxLength={1000}
