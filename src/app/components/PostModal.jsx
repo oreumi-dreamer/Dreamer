@@ -14,8 +14,8 @@ export default function PostModal() {
               <h3 className="sr-only">작성자 정보 및 본문 관련 버튼 모음</h3>
               <Image
                 src="/images/rabbit.svg"
-                width={27.97}
-                height={35.3}
+                width={49}
+                height={49}
                 className={styles.profile}
               ></Image>
               <p>
