@@ -16,10 +16,13 @@ export function useSignupSubmit() {
 
       const response = await fetch("/api/join", {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+        }),
       });
 
       const data = await response.json();
