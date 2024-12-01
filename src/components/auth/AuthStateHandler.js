@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { auth } from "@/lib/firebase";
 import { loginSuccess, logout } from "@/store/authSlice";
-
+import { checkUserExists } from "@/utils/auth/checkUser";
 import Loading from "@/components/Loading";
 
 export default function AuthStateHandler({ children }) {
@@ -16,30 +16,18 @@ export default function AuthStateHandler({ children }) {
       if (user) {
         try {
           const idToken = await user.getIdToken();
-          const res = await fetch("/api/auth/verify", {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${idToken}`,
-            },
-          });
+          const exists = await checkUserExists(idToken, dispatch);
 
-          if (!res.ok) throw new Error("Verification failed");
-
-          const data = await res.json();
-
-          dispatch(
-            loginSuccess({
-              user: {
-                uid: data.uid,
-                email: data.email,
-                userName: data.userName,
-              },
-              token: idToken,
-              isRegistrationComplete: data.exists,
-            })
-          );
+          // exists가 undefined나 false가 아닌 경우에만 isRegistrationComplete 업데이트
+          if (exists !== undefined) {
+            dispatch(
+              loginSuccess({
+                isRegistrationComplete: exists,
+              })
+            );
+          }
         } catch (error) {
-          console.error("Verification error:", error);
+          console.error("Auth check error:", error);
           dispatch(logout());
         }
       } else {
