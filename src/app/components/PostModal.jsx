@@ -10,19 +10,16 @@ export default function PostModal() {
         <dialog className={styles["post-modal"]} open>
           <section>
             <h2 className="sr-only">글 본문 내용 확인</h2>
-            <section>
+            <section className={styles["post-info-section"]}>
               <h3 className="sr-only">작성자 정보 및 본문 관련 버튼 모음</h3>
-              <Image
-                src="/images/rabbit.svg"
-                width={49}
-                height={49}
-                className={styles.profile}
-              ></Image>
-              <p>
-                {"JINI"}
-                <Link href="/">@jini</Link>
-              </p>
-              <span className={styles.time}>2시간전</span>
+              <div className={styles.profile}>
+                <Image src="/images/rabbit.svg" width={49} height={49}></Image>
+                <p className={styles["profile-info"]}>
+                  {"JINI"}
+                  <Link href="/">@jini</Link>
+                  <time className={styles["uploaded-time"]}>2시간전</time>
+                </p>
+              </div>
               <ul className={styles["button-list"]}>
                 <li>
                   <button>
@@ -33,7 +30,7 @@ export default function PostModal() {
                       height={30}
                     ></Image>
                   </button>
-                  <span>{"1200"}명의 관심을 받고 있는 꿈이에요</span>
+                  <span>{"1200"}명의 관심을 받고 있는 꿈이에요.</span>
                 </li>
                 <li>
                   <button>
@@ -67,7 +64,7 @@ export default function PostModal() {
                 </li>
               </ul>
             </section>
-            <section>
+            <section className={styles["post-text"]}>
               <h3 className="sr-only">본문 내용</h3>
               <div>
                 <ul>
