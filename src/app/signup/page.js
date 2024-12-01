@@ -1,14 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
 import { useSignupForm } from "@/hooks/signup/useSignupForm";
 import { useSignupSubmit } from "@/hooks/signup/useSignupSubmit"; // 추가
 import BasicInfoForm from "@/components/signup/BasicInfoForm";
 import ProfileForm from "@/components/signup/ProfileForm";
 import { validateFirstForm, validateSecondForm } from "@/utils/validation";
+import Loading from "@/components/Loading";
 
 export default function Signup() {
+  const router = useRouter();
+
   const [process, setProcess] = useState(0);
   const [isJoined, setIsJoined] = useState(false);
 
@@ -21,6 +25,12 @@ export default function Signup() {
   const [profileImage, setProfileImage] = useState("");
   const [bio, setBio] = useState("");
   const [theme, setTheme] = useState("deviceMode");
+
+  useEffect(() => {
+    if (isJoined) {
+      router.push("/");
+    }
+  }, [isJoined, router]);
 
   const formData = {
     userId,
@@ -79,7 +89,7 @@ export default function Signup() {
   async function handleSkipForm(e) {
     e.preventDefault();
 
-    setProfileImage(null);
+    setProfileImage("");
     setBio("");
     setTheme("deviceMode");
 
@@ -102,7 +112,6 @@ export default function Signup() {
   // 성공/실패 핸들러
   const handleSuccess = () => {
     setIsJoined(true);
-    // 추가로 필요한 성공 처리 (예: 리다이렉트)
   };
 
   const handleError = (error) => {
@@ -128,7 +137,7 @@ export default function Signup() {
         {isLoading && <div>처리중...</div>}
         {error && <div className={styles.error}>{error}</div>}
         {isJoined ? (
-          <div>회원가입이 완료되었습니다!</div>
+          <Loading />
         ) : (
           <>
             {process === 0 && (
