@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, addDoc, collection } from "firebase/firestore";
+import { getFirestore, setDoc, collection, doc } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -42,8 +42,19 @@ export async function POST(request) {
     // 생년월일을 Date 객체로 변환
     const birthDate = new Date(year, month - 1, day);
 
-    // addDoc을 사용하여 자동 ID 생성과 함께 문서 추가
-    const docRef = await addDoc(collection(db, "users"), {
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+    const verifyResponse = await fetch(`${baseUrl}/api/auth/verify`, {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        Cookie: request.headers.get("cookie"), // 쿠키 전달
+      },
+    });
+
+    const verifyData = await verifyResponse.json();
+
+    // setDoc을 사용하여 문서 추가
+    const docRef = await setDoc(doc(db, "users", verifyData.uid), {
       userId,
       userName,
       birthDate,
@@ -52,6 +63,8 @@ export async function POST(request) {
       theme: theme || "default",
       createdAt: new Date(),
       updatedAt: new Date(),
+      email: verifyData.email,
+      via: verifyData.via,
     });
 
     return new Response(
