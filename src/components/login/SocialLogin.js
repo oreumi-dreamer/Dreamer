@@ -35,8 +35,6 @@ export default function SocialLogin() {
 
       const { exists } = result;
 
-      console.log(result);
-
       const user = {
         uid: result.uid,
         email: result.email,

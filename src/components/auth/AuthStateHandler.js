@@ -11,7 +11,6 @@ export default function AuthStateHandler() {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (user) {
-        console.log(user);
         const idToken = await user.getIdToken();
         dispatch(
           loginSuccess({

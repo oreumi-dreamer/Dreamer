@@ -58,8 +58,6 @@ export async function POST(request) {
 
     const verifyData = await verifyResponse.json();
 
-    console.log("verifyData", verifyData);
-
     if (verifyData.exists) {
       return new Response(
         JSON.stringify({
