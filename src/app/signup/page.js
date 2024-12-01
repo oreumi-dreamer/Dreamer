@@ -3,18 +3,49 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
-import { useSignupForm } from "@/hooks/signup/useSignupForm";
 import { useSignupSubmit } from "@/hooks/signup/useSignupSubmit"; // 추가
 import BasicInfoForm from "@/components/signup/BasicInfoForm";
 import ProfileForm from "@/components/signup/ProfileForm";
 import { validateFirstForm, validateSecondForm } from "@/utils/validation";
 import Loading from "@/components/Loading";
+import { useDispatch, useSelector } from "react-redux";
+import { checkUserExists } from "@/utils/auth/checkUser";
 
 export default function Signup() {
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const [process, setProcess] = useState(0);
   const [isJoined, setIsJoined] = useState(false);
+
+  const { idToken } = useSelector((state) => state.auth);
+
+  // 이미 가입한 사용자는 홈으로 이동
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const exists = await checkUserExists(idToken, dispatch);
+
+        // exists가 명확하게 true일 때만 리다이렉트
+        if (exists === true) {
+          router.push("/");
+        }
+      } catch (error) {
+        console.error("Auth check error:", error);
+      }
+    };
+
+    if (idToken) {
+      checkAuth();
+    }
+  }, [idToken, router, dispatch]);
+
+  // 회원가입 완료 시 홈으로 이동
+  useEffect(() => {
+    if (isJoined) {
+      router.push("/");
+    }
+  }, [isJoined, router]);
 
   // 폼 상태들
   const [userId, setUserId] = useState("");
@@ -25,12 +56,6 @@ export default function Signup() {
   const [profileImage, setProfileImage] = useState("");
   const [bio, setBio] = useState("");
   const [theme, setTheme] = useState("deviceMode");
-
-  useEffect(() => {
-    if (isJoined) {
-      router.push("/");
-    }
-  }, [isJoined, router]);
 
   const formData = {
     userId,
