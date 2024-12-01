@@ -22,8 +22,60 @@
   border: none;
 
   display: flex;
+  padding: 3.7rem 3.2rem 3.5rem 3.2rem;
 }
 
-.time {
+.post-info-section {
+  padding-left: 8.6rem;
+}
+
+.profile {
+  display: flex;
+  gap: 1.7rem;
+}
+.profile-info {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 12.7rem;
+  font-size: 3.2rem;
+  margin-bottom: 1.6rem;
+}
+
+.uploaded-time {
+  font-size: 1.5rem;
   color: var(--purple-font-color);
+}
+
+.button-list {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.button-list button {
+  background: none;
+}
+
+.button-list span {
+  margin-left: 0.565rem;
+  margin-right: 24rem;
+}
+
+.post-text {
+  max-width: 63.3rem;
+  max-height: 80.3rem;
+  background-color: #fcfcfc;
+  border-radius: 1rem;
+  padding: 1.6rem 4.2rem 4rem 4.3rem;
+  margin-top: 2.067rem;
+
+  overflow-y: scroll;
+}
+
+.dash {
+  width: 0;
+  height: 92.9rem;
+  display: flex;
+  border: none;
+  border-left: dotted #7e7e7e 0.2rem;
+  margin: 0 3.2rem;
 }
