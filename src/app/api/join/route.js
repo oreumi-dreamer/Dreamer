@@ -92,6 +92,8 @@ export async function POST(request) {
         success: true,
         message: "사용자가 성공적으로 등록되었습니다.",
         userId: userId,
+        uid: verifyData.uid,
+        email: verifyData.email,
       }),
       {
         status: 200,
