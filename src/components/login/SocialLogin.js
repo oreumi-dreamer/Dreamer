@@ -4,17 +4,27 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { auth, googleProvider } from "@/lib/firebase";
 import { signInWithPopup, signOut } from "firebase/auth";
+import { useDispatch, useSelector } from "react-redux";
+import { loginSuccess, logout } from "@/store/authSlice";
 
 export default function SocialLogin() {
   const router = useRouter();
   const [user, setUser] = useState(null);
   const [error, setError] = useState("");
+  const dispatch = useDispatch();
+  const { idToken } = useSelector((state) => state.auth);
 
-  const checkUserExists = async () => {
+  const checkUserExists = async (idToken) => {
+    if (!idToken) {
+      return { result: "no token" };
+    }
+
     try {
       const res = await fetch("/api/auth/verify", {
         method: "GET",
-        credentials: "include",
+        headers: {
+          Authorization: `Bearer ${idToken}`,
+        },
       });
 
       const result = await res.json();
@@ -25,49 +35,71 @@ export default function SocialLogin() {
 
       const { exists } = result;
 
+      console.log(result);
+
+      const user = {
+        uid: result.uid,
+        email: result.email,
+        userName: result.userName,
+      };
+
+      dispatch(loginSuccess({ user, token: idToken }));
+
       if (!exists) {
-        router.push("/signup");
+        return false;
       }
     } catch (error) {
       console.error("User verification error:", error);
     }
+
+    return true;
   };
 
   useEffect(() => {
-    checkUserExists();
-  }, [router]);
+    const checkUser = async () => {
+      const result = await checkUserExists(idToken);
+      if (result === false) {
+        router.push("/signup");
+      }
+    };
+
+    checkUser();
+  }, [router, idToken]);
 
   const handleGoogleLogin = async () => {
     try {
       const result = await signInWithPopup(auth, googleProvider);
-      const uid = result.user.uid;
-      const token = await result.user.getIdToken();
+      const refreshToken = result.user.refreshToken;
+      const idToken = await result.user.getIdToken();
 
-      // 1. 먼저 토큰을 쿠키에 저장
+      // 1. 먼저 리프레시 토큰을 쿠키에 저장
       const tokenRes = await fetch("/api/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ token }),
+        body: JSON.stringify({ refreshToken: refreshToken }),
       });
 
       if (!tokenRes.ok) {
         throw new Error("토큰 쿠키 저장 중 오류 발생");
       }
 
-      // 2. 사용자 존재 여부 확인
-      const userRes = await fetch("/api/auth/verify", {
-        method: "GET",
-        credentials: "include",
-      });
+      // 2. ID 토큰을 Redux에 저장
+      dispatch(
+        loginSuccess({
+          user: {
+            uid: result.user.uid,
+            email: result.user.email,
+          },
+          token: idToken,
+        })
+      );
 
-      const { exists } = await userRes.json();
+      // 3. 사용자 존재 여부 확인
+      const exists = await checkUserExists(idToken);
 
-      setUser(result.user);
-      setError("");
-
-      // 3. 결과에 따라 리다이렉트
+      // 4. 결과에 따라 리다이렉트
       if (!exists) {
         router.push("/signup");
       } else {
@@ -114,7 +146,7 @@ export default function SocialLogin() {
         </button>
       ) : (
         <div>
-          <p>환영합니다, {user.displayName}님!</p>
+          <p>환영합니다, {user.userName}님!</p>
           <button onClick={handleLogout} className="logoutButton" type="button">
             로그아웃
           </button>
