@@ -71,7 +71,6 @@ export async function validateFirstForm(e, styles) {
   }
 
   const isLegal = await checkLegal();
-  console.log(isLegal);
 
   if (!isLegal) {
     alert("만 14세 이상만 가입이 가능합니다.");
