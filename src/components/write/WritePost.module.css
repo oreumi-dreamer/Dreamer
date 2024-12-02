@@ -1,0 +1,11 @@
+.rate-star {
+  width: 30px;
+  height: 30px;
+  background-image: url("/images/star.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+.rate-star.on {
+  background-image: url("/images/star-fill.svg");
+}
