@@ -7,6 +7,7 @@ import { signInWithPopup } from "firebase/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { loginSuccess } from "@/store/authSlice";
 import { checkUserExists } from "@/utils/auth/checkUser";
+import styles from "./SocialLogin.module.css";
 
 export default function SocialLogin() {
   const router = useRouter();
@@ -67,9 +68,16 @@ export default function SocialLogin() {
         </p>
       )}
 
-      <button onClick={handleGoogleLogin} className="loginButton" type="button">
-        Google로 로그인
-      </button>
+      <ul className={styles["login-buttons"]}>
+        <li>
+          <button onClick={handleGoogleLogin} type="button">
+            Google로 로그인
+          </button>
+        </li>
+        <li>
+          <button>이메일로 로그인</button>
+        </li>
+      </ul>
     </section>
   );
 }
