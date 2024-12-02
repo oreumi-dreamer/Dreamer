@@ -138,6 +138,12 @@
 }
 
 .dream-felt {
+  width: 13.602rem;
+  height: 2rem;
+  padding: 0.4rem 0;
+  text-align: center;
+  border-radius: 2rem;
+  background-color: var(--background-lightgray);
 }
 
 .dream-score {
@@ -169,7 +175,11 @@
   height: 9.4rem;
   border-radius: 1rem;
   border: none;
-  background-color: var(--none-active-color);
+  background-color: var(--comment-input-color);
   color: var(--gray-font-color);
   padding: 1.4rem 1.2rem;
+}
+
+.comment-form label {
+  color: var(--black-font-color);
 }
