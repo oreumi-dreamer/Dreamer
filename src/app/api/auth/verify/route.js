@@ -25,6 +25,7 @@ export async function GET() {
 
     return NextResponse.json({
       exists: userDoc.exists,
+      userId: userDoc.data()?.userId,
       userName: userDoc.data()?.userName,
       email: email,
       via: via,
