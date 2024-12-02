@@ -1,7 +1,8 @@
 import React from "react";
 import styles from "./HeaderModal.module.css";
 
-function MoreModal({ setIsOpenModal }) {
+
+function MoreModal({ setOpenModalName }) {
   return (
     <ul className={styles["more-modal"]}>
       <li className={styles["modal-items"]}>
@@ -10,7 +11,7 @@ function MoreModal({ setIsOpenModal }) {
       <li className={styles["modal-items"]}>
         <button
           className={`${styles["change-mode-btn"]} ${styles["light-mode"]}`}
-          onClick={() => setIsOpenModal("모드 전환")}
+          onClick={() => setOpenModalName("모드 전환")}
         >
           모드 전환
         </button>
@@ -25,13 +26,13 @@ function MoreModal({ setIsOpenModal }) {
   );
 }
 
-function ChangeModeModal({ setIsOpenModal }) {
+function ChangeModeModal({ setOpenModalName }) {
   return (
     <ul className={styles["change-mode-modal"]}>
       <li className={styles["modal-items"]}>
         <button
           className={styles["back-more-modal-btn"]}
-          onClick={() => setIsOpenModal("더보기")}
+          onClick={() => setOpenModalName("더보기")}
         >
           모드 전환
         </button>
