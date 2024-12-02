@@ -1,16 +1,18 @@
 "use client";
 
-import React, { isValidElement, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./Header.module.css";
 import Link from "next/link";
 import { MoreModal, ChangeModeModal } from "./HeaderModal";
+import { outClickModalClose } from "@/utils/outClickModalClose";
 
 export default function Header() {
   const buttonRef = useRef(null);
   const modalRef = useRef(null);
   const [isActive, setIsActive] = useState("홈");
-  const [isActiveMore, setIsActiveMore] = useState(false);
-  const [isOpenModal, setIsOpenModal] = useState(null);
+  const [isOpenModal, setIsOpenModal] = useState(false);
+  const [openModalName, setOpenModalName] = useState(null);
+  const [modalStyle, setModalStyle] = useState({});
 
   const handleButtonClick = (e) => {
     const buttons = document.querySelectorAll("button");
@@ -28,14 +30,35 @@ export default function Header() {
   };
 
   const handleClickMoreBtn = (e) => {
-    if (!isActiveMore) {
-      setIsOpenModal("더보기");
-      setIsActiveMore(true);
+    if (!isOpenModal) {
+      setOpenModalName("더보기");
+      setIsOpenModal(true);
     } else if (modalRef.current && !modalRef.current.contains(e.target)) {
-      setIsOpenModal(null);
-      setIsActiveMore(false);
+      setOpenModalName(null);
+      setIsOpenModal(false);
     }
   };
+
+  const updateModalPosition = () => {
+    if (buttonRef.current) {
+      const buttonRect = buttonRef.current.getBoundingClientRect();
+      setModalStyle({
+        position: "absolute",
+        top: `${buttonRect.top + window.scrollY + -590}px`,
+        left: `${buttonRect.left + window.scrollX + -60}px`,
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (openModalName) {
+      updateModalPosition();
+      window.addEventListener("resize", updateModalPosition);
+    }
+    return () => {
+      window.removeEventListener("resize", updateModalPosition);
+    };
+  }, [openModalName]);
 
   return (
     <header className={styles.header}>
@@ -101,20 +124,20 @@ export default function Header() {
           <p>JINI</p>
         </button>
         <button
-          className={`${styles["more-btn"]} ${isActiveMore ? styles.active : ""}`}
+          className={`${styles["more-btn"]} ${isOpenModal ? styles.active : ""}`}
           ref={buttonRef}
           onClick={handleClickMoreBtn}
         >
           더보기
         </button>
-        {isOpenModal === "더보기" && (
-          <div ref={modalRef}>
-            <MoreModal setIsOpenModal={setIsOpenModal} />
+        {openModalName === "더보기" && (
+          <div ref={modalRef} style={modalStyle}>
+            <MoreModal setOpenModalName={setOpenModalName} />
           </div>
         )}
-        {isOpenModal === "모드 전환" && (
-          <div ref={modalRef}>
-            <ChangeModeModal setIsOpenModal={setIsOpenModal} />
+        {openModalName === "모드 전환" && (
+          <div ref={modalRef} style={modalStyle}>
+            <ChangeModeModal setOpenModalName={setOpenModalName} />
           </div>
         )}
       </div>

@@ -58,6 +58,7 @@
 }
 
 .header-btn-container {
+  position: relative;
   padding: 5rem 0 0 5.9rem;
 }
 
@@ -93,7 +94,7 @@
   height: 3rem;
   display: inline-block;
   position: absolute;
-  left: 27rem;
+  right: 0;
 }
 
 .nav-items button.active::before,
