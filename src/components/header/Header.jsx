@@ -1,13 +1,14 @@
 import React from "react";
 import styles from "./Header.module.css";
 import Link from "next/link";
+import {MoreModal, ChangeModeModal} from "./HeaderModal";
 
 export default function Header() {
   return (
     <header className={styles.header}>
       <h1 className={styles.logo}>
         <Link href={"#"}>
-          <img src="/images/logo-full.svg" alt="dreamer logo" />
+          <img src="/images/logo-full.svg" alt="logo" />
         </Link>
       </h1>
       <button className={styles["mode-toggle-btn"]}>
@@ -38,6 +39,7 @@ export default function Header() {
           <p>JINI</p>
         </button>
         <button className={styles.more}>더보기</button>
+        <MoreModal/>
       </div>
     </header>
   );
