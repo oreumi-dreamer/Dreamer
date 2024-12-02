@@ -1,0 +1,34 @@
+.login-buttons button {
+  width: 30rem;
+  height: 6rem;
+  margin-bottom: 2.5rem;
+  border-radius: 1rem;
+  background-color: var(--background-white);
+  font-size: 2.4rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-buttons li:first-of-type button::before {
+  content: url(/images/google-logo.svg);
+  display: inline-block;
+  width: 4rem;
+  height: 4rem;
+  margin-right: 1rem;
+}
+
+.login-buttons li:last-of-type button::before {
+  content: url(/images/mail.svg);
+  display: inline-block;
+  width: 4rem;
+  height: 4rem;
+  margin-right: 1rem;
+  margin-top: 1.4rem;
+}
+
+.login-buttons li:first-of-type button {
+  background-color: #4285f4;
+  color: var(--background-white);
+}
