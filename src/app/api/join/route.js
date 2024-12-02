@@ -59,12 +59,32 @@ export async function POST(request) {
       );
     }
 
+    // 프로필 이미지를 Storage에 업로드
+    let profileImageUrl = null;
+
+    if (profileImage) {
+      const uploadResponse = await fetch(`${baseUrl}/api/account/avatar`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${idToken}`,
+        },
+        body: JSON.stringify({
+          image: profileImage,
+          uid: verifyData.uid,
+        }),
+      });
+
+      const uploadData = await uploadResponse.json();
+      profileImageUrl = uploadData.url;
+    }
+
     // setDoc을 사용하여 문서 추가
     const docRef = await setDoc(doc(db, "users", verifyData.uid), {
       userId,
       userName,
       birthDate,
-      profileImage: profileImage || null,
+      profileImage: profileImageUrl || "",
       bio: bio || "",
       theme: theme || "default",
       createdAt: new Date(),
