@@ -75,13 +75,13 @@
 }
 
 .header-btn-container button.active,
-.more.active {
+.more-btn.active {
   color: var(--black-font-color);
   border-bottom: 3px solid var(--black-font-color);
 }
 
 .header-btn-container button.active::after,
-.more.active::after {
+.more-btn.active::after {
   content: "";
   background-image: url(/images/active-star.svg);
   width: 3rem;
@@ -91,12 +91,12 @@
 }
 
 .nav-item button.active::before,
-.more.active::before {
+.more-btn.active::before {
   background-color: var(--black-font-color);
 }
 
 .nav-item button::before,
-.more::before {
+.more-btn::before {
   content: "";
   width: 4rem;
   height: 4rem;
@@ -106,50 +106,50 @@
   margin-right: 3rem;
 }
 
-.nav-item .home::before {
+.nav-item .home-btn::before {
   mask: url(/images/home.svg) no-repeat center;
 }
 
-.nav-item .search::before {
+.nav-item .search-btn::before {
   mask: url(/images/search.svg) no-repeat center;
 }
 
-.nav-item .message::before {
+.nav-item .message-btn::before {
   mask: url(/images/message.svg) no-repeat center;
 }
 
-.nav-item .alarm::before {
+.nav-item .alarm-btn::before {
   mask: url(/images/alarm.svg) no-repeat center;
 }
 
-.nav-item .wright::before {
+.nav-item .writing-btn::before {
   mask: url(/images/wright.svg) no-repeat center;
 }
 
-.more::before {
+.more-btn::before {
   mask: url(/images/more.svg) no-repeat center;
 }
 
 .profile-btn,
-.more {
+.more-btn {
   display: flex;
   align-items: center;
   position: fixed;
 }
 
 @media (max-height: 980px) {
-    .profile-btn,
-    .more {
-      position: static;
-      margin-top: 2rem;
-    }
+  .profile-btn,
+  .more-btn {
+    position: static;
+    margin-top: 2rem;
+  }
 }
 
 .profile-btn {
   bottom: 12rem;
 }
 
-.more {
+.more-btn {
   bottom: 5rem;
 }
 .profile-btn img {
