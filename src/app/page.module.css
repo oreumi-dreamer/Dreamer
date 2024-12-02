@@ -1,0 +1,19 @@
+.main {
+  width: 100vw;
+  height: 100vh;
+  background: var(--background-blue-top);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5.995rem;
+}
+
+.main h1 {
+  margin-right: 10rem;
+}
+
+.login {
+  margin: 0 auto;
+}
