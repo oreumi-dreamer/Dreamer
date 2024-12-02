@@ -36,10 +36,12 @@
 
 .profile {
   display: flex;
+  width: fit-content;
   gap: 1.7rem;
+  color: var(--black-font-color);
 }
 
-.profile a {
+.profile span {
   color: var(--gray-font-color);
 }
 
