@@ -19,14 +19,14 @@ export default function PostModal() {
           <h2 className="sr-only">글 본문 내용 확인</h2>
           <section className={styles["post-info-section"]}>
             <h3 className="sr-only">작성자 정보 및 본문 관련 버튼 모음</h3>
-            <div className={styles.profile}>
+            <Link className={styles.profile} href="/">
               <Image src="/images/rabbit.svg" width={49} height={49}></Image>
               <p className={styles["profile-info"]}>
                 {"JINI"}
-                <Link href="/">@jini</Link>
+                <span href="/">@jini</span>
                 <time className={styles["uploaded-time"]}>2시간전</time>
               </p>
-            </div>
+            </Link>
             <ul className={styles["button-list"]}>
               <li>
                 <button>
