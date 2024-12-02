@@ -223,3 +223,16 @@
   border-radius: 1rem;
   margin-bottom: 2rem;
 }
+.comment-articles-section::-webkit-scrollbar {
+  width: 3.2rem;
+}
+
+.comment-articles-section::-webkit-scrollbar-thumb {
+  background: var(--scroll-bar-color);
+  border: 1.2rem solid var(--background-lightgray);
+  border-radius: 2.6rem;
+}
+
+.comment-articles-section::-webkit-scrollbar-corner {
+  background-color: unset;
+}
