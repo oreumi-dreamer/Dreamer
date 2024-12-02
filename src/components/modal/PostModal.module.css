@@ -182,6 +182,7 @@
   border: none;
   padding: 1.4rem 1.2rem;
   resize: none;
+  scrollbar-width: none;
 }
 
 .comment-input::placeholder {
