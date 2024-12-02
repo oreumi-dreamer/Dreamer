@@ -130,26 +130,35 @@ export default function PostModal() {
             <label htmlFor="comment" className="sr-only">
               댓글 입력
             </label>
-            <input
+            <textarea
               className={styles["comment-input"]}
               id="comment"
-              type="textarea"
               maxLength={1000}
+              rows={4}
+              cols={103}
               placeholder="댓글입력(최대 1000자)"
             />
-            <label>
-              <input type="checkbox" />
-              꿈해몽
-            </label>
-            <label>
-              <input type="checkbox" />
-              비공개
-            </label>
+            <ul className={styles["comment-setting"]}>
+              <li>
+                <label>
+                  <input type="checkbox" />
+                  꿈해몽
+                </label>
+              </li>
 
-            <button type="submit">
-              {" "}
-              <Image src="/images/send.svg" width={30} height={30}></Image>
-            </button>
+              <li>
+                <label>
+                  <input type="checkbox" />
+                  비공개
+                </label>
+              </li>
+
+              <li>
+                <button type="submit">
+                  <Image src="/images/send.svg" width={30} height={30}></Image>
+                </button>
+              </li>
+            </ul>
           </form>
           {/* 컴포넌트 분리 예정 */}
           <article>
