@@ -1,11 +1,17 @@
 .rate-star {
-  width: 30px;
-  height: 30px;
-  background-image: url("/images/star.svg");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
+  appearance: none;
 }
-.rate-star.on {
-  background-image: url("/images/star-fill.svg");
+.rate-star::after {
+  content: url("/images/star.svg");
+  width: 40px;
+  height: 40px;
+}
+.rate-star:hover::after,
+.rate-star:has(~ .rate-star:hover)::after,
+.rate-star:checked::after,
+.rate-star:has(~ .rate-star:checked)::after {
+  content: url("/images/star-fill.svg");
+}
+.rate-star:hover ~ .rate-star::after {
+  content: url("/images/star.svg");
 }

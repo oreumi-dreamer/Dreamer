@@ -7,7 +7,6 @@ import styles from "./page.module.css";
 import SocialLogin from "@/components/login/SocialLogin";
 import Loading from "@/components/Loading";
 import Header from "@/components/header/Header";
-import StopModal from "@/components/write/StopModal";
 import WritePost from "@/components/write/WritePost";
 
 export default function Home() {
