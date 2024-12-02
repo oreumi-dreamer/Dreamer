@@ -1,8 +1,8 @@
 @import url(./reset.css);
-@import url(/fonts/NanumBarunPenB/NanumBarunPenB.css);
 @import url(/fonts/NanumBarunPenR/NanumBarunPenR.css);
+@import url(/fonts/NanumBarunPenB/NanumBarunPenB.css);
 
-: root {
+:root {
   --background-blue-top: linear-gradient(180deg, #e3eeff 0%, #f3e7e9 100%);
   --background-pink-top: linear-gradient(180deg, #f3e7e9 50%, #e3eeff 100%);
   --background-color: #eee4e6;
@@ -30,7 +30,6 @@
 
 * {
   font-family: "NanumBarunPen", sans-serif;
-  font-weight: 400;
 }
 
 html,
