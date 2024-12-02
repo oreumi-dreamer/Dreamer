@@ -26,12 +26,15 @@ export default function Home() {
 
   if (!user) {
     return (
-      <main className={styles.main}>
-        <section className={styles.login}>
-          <h1>로그인</h1>
-          <SocialLogin />
-        </section>
-      </main>
+      <>
+        <Header />
+        <main className={styles.main}>
+          <section className={styles.login}>
+            <h1>로그인</h1>
+            <SocialLogin />
+          </section>
+        </main>
+      </>
     );
   }
 
@@ -41,7 +44,6 @@ export default function Home() {
 
   return (
     <>
-      <Header />
       <main className={styles.main}>
         <section className={styles.welcome}>
           <h1>환영합니다, {user.userName}님!</h1>
