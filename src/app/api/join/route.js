@@ -61,6 +61,7 @@ export async function POST(request) {
 
     // 프로필 이미지를 Storage에 업로드
     let profileImageUrl = null;
+    let profileImageFileName = null;
 
     if (profileImage) {
       const uploadResponse = await fetch(`${baseUrl}/api/account/avatar`, {
@@ -76,6 +77,7 @@ export async function POST(request) {
       });
 
       const uploadData = await uploadResponse.json();
+      profileImageFileName = uploadData.fileName;
       profileImageUrl = uploadData.url;
     }
 
@@ -84,7 +86,8 @@ export async function POST(request) {
       userId,
       userName,
       birthDate,
-      profileImage: profileImageUrl || "",
+      profileImageFileName: profileImageFileName || "",
+      profileImageUrl: profileImageUrl || "",
       bio: bio || "",
       theme: theme || "default",
       createdAt: new Date(),
