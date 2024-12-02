@@ -91,12 +91,12 @@
   left: 25rem;
 }
 
-.nav-item button.active::before,
+.nav-items button.active::before,
 .more-btn.active::before {
   background-color: var(--black-font-color);
 }
 
-.nav-item button::before,
+.nav-items button::before,
 .more-btn::before {
   content: "";
   width: 4rem;
@@ -107,11 +107,11 @@
   margin-right: 3rem;
 }
 
-.nav-item .home-btn::before {
+.nav-items .home-btn::before {
   mask: url(/images/home.svg) no-repeat center;
 }
 
-.nav-item .search-btn::before {
+.nav-items .search-btn::before {
   mask: url(/images/search.svg) no-repeat center;
 }
 
@@ -119,11 +119,11 @@
   mask: url(/images/message.svg) no-repeat center;
 }
 
-.nav-item .alarm-btn::before {
+.nav-items .alarm-btn::before {
   mask: url(/images/alarm.svg) no-repeat center;
 }
 
-.nav-item .writing-btn::before {
+.nav-items .writing-btn::before {
   mask: url(/images/writing.svg) no-repeat center;
 }
 

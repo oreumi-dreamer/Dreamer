@@ -7,6 +7,7 @@ import { MoreModal, ChangeModeModal } from "./HeaderModal";
 
 export default function Header() {
   const buttonRef = useRef(null);
+  const modalRef = useRef(null);
   const [isActive, setIsActive] = useState("홈");
   const [isActiveMore, setIsActiveMore] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(null);
@@ -14,24 +15,25 @@ export default function Header() {
   const handleButtonClick = (e) => {
     const buttons = document.querySelectorAll("button");
     const clickedBtn = e.currentTarget;
+    const btnText = clickedBtn.textContent;
 
-    setIsActive(clickedBtn.textContent);
+    setIsActive(btnText);
 
     buttons.forEach((button) => {
-      if (button !== isActive) {
+      if (button !== clickedBtn) {
         button.classList.remove(styles.active);
       }
     });
     clickedBtn.classList.add(styles.active);
   };
 
-  const handleClickMoreBtn = () => {
-    setIsActiveMore((prev) => !prev);
-
+  const handleClickMoreBtn = (e) => {
     if (!isActiveMore) {
       setIsOpenModal("더보기");
-    } else {
+      setIsActiveMore(true);
+    } else if (modalRef.current && !modalRef.current.contains(e.target)) {
       setIsOpenModal(null);
+      setIsActiveMore(false);
     }
   };
 
@@ -48,7 +50,7 @@ export default function Header() {
       <div className={styles["header-btn-container"]}>
         <nav>
           <ul className={styles.nav}>
-            <li className={styles["nav-item"]}>
+            <li className={styles["nav-items"]}>
               <button
                 className={`${styles["home-btn"]} ${styles.active}`}
                 onClick={handleButtonClick}
@@ -56,7 +58,7 @@ export default function Header() {
                 홈
               </button>
             </li>
-            <li className={styles["nav-item"]}>
+            <li className={styles["nav-items"]}>
               <button
                 className={styles["search-btn"]}
                 onClick={handleButtonClick}
@@ -64,7 +66,7 @@ export default function Header() {
                 검색
               </button>
             </li>
-            <li className={styles["nav-item"]}>
+            <li className={styles["nav-items"]}>
               <button
                 className={styles["message-btn"]}
                 onClick={handleButtonClick}
@@ -72,7 +74,7 @@ export default function Header() {
                 메시지
               </button>
             </li>
-            <li className={styles["nav-item"]}>
+            <li className={styles["nav-items"]}>
               <button
                 className={styles["alarm-btn"]}
                 onClick={handleButtonClick}
@@ -80,7 +82,7 @@ export default function Header() {
                 알림
               </button>
             </li>
-            <li className={styles["nav-item"]}>
+            <li className={styles["nav-items"]}>
               <button
                 className={styles["writing-btn"]}
                 onClick={handleButtonClick}
@@ -105,7 +107,11 @@ export default function Header() {
         >
           더보기
         </button>
-        {isOpenModal === "더보기" ? <MoreModal /> : null}
+        {isOpenModal === "더보기" && (
+          <div ref={modalRef}>
+            <MoreModal />
+          </div>
+        )}
         {/* <MoreModal /> */}
       </div>
     </header>
