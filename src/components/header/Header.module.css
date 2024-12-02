@@ -63,8 +63,9 @@
 
 .header-btn-container button {
   background-color: transparent;
-  width: 15rem;
+  width: 18rem;
   font-size: 2.4rem;
+  text-wrap: nowrap;
   color: var(--none-active-color);
   margin-bottom: 3.2rem;
   display: flex;
@@ -75,6 +76,7 @@
 }
 
 .header-btn-container button.active {
+  padding-bottom: 0.3rem;
   color: var(--black-font-color);
 }
 
@@ -83,12 +85,15 @@
 }
 
 .header-btn-container button:not(.more-btn).active::after {
-  content: "";
-  background-image: url(/images/active-star.svg);
+  content: url(/images/active-star.svg);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: bottom;
   width: 3rem;
   height: 3rem;
+  display: inline-block;
   position: absolute;
-  left: 25rem;
+  left: 27rem;
 }
 
 .nav-items button.active::before,
