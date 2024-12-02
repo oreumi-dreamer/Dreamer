@@ -10,6 +10,18 @@ export default function ProfileForm({
   const { profileImage, bio, theme } = formData;
   const { setProfileImage, setBio, setTheme } = setters;
 
+  const handleImageChange = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      // 파일을 base64로 변환
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProfileImage(reader.result); // base64 문자열 저장
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
     <form id="signupFormSecond" noValidate onSubmit={onSubmit}>
       <p>WELCOME DREAMER!</p>
@@ -23,8 +35,8 @@ export default function ProfileForm({
           <input
             type="file"
             id="profileImage"
-            onChange={(e) => setProfileImage(e.target.value)}
-            value={profileImage}
+            accept="image/*"
+            onChange={handleImageChange}
           />
         </div>
 
