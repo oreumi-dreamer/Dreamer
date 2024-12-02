@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
-import { logout } from "@/store/authSlice";
+import { logout, resetRegistrationComplete } from "@/store/authSlice";
 import { persistor } from "@/store/store";
 import { useEffect } from "react";
 import { signOut } from "firebase/auth";
@@ -25,6 +25,7 @@ export default function Logout() {
       if (res.ok) {
         // Redux state 초기화
         dispatch(logout());
+        dispatch(resetRegistrationComplete());
         // Redux Persist storage 초기화
         await persistor.purge();
 

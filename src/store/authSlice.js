@@ -21,25 +21,34 @@ const authSlice = createSlice({
       state.user = action.payload.user;
       state.idToken = action.payload.token;
       state.error = null;
-      state.isRegistrationComplete = action.payload.isRegistrationComplete;
+    },
+    setRegistrationComplete: (state) => {
+      state.isRegistrationComplete = true;
+    },
+    resetRegistrationComplete: (state) => {
+      state.isRegistrationComplete = false;
     },
     loginFailure: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
       state.user = null;
       state.idToken = null;
-      state.isRegistrationComplete = false;
     },
     logout: (state) => {
       state.user = null;
       state.idToken = null;
       state.error = null;
       state.isLoading = false;
-      state.isRegistrationComplete = false;
     },
   },
 });
 
-export const { loginStart, loginSuccess, loginFailure, logout } =
-  authSlice.actions;
+export const {
+  loginStart,
+  loginSuccess,
+  setRegistrationComplete,
+  resetRegistrationComplete,
+  loginFailure,
+  logout,
+} = authSlice.actions;
 export default authSlice.reducer;
