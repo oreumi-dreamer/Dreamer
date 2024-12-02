@@ -2,8 +2,6 @@
 import { headers } from "next/headers";
 import { auth } from "@/lib/firebaseAdmin";
 import { storage } from "@/lib/firebase";
-
-import { initializeApp } from "firebase/app";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import sharp from "sharp";
 import { v4 as uuidv4 } from "uuid";
