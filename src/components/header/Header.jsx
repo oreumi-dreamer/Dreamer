@@ -8,6 +8,8 @@ import { MoreModal, ChangeModeModal } from "./HeaderModal";
 export default function Header() {
   const buttonRef = useRef(null);
   const [isActive, setIsActive] = useState("홈");
+  const [isActiveMore, setIsActiveMore] = useState(false);
+  const [isOpenModal, setIsOpenModal] = useState(null);
 
   const handleButtonClick = (e) => {
     const buttons = document.querySelectorAll("button");
@@ -21,6 +23,16 @@ export default function Header() {
       }
     });
     clickedBtn.classList.add(styles.active);
+  };
+
+  const handleClickMoreBtn = () => {
+    setIsActiveMore((prev) => !prev);
+
+    if (!isActiveMore) {
+      setIsOpenModal("더보기");
+    } else {
+      setIsOpenModal(null);
+    }
   };
 
   return (
@@ -87,13 +99,14 @@ export default function Header() {
           <p>JINI</p>
         </button>
         <button
-          className={styles["more-btn"]}
+          className={`${styles["more-btn"]} ${isActiveMore ? styles.active : ""}`}
           ref={buttonRef}
-          onClick={handleButtonClick}
+          onClick={handleClickMoreBtn}
         >
           더보기
         </button>
-        <MoreModal />
+        {isOpenModal === "더보기" ? <MoreModal /> : null}
+        {/* <MoreModal /> */}
       </div>
     </header>
   );
