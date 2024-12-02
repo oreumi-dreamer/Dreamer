@@ -12,6 +12,7 @@ export async function POST(request) {
     // Response 객체에 쿠키 설정
     response.cookies.set("auth_token", token, {
       httpOnly: true,
+      sameSite: "strict",
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
       maxAge: 60 * 60 * 24 * 7, // 7일
