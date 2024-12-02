@@ -23,8 +23,6 @@ export default function AuthStateHandler({ children }) {
           const idToken = await user.getIdToken();
           const exists = await checkUserExists(idToken, dispatch);
 
-          console.log("exists", exists);
-
           // exists가 undefined나 false가 아닌 경우에만 isRegistrationComplete 업데이트
           if (exists === true) {
             dispatch(setRegistrationComplete());
