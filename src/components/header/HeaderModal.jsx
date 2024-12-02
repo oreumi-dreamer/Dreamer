@@ -4,10 +4,10 @@ import styles from "./HeaderModal.module.css";
 function MoreModal() {
   return (
     <div className={styles["modal-wrap"]}>
-      <button>계정 설정</button>
-      <button>모드 전환</button>
-      <button>문의 사항</button>
-      <button>로그아웃</button>
+      <button className={styles["setting-btn"]}>계정 설정</button>
+      <button className={styles["change-mode-btn"]}>모드 전환</button>
+      <button className={styles["inquiry-btn"]}>문의 사항</button>
+      <button className={styles["logout-btn"]}>로그아웃</button>
     </div>
   );
 }
