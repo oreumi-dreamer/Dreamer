@@ -168,18 +168,41 @@
 
 .comment-form {
   position: relative;
+  border-radius: 1rem;
+  background-color: var(--comment-input-color);
+  width: 76.1rem;
+  height: 9.4rem;
 }
 
 .comment-input {
-  width: 76.1rem;
-  height: 9.4rem;
-  border-radius: 1rem;
+  height: 60%;
+  background-color: unset;
   border: none;
-  background-color: var(--comment-input-color);
-  color: var(--gray-font-color);
   padding: 1.4rem 1.2rem;
+  resize: none;
 }
 
-.comment-form label {
+.comment-input::placeholder {
+  font-family: initial;
+  color: var(--gray-font-color);
+}
+
+.comment-setting {
   color: var(--black-font-color);
+  display: flex;
+  gap: 0.8rem;
+
+  position: absolute;
+  bottom: 1.5rem;
+  right: 5rem;
+  font-size: 1.2rem;
+}
+.comment-setting input {
+  margin-right: 0.4rem;
+}
+
+.comment-setting button {
+  background-color: unset;
+  position: absolute;
+  bottom: -1rem;
 }
