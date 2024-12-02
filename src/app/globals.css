@@ -4,7 +4,8 @@
   --background-blue-top: linear-gradient(180deg, #e3eeff 0%, #f3e7e9 100%);
   --background-pink-top: linear-gradient(180deg, #f3e7e9 50%, #e3eeff 100%);
   --background-color: #eee4e6;
-  --background-white: #d9d9d9;
+  --background-lightgray: #d9d9d9;
+  --background-white: #fcfcfc;
   --background-gray: rgba(149, 149, 149, 0.5);
   --background-dimmed: rgba(17, 17, 17, 0.3);
   --background-dark: #242424;
