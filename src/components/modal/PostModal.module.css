@@ -81,7 +81,7 @@
 .post-text {
   max-width: 63.3rem;
   max-height: 80.3rem;
-  background-color: #fcfcfc;
+  background-color: var(--background-white);
   border-radius: 1rem;
   padding: 1.6rem 1rem 4rem 4.3rem;
   margin-top: 2.067rem;
@@ -105,14 +105,14 @@
 }
 
 .post-text::-webkit-scrollbar-thumb {
-  background: #8a8a8a;
+  background: var(--scroll-bar-color);
   height: 18.3rem;
-  border: 1.2rem solid #fcfcfc;
+  border: 1.2rem solid var(--background-white);
   border-radius: 2.6rem;
 }
 
 .post-text::-webkit-scrollbar-track {
-  background-color: #fcfcfc;
+  background-color: var(--background-white);
   border-radius: 1.3rem;
 }
 
@@ -149,7 +149,7 @@
   height: 92.9rem;
   display: flex;
   border: none;
-  border-left: dotted #7e7e7e 0.2rem;
+  border-left: dotted var(--dotted-color) 0.2rem;
   margin: 0 3.2rem;
 }
 
