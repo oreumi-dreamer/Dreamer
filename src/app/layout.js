@@ -1,4 +1,5 @@
 import localFont from "next/font/local";
+import "./reset.css";
 import "./globals.css";
 import Providers from "@/components/Providers";
 
