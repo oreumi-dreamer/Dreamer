@@ -74,14 +74,15 @@
   margin-bottom: 10rem;
 }
 
-.header-btn-container button.active,
-.more-btn.active {
+.header-btn-container button.active {
   color: var(--black-font-color);
+}
+
+.header-btn-container button.active:not(.more-btn) {
   border-bottom: 3px solid var(--black-font-color);
 }
 
-.header-btn-container button.active::after,
-.more-btn.active::after {
+.header-btn-container button:not(.more-btn).active::after {
   content: "";
   background-image: url(/images/active-star.svg);
   width: 3rem;
@@ -123,7 +124,7 @@
 }
 
 .nav-item .writing-btn::before {
-  mask: url(/images/wright.svg) no-repeat center;
+  mask: url(/images/writing.svg) no-repeat center;
 }
 
 .more-btn::before {
