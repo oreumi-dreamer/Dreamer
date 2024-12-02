@@ -7,7 +7,7 @@
   top: 0;
   left: 0;
   display: flex;
-  align-items: start;
+  align-items: flex-start;
   flex-direction: column;
   padding: 10rem 12.5rem 10.6rem 5rem;
   min-height: 92rem;
@@ -115,7 +115,7 @@
   mask: url(/images/search.svg) no-repeat center;
 }
 
-.nav-item .message-btn::before {
+.nav-items .message-btn::before {
   mask: url(/images/message.svg) no-repeat center;
 }
 
