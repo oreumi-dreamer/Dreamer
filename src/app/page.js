@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import styles from "./page.module.css";
 import SocialLogin from "@/components/login/SocialLogin";
 import Loading from "@/components/Loading";
+import Header from "@/components/header/Header";
 
 export default function Home() {
   const router = useRouter();
@@ -39,10 +40,13 @@ export default function Home() {
   }
 
   return (
-    <main className={styles.main}>
-      <section className={styles.welcome}>
-        <h1>환영합니다, {user.userName}님!</h1>
-      </section>
-    </main>
+    <>
+      <Header />
+      <main className={styles.main}>
+        <section className={styles.welcome}>
+          <h1>환영합니다, {user.userName}님!</h1>
+        </section>
+      </main>
+    </>
   );
 }

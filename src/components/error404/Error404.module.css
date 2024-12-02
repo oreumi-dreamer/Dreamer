@@ -1,0 +1,26 @@
+.page-wrap {
+  background: var(--background-blue-top);
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo {
+  width: 80rem;
+}
+
+.page-not-found {
+  font-size: 4rem;
+  padding: 4rem 0;
+}
+
+.go-back-btn {
+  font-size: 4rem;
+  background-color: var(--background-dark);
+  color: var(--background-color);
+  padding: 1.5rem 9rem;
+  border-radius: 2rem;
+}
