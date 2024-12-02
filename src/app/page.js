@@ -7,6 +7,8 @@ import styles from "./page.module.css";
 import SocialLogin from "@/components/login/SocialLogin";
 import Loading from "@/components/Loading";
 import Header from "@/components/header/Header";
+import StopModal from "@/components/write/StopModal";
+import WritePost from "@/components/write/WritePost";
 
 export default function Home() {
   const router = useRouter();
@@ -31,6 +33,7 @@ export default function Home() {
           <h1>로그인</h1>
           <SocialLogin />
         </section>
+        <WritePost />
       </main>
     );
   }
