@@ -24,7 +24,7 @@ export default function WritePost() {
   };
 
   return (
-    <>
+    <dialog className={styles["new-post"]} open>
       <h2 className="sr-only">새로운 글 작성</h2>
       <Image src="/images/rabbit.svg" width={49} height={49} />
       <p>
@@ -32,8 +32,8 @@ export default function WritePost() {
         <p>@jini</p>
       </p>
 
-      <button>
-        <Image src="/images/close.svg" width={40} height={40}></Image>
+      <button className={styles["btn-close"]}>
+        <Image src="/images/close.svg" width={22} height={22}></Image>
         <span className="sr-only">닫기</span>
       </button>
 
@@ -46,7 +46,7 @@ export default function WritePost() {
         비공개
       </label>
 
-      <div>
+      <div className={styles["write-field"]}>
         {/* 버튼 누르면 해시태그 입력용 모달 나타나기? */}
         <button>
           <Image src="/images/plus-circle.svg" width={28} height={28} />
@@ -93,10 +93,13 @@ export default function WritePost() {
         </div>
 
         <label>
-          글 작성
-          <input type="textarea" placeholder="오늘은 어떤 꿈을 꾸셨나요?" />
+          <span className="sr-only">글 작성</span>
+          <textarea
+            placeholder="오늘은 어떤 꿈을 꾸셨나요?"
+            className={styles["text-field-area"]}
+          />
         </label>
       </div>
-    </>
+    </dialog>
   );
 }
