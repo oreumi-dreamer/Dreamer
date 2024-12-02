@@ -55,7 +55,10 @@ export async function POST(request) {
     // 다운로드 URL 가져오기
     const publicUrl = await getDownloadURL(storageRef);
 
-    return NextResponse.json({ url: publicUrl }, { status: 200 });
+    return NextResponse.json(
+      { fileName: fileName.replace("profile-images/", ""), url: publicUrl },
+      { status: 200 }
+    );
   } catch (error) {
     console.error("Upload error:", error);
     return NextResponse.json({ error: "Upload failed" }, { status: 500 });
