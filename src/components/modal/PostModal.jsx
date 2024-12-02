@@ -167,20 +167,27 @@ export default function PostModal() {
             {/* 컴포넌트 분리 예정 */}
             <article className={styles["comment-article"]}>
               {/* {isPrivate && <Image />} */}
-              <Image src="/images/lock.svg" width={10} height={13}></Image>
+              <Image
+                src="/images/lock.svg"
+                className={styles.lock}
+                width={10}
+                height={13}
+              ></Image>
               {/* {isOneiromancy && <Image />} */}
               <Image
                 src="/images/oneiromancy.svg"
+                className={styles.oneiromancy}
                 width={17}
                 height={13}
               ></Image>
 
+              {/* 글자 수 추후 데이터 불러왔을 때 변수 설정 후 수정 */}
               <p>
                 {
                   "안녕하세요 꿈 과학자 입니다. 저의 소견으로는 당신의 현재 상황에 대한 불안함을 갖고 있던 일이, 곧 좋은 기회를 얻어 좋게 풀려나갈 좋은 징조라고 보여집니다. 이런 경우 외계인은 금전운을 뜻하며, 친구는 영혼의 동반자를 의미할것이라고 예상됩니다. 요즘 말로 소울메이트 같은 존재라는 거죠. 항상 좋은일 가득하시길 바랍니다~^^*"
                 }
               </p>
-              <ul>
+              <ul className={styles["edit-delete-button"]}>
                 <li>
                   <button>수정</button>
                 </li>
@@ -188,10 +195,17 @@ export default function PostModal() {
                   <button>삭제</button>
                 </li>
               </ul>
-              <span>
-                {"1분 전"}
-                <Link href="/">{"JIh2"}@jhjh</Link>
-              </span>
+
+              <ul className={styles["comment-info"]}>
+                <li>
+                  <time datetime="">{"1분 전"}</time>
+                </li>
+                <li>
+                  <Link href="/">
+                    <span>{"JIh2"}</span>@jhjh
+                  </Link>
+                </li>
+              </ul>
             </article>
             <article className={styles["comment-article"]}></article>
             <article className={styles["comment-article"]}></article>
