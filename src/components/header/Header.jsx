@@ -109,10 +109,14 @@ export default function Header() {
         </button>
         {isOpenModal === "더보기" && (
           <div ref={modalRef}>
-            <MoreModal />
+            <MoreModal setIsOpenModal={setIsOpenModal} />
           </div>
         )}
-        {/* <MoreModal /> */}
+        {isOpenModal === "모드 전환" && (
+          <div ref={modalRef}>
+            <ChangeModeModal setIsOpenModal={setIsOpenModal} />
+          </div>
+        )}
       </div>
     </header>
   );
