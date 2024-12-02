@@ -28,7 +28,7 @@ export default function AuthStateHandler({ children }) {
           // exists가 undefined나 false가 아닌 경우에만 isRegistrationComplete 업데이트
           if (exists === true) {
             dispatch(setRegistrationComplete());
-          } else if (exists === false) {
+          } else {
             dispatch(resetRegistrationComplete());
           }
         } catch (error) {
