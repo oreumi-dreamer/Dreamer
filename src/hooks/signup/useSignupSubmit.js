@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { loginSuccess } from "@/store/authSlice";
+import { loginSuccess, setIsRegistrationComplete } from "@/store/authSlice";
 
 export function useSignupSubmit() {
   const [isLoading, setIsLoading] = useState(false);
@@ -40,9 +40,11 @@ export function useSignupSubmit() {
               userName: formData.userName,
             },
             token: idToken,
-            isRegistrationComplete: true,
           })
         );
+
+        dispatch(setIsRegistrationComplete());
+
         return true;
       } else {
         throw new Error(data.message);
