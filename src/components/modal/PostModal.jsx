@@ -42,6 +42,10 @@ export default function PostModal() {
     setComment(e.target.value);
   }
 
+  function handleCommentSubmit(e) {
+    e.preventDefault();
+  }
+
   return (
     <>
       <div className={styles.dimmed} onClick={handleModalClose}></div>
@@ -180,7 +184,11 @@ export default function PostModal() {
             ></Image>
           </button>
 
-          <form action="#" className={styles["comment-form"]}>
+          <form
+            action="#"
+            className={styles["comment-form"]}
+            onSubmit={handleCommentSubmit}
+          >
             <label htmlFor="comment" className="sr-only">
               댓글 입력
             </label>
