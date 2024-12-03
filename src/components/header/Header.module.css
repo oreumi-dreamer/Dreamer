@@ -1,5 +1,5 @@
 .header {
-  width: 49rem;
+  width: 48rem;
   height: 100vh;
   background: var(--background-pink-top);
   box-shadow: 4px 0px 75.5px -20px rgba(0, 0, 0, 0.16);
@@ -9,7 +9,7 @@
   display: flex;
   align-items: flex-start;
   flex-direction: column;
-  padding: 10rem 12.5rem 10.6rem 5rem;
+  padding: 10rem 0 10.6rem 8rem;
   min-height: 92rem;
 }
 
@@ -18,48 +18,49 @@
 }
 
 .mode-toggle-btn {
-  margin: 2rem 0 0 5.9rem;
+  margin: 2rem 0 0 0;
   width: 10rem;
-  border: 2px solid var(--black-font-color);
   border-radius: 5rem;
-  padding: 0.5rem 0.5rem;
+  padding: 0.9rem;
   background-color: transparent;
   position: relative;
 }
 
-.mode-toggle-btn::before {
-  content: "";
-  background-image: url(/images/toggle-moon.svg);
-  background-repeat: no-repeat;
-  width: 3.2rem;
-  height: 3.2rem;
-  position: absolute;
-  top: 0.8rem;
-  left: 0.5rem;
+.mode-toggle-btn.light-mode {
+  border: 4px solid var(--black-font-color);
 }
 
-.mode-toggle-btn::after {
-  content: "";
-  background-image: url(/images/toggle-sun.svg);
-  background-repeat: no-repeat;
-  width: 3.2rem;
-  height: 3.2rem;
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
+.mode-toggle-btn.dark-mode {
+  border: 4px solid var(--dark-mode-text);
 }
 
-.toggle-switch {
+.mode-toggle-btn .toggle-switch {
   width: 3.2rem;
   height: 3.2rem;
-  background-color: var(--gray-font-color);
   border-radius: 5rem;
   position: relative;
 }
 
+.mode-toggle-btn.light-mode .toggle-switch {
+  background-color: var(--black-font-color);
+  background-image: url(/images/toggle-sun.svg);
+  background-size: 2rem;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.mode-toggle-btn.dark-mode .toggle-switch {
+  background-color: var(--dark-mode-text);
+  background-image: url(/images/toggle-moon.svg);
+  background-size: 2rem;
+  background-repeat: no-repeat;
+  background-position: center;
+  left: 4.5rem;
+}
+
 .header-btn-container {
   position: relative;
-  padding: 5rem 0 0 5.9rem;
+  padding: 5rem 0 0 0;
 }
 
 .header-btn-container button {
@@ -97,11 +98,6 @@
   right: 0;
 }
 
-.nav-items button.active::before,
-.more-btn.active::before {
-  background-color: var(--black-font-color);
-}
-
 .nav-items button::before,
 .more-btn::before {
   content: "";
@@ -111,6 +107,11 @@
   background-color: var(--none-active-color);
   display: inline-block;
   margin-right: 3rem;
+}
+
+.nav-items button.active::before,
+.more-btn.active::before {
+  background-color: var(--black-font-color);
 }
 
 .nav-items .home-btn::before {
@@ -155,10 +156,10 @@
 .profile-btn {
   bottom: 12rem;
 }
+.profile-btn img {
+  margin-right: 2rem;
+}
 
 .more-btn {
   bottom: 5rem;
-}
-.profile-btn img {
-  margin-right: 2rem;
 }

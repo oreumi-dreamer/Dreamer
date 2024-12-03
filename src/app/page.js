@@ -30,6 +30,7 @@ export default function Home() {
   if (!user) {
     return (
       <main className={styles.main}>
+        <Header />
         <h1>
           <Link href="/">
             <Image src="/images/logo-full.svg" width={800} height={340}></Image>
