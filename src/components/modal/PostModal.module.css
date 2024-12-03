@@ -259,12 +259,16 @@
 }
 
 .comment-article p {
+  width: 100%;
   font-size: 1.5rem;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+}
+
+.comment-open {
 }
 
 .comment-info {
