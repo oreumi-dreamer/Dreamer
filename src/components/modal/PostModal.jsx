@@ -38,7 +38,7 @@ export default function PostModal() {
     }
   }
 
-  function handleChangeCommnet(e) {
+  function handleChangeComment(e) {
     setComment(e.target.value);
   }
 
@@ -199,7 +199,7 @@ export default function PostModal() {
               rows={4}
               cols={103}
               placeholder="댓글입력(최대 1000자)"
-              onChange={handleChangeCommnet}
+              onChange={handleChangeComment}
             />
             <ul className={styles["comment-setting"]}>
               <li>
