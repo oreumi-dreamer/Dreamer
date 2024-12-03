@@ -10,6 +10,7 @@ import Header from "@/components/header/Header";
 import Image from "next/image";
 import Link from "next/link";
 import PostModal from "@/components/modal/PostModal";
+import Footer from "@/components/footer/Footer";
 
 export default function Home() {
   const router = useRouter();
@@ -29,15 +30,22 @@ export default function Home() {
 
   if (!user) {
     return (
-      <main className={styles.main}>
+      <>
         <Header />
-        <h1>
-          <Link href="/">
-            <Image src="/images/logo-full.svg" width={800} height={340}></Image>
-          </Link>
-        </h1>
-        <SocialLogin className={styles.login} />
-      </main>
+        <main className={styles.main}>
+          <h1>
+            <Link href="/">
+              <Image
+                src="/images/logo-full.svg"
+                width={800}
+                height={340}
+              ></Image>
+            </Link>
+          </h1>
+          <SocialLogin className={styles.login} />
+        </main>
+        <Footer />
+      </>
     );
   }
 
