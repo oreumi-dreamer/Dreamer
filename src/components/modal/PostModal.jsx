@@ -211,6 +211,7 @@ export default function PostModal() {
               cols={103}
               placeholder="댓글입력(최대 1000자)"
               onChange={handleChangeComment}
+              value={comment}
             />
             <ul className={styles["comment-setting"]}>
               <li>
