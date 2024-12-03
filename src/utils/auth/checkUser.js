@@ -16,6 +16,7 @@ export const checkUserExists = async (idToken, dispatch) => {
     const user = {
       uid: result.uid,
       email: result.email,
+      userId: result.userId,
       userName: result.userName,
     };
 
