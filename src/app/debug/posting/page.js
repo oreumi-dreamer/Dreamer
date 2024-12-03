@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { DREAM_GENRES, DREAM_MOODS } from "@/utils/constants";
 
 import styles from "./page.module.css";
+import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 
 export default function CreatePost() {
   const [content, setContent] = useState("");
@@ -16,8 +17,6 @@ export default function CreatePost() {
   const [rating, setRating] = useState(3);
   const [isPrivate, setIsPrivate] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
-  const { idToken } = useSelector((state) => state.auth);
 
   const handleGenreChange = (genre) => {
     setGenres((prev) =>
@@ -51,11 +50,8 @@ export default function CreatePost() {
         });
       }
 
-      const response = await fetch("/api/post/create", {
+      const response = await fetchWithAuth("/api/post/create", {
         method: "POST",
-        headers: {
-          Authorization: `Bearer ${idToken}`,
-        },
         body: formData,
       });
 

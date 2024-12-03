@@ -9,11 +9,10 @@ import Image from "next/image";
 
 import { DREAM_GENRES, DREAM_MOODS } from "@/utils/constants";
 import styles from "../page.module.css";
+import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 
 export default function EditPost({ params }) {
-  const router = useRouter();
   const { postId } = params;
-  const { idToken } = useSelector((state) => state.auth);
 
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
@@ -30,11 +29,7 @@ export default function EditPost({ params }) {
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const response = await fetch(`/api/post/search/${postId}`, {
-          headers: {
-            Authorization: `Bearer ${idToken}`,
-          },
-        });
+        const response = await fetchWithAuth(`/api/post/search/${postId}`);
         const data = await response.json();
 
         const post = data.post; // 이 부분이 추가됨
@@ -60,7 +55,7 @@ export default function EditPost({ params }) {
     };
 
     fetchPost();
-  }, [postId, idToken]);
+  }, [postId]);
 
   const handleGenreChange = (genre) => {
     setGenres((prev) =>
@@ -98,11 +93,8 @@ export default function EditPost({ params }) {
         });
       }
 
-      const response = await fetch(`/api/post/update/${postId}`, {
+      const response = await fetchWithAuth(`/api/post/update/${postId}`, {
         method: "POST",
-        headers: {
-          Authorization: `Bearer ${idToken}`,
-        },
         body: formData,
       });
 

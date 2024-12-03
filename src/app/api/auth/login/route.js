@@ -1,20 +1,21 @@
 // 로그인 시 쿠키 설정 API
 
+import { auth } from "@/lib/firebaseAdmin";
 import { NextResponse } from "next/server";
 
 export async function POST(request) {
   try {
-    const result = await request.json();
+    const { idToken } = await request.json();
 
-    const token = result.refreshToken;
+    // ID 토큰으로 세션 쿠키 생성 (유효기간 7일)
+    const sessionCookie = await auth.createSessionCookie(idToken, {
+      expiresIn: 60 * 60 * 24 * 7 * 1000, // 7일을 밀리초로 변환
+    });
 
-    // Response 객체 생성
+    // Response 객체에 세션 쿠키 설정
     const response = NextResponse.json({ success: true });
-
-    // Response 객체에 쿠키 설정
-    response.cookies.set("auth_token", token, {
+    response.cookies.set("auth_token", sessionCookie, {
       httpOnly: true,
-      sameSite: "strict",
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
       maxAge: 60 * 60 * 24 * 7, // 7일
@@ -23,10 +24,10 @@ export async function POST(request) {
 
     return response;
   } catch (error) {
-    console.error("Error setting cookie:", error);
+    console.error("Error creating session:", error);
     return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 }
+      { error: "Failed to create session" },
+      { status: 401 }
     );
   }
 }

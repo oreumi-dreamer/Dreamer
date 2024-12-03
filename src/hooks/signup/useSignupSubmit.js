@@ -3,12 +3,12 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { loginSuccess, setRegistrationComplete } from "@/store/authSlice";
+import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 
 export function useSignupSubmit() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const dispatch = useDispatch();
-  const { idToken } = useSelector((state) => state.auth);
 
   const submitSignup = async (formData) => {
     if (isLoading) return;
@@ -17,12 +17,8 @@ export function useSignupSubmit() {
       setIsLoading(true);
       setError(null);
 
-      const response = await fetch("/api/join", {
+      const response = await fetchWithAuth("/api/join", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${idToken}`,
-        },
         body: JSON.stringify({
           ...formData,
         }),
@@ -39,7 +35,6 @@ export function useSignupSubmit() {
               email: data.email,
               userName: formData.userName,
             },
-            token: idToken,
           })
         );
 

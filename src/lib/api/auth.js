@@ -1,11 +1,19 @@
+// src/lib/api/auth.js
+import { fetchWithAuth } from "@/utils/auth/tokenUtils";
+
 export const verifyUser = async (idToken) => {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
-  const res = await fetch(`${baseUrl}/api/auth/verify`, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${idToken}`,
-    },
-  });
-  return res.json();
+  try {
+    const response = await fetch(`${baseUrl}/api/auth/verify`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${idToken}`,
+      },
+    });
+    return await response.json();
+  } catch (error) {
+    console.error("Verify user error:", error);
+    throw error;
+  }
 };

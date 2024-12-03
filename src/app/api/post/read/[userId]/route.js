@@ -19,6 +19,7 @@ import { verifyUser } from "@/lib/api/auth";
 export async function GET(request, { params }) {
   const { userId } = params;
   const { searchParams } = new URL(request.url);
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
   const headersList = headers();
   const authorization = headersList.get("Authorization");
@@ -26,14 +27,23 @@ export async function GET(request, { params }) {
 
   if (authorization?.startsWith("Bearer ")) {
     const idToken = authorization.split("Bearer ")[1];
-    userData = await verifyUser(idToken);
+    const response = await fetch(`${baseUrl}/api/auth/verify`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${idToken}`,
+      },
+    });
+
+    const result = response.ok ? await response.json() : null;
+
+    userData = result?.userId;
   }
 
   // 기본적으로 공개 게시글만 볼 수 있게 쿼리 조건 설정
   let visibilityCondition = where("isPrivate", "==", false);
 
   // 본인 게시글을 보는 경우 비공개 게시글도 포함
-  if (userData && userId === userData.userId) {
+  if (userData && userId === userData) {
     visibilityCondition = where("isPrivate", "in", [true, false]);
   }
 

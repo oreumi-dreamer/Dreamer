@@ -4,6 +4,7 @@
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import styles from "./page.module.css";
+import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 
 export default function UserProfile({ params }) {
   // URL 파라미터에서 userId 추출
@@ -14,8 +15,6 @@ export default function UserProfile({ params }) {
   const [error, setError] = useState(null);
   const [nextCursor, setNextCursor] = useState(null);
   const [hasMore, setHasMore] = useState(true);
-
-  const { idToken } = useSelector((state) => state.auth);
 
   const loadPosts = async (isLoadMore = false) => {
     try {
@@ -28,12 +27,9 @@ export default function UserProfile({ params }) {
       });
 
       // API를 호출하여 게시글 목록을 불러옴
-      const response = await fetch(`/api/post/read/${userId}?${queryParams}`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${idToken}`,
-        },
-      });
+      const response = await fetchWithAuth(
+        `/api/post/read/${userId}?${queryParams}`
+      );
       const data = await response.json();
 
       if (!response.ok) {

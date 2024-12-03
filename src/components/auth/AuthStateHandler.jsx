@@ -1,15 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { auth } from "@/lib/firebase";
 import {
-  loginSuccess,
   setRegistrationComplete,
   resetRegistrationComplete,
   logout,
 } from "@/store/authSlice";
-import { checkUserExists } from "@/utils/auth/checkUser";
+import { verifyUser } from "@/lib/api/auth";
 import Loading from "@/components/Loading";
 
 export default function AuthStateHandler({ children }) {
@@ -20,11 +19,11 @@ export default function AuthStateHandler({ children }) {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (user) {
         try {
-          const idToken = await user.getIdToken();
-          const exists = await checkUserExists(idToken, dispatch);
+          // 사용자 존재 여부 확인
+          const result = await verifyUser();
 
-          // exists가 undefined나 false가 아닌 경우에만 isRegistrationComplete 업데이트
-          if (exists === true) {
+          // 사용자의 기본 정보만 저장
+          if (result.exists) {
             dispatch(setRegistrationComplete());
           } else {
             dispatch(resetRegistrationComplete());

@@ -13,9 +13,11 @@ import {
 } from "firebase/firestore";
 import { useSelector } from "react-redux";
 import styles from "./page.module.css";
+import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 
 export default function Posts() {
-  const { userId } = useSelector((state) => state.auth.user); // 현재 로그인한 사용자 ID
+  const { user } = useSelector((state) => state.auth); // 현재 로그인한 사용자의 토큰
+  const { userId } = user; // 현재 로그인한 사용자 ID
 
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -78,6 +80,31 @@ export default function Posts() {
     }
   };
 
+  const handleDelete = async (postId) => {
+    if (!window.confirm("정말 이 게시글을 삭제하시겠습니까?")) {
+      return;
+    }
+
+    try {
+      const response = await fetchWithAuth(`/api/post/delete/${postId}`, {
+        method: "DELETE",
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "게시글 삭제 중 오류가 발생했습니다.");
+      }
+
+      // 삭제 성공 시 게시글 목록에서 해당 게시글 제거
+      setPosts((prevPosts) => prevPosts.filter((post) => post.id !== postId));
+      alert("게시글이 삭제되었습니다.");
+    } catch (error) {
+      console.error("Error deleting post:", error);
+      alert(error.message);
+    }
+  };
+
   // 별점을 별 이모지로 변환하는 함수
   const renderStars = (rating) => "★".repeat(rating) + "☆".repeat(5 - rating);
 
@@ -94,12 +121,20 @@ export default function Posts() {
               {post.isPrivate && <span className={styles.private}>비공개</span>}
               {/* 작성자와 현재 사용자가 같을 때만 수정 버튼 표시 */}
               {userId === post.authorId && (
-                <Link
-                  href={`/debug/posting/${post.id}`}
-                  className={styles.editButton}
-                >
-                  수정
-                </Link>
+                <>
+                  <Link
+                    href={`/debug/posting/${post.id}`}
+                    className={styles.editButton}
+                  >
+                    수정
+                  </Link>
+                  <button
+                    onClick={() => handleDelete(post.id)}
+                    className={styles.editButton}
+                  >
+                    삭제
+                  </button>
+                </>
               )}
             </div>
 

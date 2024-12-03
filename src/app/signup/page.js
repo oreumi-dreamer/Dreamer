@@ -14,19 +14,18 @@ import { checkUserExists } from "@/utils/auth/checkUser";
 export default function Signup() {
   const router = useRouter();
   const dispatch = useDispatch();
-
   const [process, setProcess] = useState(0);
   const [isJoined, setIsJoined] = useState(false);
 
-  const { idToken } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth);
 
-  // 이미 가입한 사용자는 홈으로 이동
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const exists = await checkUserExists(idToken, dispatch);
+        if (!user) return;
 
-        // exists가 명확하게 true일 때만 리다이렉트
+        const exists = await checkUserExists(dispatch);
+
         if (exists === true) {
           router.push("/");
         }
@@ -35,10 +34,8 @@ export default function Signup() {
       }
     };
 
-    if (idToken) {
-      checkAuth();
-    }
-  }, [idToken, router, dispatch]);
+    checkAuth();
+  }, [user, router, dispatch]);
 
   // 회원가입 완료 시 홈으로 이동
   useEffect(() => {

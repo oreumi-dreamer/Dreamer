@@ -13,32 +13,33 @@ export default function SocialLogin() {
   const router = useRouter();
   const [error, setError] = useState("");
   const dispatch = useDispatch();
-  const { idToken } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
     const checkUser = async () => {
-      const exists = await checkUserExists(idToken, dispatch);
+      if (!user) return;
+
+      const exists = await checkUserExists(dispatch);
       if (exists === false) {
         router.push("/signup");
       }
     };
 
     checkUser();
-  }, [router, idToken, dispatch]);
+  }, [router, dispatch]);
 
   const handleGoogleLogin = async () => {
     try {
       const result = await signInWithPopup(auth, googleProvider);
-      const refreshToken = result.user.refreshToken;
-      const idToken = await result.user.getIdToken();
+      const idToken = await result.user.getIdToken(true);
 
-      // 1. 리프레시 토큰을 쿠키에 저장
+      // 1. ID 토큰을 API로 전달하여 세션 토큰을 쿠키에 저장
       const tokenRes = await fetch("/api/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ refreshToken: refreshToken }),
+        body: JSON.stringify({ idToken }),
       });
 
       if (!tokenRes.ok) {
@@ -46,7 +47,7 @@ export default function SocialLogin() {
       }
 
       // 2. 사용자 존재 여부 확인
-      const exists = await checkUserExists(idToken, dispatch);
+      const exists = await checkUserExists(dispatch);
 
       // 3. 결과에 따라 리다이렉트
       if (!exists) {

@@ -1,30 +1,22 @@
-import { verifyUser } from "@/lib/api/auth";
+// src/utils/auth/checkUser.js
+
+import { fetchWithAuth } from "./tokenUtils";
 import { loginSuccess } from "@/store/authSlice";
 
-export const checkUserExists = async (idToken, dispatch) => {
-  if (!idToken) {
-    return { result: "no token" };
-  }
-
+export const checkUserExists = async (dispatch) => {
   try {
-    const result = await verifyUser(idToken);
+    // fetchWithAuth를 사용하여 verify 엔드포인트 호출
+    const result = await fetchWithAuth("/api/auth/verify");
+    const userData = await result.json();
 
-    if (result.status === 401) {
-      return;
+    if (userData.exists) {
+      dispatch(loginSuccess({ user: userData }));
+      return true;
     }
 
-    const user = {
-      uid: result.uid,
-      email: result.email,
-      userId: result.userId,
-      userName: result.userName,
-    };
-
-    dispatch(loginSuccess({ user, token: idToken }));
-
-    return result.exists;
-  } catch (error) {
-    console.error("User verification error:", error);
     return false;
+  } catch (error) {
+    console.error("Check user error:", error);
+    return null;
   }
 };

@@ -114,6 +114,7 @@
 
 .editButton {
   background-color: #f0f0f0;
+  color: black;
   padding: 5px 10px;
   border-radius: 4px;
   cursor: pointer;

@@ -3,6 +3,7 @@
 import { headers } from "next/headers";
 import { db } from "@/lib/firebase"; // Firebase 초기화된 인스턴스 import
 import { setDoc, collection, doc } from "firebase/firestore";
+import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 
 export async function POST(request) {
   const headersList = headers();
@@ -37,11 +38,8 @@ export async function POST(request) {
 
     // 사용자가 이미 등록되어 있는지 확인
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-    const verifyResponse = await fetch(`${baseUrl}/api/auth/verify`, {
+    const verifyResponse = await fetchWithAuth(`${baseUrl}/api/auth/verify`, {
       method: "GET",
-      headers: {
-        Authorization: `Bearer ${idToken}`,
-      },
     });
 
     const verifyData = await verifyResponse.json();
@@ -66,17 +64,16 @@ export async function POST(request) {
     let profileImageFileName = null;
 
     if (profileImage) {
-      const uploadResponse = await fetch(`${baseUrl}/api/account/avatar`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${idToken}`,
-        },
-        body: JSON.stringify({
-          image: profileImage,
-          uid: verifyData.uid,
-        }),
-      });
+      const uploadResponse = await fetchWithAuth(
+        `${baseUrl}/api/account/avatar`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            image: profileImage,
+            uid: verifyData.uid,
+          }),
+        }
+      );
 
       const uploadData = await uploadResponse.json();
       profileImageFileName = uploadData.fileName;
