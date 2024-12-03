@@ -1,4 +1,5 @@
 // 로그인 시 쿠키 설정 API
+// /api/auth/login/route.js
 
 import { auth } from "@/lib/firebaseAdmin";
 import { NextResponse } from "next/server";

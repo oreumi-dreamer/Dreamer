@@ -1,4 +1,5 @@
 // 프로필 사진 업로드 API
+// /api/account/avatar/route.js
 
 import { headers } from "next/headers";
 import { auth } from "@/lib/firebaseAdmin";

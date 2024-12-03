@@ -1,4 +1,5 @@
 // 회원 가입 API
+// /api/join/route.js
 
 import { headers } from "next/headers";
 import { db } from "@/lib/firebase"; // Firebase 초기화된 인스턴스 import
