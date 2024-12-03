@@ -1,4 +1,5 @@
-// app/api/upload-profile/route.js
+// 프로필 사진 업로드 API
+
 import { headers } from "next/headers";
 import { auth } from "@/lib/firebaseAdmin";
 import { storage } from "@/lib/firebase";

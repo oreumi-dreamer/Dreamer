@@ -1,3 +1,5 @@
+// 회원 가입 API
+
 import { headers } from "next/headers";
 import { db } from "@/lib/firebase"; // Firebase 초기화된 인스턴스 import
 import { setDoc, collection, doc } from "firebase/firestore";

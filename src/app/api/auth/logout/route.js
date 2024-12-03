@@ -1,3 +1,5 @@
+// 로그아웃 시 쿠키를 삭제하는 API
+
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
