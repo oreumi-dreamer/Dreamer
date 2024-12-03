@@ -225,6 +225,9 @@
   height: 8rem;
   border-radius: 1rem;
   margin-bottom: 2rem;
+  position: relative;
+  padding: 2rem 10.9rem 2rem 4rem;
+  font-size: 1.2rem;
 }
 .comment-articles-section::-webkit-scrollbar {
   width: 3.2rem;
@@ -238,12 +241,6 @@
 
 .comment-articles-section::-webkit-scrollbar-corner {
   background-color: unset;
-}
-
-.comment-article {
-  position: relative;
-  padding: 2rem 10.9rem 2rem 4rem;
-  font-size: 1.2rem;
 }
 
 .lock,
