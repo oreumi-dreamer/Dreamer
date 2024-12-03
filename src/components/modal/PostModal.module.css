@@ -217,6 +217,7 @@
   max-height: 78.5%;
   overflow-y: scroll;
   border-radius: 1rem;
+  /* overflow: visible; 첫번째 comment article comment-info 및 edit-delete-button 안보이는 부분 수정 필요 */
 }
 
 .comment-article {
@@ -224,7 +225,7 @@
   width: 76.1rem;
   height: 8rem;
   border-radius: 1rem;
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
   position: relative;
   padding: 2rem 10.9rem 2rem 4rem;
   font-size: 1.2rem;
@@ -243,19 +244,10 @@
   background-color: unset;
 }
 
-.lock,
 .oneiromancy {
   position: absolute;
-}
-
-.lock {
-  top: 1.1rem;
-  left: 1.5rem;
-}
-
-.oneiromancy {
-  bottom: 1.3rem;
-  left: 1.4rem;
+  top: 0.7rem;
+  left: 1.1rem;
 }
 
 .comment-article p {
@@ -277,8 +269,8 @@
   color: var(--gray-font-color);
 
   position: absolute;
-  bottom: 1rem;
-  right: 1.5rem;
+  top: -1.7rem;
+  left: 0.4rem;
 }
 
 .comment-info a {
@@ -292,7 +284,7 @@
 .edit-delete-button {
   display: flex;
   position: absolute;
-  top: 1rem;
+  top: -1.9rem;
   right: 1.5rem;
 }
 
@@ -307,6 +299,5 @@
 
 .edit-delete-button button {
   background-color: unset;
-  position: relative;
   color: #77777b;
 }
