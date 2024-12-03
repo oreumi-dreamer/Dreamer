@@ -4,13 +4,13 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default function PostModal() {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(true);
 
   function handleModalClose() {
-    setIsOpen(false);
+    setIsModalOpen(false);
   }
 
-  if (!isOpen) {
+  if (!isModalOpen) {
     return null;
   }
 
