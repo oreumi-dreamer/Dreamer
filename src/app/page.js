@@ -7,6 +7,9 @@ import styles from "./page.module.css";
 import SocialLogin from "@/components/login/SocialLogin";
 import Loading from "@/components/Loading";
 import Header from "@/components/header/Header";
+import Image from "next/image";
+import Link from "next/link";
+import PostModal from "@/components/modal/PostModal";
 
 export default function Home() {
   const router = useRouter();
@@ -27,10 +30,12 @@ export default function Home() {
   if (!user) {
     return (
       <main className={styles.main}>
-        <section className={styles.login}>
-          <h1>로그인</h1>
-          <SocialLogin />
-        </section>
+        <h1>
+          <Link href="/">
+            <Image src="/images/logo-full.svg" width={800} height={340}></Image>
+          </Link>
+        </h1>
+        <SocialLogin className={styles.login} />
       </main>
     );
   }
@@ -42,11 +47,7 @@ export default function Home() {
   return (
     <>
       <Header />
-      <main className={styles.main}>
-        <section className={styles.welcome}>
-          <h1>환영합니다, {user.userName}님!</h1>
-        </section>
-      </main>
+      <PostModal />
     </>
   );
 }

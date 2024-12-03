@@ -11,7 +11,7 @@ import Loading from "./Loading";
 export default function Providers({ children }) {
   return (
     <Provider store={store}>
-      <PersistGate loading={<p>로드 중...</p>} persistor={persistor}>
+      <PersistGate loading={<Loading />} persistor={persistor}>
         <AuthStateHandler>{children}</AuthStateHandler>
       </PersistGate>
     </Provider>

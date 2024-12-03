@@ -1,0 +1,31 @@
+@keyframes moons {
+  0% {
+    background-image: url(/images/moon1.svg);
+    transform: rotateY(0deg);
+  }
+  50% {
+    background-image: url(/images/moon1.svg);
+    transform: rotateY(180deg);
+  }
+  100% {
+    background-image: url(/images/moon1.svg);
+    transform: rotateY(360deg);
+  }
+}
+
+.loading {
+  margin-top: 30vh;
+  display: flex;
+  justify-content: center;
+}
+
+.loading div {
+  animation-name: moons;
+  width: 10.6rem;
+  height: 10.6rem;
+  background-image: url(/images/moon1.png);
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  transform-origin: center;
+}
