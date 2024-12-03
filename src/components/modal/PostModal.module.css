@@ -11,16 +11,18 @@
 
   padding: 4rem 0;
 }
+
 .post-modal {
   z-index: 1000;
   position: relative;
   margin: 4rem auto;
   width: 155.4rem;
-  height: 100rem;
+  height: 90vh;
+  min-height: 50rem;
+  max-height: 100rem;
   border-radius: 1rem;
   background-color: var(--background-lightgray);
   border: none;
-
   display: flex;
   padding: 3.7rem 3.2rem 3.5rem 3.2rem;
 }
@@ -79,6 +81,7 @@
 }
 
 .post-text {
+  height: 82.3%;
   max-width: 63.3rem;
   max-height: 80.3rem;
   background-color: var(--background-white);
@@ -152,7 +155,7 @@
 
 .dash {
   width: 0;
-  height: 92.9rem;
+  height: 100%;
   display: flex;
   border: none;
   border-left: dotted var(--dotted-color) 0.2rem;
@@ -211,7 +214,7 @@
 }
 
 .comment-articles-section {
-  max-height: 77rem;
+  max-height: 78.5%;
   overflow-y: scroll;
   border-radius: 1rem;
 }
