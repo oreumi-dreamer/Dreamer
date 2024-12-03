@@ -92,6 +92,7 @@ export async function GET(request, { params }) {
         content: postData.content,
         createdAt: postData.createdAt?.toDate().toISOString(),
         updatedAt: postData.updatedAt?.toDate().toISOString(),
+        authorUid: postData.authorUid,
         authorId: postData.authorId,
         authorName: postData.authorName,
         imageUrls: postData.imageUrls,

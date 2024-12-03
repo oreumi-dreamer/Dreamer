@@ -120,6 +120,7 @@ export async function POST(request) {
       content,
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp(),
+      authorUid: userData.uid,
       authorId: userData.userId,
       authorName: userData.userName,
       imageUrls,
