@@ -5,6 +5,8 @@ import Link from "next/link";
 
 export default function PostModal() {
   const [isModalOpen, setIsModalOpen] = useState(true);
+  const [isStarTwinkle, setIsStarTwinkle] = useState(false);
+  const [isScrap, setIsScrap] = useState(false);
 
   function handleModalClose() {
     setIsModalOpen(false);
@@ -12,6 +14,14 @@ export default function PostModal() {
 
   if (!isModalOpen) {
     return null;
+  }
+
+  function handleButtonClick(e) {
+    if (e.currentTarget.className === "star") {
+      setIsStarTwinkle((prev) => !prev);
+    } else if (e.currentTarget.className === "scrap") {
+      setIsScrap((prev) => !prev);
+    }
   }
 
   return (
@@ -47,7 +57,11 @@ export default function PostModal() {
               <li>
                 <button onClick={handleButtonClick} className="star">
                   <Image
-                    src="/images/star.svg"
+                    src={
+                      isStarTwinkle
+                        ? "/images/star-fill.svg"
+                        : "/images/star.svg"
+                    }
                     alt="좋아요반짝"
                     width={30}
                     height={30}
@@ -69,8 +83,8 @@ export default function PostModal() {
                 <button onClick={handleButtonClick} className="scrap">
                   {/* 추후 mark-fill 파일 추가 */}
                   <Image
-                    src="/images/mark.svg"
-                    alt="스크랩하기"
+                    src={isScrap ? "/images/mark-fill.svg" : "/images/mark.svg"}
+                    alt="스크랩"
                     width={30}
                     height={30}
                   ></Image>
