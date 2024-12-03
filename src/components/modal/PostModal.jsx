@@ -9,7 +9,7 @@ export default function PostModal() {
   const [isScrap, setIsScrap] = useState(false);
   const [isOneiromancy, setOneiromancy] = useState(false);
   const [isPrivate, setIsPrivate] = useState(false);
-  const [comment, setComment] = useState(null);
+  const [comment, setComment] = useState(undefined);
 
   function handleModalClose() {
     if (comment) {
@@ -54,7 +54,7 @@ export default function PostModal() {
     const articleComment = e.currentTarget.children[2].textContent;
 
     e.currentTarget.classList.add(styles["comment-open"]);
-    console.log(e.currentTarget.classList);
+    console.log(e.currentTarget.classList[1].includes("open"));
   }
 
   return (
