@@ -4,7 +4,6 @@ import React, { useEffect, useRef, useState } from "react";
 import styles from "./Header.module.css";
 import Link from "next/link";
 import { MoreModal, ChangeModeModal } from "./HeaderModal";
-import { outsideClickModalClose } from "@/utils/outsideClickModalClose";
 
 export default function Header() {
   const buttonRef = useRef(null);
@@ -33,12 +32,17 @@ export default function Header() {
     if (!isOpenModal) {
       setOpenModalName("더보기");
       setIsOpenModal(true);
-    } else if (modalRef.current && !modalRef.current.contains(e.target)) {
+    } else {
       setOpenModalName(null);
       setIsOpenModal(false);
     }
   };
 
+  const handleCloseModal = (e) => {
+    setIsOpenModal(false);
+  };
+
+  // 더보기 버튼의 위치에 따른 모달의 유동적움직임함수
   const updateModalPosition = () => {
     if (buttonRef.current) {
       const buttonRect = buttonRef.current.getBoundingClientRect();
@@ -60,6 +64,7 @@ export default function Header() {
     };
   }, [openModalName]);
 
+  console.log(isOpenModal);
   return (
     <header className={styles.header}>
       <h1 className={styles.logo}>
@@ -67,10 +72,10 @@ export default function Header() {
           <img src="/images/logo-full.svg" alt="logo" />
         </Link>
       </h1>
-      <button className={`${styles["mode-toggle-btn"]} ${styles["light-mode"]}`}>
-        <div
-          className={`${styles["toggle-switch"]}`}
-        ></div>
+      <button
+        className={`${styles["mode-toggle-btn"]} ${styles["light-mode"]}`}
+      >
+        <div className={`${styles["toggle-switch"]}`}></div>
       </button>
       <div className={styles["header-btn-container"]}>
         <nav>
@@ -128,14 +133,22 @@ export default function Header() {
         >
           더보기
         </button>
-        {openModalName === "더보기" && (
+        {openModalName === "더보기" && isOpenModal && (
           <div ref={modalRef} style={modalStyle}>
-            <MoreModal setOpenModalName={setOpenModalName} />
+            <MoreModal
+              setOpenModalName={setOpenModalName}
+              isOpen={isOpenModal}
+              onClose={handleCloseModal}
+            />
           </div>
         )}
-        {openModalName === "모드 전환" && (
+        {openModalName === "모드 전환" && isOpenModal && (
           <div ref={modalRef} style={modalStyle}>
-            <ChangeModeModal setOpenModalName={setOpenModalName} />
+            <ChangeModeModal
+              setOpenModalName={setOpenModalName}
+              isOpen={isOpenModal}
+              onClose={handleCloseModal}
+            />
           </div>
         )}
       </div>

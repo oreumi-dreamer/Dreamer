@@ -1,10 +1,18 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import styles from "./HeaderModal.module.css";
+import { outsideClickModalClose } from "@/utils/outsideClickModalClose";
 
+function MoreModal({ setOpenModalName, isOpen, onClose }) {
+  const modalRef = useRef(null);
 
-function MoreModal({ setOpenModalName }) {
+  useEffect(() => {
+    if (isOpen) {
+      outsideClickModalClose(modalRef, onClose);
+    }
+  }, [isOpen, onClose]);
+
   return (
-    <ul className={styles["more-modal"]}>
+    <ul className={styles["more-modal"]} ref={modalRef}>
       <li className={styles["modal-items"]}>
         <button className={styles["setting-btn"]}>계정 설정</button>
       </li>
@@ -26,9 +34,16 @@ function MoreModal({ setOpenModalName }) {
   );
 }
 
-function ChangeModeModal({ setOpenModalName }) {
+function ChangeModeModal({ setOpenModalName, isOpen, onClose }) {
+  const modalRef = useRef(null);
+
+  useEffect(() => {
+    if (isOpen) {
+      outsideClickModalClose(modalRef, onClose);
+    }
+  }, [isOpen, onClose]);
   return (
-    <ul className={styles["change-mode-modal"]}>
+    <ul className={styles["change-mode-modal"]} ref={modalRef}>
       <li className={styles["modal-items"]}>
         <button
           className={styles["back-more-modal-btn"]}
