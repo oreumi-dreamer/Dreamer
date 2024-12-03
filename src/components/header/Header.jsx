@@ -64,7 +64,6 @@ export default function Header() {
     };
   }, [openModalName]);
 
-  console.log(isOpenModal);
   return (
     <header className={styles.header}>
       <h1 className={styles.logo}>
