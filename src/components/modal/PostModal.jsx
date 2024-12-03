@@ -50,6 +50,13 @@ export default function PostModal() {
     e.preventDefault();
   }
 
+  function handleCommentClick(e) {
+    const articleComment = e.currentTarget.children[2].textContent;
+
+    e.currentTarget.classList.add(styles["comment-open"]);
+    console.log(e.currentTarget.classList);
+  }
+
   return (
     <>
       <div className={styles.dimmed} onClick={handleModalClose}></div>
@@ -237,7 +244,10 @@ export default function PostModal() {
             <h3 className="sr-only">댓글 모음 확인</h3>
 
             {/* 컴포넌트 분리 예정 */}
-            <article className={styles["comment-article"]}>
+            <article
+              className={styles["comment-article"]}
+              onClick={handleCommentClick}
+            >
               {/* {isPrivate && <Image />} */}
               <Image
                 src="/images/lock.svg"
