@@ -1,25 +1,52 @@
 import React from "react";
 import styles from "./HeaderModal.module.css";
 
-function MoreModal() {
+
+function MoreModal({ setOpenModalName }) {
   return (
-    <div className={styles["modal-wrap"]}>
-      <button>계정 설정</button>
-      <button>모드 전환</button>
-      <button>문의 사항</button>
-      <button>로그아웃</button>
-    </div>
+    <ul className={styles["more-modal"]}>
+      <li className={styles["modal-items"]}>
+        <button className={styles["setting-btn"]}>계정 설정</button>
+      </li>
+      <li className={styles["modal-items"]}>
+        <button
+          className={`${styles["change-mode-btn"]} ${styles["light-mode"]}`}
+          onClick={() => setOpenModalName("모드 전환")}
+        >
+          모드 전환
+        </button>
+      </li>
+      <li className={styles["modal-items"]}>
+        <button className={styles["inquiry-btn"]}>문의 사항</button>
+      </li>
+      <li className={styles["modal-items"]}>
+        <button className={styles["logout-btn"]}>로그아웃</button>
+      </li>
+    </ul>
   );
 }
 
-function ChangeModeModal() {
+function ChangeModeModal({ setOpenModalName }) {
   return (
-    <div className={styles["modal-wrap"]}>
-      <button>모드 전환</button>
-      <button>다크 모드</button>
-      <button>라이트 모드</button>
-      <button>기기 설정 사용</button>
-    </div>
+    <ul className={styles["change-mode-modal"]}>
+      <li className={styles["modal-items"]}>
+        <button
+          className={styles["back-more-modal-btn"]}
+          onClick={() => setOpenModalName("더보기")}
+        >
+          모드 전환
+        </button>
+      </li>
+      <li className={styles["modal-items"]}>
+        <button className={styles["dark-mode-btn"]}>다크 모드</button>
+      </li>
+      <li className={styles["modal-items"]}>
+        <button className={styles["light-mode-btn"]}>라이트 모드</button>
+      </li>
+      <li className={styles["modal-items"]}>
+        <button className={styles["device-setting-btn"]}>기기 설정 사용</button>
+      </li>
+    </ul>
   );
 }
 

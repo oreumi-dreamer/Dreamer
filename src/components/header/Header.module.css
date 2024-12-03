@@ -7,7 +7,7 @@
   top: 0;
   left: 0;
   display: flex;
-  align-items: start;
+  align-items: flex-start;
   flex-direction: column;
   padding: 10rem 12.5rem 10.6rem 5rem;
   min-height: 92rem;
@@ -58,13 +58,15 @@
 }
 
 .header-btn-container {
+  position: relative;
   padding: 5rem 0 0 5.9rem;
 }
 
 .header-btn-container button {
   background-color: transparent;
-  width: 15rem;
+  width: 18rem;
   font-size: 2.4rem;
+  text-wrap: nowrap;
   color: var(--none-active-color);
   margin-bottom: 3.2rem;
   display: flex;
@@ -74,29 +76,34 @@
   margin-bottom: 10rem;
 }
 
-.header-btn-container button.active,
-.more.active {
+.header-btn-container button.active {
+  padding-bottom: 0.3rem;
   color: var(--black-font-color);
+}
+
+.header-btn-container button.active:not(.more-btn) {
   border-bottom: 3px solid var(--black-font-color);
 }
 
-.header-btn-container button.active::after,
-.more.active::after {
-  content: "";
-  background-image: url(/images/active-star.svg);
+.header-btn-container button:not(.more-btn).active::after {
+  content: url(/images/active-star.svg);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: bottom;
   width: 3rem;
   height: 3rem;
+  display: inline-block;
   position: absolute;
-  left: 25rem;
+  right: 0;
 }
 
-.nav-item button.active::before,
-.more.active::before {
+.nav-items button.active::before,
+.more-btn.active::before {
   background-color: var(--black-font-color);
 }
 
-.nav-item button::before,
-.more::before {
+.nav-items button::before,
+.more-btn::before {
   content: "";
   width: 4rem;
   height: 4rem;
@@ -106,50 +113,50 @@
   margin-right: 3rem;
 }
 
-.nav-item .home::before {
+.nav-items .home-btn::before {
   mask: url(/images/home.svg) no-repeat center;
 }
 
-.nav-item .search::before {
+.nav-items .search-btn::before {
   mask: url(/images/search.svg) no-repeat center;
 }
 
-.nav-item .message::before {
+.nav-items .message-btn::before {
   mask: url(/images/message.svg) no-repeat center;
 }
 
-.nav-item .alarm::before {
+.nav-items .alarm-btn::before {
   mask: url(/images/alarm.svg) no-repeat center;
 }
 
-.nav-item .wright::before {
-  mask: url(/images/wright.svg) no-repeat center;
+.nav-items .writing-btn::before {
+  mask: url(/images/writing.svg) no-repeat center;
 }
 
-.more::before {
+.more-btn::before {
   mask: url(/images/more.svg) no-repeat center;
 }
 
 .profile-btn,
-.more {
+.more-btn {
   display: flex;
   align-items: center;
   position: fixed;
 }
 
 @media (max-height: 980px) {
-    .profile-btn,
-    .more {
-      position: static;
-      margin-top: 2rem;
-    }
+  .profile-btn,
+  .more-btn {
+    position: static;
+    margin-top: 2rem;
+  }
 }
 
 .profile-btn {
   bottom: 12rem;
 }
 
-.more {
+.more-btn {
   bottom: 5rem;
 }
 .profile-btn img {
