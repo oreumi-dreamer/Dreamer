@@ -7,6 +7,8 @@ export default function PostModal() {
   const [isModalOpen, setIsModalOpen] = useState(true);
   const [isStarTwinkle, setIsStarTwinkle] = useState(false);
   const [isScrap, setIsScrap] = useState(false);
+  const [isOneiromancy, setOneiromancy] = useState(false);
+  const [isPrivate, setIsPrivate] = useState(false);
 
   function handleModalClose() {
     setIsModalOpen(false);
@@ -22,6 +24,16 @@ export default function PostModal() {
       setIsStarTwinkle((prev) => !prev);
     } else if (buttonName === "scrap") {
       setIsScrap((prev) => !prev);
+    }
+  }
+
+  function handleCheckboxClick(e) {
+    const checkboxName = e.target.parentElement.innerText;
+    const isCheckboxChecked = e.target.checked;
+    if (checkboxName === "꿈해몽") {
+      setOneiromancy(isCheckboxChecked);
+    } else if (checkboxName === "비공개") {
+      setIsPrivate(isCheckboxChecked);
     }
   }
 
@@ -178,14 +190,14 @@ export default function PostModal() {
             <ul className={styles["comment-setting"]}>
               <li>
                 <label>
-                  <input type="checkbox" />
+                  <input type="checkbox" onChange={handleCheckboxClick} />
                   꿈해몽
                 </label>
               </li>
 
               <li>
                 <label>
-                  <input type="checkbox" />
+                  <input type="checkbox" onChange={handleCheckboxClick} />
                   비공개
                 </label>
               </li>
