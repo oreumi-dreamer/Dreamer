@@ -9,6 +9,7 @@ export default function PostModal() {
   const [isScrap, setIsScrap] = useState(false);
   const [isOneiromancy, setOneiromancy] = useState(false);
   const [isPrivate, setIsPrivate] = useState(false);
+  const [comment, setComment] = useState(null);
 
   function handleModalClose() {
     setIsModalOpen(false);
@@ -35,6 +36,10 @@ export default function PostModal() {
     } else if (checkboxName === "비공개") {
       setIsPrivate(isCheckboxChecked);
     }
+  }
+
+  function handleChangeCommnet(e) {
+    setComment(e.target.value);
   }
 
   return (
@@ -186,6 +191,7 @@ export default function PostModal() {
               rows={4}
               cols={103}
               placeholder="댓글입력(최대 1000자)"
+              onChange={handleChangeCommnet}
             />
             <ul className={styles["comment-setting"]}>
               <li>
