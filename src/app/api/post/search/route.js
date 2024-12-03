@@ -1,3 +1,5 @@
+// /api/post/search/route.js
+
 import { searchOnlyPostsIndex } from "@/lib/algolia";
 import { NextResponse } from "next/server";
 

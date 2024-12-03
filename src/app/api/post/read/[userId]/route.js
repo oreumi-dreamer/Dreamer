@@ -1,4 +1,5 @@
 // 게시글 목록 조회 API
+// /api/post/read/[userId]/route.js
 
 import {
   getFirestore,

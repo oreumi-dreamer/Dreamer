@@ -1,4 +1,5 @@
 // 게시글 ID로 게시글을 조회하는 API
+// /api/post/search/[postId]/route.js
 
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
