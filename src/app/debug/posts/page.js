@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import {
   getFirestore,
   collection,
@@ -10,9 +11,12 @@ import {
   getDocs,
   startAfter,
 } from "firebase/firestore";
+import { useSelector } from "react-redux";
 import styles from "./page.module.css";
 
 export default function Posts() {
+  const { userId } = useSelector((state) => state.auth.user); // 현재 로그인한 사용자 ID
+
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [lastVisible, setLastVisible] = useState(null);
@@ -88,6 +92,15 @@ export default function Posts() {
               <span className={styles.author}>{post.authorName}</span>
               <span className={styles.date}>{post.createdAt}</span>
               {post.isPrivate && <span className={styles.private}>비공개</span>}
+              {/* 작성자와 현재 사용자가 같을 때만 수정 버튼 표시 */}
+              {userId === post.authorId && (
+                <Link
+                  href={`/debug/posting/${post.id}`}
+                  className={styles.editButton}
+                >
+                  수정
+                </Link>
+              )}
             </div>
 
             <div className={styles.content}>{post.title}</div>
