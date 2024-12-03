@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import styles from "./HeaderModal.module.css";
 import { outsideClickModalClose } from "@/utils/outsideClickModalClose";
+import Link from "next/link";
 
 function MoreModal({ setOpenModalName, isOpen, onClose }) {
   const modalRef = useRef(null);
@@ -28,7 +29,9 @@ function MoreModal({ setOpenModalName, isOpen, onClose }) {
         <button className={styles["inquiry-btn"]}>문의 사항</button>
       </li>
       <li className={styles["modal-items"]}>
-        <button className={styles["logout-btn"]}>로그아웃</button>
+        <Link href="/logout">
+          <button className={styles["logout-btn"]}>로그아웃</button>
+        </Link>
       </li>
     </ul>
   );
