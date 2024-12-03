@@ -10,12 +10,24 @@ export async function GET(request) {
   const hitsPerPage = parseInt(searchParams.get("limit")) || 10;
 
   try {
-    const filters = ["NOT isDeleted:true", "NOT isPrivate:true"];
-    if (genre) filters.push(`dreamGenres:"${genre}"`);
-    if (mood) filters.push(`dreamMoods:"${mood}"`);
+    // 기본 필터: 삭제되거나 비공개인 게시물 제외
+    const visibilityFilter =
+      "(isDeleted:false OR isDeleted:'false') AND (isPrivate:false OR isPrivate:'false')";
+
+    // 추가 필터: 장르, 분위기
+    const contentFilters = [];
+    if (genre) contentFilters.push(`dreamGenres:${genre}`);
+    if (mood) contentFilters.push(`dreamMoods:${mood}`);
+
+    const finalFilter =
+      contentFilters.length > 0
+        ? `${visibilityFilter} AND ${contentFilters.join(" AND ")}`
+        : visibilityFilter;
+
+    console.log("Applied filters:", finalFilter); // 디버깅용
 
     const { hits, nbPages, nbHits } = await searchOnlyPostsIndex.search(query, {
-      filters: filters.join(" AND "),
+      filters: finalFilter,
       page,
       hitsPerPage,
       attributesToRetrieve: [
