@@ -46,6 +46,11 @@ body {
   font-size: 1.6rem;
 }
 
+:root input::placeholder,
+:root textarea::placeholder {
+  font-family: "NanumBarunPen";
+}
+
 * {
   box-sizing: border-box;
   padding: 0;
