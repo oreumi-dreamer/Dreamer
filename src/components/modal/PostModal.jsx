@@ -67,6 +67,7 @@ export default function PostModal() {
               </li>
               <li>
                 <button onClick={handleButtonClick} className="scrap">
+                  {/* 추후 mark-fill 파일 추가 */}
                   <Image
                     src="/images/mark.svg"
                     alt="스크랩하기"
