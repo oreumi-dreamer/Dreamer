@@ -17,9 +17,10 @@ export default function PostModal() {
   }
 
   function handleButtonClick(e) {
-    if (e.currentTarget.className === "star") {
+    const buttonName = e.currentTarget.className;
+    if (buttonName === "star") {
       setIsStarTwinkle((prev) => !prev);
-    } else if (e.currentTarget.className === "scrap") {
+    } else if (buttonName === "scrap") {
       setIsScrap((prev) => !prev);
     }
   }
