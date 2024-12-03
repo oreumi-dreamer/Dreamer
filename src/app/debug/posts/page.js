@@ -126,7 +126,7 @@ export default function Posts() {
 
               <div className={styles.interactions}>
                 <span>반짝 {post.sparkCount}</span>
-                <span>댓글 {post.commentCount}</span>
+                <span>댓글 {post.comments.length}</span>
               </div>
             </div>
           </article>

@@ -46,7 +46,7 @@ export async function GET(request) {
         "isDeleted",
         "isPrivate",
         "postId",
-        "commentCount",
+        "comments",
         "lastmodified",
       ],
     });
@@ -68,7 +68,8 @@ export async function GET(request) {
         isDeleted: hit.isDeleted || false,
         isPrivate: hit.isPrivate || false,
         postId: hit.postId,
-        commentCount: hit.commentCount || 0,
+        comments: hit.comments || [],
+        commentCount: hit.comments.length || 0,
         lastmodified: hit.lastmodified,
       })),
       totalPages: nbPages,

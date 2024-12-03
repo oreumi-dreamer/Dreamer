@@ -125,7 +125,7 @@ export async function POST(request) {
       imageUrls,
       isPrivate: isPrivateBool,
       sparkCount: 0,
-      commentCount: 0,
+      comments: [],
       dreamGenres: genres,
       dreamMoods: moods,
       dreamRating: rating,
