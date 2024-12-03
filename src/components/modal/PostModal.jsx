@@ -45,7 +45,7 @@ export default function PostModal() {
             </Link>
             <ul className={styles["button-list"]}>
               <li>
-                <button>
+                <button onClick={handleButtonClick} className="star">
                   <Image
                     src="/images/star.svg"
                     alt="좋아요반짝"
@@ -66,7 +66,7 @@ export default function PostModal() {
                 </button>
               </li>
               <li>
-                <button>
+                <button onClick={handleButtonClick} className="scrap">
                   <Image
                     src="/images/mark.svg"
                     alt="스크랩하기"
