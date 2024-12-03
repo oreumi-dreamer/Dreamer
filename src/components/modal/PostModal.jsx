@@ -1,13 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./PostModal.module.css";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function PostModal() {
+  const [isOpen, setIsOpen] = useState(true);
+
+  function handleModalClose() {
+    setIsOpen(false);
+  }
+
+  if (!isOpen) {
+    return null;
+  }
+
   return (
     <>
-      <div className={styles.dimmed}></div>
-      <dialog className={styles["post-modal"]} open>
+      <div className={styles.dimmed} onClick={handleModalClose}></div>
+      <dialog className={styles["post-modal"]}>
         <Image
           className={styles.bookmark}
           src="/images/bookmark.svg"
@@ -128,7 +138,7 @@ export default function PostModal() {
         <hr className={styles.dash} />
         <section>
           <h2 className="sr-only">댓글 작성 및 확인</h2>
-          <button className={styles["close-btn"]}>
+          <button className={styles["close-btn"]} onClick={handleModalClose}>
             <Image
               src="/images/close.svg"
               width={30}
