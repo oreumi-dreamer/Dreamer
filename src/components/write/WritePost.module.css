@@ -1,0 +1,87 @@
+.new-post {
+  max-width: 74rem;
+  width: calc(100% - 12rem);
+  height: calc(100% - 8rem);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+
+  border: 0;
+  background-color: var(--background-lightgray);
+  border-radius: 1rem;
+
+  padding: 3.5rem 2.5rem;
+}
+
+.new-post::backdrop {
+  background-color: var(--background-dimmed);
+}
+
+.btn-close {
+  width: 3rem;
+  height: 3rem;
+
+  position: absolute;
+  right: 1.5rem;
+  top: 2rem;
+  background-color: inherit;
+}
+
+.write-field {
+  background-color: var(--background-white);
+  border-radius: 1rem;
+
+  height: 80%;
+
+  margin-top: 1rem;
+}
+
+/* 별점 */
+.rate-star {
+  appearance: none;
+}
+.rate-star::after {
+  content: url("/images/star.svg");
+  width: 40px;
+  height: 40px;
+}
+.rate-star:hover::after,
+.rate-star:has(~ .rate-star:hover)::after,
+.rate-star:checked::after,
+.rate-star:has(~ .rate-star:checked)::after {
+  content: url("/images/star-fill.svg");
+}
+.rate-star:hover ~ .rate-star::after {
+  content: url("/images/star.svg");
+}
+
+.text-field-area {
+  width: calc(100% - 6rem);
+  height: 78%;
+  margin: 2rem;
+  padding: 1rem;
+
+  font-size: 1.6rem;
+  resize: none;
+
+  border: 0;
+}
+.text-field-area::-webkit-scrollbar {
+  background-color: inherit;
+
+  width: 2rem;
+}
+.text-field-area::-webkit-scrollbar-thumb {
+  background-color: var(--none-active-color);
+  width: 100%;
+
+  background-clip: padding-box;
+  border: 0.6rem solid transparent;
+
+  border-radius: 1rem;
+}
+.text-field-area::-webkit-scrollbar-track {
+  /* background-color: gray; */
+  border-radius: 1rem;
+}
