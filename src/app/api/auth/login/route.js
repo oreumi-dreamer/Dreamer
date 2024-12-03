@@ -1,3 +1,5 @@
+// 로그인 시 쿠키 설정 API
+
 import { NextResponse } from "next/server";
 
 export async function POST(request) {

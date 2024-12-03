@@ -1,3 +1,5 @@
+// 게시글 목록 조회 API
+
 import {
   getFirestore,
   collection,
