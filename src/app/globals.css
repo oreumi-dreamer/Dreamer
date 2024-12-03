@@ -1,9 +1,7 @@
 @import url(./reset.css);
-@import url(/fonts/NanumBarunPenR/NanumBarunPenR.css);
-@import url(/fonts/NanumBarunPenB/NanumBarunPenB.css);
 
 :root {
-  font-size: 62.5%;
+  --font-family: "NanumBarunPen", sans-serif;
   --background-blue-top: linear-gradient(180deg, #e3eeff 0%, #f3e7e9 100%);
   --background-pink-top: linear-gradient(180deg, #f3e7e9 50%, #e3eeff 100%);
   --background-color: #eee4e6;
@@ -24,16 +22,9 @@
   --scroll-bar-color: #8a8a8a;
 }
 
-/* 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-} */
-
-* {
-  font-family: "NanumBarunPen", sans-serif;
+html {
+  font-size: 62.5%;
+  font-family: var(--font-family);
 }
 
 html,
@@ -42,19 +33,21 @@ body {
   overflow-x: hidden;
 }
 
-:root body {
+body {
+  font-family: inherit;
   font-size: 1.6rem;
+}
+
+* {
+  font-family: inherit;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }
 
 :root input::placeholder,
 :root textarea::placeholder {
-  font-family: "NanumBarunPen";
-}
-
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
+  font-family: "NanumBarunPen", sans-serif;
 }
 
 .sr-only {

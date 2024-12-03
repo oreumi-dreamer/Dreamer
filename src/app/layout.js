@@ -1,6 +1,7 @@
-import localFont from "next/font/local";
 import "./reset.css";
 import "./globals.css";
+import "../../public/fonts/NanumBarunPenR/NanumBarunPenR.css";
+import "../../public/fonts/NanumBarunPenB/NanumBarunPenB.css";
 import Providers from "@/components/Providers";
 
 export const metadata = {
