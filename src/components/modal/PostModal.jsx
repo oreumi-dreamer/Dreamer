@@ -12,6 +12,10 @@ export default function PostModal() {
   const [comment, setComment] = useState(null);
 
   function handleModalClose() {
+    if (comment) {
+      const exitAnswer = confirm("댓글을 작성중입니다. 종료하시겠습니까?");
+      return exitAnswer ? setIsModalOpen(false) : setIsModalOpen(true);
+    }
     setIsModalOpen(false);
   }
 
