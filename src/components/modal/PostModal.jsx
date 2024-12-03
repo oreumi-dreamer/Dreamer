@@ -11,6 +11,7 @@ export default function PostModal() {
         <Image
           className={styles.bookmark}
           src="/images/bookmark.svg"
+          alt="책갈피"
           width={54}
           height={131}
         ></Image>
@@ -20,7 +21,12 @@ export default function PostModal() {
           <section className={styles["post-info-section"]}>
             <h3 className="sr-only">작성자 정보 및 본문 관련 버튼 모음</h3>
             <Link className={styles.profile} href="/">
-              <Image src="/images/rabbit.svg" width={49} height={49}></Image>
+              <Image
+                src="/images/rabbit.svg"
+                width={49}
+                height={49}
+                alt="토끼 프로필"
+              ></Image>
               <p className={styles["profile-info"]}>
                 {"JINI"}
                 <span href="/">@jini</span>
@@ -116,14 +122,19 @@ export default function PostModal() {
               <br />
               <br />
             </p>
-            <Image width={555} height={330}></Image>
+            <Image width={555} height={330} alt="임시 이미지"></Image>
           </section>
         </section>
         <hr className={styles.dash} />
         <section>
           <h2 className="sr-only">댓글 작성 및 확인</h2>
           <button className={styles["close-btn"]}>
-            <Image src="/images/close.svg" width={30} height={30}></Image>
+            <Image
+              src="/images/close.svg"
+              width={30}
+              height={30}
+              alt="닫기 버튼"
+            ></Image>
           </button>
 
           <form action="#" className={styles["comment-form"]}>
@@ -155,7 +166,12 @@ export default function PostModal() {
 
               <li>
                 <button type="submit">
-                  <Image src="/images/send.svg" width={30} height={30}></Image>
+                  <Image
+                    src="/images/send.svg"
+                    width={30}
+                    height={30}
+                    alt="댓글 입력 버튼"
+                  ></Image>
                 </button>
               </li>
             </ul>
@@ -172,6 +188,7 @@ export default function PostModal() {
                 className={styles.lock}
                 width={10}
                 height={13}
+                alt="비공개 댓글"
               ></Image>
               {/* {isOneiromancy && <Image />} */}
               <Image
@@ -179,6 +196,7 @@ export default function PostModal() {
                 className={styles.oneiromancy}
                 width={17}
                 height={13}
+                alt="꿈해몽 댓글"
               ></Image>
 
               {/* 글자 수 추후 데이터 불러왔을 때 변수 설정 후 수정 */}
@@ -198,7 +216,7 @@ export default function PostModal() {
 
               <ul className={styles["comment-info"]}>
                 <li>
-                  <time datetime="">{"1분 전"}</time>
+                  <time>{"1분 전"}</time>
                 </li>
                 <li>
                   <Link href="/">
