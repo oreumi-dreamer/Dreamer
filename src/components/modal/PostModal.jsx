@@ -295,6 +295,57 @@ export default function PostModal() {
                 }
               </p>
             </article>
+            {/* 컴포넌트 분리 예정 */}
+            <article
+              className={styles["comment-article"]}
+              onClick={handleCommentClick}
+            >
+              <ul className={styles["comment-info"]}>
+                <li>
+                  <time>{"1분 전"}</time>
+                </li>
+                <li>
+                  <Link href="/">
+                    <span>{"JIh2"}</span>@jhjh
+                  </Link>
+                </li>
+                <li>
+                  {/* {isPrivate && <Image />} */}
+                  <Image
+                    src="/images/lock.svg"
+                    width={10}
+                    height={13}
+                    alt="비공개 댓글"
+                  ></Image>
+                </li>
+              </ul>
+
+              {/* {isMyComment && <ul ></ul>} */}
+              <ul className={styles["edit-delete-button"]}>
+                <li>
+                  <button>수정</button>
+                </li>
+                <li>
+                  <button>삭제</button>
+                </li>
+              </ul>
+
+              {/* {isOneiromancy && <Image />} */}
+              <Image
+                src="/images/oneiromancy.svg"
+                className={styles.oneiromancy}
+                width={17}
+                height={13}
+                alt="꿈해몽 댓글"
+              ></Image>
+
+              {/* 글자 수 추후 데이터 불러왔을 때 변수 설정 후 수정 */}
+              <p>
+                {
+                  "안녕하세요. 외계인 침공방안에는 1번 지구 진입 시 불에 타죽게끔 뜨거운 띠를 설치한다. 2번 외계인에게 말을 걸다가 중간에 멈추게 되면"
+                }
+              </p>
+            </article>
             <article className={styles["comment-article"]}></article>
             <article className={styles["comment-article"]}></article>
             <article className={styles["comment-article"]}></article>
