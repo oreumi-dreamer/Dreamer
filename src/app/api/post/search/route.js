@@ -24,8 +24,6 @@ export async function GET(request) {
         ? `${visibilityFilter} AND ${contentFilters.join(" AND ")}`
         : visibilityFilter;
 
-    console.log("Applied filters:", finalFilter); // 디버깅용
-
     const { hits, nbPages, nbHits } = await searchOnlyPostsIndex.search(query, {
       filters: finalFilter,
       page,
