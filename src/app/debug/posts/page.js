@@ -16,17 +16,18 @@ import styles from "./page.module.css";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 
 export default function Posts() {
-  const { user } = useSelector((state) => state.auth); // 현재 로그인한 사용자의 토큰
-  const { userId } = user; // 현재 로그인한 사용자 ID
+  const { user } = useSelector((state) => state.auth);
+  const { userId } = user;
 
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [lastVisible, setLastVisible] = useState(null);
   const [hasMore, setHasMore] = useState(true);
+  const [commentInputs, setCommentInputs] = useState({});
+  const [submittingComments, setSubmittingComments] = useState({});
 
   const POSTS_PER_PAGE = 10;
 
-  // 초기 포스트 로딩
   useEffect(() => {
     loadPosts();
   }, []);
@@ -53,18 +54,16 @@ export default function Posts() {
 
       const querySnapshot = await getDocs(postsQuery);
 
-      // 더 불러올 데이터가 있는지 확인
       if (querySnapshot.docs.length < POSTS_PER_PAGE) {
         setHasMore(false);
       }
 
-      // 마지막으로 불러온 문서 저장
       setLastVisible(querySnapshot.docs[querySnapshot.docs.length - 1]);
 
       const newPosts = querySnapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
-        createdAt: doc.data().createdAt?.toDate().toLocaleString(), // Timestamp를 날짜 문자열로 변환
+        createdAt: doc.data().createdAt?.toDate().toLocaleString(),
       }));
 
       if (isLoadMore) {
@@ -96,7 +95,6 @@ export default function Posts() {
         throw new Error(data.error || "게시글 삭제 중 오류가 발생했습니다.");
       }
 
-      // 삭제 성공 시 게시글 목록에서 해당 게시글 제거
       setPosts((prevPosts) => prevPosts.filter((post) => post.id !== postId));
       alert("게시글이 삭제되었습니다.");
     } catch (error) {
@@ -105,7 +103,74 @@ export default function Posts() {
     }
   };
 
-  // 별점을 별 이모지로 변환하는 함수
+  const handleCommentSubmit = async (postId) => {
+    if (!commentInputs[postId]?.content?.trim()) {
+      alert("댓글 내용을 입력해주세요.");
+      return;
+    }
+
+    try {
+      setSubmittingComments((prev) => ({ ...prev, [postId]: true }));
+
+      const formData = new FormData();
+      formData.append("content", commentInputs[postId].content);
+      formData.append("isPrivate", commentInputs[postId]?.isPrivate || false);
+      formData.append(
+        "isDreamInterpretation",
+        commentInputs[postId]?.isDreamInterpretation || false
+      );
+
+      const response = await fetchWithAuth(`/api/comment/create/${postId}`, {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "댓글 작성 중 오류가 발생했습니다.");
+      }
+
+      // API 응답이 성공이면 해당 게시글의 comments 배열 업데이트
+      setPosts((prevPosts) =>
+        prevPosts.map((post) => {
+          if (post.id === postId) {
+            return {
+              ...post,
+              comments: [
+                ...post.comments,
+                {
+                  authorName: user.userName,
+                  content: commentInputs[postId].content,
+                  createdAt: new Date(), // 현재 시간으로 표시
+                  isPrivate: commentInputs[postId]?.isPrivate || false,
+                  isDreamInterpretation:
+                    commentInputs[postId]?.isDreamInterpretation || false,
+                },
+              ],
+            };
+          }
+          return post;
+        })
+      );
+
+      setCommentInputs((prev) => ({
+        ...prev,
+        [postId]: {
+          content: "",
+          isPrivate: false,
+          isDreamInterpretation: false,
+        },
+      }));
+      alert("댓글이 작성되었습니다.");
+    } catch (error) {
+      console.error("Error submitting comment:", error);
+      alert(error.message);
+    } finally {
+      setSubmittingComments((prev) => ({ ...prev, [postId]: false }));
+    }
+  };
+
   const renderStars = (rating) => "★".repeat(rating) + "☆".repeat(5 - rating);
 
   return (
@@ -119,7 +184,6 @@ export default function Posts() {
               <span className={styles.author}>{post.authorName}</span>
               <span className={styles.date}>{post.createdAt}</span>
               {post.isPrivate && <span className={styles.private}>비공개</span>}
-              {/* 작성자와 현재 사용자가 같을 때만 수정 버튼 표시 */}
               {userId === post.authorId && (
                 <>
                   <Link
@@ -174,8 +238,88 @@ export default function Posts() {
 
               <div className={styles.interactions}>
                 <span>반짝 {post.sparkCount}</span>
-                <span>댓글 {post.comments.length}</span>
+                <span>댓글 {post.comments?.length || 0}</span>
               </div>
+            </div>
+
+            {/* 댓글 목록 */}
+            <div className={styles.comments}>
+              {post.comments?.map((comment, index) => (
+                <div key={index} className={styles.comment}>
+                  <span className={styles.commentAuthor}>
+                    {comment.authorName}
+                  </span>
+                  <span className={styles.commentDate}>
+                    {comment.createdAt?.toDate?.().toLocaleString() || ""}
+                  </span>
+                  <p className={styles.commentContent}>{comment.content}</p>
+                  {comment.isDreamInterpretation && (
+                    <span className={styles.interpretation}>해몽</span>
+                  )}
+                </div>
+              ))}
+            </div>
+
+            {/* 댓글 작성 폼 */}
+            <div className={styles.commentForm}>
+              <textarea
+                value={commentInputs[post.id]?.content || ""}
+                onChange={(e) =>
+                  setCommentInputs((prev) => ({
+                    ...prev,
+                    [post.id]: {
+                      ...prev[post.id],
+                      content: e.target.value,
+                    },
+                  }))
+                }
+                placeholder="댓글을 작성해주세요"
+                className={styles.commentInput}
+                disabled={submittingComments[post.id]}
+              />
+              <div className={styles.commentOptions}>
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={commentInputs[post.id]?.isPrivate || false}
+                    onChange={(e) =>
+                      setCommentInputs((prev) => ({
+                        ...prev,
+                        [post.id]: {
+                          ...prev[post.id],
+                          isPrivate: e.target.checked,
+                        },
+                      }))
+                    }
+                  />
+                  비공개
+                </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={
+                      commentInputs[post.id]?.isDreamInterpretation || false
+                    }
+                    onChange={(e) =>
+                      setCommentInputs((prev) => ({
+                        ...prev,
+                        [post.id]: {
+                          ...prev[post.id],
+                          isDreamInterpretation: e.target.checked,
+                        },
+                      }))
+                    }
+                  />
+                  꿈 해몽
+                </label>
+              </div>
+              <button
+                onClick={() => handleCommentSubmit(post.id)}
+                disabled={submittingComments[post.id]}
+                className={styles.commentSubmit}
+              >
+                {submittingComments[post.id] ? "작성 중..." : "댓글 작성"}
+              </button>
             </div>
           </article>
         ))}
