@@ -12,12 +12,6 @@ export async function GET(request, { params }) {
 
     // 사용자 인증 확인
     const userData = await verifyUser(idToken);
-    if (!userData.exists) {
-      return new Response(
-        JSON.stringify({ error: "인증되지 않은 사용자입니다." }),
-        { status: 401 }
-      );
-    }
 
     // 게시글 존재 여부 확인 및 데이터 가져오기
     const postRef = doc(db, "posts", postId);
@@ -31,35 +25,55 @@ export async function GET(request, { params }) {
     }
 
     const postData = postDoc.data();
+
+    // 삭제된 게시글 체크
+    if (postData.isDeleted) {
+      return new Response(JSON.stringify({ error: "삭제된 게시글입니다." }), {
+        status: 404,
+      });
+    }
+
+    // 비공개 게시글 접근 권한 체크
+    if (
+      postData.isPrivate &&
+      (!userData || userData.uid !== postData.authorUid)
+    ) {
+      return new Response(JSON.stringify({ error: "접근 권한이 없습니다." }), {
+        status: 403,
+      });
+    }
+
     let comments = postData.comments || [];
 
     // 비공개 댓글 필터링
-    comments = comments.map((comment) => {
-      // 기본 댓글 객체에 isModifiable 추가
-      const baseComment = {
-        ...comment,
-        isModifiable: comment.authorUid === userData.uid, // 자신의 댓글인 경우 true
-      };
-
-      // 자신의 댓글이거나 게시글 작성자인 경우 모든 정보 표시
-      if (
-        comment.authorUid === userData.uid ||
-        postData.authorUid === userData.uid
-      ) {
-        return baseComment;
-      }
-
-      // 비공개 댓글인 경우 내용 숨김 처리
-      if (comment.isPrivate) {
-        return {
-          ...baseComment,
-          content: "비공개 댓글입니다.",
-          isHidden: true,
+    comments = comments
+      .filter((comment) => !comment.isDeleted) // isDeleted가 true인 댓글 제외
+      .map((comment) => {
+        // 기본 댓글 객체에 isModifiable 추가
+        const baseComment = {
+          ...comment,
+          isModifiable: comment.authorUid === userData.uid, // 자신의 댓글인 경우 true
         };
-      }
 
-      return baseComment;
-    });
+        // 자신의 댓글이거나 게시글 작성자인 경우 모든 정보 표시
+        if (
+          comment.authorUid === userData.uid ||
+          postData.authorUid === userData.uid
+        ) {
+          return baseComment;
+        }
+
+        // 비공개 댓글인 경우 내용 숨김 처리
+        if (comment.isPrivate) {
+          return {
+            ...baseComment,
+            content: "비공개 댓글입니다.",
+            isHidden: true,
+          };
+        }
+
+        return baseComment;
+      });
 
     return new Response(
       JSON.stringify({
