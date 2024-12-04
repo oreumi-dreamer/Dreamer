@@ -5,10 +5,6 @@ import { auth } from "@/lib/firebase";
 
 // export const 대신 export function 사용
 export async function fetchWithAuth(url, options = {}) {
-  if (!auth.currentUser) {
-    throw new Error("사용자 인증이 필요합니다.");
-  }
-
   const idToken = auth.currentUser
     ? await auth.currentUser.getIdToken(true)
     : undefined;
