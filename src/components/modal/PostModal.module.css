@@ -27,6 +27,13 @@
   padding: 3.7rem 3.2rem 3.5rem 3.2rem;
 }
 
+.post-section {
+  width: 100%;
+  border-right: dotted var(--dotted-color) 0.2rem;
+  margin: 0 3.2rem;
+  padding-right: 3.2rem;
+}
+
 .bookmark {
   position: absolute;
   top: 0;
@@ -155,15 +162,6 @@
 
 .dream-score {
   font-size: 1.6rem;
-}
-
-.dash {
-  width: 0;
-  height: 100%;
-  display: flex;
-  border: none;
-  border-left: dotted var(--dotted-color) 0.2rem;
-  margin: 0 3.2rem;
 }
 
 .close-btn {
