@@ -8,30 +8,30 @@ export default function Profile() {
         <section className={styles["profile-container"]}>
           <article className={styles["profile-wrap"]}>
             <h2 className="sr-only">프로필</h2>
-            <div className={styles["profile-img"]}>
-              <img src="/images/rabbit.svg" alt="" />
-            </div>
-            <div className={styles["profile-name-wrap"]}>
-              <div className={styles["profile-name"]}>JINI</div>
-              <span className={styles["profile-id"]}>@jini</span>
-            </div>
-            <button className={styles["follow-btn"]}>팔로우</button>
-            <dl className={styles["profile-info"]}>
-              <dt>게시물</dt>
-              <dd>9개</dd>
-              <dt>팔로우</dt>
-              <dd>0명</dd>
-              <dt>팔로워</dt>
-              <dd>999명</dd>
-            </dl>
-            <div className={styles["profile-bio"]}>
-              안녕하세요 지니입니당~ ✌️😎
+            <img src="/images/rabbit.svg" alt="프로필 이미지" />
+            <div className={styles["profile-info"]}>
+              <div className={styles["profile-name-wrap"]}>
+                <div className={styles["profile-name"]}>JINI</div>
+                <div className={styles["profile-id"]}>@jini</div>
+                <button className={styles["follow-btn"]}>팔로우</button>
+              </div>
+              <dl className={styles["profile-stat"]}>
+                <dt>게시물</dt>
+                <dd>9개</dd>
+                <dt>팔로우</dt>
+                <dd>0명</dd>
+                <dt>팔로워</dt>
+                <dd>999명</dd>
+              </dl>
+              <div className={styles["profile-bio"]}>
+                안녕하세요 지니입니당~ ✌️😎
+              </div>
             </div>
           </article>
         </section>
         <section className={styles["posts-container"]}>
           <h2 className="sr-only">게시물</h2>
-          <article className="post-wrap">
+          <article className={styles["post-wrap"]}>
             <h3 className={`${styles["post-title"]} ${styles["include-img"]}`}>
               당장 만나~🎵
             </h3>
@@ -55,12 +55,12 @@ export default function Profile() {
                 </button>
               </dt>
               <dd>99+</dd>
+              <dt>
+                <button>
+                  <img src="/images/more.svg" alt="댓글" />
+                </button>
+              </dt>
             </dl>
-            <dt>
-              <button>
-                <img src="/images/more.svg" alt="댓글" />
-              </button>
-            </dt>
           </article>
         </section>
       </main>
