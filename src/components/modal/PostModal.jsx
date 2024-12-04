@@ -63,9 +63,7 @@ export default function PostModal() {
   }
 
   function handleCommentClick(e) {
-    const articleComment = e.currentTarget.children[2].textContent;
-
-    e.currentTarget.classList.add(styles["comment-open"]);
+    e.currentTarget.classList.toggle(styles["comment-open"]);
   }
 
   return (
