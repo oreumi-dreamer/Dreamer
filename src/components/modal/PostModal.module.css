@@ -98,6 +98,10 @@
   margin: 1rem 0;
 }
 
+.post-text p {
+  line-height: 3rem;
+}
+
 .post-text a {
   color: currentColor;
   text-decoration: underline;
