@@ -82,8 +82,7 @@ export default function PostModal() {
           width={54}
           height={131}
         ></Image>
-
-        <section>
+        <section className={styles["post-section"]}>
           <h2 className="sr-only">글 본문 내용 확인</h2>
           <section className={styles["post-info-section"]}>
             <h3 className="sr-only">작성자 정보 및 본문 관련 버튼 모음</h3>
@@ -219,7 +218,6 @@ export default function PostModal() {
             <Image width={555} height={330} alt="임시 이미지"></Image>
           </section>
         </section>
-        <hr className={styles.dash} />
         <section>
           <h2 className="sr-only">댓글 작성 및 확인</h2>
           <button className={styles["close-btn"]} onClick={handleModalClose}>
