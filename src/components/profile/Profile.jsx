@@ -8,10 +8,12 @@ export default function Profile() {
         <section className={styles["profile-container"]}>
           <article className={styles["profile-wrap"]}>
             <h2 className="sr-only">프로필</h2>
-            <div className={styles["profile-img"]}></div>
+            <div className={styles["profile-img"]}>
+              <img src="/images/rabbit.svg" alt="" />
+            </div>
             <div className={styles["profile-name-wrap"]}>
-              <div className={styles["profile-name"]}>DREAMER</div>
-              <span className={styles["profile-id"]}>@DREAMER</span>
+              <div className={styles["profile-name"]}>JINI</div>
+              <span className={styles["profile-id"]}>@jini</span>
             </div>
             <button className={styles["follow-btn"]}>팔로우</button>
             <dl className={styles["profile-info"]}>
@@ -55,9 +57,9 @@ export default function Profile() {
               <dd>99+</dd>
             </dl>
             <dt>
-            <button>
-                  <img src="/images/more.svg" alt="댓글" />
-                </button>
+              <button>
+                <img src="/images/more.svg" alt="댓글" />
+              </button>
             </dt>
           </article>
         </section>
