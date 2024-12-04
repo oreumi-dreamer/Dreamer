@@ -88,9 +88,6 @@
 
 .header-btn-container button:not(.more-btn).active::after {
   content: url(/images/active-star.svg);
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: bottom;
   width: 3rem;
   height: 3rem;
   display: inline-block;
