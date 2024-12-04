@@ -285,13 +285,14 @@ export default function PostModal() {
             >
               <ul className={styles["comment-info"]}>
                 <li>
-                  <time>{"1분 전"}</time>
-                </li>
-                <li>
                   <Link href="/">
                     <span>{"JIh2"}</span>@jhjh
                   </Link>
                 </li>
+                <li>
+                  <time>{"1분 전"}</time>
+                </li>
+
                 <li>
                   {/* {isPrivate && <Image />} */}
                   <Image
@@ -336,13 +337,14 @@ export default function PostModal() {
             >
               <ul className={styles["comment-info"]}>
                 <li>
-                  <time>{"1분 전"}</time>
-                </li>
-                <li>
                   <Link href="/">
                     <span>{"JIh2"}</span>@jhjh
                   </Link>
                 </li>
+                <li>
+                  <time>{"1분 전"}</time>
+                </li>
+
                 <li>
                   {/* {isPrivate && <Image />} */}
                   <Image
