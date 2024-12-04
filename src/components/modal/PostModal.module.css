@@ -254,6 +254,7 @@
 
 .comment-article p {
   width: 100%;
+  line-height: 2rem;
   font-size: 1.5rem;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -262,7 +263,12 @@
   -webkit-box-orient: vertical;
 }
 
-.comment-open {
+.comment-open p {
+  overflow: visible;
+  text-overflow: unset;
+  display: block;
+  -webkit-line-clamp: unset;
+  -webkit-box-orient: unset;
 }
 
 .comment-info {
