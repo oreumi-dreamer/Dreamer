@@ -14,7 +14,7 @@
 
 .post-modal {
   z-index: 1000;
-  position: relative;
+  position: fixed;
   margin: 4rem auto;
   width: 155.4rem;
   height: 90vh;
