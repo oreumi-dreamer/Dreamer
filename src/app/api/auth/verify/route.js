@@ -20,6 +20,7 @@ export async function GET() {
     // Firebase Admin을 사용하여 토큰 검증 및 uid 획득
     const decodedToken = await auth.verifyIdToken(idToken);
     const uid = decodedToken.uid;
+    const email = decodedToken.email;
     const via = decodedToken.firebase.sign_in_provider;
 
     // Firestore에서 사용자 존재 여부 확인
@@ -29,6 +30,7 @@ export async function GET() {
       exists: userDoc.exists,
       userId: userDoc.data()?.userId,
       userName: userDoc.data()?.userName,
+      email: email,
       via: via,
       uid: uid,
     });
