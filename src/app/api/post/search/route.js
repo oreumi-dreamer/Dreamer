@@ -7,7 +7,7 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
-  const query = searchParams.get("q") || "";
+  const searchQuery = searchParams.get("q") || "";
   const genre = searchParams.get("genre");
   const mood = searchParams.get("mood");
   const page = parseInt(searchParams.get("page")) || 0;
