@@ -67,9 +67,24 @@ export default function MainList() {
       userInMention: "",
     },
   ]);
+
+
+
+
+
+
+
+    useEffect(() => {
+        // fetch("http://localhost:17777/api/post/search", {
+        //     method: "GET",
+        //     headers: {
+        //     "Content-Type": "application/json",
+        //     },
+        // }).then((response) => response.json()).then((json) => {
+        //     console.log(json);
+        // }).catch((error) => console.error(error));
+    }, []);
   
-
-
 
   return (
     <>
