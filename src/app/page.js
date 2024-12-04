@@ -8,6 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import PostModal from "@/components/modal/PostModal";
 import Footer from "@/components/footer/Footer";
+import Profile from "@/components/profile/Profile";
 
 export default function Home() {
   const { user, isRegistrationComplete } = useSelector((state) => state.auth);
@@ -15,7 +16,6 @@ export default function Home() {
   if (!user) {
     return (
       <>
-        <Header />
         <main className={styles.main}>
           <h1>
             <Link href="/">
@@ -28,7 +28,6 @@ export default function Home() {
           </h1>
           <SocialLogin className={styles.login} />
         </main>
-        <Footer />
       </>
     );
   }
@@ -38,9 +37,11 @@ export default function Home() {
   }
 
   return (
-    <>
+    <div className={styles.container}>
       <Header />
-      <PostModal />
-    </>
+      {/* <PostModal /> */}
+      <Profile />
+      <Footer />
+    </div>
   );
 }
