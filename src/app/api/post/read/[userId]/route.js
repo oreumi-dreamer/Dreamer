@@ -22,6 +22,25 @@ export async function GET(request, { params }) {
   const { searchParams } = new URL(request.url);
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
+  // 먼저 userId로 사용자의 UID를 조회
+  const usersRef = collection(db, "users");
+  const userQuery = query(usersRef, where("userId", "==", userId));
+  const userSnapshot = await getDocs(userQuery);
+
+  if (userSnapshot.empty) {
+    return NextResponse.json(
+      { error: "사용자를 찾을 수 없습니다." },
+      { status: 404 }
+    );
+  }
+
+  // 사용자 정보 추출
+  const authorUid = userSnapshot.docs[0].id;
+
+  // DB 상의 사용자 이름과 ID를 조회
+  const authorId = userSnapshot.docs[0].data().userId;
+  const authorName = userSnapshot.docs[0].data().userName;
+
   const headersList = headers();
   const authorization = headersList.get("Authorization");
   let userData = null;
@@ -57,7 +76,7 @@ export async function GET(request, { params }) {
     // 기본 쿼리 조건에 visibilityCondition 추가
     const baseQuery = [
       collection(db, "posts"),
-      where("authorId", "==", userId),
+      where("authorUid", "==", authorUid),
       where("isDeleted", "==", false),
       visibilityCondition, // 비공개/공개 게시글 필터링 조건 추가
       orderBy("createdAt", "desc"),
@@ -93,8 +112,8 @@ export async function GET(request, { params }) {
         createdAt: postData.createdAt?.toDate().toISOString(),
         updatedAt: postData.updatedAt?.toDate().toISOString(),
         authorUid: postData.authorUid,
-        authorId: postData.authorId,
-        authorName: postData.authorName,
+        authorId: authorId,
+        authorName: authorName,
         imageUrls: postData.imageUrls,
         isPrivate: postData.isPrivate,
         sparkCount: postData.sparkCount,
