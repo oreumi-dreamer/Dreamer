@@ -244,15 +244,25 @@ export default function PostModal() {
             />
             <ul className={styles["comment-setting"]}>
               <li>
-                <label>
-                  <input type="checkbox" onChange={handleCheckboxClick} />
+                <input
+                  type="checkbox"
+                  onChange={handleCheckboxClick}
+                  className={styles["checkbox-hide"]}
+                  id="oneiromancy"
+                />
+                <label className={styles["checkbox"]} htmlFor="oneiromancy">
                   꿈해몽
                 </label>
               </li>
 
               <li>
-                <label>
-                  <input type="checkbox" onChange={handleCheckboxClick} />
+                <input
+                  type="checkbox"
+                  onChange={handleCheckboxClick}
+                  className={styles["checkbox-hide"]}
+                  id="private"
+                />
+                <label className={styles["checkbox"]} htmlFor="private">
                   비공개
                 </label>
               </li>
