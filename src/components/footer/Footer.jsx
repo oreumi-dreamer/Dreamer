@@ -10,7 +10,7 @@ export default function Footer() {
         name="footer-search"
       />
       <article className={styles["recommend-wrap"]}>
-        <p className={styles["recommend-title"]}>추천 DREAMER</p>
+        <h2 className={styles["recommend-title"]}>추천 DREAMER</h2>
         <div className={styles["recommend-list"]}></div>
       </article>
       <section className={styles["footer-policy"]}>
