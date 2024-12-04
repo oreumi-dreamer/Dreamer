@@ -68,7 +68,6 @@ export async function GET(request) {
         isDeleted: hit.isDeleted || false,
         isPrivate: hit.isPrivate || false,
         postId: hit.postId,
-        comments: hit.comments || [],
         commentCount: hit.comments.length || 0,
         lastmodified: hit.lastmodified,
       })),
