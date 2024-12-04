@@ -8,10 +8,11 @@ export default function Profile() {
         <section className={styles["profile-container"]}>
           <div className={styles["profile-wrap"]}>
             <div className={styles["profile-img"]}></div>
-            <div className={styles["profile-info"]}>
-              <span className={styles["profile-name"]}>DREAMER</span>
+            <div className={styles["profile-name-wrap"]}>
+              <div className={styles["profile-name"]}>DREAMER</div>
               <span className={styles["profile-id"]}>@DREAMER</span>
             </div>
+            <button className={styles["follow-btn"]}>팔로우</button>
           </div>
         </section>
       </main>
