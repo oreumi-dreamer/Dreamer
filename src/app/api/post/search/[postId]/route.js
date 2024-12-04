@@ -65,6 +65,7 @@ export async function GET(request, { params }) {
       isPrivate: postData.isPrivate,
       sparkCount: postData.sparkCount,
       comments: [],
+      commentsCount: postData.commentsCount,
       dreamGenres: postData.dreamGenres,
       dreamMoods: postData.dreamMoods,
       dreamRating: postData.dreamRating,
