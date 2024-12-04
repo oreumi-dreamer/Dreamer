@@ -4,7 +4,6 @@ import React, { useEffect, useRef, useState } from "react";
 import styles from "./Header.module.css";
 import Link from "next/link";
 import { MoreModal, ChangeModeModal } from "./HeaderModal";
-import { outClickModalClose } from "@/utils/outClickModalClose";
 
 export default function Header() {
   const buttonRef = useRef(null);
@@ -33,19 +32,24 @@ export default function Header() {
     if (!isOpenModal) {
       setOpenModalName("더보기");
       setIsOpenModal(true);
-    } else if (modalRef.current && !modalRef.current.contains(e.target)) {
+    } else {
       setOpenModalName(null);
       setIsOpenModal(false);
     }
   };
 
+  const handleCloseModal = (e) => {
+    setIsOpenModal(false);
+  };
+
+  // 더보기 버튼의 위치에 따른 모달의 유동적움직임함수
   const updateModalPosition = () => {
     if (buttonRef.current) {
       const buttonRect = buttonRef.current.getBoundingClientRect();
       setModalStyle({
         position: "absolute",
-        top: `${buttonRect.top + window.scrollY + -590}px`,
-        left: `${buttonRect.left + window.scrollX + -60}px`,
+        top: `${buttonRect.top + window.scrollY + -600}px`,
+        left: `${buttonRect.left + window.scrollX + -80}px`,
       });
     }
   };
@@ -67,8 +71,10 @@ export default function Header() {
           <img src="/images/logo-full.svg" alt="logo" />
         </Link>
       </h1>
-      <button className={styles["mode-toggle-btn"]}>
-        <div className={styles["toggle-switch"]}></div>
+      <button
+        className={`${styles["mode-toggle-btn"]} ${styles["light-mode"]}`}
+      >
+        <div className={`${styles["toggle-switch"]}`}></div>
       </button>
       <div className={styles["header-btn-container"]}>
         <nav>
@@ -116,11 +122,7 @@ export default function Header() {
           </ul>
         </nav>
         <button className={styles["profile-btn"]} onClick={handleButtonClick}>
-          <img
-            src="/images/basic-profile.svg"
-            alt="프로필사진"
-            loading="lazy"
-          />
+          <img src="/images/rabbit.svg" alt="프로필사진" loading="lazy" />
           <p>JINI</p>
         </button>
         <button
@@ -130,14 +132,22 @@ export default function Header() {
         >
           더보기
         </button>
-        {openModalName === "더보기" && (
+        {openModalName === "더보기" && isOpenModal && (
           <div ref={modalRef} style={modalStyle}>
-            <MoreModal setOpenModalName={setOpenModalName} />
+            <MoreModal
+              setOpenModalName={setOpenModalName}
+              isOpen={isOpenModal}
+              onClose={handleCloseModal}
+            />
           </div>
         )}
-        {openModalName === "모드 전환" && (
+        {openModalName === "모드 전환" && isOpenModal && (
           <div ref={modalRef} style={modalStyle}>
-            <ChangeModeModal setOpenModalName={setOpenModalName} />
+            <ChangeModeModal
+              setOpenModalName={setOpenModalName}
+              isOpen={isOpenModal}
+              onClose={handleCloseModal}
+            />
           </div>
         )}
       </div>
