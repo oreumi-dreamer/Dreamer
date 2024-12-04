@@ -1,16 +1,70 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./PostModal.module.css";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function PostModal() {
+  const [isModalOpen, setIsModalOpen] = useState(true);
+  const [isStarTwinkle, setIsStarTwinkle] = useState(false);
+  const [isScrap, setIsScrap] = useState(false);
+  const [isOneiromancy, setOneiromancy] = useState(false);
+  const [isPrivate, setIsPrivate] = useState(false);
+  const [comment, setComment] = useState(undefined);
+
+  function handleModalClose() {
+    if (comment) {
+      const exitAnswer = confirm("댓글을 작성중입니다. 종료하시겠습니까?");
+      return exitAnswer ? setIsModalOpen(false) : setIsModalOpen(true);
+    }
+    setIsModalOpen(false);
+  }
+
+  if (!isModalOpen) {
+    return null;
+  }
+
+  function handleButtonClick(e) {
+    const buttonName = e.currentTarget.className;
+    if (buttonName === "star") {
+      setIsStarTwinkle((prev) => !prev);
+    } else if (buttonName === "scrap") {
+      setIsScrap((prev) => !prev);
+    }
+  }
+
+  function handleCheckboxClick(e) {
+    const checkboxName = e.target.parentElement.innerText;
+    const isCheckboxChecked = e.target.checked;
+    if (checkboxName === "꿈해몽") {
+      setOneiromancy(isCheckboxChecked);
+    } else if (checkboxName === "비공개") {
+      setIsPrivate(isCheckboxChecked);
+    }
+  }
+
+  function handleChangeComment(e) {
+    setComment(e.target.value);
+  }
+
+  function handleCommentSubmit(e) {
+    e.preventDefault();
+  }
+
+  function handleCommentClick(e) {
+    const articleComment = e.currentTarget.children[2].textContent;
+
+    e.currentTarget.classList.add(styles["comment-open"]);
+    console.log(e.currentTarget.classList[1].includes("open"));
+  }
+
   return (
     <>
-      <div className={styles.dimmed}></div>
-      <dialog className={styles["post-modal"]} open>
+      <div className={styles.dimmed} onClick={handleModalClose}></div>
+      <dialog className={styles["post-modal"]}>
         <Image
           className={styles.bookmark}
           src="/images/bookmark.svg"
+          alt="책갈피"
           width={54}
           height={131}
         ></Image>
@@ -20,7 +74,12 @@ export default function PostModal() {
           <section className={styles["post-info-section"]}>
             <h3 className="sr-only">작성자 정보 및 본문 관련 버튼 모음</h3>
             <Link className={styles.profile} href="/">
-              <Image src="/images/rabbit.svg" width={49} height={49}></Image>
+              <Image
+                src="/images/rabbit.svg"
+                width={49}
+                height={49}
+                alt="토끼 프로필"
+              ></Image>
               <p className={styles["profile-info"]}>
                 {"JINI"}
                 <span href="/">@jini</span>
@@ -29,9 +88,13 @@ export default function PostModal() {
             </Link>
             <ul className={styles["button-list"]}>
               <li>
-                <button>
+                <button onClick={handleButtonClick} className="star">
                   <Image
-                    src="/images/star.svg"
+                    src={
+                      isStarTwinkle
+                        ? "/images/star-fill.svg"
+                        : "/images/star.svg"
+                    }
                     alt="좋아요반짝"
                     width={30}
                     height={30}
@@ -50,10 +113,11 @@ export default function PostModal() {
                 </button>
               </li>
               <li>
-                <button>
+                <button onClick={handleButtonClick} className="scrap">
+                  {/* 추후 mark-fill 파일 추가 */}
                   <Image
-                    src="/images/mark.svg"
-                    alt="스크랩하기"
+                    src={isScrap ? "/images/mark-fill.svg" : "/images/mark.svg"}
+                    alt="스크랩"
                     width={30}
                     height={30}
                   ></Image>
@@ -116,17 +180,26 @@ export default function PostModal() {
               <br />
               <br />
             </p>
-            <Image width={555} height={330}></Image>
+            <Image width={555} height={330} alt="임시 이미지"></Image>
           </section>
         </section>
         <hr className={styles.dash} />
         <section>
           <h2 className="sr-only">댓글 작성 및 확인</h2>
-          <button className={styles["close-btn"]}>
-            <Image src="/images/close.svg" width={30} height={30}></Image>
+          <button className={styles["close-btn"]} onClick={handleModalClose}>
+            <Image
+              src="/images/close.svg"
+              width={30}
+              height={30}
+              alt="닫기 버튼"
+            ></Image>
           </button>
 
-          <form action="#" className={styles["comment-form"]}>
+          <form
+            action="#"
+            className={styles["comment-form"]}
+            onSubmit={handleCommentSubmit}
+          >
             <label htmlFor="comment" className="sr-only">
               댓글 입력
             </label>
@@ -137,25 +210,32 @@ export default function PostModal() {
               rows={4}
               cols={103}
               placeholder="댓글입력(최대 1000자)"
+              onChange={handleChangeComment}
+              value={comment}
             />
             <ul className={styles["comment-setting"]}>
               <li>
                 <label>
-                  <input type="checkbox" />
+                  <input type="checkbox" onChange={handleCheckboxClick} />
                   꿈해몽
                 </label>
               </li>
 
               <li>
                 <label>
-                  <input type="checkbox" />
+                  <input type="checkbox" onChange={handleCheckboxClick} />
                   비공개
                 </label>
               </li>
 
               <li>
                 <button type="submit">
-                  <Image src="/images/send.svg" width={30} height={30}></Image>
+                  <Image
+                    src="/images/send.svg"
+                    width={30}
+                    height={30}
+                    alt="댓글 입력 버튼"
+                  ></Image>
                 </button>
               </li>
             </ul>
@@ -165,28 +245,31 @@ export default function PostModal() {
             <h3 className="sr-only">댓글 모음 확인</h3>
 
             {/* 컴포넌트 분리 예정 */}
-            <article className={styles["comment-article"]}>
-              {/* {isPrivate && <Image />} */}
-              <Image
-                src="/images/lock.svg"
-                className={styles.lock}
-                width={10}
-                height={13}
-              ></Image>
-              {/* {isOneiromancy && <Image />} */}
-              <Image
-                src="/images/oneiromancy.svg"
-                className={styles.oneiromancy}
-                width={17}
-                height={13}
-              ></Image>
+            <article
+              className={styles["comment-article"]}
+              onClick={handleCommentClick}
+            >
+              <ul className={styles["comment-info"]}>
+                <li>
+                  <time>{"1분 전"}</time>
+                </li>
+                <li>
+                  <Link href="/">
+                    <span>{"JIh2"}</span>@jhjh
+                  </Link>
+                </li>
+                <li>
+                  {/* {isPrivate && <Image />} */}
+                  <Image
+                    src="/images/lock.svg"
+                    width={10}
+                    height={13}
+                    alt="비공개 댓글"
+                  ></Image>
+                </li>
+              </ul>
 
-              {/* 글자 수 추후 데이터 불러왔을 때 변수 설정 후 수정 */}
-              <p>
-                {
-                  "안녕하세요 꿈 과학자 입니다. 저의 소견으로는 당신의 현재 상황에 대한 불안함을 갖고 있던 일이, 곧 좋은 기회를 얻어 좋게 풀려나갈 좋은 징조라고 보여집니다. 이런 경우 외계인은 금전운을 뜻하며, 친구는 영혼의 동반자를 의미할것이라고 예상됩니다. 요즘 말로 소울메이트 같은 존재라는 거죠. 항상 좋은일 가득하시길 바랍니다~^^*"
-                }
-              </p>
+              {/* {isMyComment && <ul ></ul>} */}
               <ul className={styles["edit-delete-button"]}>
                 <li>
                   <button>수정</button>
@@ -196,16 +279,72 @@ export default function PostModal() {
                 </li>
               </ul>
 
+              {/* {isOneiromancy && <Image />} */}
+              <Image
+                src="/images/oneiromancy.svg"
+                className={styles.oneiromancy}
+                width={17}
+                height={13}
+                alt="꿈해몽 댓글"
+              ></Image>
+
+              {/* 글자 수 추후 데이터 불러왔을 때 변수 설정 후 수정 */}
+              <p>
+                {
+                  "안녕하세요 꿈 과학자 입니다. 저의 소견으로는 당신의 현재 상황에 대한 불안함을 갖고 있던 일이, 곧 좋은 기회를 얻어 좋게 풀려나갈 좋은 징조라고 보여집니다. 이런 경우 외계인은 금전운을 뜻하며, 친구는 영혼의 동반자를 의미할것이라고 예상됩니다. 요즘 말로 소울메이트 같은 존재라는 거죠. 항상 좋은일 가득하시길 바랍니다~^^*"
+                }
+              </p>
+            </article>
+            {/* 컴포넌트 분리 예정 */}
+            <article
+              className={styles["comment-article"]}
+              onClick={handleCommentClick}
+            >
               <ul className={styles["comment-info"]}>
                 <li>
-                  <time datetime="">{"1분 전"}</time>
+                  <time>{"1분 전"}</time>
                 </li>
                 <li>
                   <Link href="/">
                     <span>{"JIh2"}</span>@jhjh
                   </Link>
                 </li>
+                <li>
+                  {/* {isPrivate && <Image />} */}
+                  <Image
+                    src="/images/lock.svg"
+                    width={10}
+                    height={13}
+                    alt="비공개 댓글"
+                  ></Image>
+                </li>
               </ul>
+
+              {/* {isMyComment && <ul ></ul>} */}
+              <ul className={styles["edit-delete-button"]}>
+                <li>
+                  <button>수정</button>
+                </li>
+                <li>
+                  <button>삭제</button>
+                </li>
+              </ul>
+
+              {/* {isOneiromancy && <Image />} */}
+              <Image
+                src="/images/oneiromancy.svg"
+                className={styles.oneiromancy}
+                width={17}
+                height={13}
+                alt="꿈해몽 댓글"
+              ></Image>
+
+              {/* 글자 수 추후 데이터 불러왔을 때 변수 설정 후 수정 */}
+              <p>
+                {
+                  "안녕하세요. 외계인 침공방안에는 1번 지구 진입 시 불에 타죽게끔 뜨거운 띠를 설치한다. 2번 외계인에게 말을 걸다가 중간에 멈추게 되면"
+                }
+              </p>
             </article>
             <article className={styles["comment-article"]}></article>
             <article className={styles["comment-article"]}></article>
