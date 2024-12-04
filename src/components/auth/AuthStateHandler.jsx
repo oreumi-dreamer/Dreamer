@@ -2,31 +2,33 @@
 
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { useRouter } from "next/navigation";
 import { auth } from "@/lib/firebase";
 import {
   setRegistrationComplete,
   resetRegistrationComplete,
   logout,
 } from "@/store/authSlice";
-import { verifyUser } from "@/lib/api/auth";
+import { checkUserExists } from "@/utils/auth/checkUser";
 import Loading from "@/components/Loading";
 
 export default function AuthStateHandler({ children }) {
   const dispatch = useDispatch();
+  const router = useRouter();
   const [isAuthChecked, setIsAuthChecked] = useState(false);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (user) {
         try {
-          // 사용자 존재 여부 확인
-          const result = await verifyUser();
+          const result = await checkUserExists(dispatch);
+          console.log("Auth check result:", result);
 
-          // 사용자의 기본 정보만 저장
-          if (result.exists) {
+          if (result === true) {
             dispatch(setRegistrationComplete());
           } else {
             dispatch(resetRegistrationComplete());
+            router.push("/signup");
           }
         } catch (error) {
           console.error("Auth check error:", error);
@@ -39,7 +41,7 @@ export default function AuthStateHandler({ children }) {
     });
 
     return () => unsubscribe();
-  }, [dispatch]);
+  }, [dispatch, router]);
 
   if (!isAuthChecked) {
     return <Loading />;
