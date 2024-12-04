@@ -17,3 +17,11 @@
 .login {
   margin: 0 auto;
 }
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 100vw;
+  background-color: var(--background-color);
+}
