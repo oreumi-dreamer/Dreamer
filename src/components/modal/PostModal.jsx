@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import styles from "./PostModal.module.css";
 import Image from "next/image";
 import Link from "next/link";
-import { auth, googleProvider } from "@/lib/firebase";
-import { signInWithPopup } from "firebase/auth";
 
 export default function PostModal() {
   const [isModalOpen, setIsModalOpen] = useState(true);
@@ -19,7 +17,7 @@ export default function PostModal() {
   const handleViewPost = async () => {
     const postId = 1;
 
-    const posts = await fetch(`/api/post/search/${[postId]}`);
+    // const posts = await fetch(`/api/post/search/${[postId]}`);
     // const data = await posts.json();
     // console.log(posts);
     // fetchwithauth;
@@ -68,12 +66,11 @@ export default function PostModal() {
     const articleComment = e.currentTarget.children[2].textContent;
 
     e.currentTarget.classList.add(styles["comment-open"]);
-    console.log(e.currentTarget.classList[1].includes("open"));
   }
 
   return (
     <>
-      <div className={styles.dimmed} onClick={handleViewPost}></div>
+      <div className={styles.dimmed} onClick={handleModalClose}></div>
       <dialog className={styles["post-modal"]}>
         <Image
           className={styles.bookmark}
