@@ -21,7 +21,7 @@
 .container {
   display: flex;
   justify-content: space-between;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   width: 100vw;
   background-color: var(--background-color);
 }
