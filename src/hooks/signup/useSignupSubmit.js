@@ -19,9 +19,9 @@ export function useSignupSubmit() {
 
       const response = await fetchWithAuth("/api/join", {
         method: "POST",
-        body: JSON.stringify({
+        body: {
           ...formData,
-        }),
+        },
       });
 
       const data = await response.json();

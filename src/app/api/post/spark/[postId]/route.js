@@ -1,5 +1,12 @@
 import { headers } from "next/headers";
-import { doc, getDoc } from "firebase/firestore";
+import {
+  doc,
+  getDoc,
+  updateDoc,
+  arrayUnion,
+  arrayRemove,
+} from "firebase/firestore";
+
 import { db } from "@/lib/firebase";
 import { verifyUser } from "@/lib/api/auth";
 
@@ -19,7 +26,7 @@ export async function GET(request, { params }) {
       );
     }
 
-    // 게시글 존재 여부 확인 및 데이터 가져오기
+    // 게시글 존재 여부 확인
     const postRef = doc(db, "posts", postId);
     const postDoc = await getDoc(postRef);
 
@@ -31,40 +38,33 @@ export async function GET(request, { params }) {
     }
 
     const postData = postDoc.data();
-    let comments = postData.comments || [];
 
-    // 비공개 댓글 필터링
-    comments = comments.map((comment) => {
-      // 기본 댓글 객체에 isModifiable 추가
-      const baseComment = {
-        ...comment,
-        isModifiable: comment.authorUid === userData.uid, // 자신의 댓글인 경우 true
-      };
+    // 현재 사용자가 이미 반짝을 눌렀는지 확인
+    const spark = postData.spark || [];
+    const hasSparked = spark.includes(userData.userId);
 
-      // 자신의 댓글이거나 게시글 작성자인 경우 모든 정보 표시
-      if (
-        comment.authorUid === userData.uid ||
-        postData.authorUid === userData.uid
-      ) {
-        return baseComment;
-      }
-
-      // 비공개 댓글인 경우 내용 숨김 처리
-      if (comment.isPrivate) {
-        return {
-          ...baseComment,
-          content: "비공개 댓글입니다.",
-          isHidden: true,
-        };
-      }
-
-      return baseComment;
-    });
+    // 반짝 토글 및 카운트 업데이트
+    if (hasSparked) {
+      // 반짝 제거
+      await updateDoc(postRef, {
+        spark: arrayRemove(userData.userId),
+        sparkCount: postData.sparkCount - 1,
+      });
+    } else {
+      // 반짝 추가
+      await updateDoc(postRef, {
+        spark: arrayUnion(userData.userId),
+        sparkCount: postData.sparkCount + 1,
+      });
+    }
 
     return new Response(
       JSON.stringify({
         success: true,
-        comments,
+        hasSparked: !hasSparked,
+        sparkCount: hasSparked
+          ? postData.sparkCount - 1
+          : postData.sparkCount + 1,
       }),
       {
         status: 200,
@@ -74,10 +74,10 @@ export async function GET(request, { params }) {
       }
     );
   } catch (error) {
-    console.error("Error fetching comments:", error);
+    console.error("Error toggling spark:", error);
     return new Response(
       JSON.stringify({
-        error: "댓글을 불러오는 중 오류가 발생했습니다.",
+        error: "반짝을 토글하는 중 오류가 발생했습니다.",
       }),
       {
         status: 500,

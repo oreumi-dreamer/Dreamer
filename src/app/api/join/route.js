@@ -2,8 +2,15 @@
 // /api/join/route.js
 
 import { headers } from "next/headers";
-import { db } from "@/lib/firebase"; // Firebase 초기화된 인스턴스 import
-import { setDoc, collection, doc } from "firebase/firestore";
+import { db } from "@/lib/firebase";
+import {
+  setDoc,
+  collection,
+  doc,
+  query,
+  where,
+  getDocs,
+} from "firebase/firestore";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 
 export async function POST(request) {
@@ -12,9 +19,7 @@ export async function POST(request) {
   const idToken = authorization.split("Bearer ")[1];
 
   try {
-    // request.json()으로 body 데이터를 파싱
     const body = await request.json();
-
     const { userId, userName, year, month, day, profileImage, bio, theme } =
       body;
 
@@ -25,12 +30,22 @@ export async function POST(request) {
           success: false,
           message: "필수 정보가 누락되었습니다.",
         }),
-        {
-          status: 400,
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
+        { status: 400, headers: { "Content-Type": "application/json" } }
+      );
+    }
+
+    // userId 중복 확인
+    const usersRef = collection(db, "users");
+    const q = query(usersRef, where("userId", "==", userId));
+    const querySnapshot = await getDocs(q);
+
+    if (!querySnapshot.empty) {
+      return new Response(
+        JSON.stringify({
+          success: false,
+          message: "이미 사용 중인 아이디입니다.",
+        }),
+        { status: 400, headers: { "Content-Type": "application/json" } }
       );
     }
 
@@ -39,7 +54,10 @@ export async function POST(request) {
 
     // 사용자가 이미 등록되어 있는지 확인
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-    const verifyResponse = await fetchWithAuth(`${baseUrl}/api/auth/verify`, {
+    const verifyResponse = await fetch(`${baseUrl}/api/auth/verify`, {
+      headers: {
+        Authorization: `Bearer ${idToken}`,
+      },
       method: "GET",
     });
 
@@ -51,12 +69,7 @@ export async function POST(request) {
           success: false,
           message: "이미 등록된 사용자입니다.",
         }),
-        {
-          status: 401,
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
+        { status: 401, headers: { "Content-Type": "application/json" } }
       );
     }
 
@@ -82,7 +95,7 @@ export async function POST(request) {
     }
 
     // setDoc을 사용하여 문서 추가
-    const docRef = await setDoc(doc(db, "users", verifyData.uid), {
+    await setDoc(doc(db, "users", verifyData.uid), {
       userId,
       userName,
       birthDate,
@@ -104,12 +117,7 @@ export async function POST(request) {
         uid: verifyData.uid,
         email: verifyData.email,
       }),
-      {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
+      { status: 200, headers: { "Content-Type": "application/json" } }
     );
   } catch (error) {
     console.error("Error adding user:", error);
@@ -120,12 +128,7 @@ export async function POST(request) {
         message: "사용자 등록 중 오류가 발생했습니다.",
         error: error.message,
       }),
-      {
-        status: 500,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
+      { status: 500, headers: { "Content-Type": "application/json" } }
     );
   }
 }

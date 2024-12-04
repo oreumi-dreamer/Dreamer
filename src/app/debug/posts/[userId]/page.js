@@ -3,6 +3,7 @@
 
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import CommentsDebug from "@/components/debug/Comments";
 import styles from "./page.module.css";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 
@@ -15,6 +16,7 @@ export default function UserProfile({ params }) {
   const [error, setError] = useState(null);
   const [nextCursor, setNextCursor] = useState(null);
   const [hasMore, setHasMore] = useState(true);
+  const [loadingSparkId, setLoadingSparkId] = useState(null); // 반짝 로딩 상태 관리
 
   const loadPosts = async (isLoadMore = false) => {
     try {
@@ -49,6 +51,39 @@ export default function UserProfile({ params }) {
   useEffect(() => {
     loadPosts();
   }, [userId]);
+
+  // 반짝 토글 핸들러 추가
+  const handleSparkToggle = async (postId) => {
+    try {
+      setLoadingSparkId(postId); // 로딩 시작
+      const response = await fetchWithAuth(`/api/post/spark/${postId}`);
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.error || "반짝 토글에 실패했습니다.");
+      }
+
+      const data = await response.json();
+
+      // posts 상태 업데이트
+      setPosts((prevPosts) =>
+        prevPosts.map((post) => {
+          if (post.id === postId) {
+            return {
+              ...post,
+              hasUserSparked: data.hasSparked,
+              sparkCount: data.sparkCount,
+            };
+          }
+          return post;
+        })
+      );
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoadingSparkId(null); // 로딩 완료
+    }
+  };
 
   const renderStars = (rating) => "★".repeat(rating) + "☆".repeat(5 - rating);
 
@@ -105,10 +140,19 @@ export default function UserProfile({ params }) {
               </div>
 
               <div className={styles.interactions}>
-                <span>반짝 {post.sparkCount}</span>
-                <span>댓글 {post.commentCount}</span>
+                <button
+                  onClick={() => handleSparkToggle(post.id)}
+                  disabled={loadingSparkId === post.id}
+                  className={`${styles.sparkButton} ${post.hasUserSparked ? styles.sparked : ""}`}
+                >
+                  {loadingSparkId === post.id
+                    ? "..."
+                    : `반짝 ${post.sparkCount}`}
+                </button>
+                <span>댓글 {post.commentsCount}</span>
               </div>
             </div>
+            <CommentsDebug postId={post.id} />
           </article>
         ))}
       </div>

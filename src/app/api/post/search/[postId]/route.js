@@ -1,7 +1,15 @@
 // 게시글 ID로 게시글을 조회하는 API
+// 게시글 수정 시 게시글 ID를 사용하여 게시글을 조회하는 경우 사용됨
 // /api/post/search/[postId]/route.js
 
-import { doc, getDoc } from "firebase/firestore";
+import {
+  doc,
+  getDoc,
+  collection,
+  query,
+  where,
+  getDocs,
+} from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { NextResponse } from "next/server";
 import { headers } from "next/headers";
@@ -41,10 +49,27 @@ export async function GET(request, { params }) {
       );
     }
 
+    // authorUid로 사용자 정보 조회
+    const usersRef = collection(db, "users");
+    const userQuery = query(
+      usersRef,
+      where("__name__", "==", postData.authorUid)
+    );
+    const userSnapshot = await getDocs(userQuery);
+
+    if (userSnapshot.empty) {
+      return NextResponse.json(
+        { error: "작성자 정보를 찾을 수 없습니다." },
+        { status: 404 }
+      );
+    }
+
+    const userData2 = userSnapshot.docs[0].data();
+
     // 비공개 게시글 접근 권한 체크
     if (
       postData.isPrivate &&
-      (!userData || userData.userId !== postData.authorId)
+      (!userData || userData.userId !== userData2.userId)
     ) {
       return NextResponse.json(
         { error: "접근 권한이 없습니다." },
@@ -59,8 +84,9 @@ export async function GET(request, { params }) {
       content: postData.content,
       createdAt: postData.createdAt?.toDate().toISOString(),
       updatedAt: postData.updatedAt?.toDate().toISOString(),
-      authorId: postData.authorId,
-      authorName: postData.authorName,
+      authorUid: postData.authorUid,
+      authorId: userData2.userId,
+      authorName: userData2.userName,
       imageUrls: postData.imageUrls,
       isPrivate: postData.isPrivate,
       sparkCount: postData.sparkCount,

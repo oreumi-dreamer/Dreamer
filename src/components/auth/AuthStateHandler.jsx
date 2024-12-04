@@ -22,7 +22,6 @@ export default function AuthStateHandler({ children }) {
       if (user) {
         try {
           const result = await checkUserExists(dispatch);
-          console.log("Auth check result:", result);
 
           if (result === true) {
             dispatch(setRegistrationComplete());
