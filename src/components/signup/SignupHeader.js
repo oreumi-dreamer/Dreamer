@@ -1,7 +1,9 @@
 import Image from "next/image";
+import styles from "./SignupHeader.module.css";
+
 export default function SignupHeader() {
   return (
-    <header>
+    <header className={styles["signup-header"]}>
       <h1>
         <Image
           src="/images/logo-full.svg"
