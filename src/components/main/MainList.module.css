@@ -10,7 +10,7 @@
 }
 .post-modal {
   margin: 0 0 0 48.3rem;
-  background-color: var(--background-lightgray);
+  /* background-color: var(--background-lightgray); */
   border: none;
   padding: 3.7rem 3.2rem 3.5rem 3.2rem;
 }
