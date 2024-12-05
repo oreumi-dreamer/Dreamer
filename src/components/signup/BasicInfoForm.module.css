@@ -2,4 +2,102 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 2.4rem;
+  width: 100%;
+  position: relative;
+}
+.signup-form p:first-of-type {
+  font-size: 3.6rem;
+  margin-bottom: 1.6rem;
+}
+
+.signup-form p:nth-of-type(2) {
+  font-size: 2rem;
+  margin-bottom: 4rem;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.invalid-text {
+  color: #a12525;
+}
+
+.form-field input {
+  width: 44rem;
+  height: 5.6rem;
+  background-color: #e8e8e8;
+  border: none;
+  border-radius: 1rem;
+  font-size: 2.4rem;
+  text-indent: 2rem;
+}
+
+.id-label,
+.name-label,
+.birth-label {
+  font-size: 2.4rem;
+  font-weight: bold;
+  width: 13.6rem;
+}
+
+/* .form-field label::after {
+  content: url(/images/invalid.svg);
+  position: relative;
+  top: 5.5rem;
+  right: 0rem;
+} */
+
+.form-field .input-wrapper input:last-of-type {
+  width: 12.4rem;
+}
+
+.signup-form .user-login-field p {
+  font-size: 1.6rem;
+  margin: 4rem 0 0.8rem 0;
+}
+
+.input-wrapper {
+  display: flex;
+  gap: 0.8rem;
+}
+
+.input-wrapper select {
+  /* width: 100%; */
+  width: 12.6rem;
+  height: 5.6rem;
+  background-color: #e8e8e8;
+  border: none;
+  border-radius: 1rem;
+  font-size: 2.4rem;
+  text-indent: 2rem;
+}
+.input-wrapper select:first-of-type {
+  width: 16rem;
+  margin-right: 1.6rem;
+}
+
+.login-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.login-buttons li:last-of-type {
+  position: relative;
+  top: 1rem;
+}
+
+.next-btn {
+  width: 8.6rem;
+  height: 4.7rem;
+  background-color: #f89b9b;
+  border-radius: 1rem;
+  font-size: 2.4rem;
+  color: #ffffff;
+  position: absolute;
+  right: 4rem;
+  bottom: -2.1rem;
 }
