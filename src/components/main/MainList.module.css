@@ -24,7 +24,7 @@
 }
 
 .post-info-section {
-  padding-left: 0;
+  padding: 0 0 0 0;
   display: flex;
   justify-content: space-between;
 }
@@ -45,7 +45,6 @@
   flex-wrap: wrap;
   max-width: 12.7rem;
   font-size: 3.2rem;
-  margin-bottom: 1.6rem;
 }
 
 .uploaded-time {
