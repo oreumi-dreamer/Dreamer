@@ -248,11 +248,11 @@ export default function PostModal() {
               <li>
                 <input
                   type="checkbox"
-                  onChange={handleCheckboxClick}
-                  className={styles["checkbox-hide"]}
                   id="oneiromancy"
+                  className={styles["checkbox-hide"]}
+                  onChange={handleCheckboxClick}
                 />
-                <label className={styles["checkbox"]} htmlFor="oneiromancy">
+                <label htmlFor="oneiromancy" className={styles["checkbox"]}>
                   꿈해몽
                 </label>
               </li>
@@ -260,11 +260,11 @@ export default function PostModal() {
               <li>
                 <input
                   type="checkbox"
-                  onChange={handleCheckboxClick}
-                  className={styles["checkbox-hide"]}
                   id="private"
+                  className={styles["checkbox-hide"]}
+                  onChange={handleCheckboxClick}
                 />
-                <label className={styles["checkbox"]} htmlFor="private">
+                <label htmlFor="private" className={styles["checkbox"]}>
                   비공개
                 </label>
               </li>
