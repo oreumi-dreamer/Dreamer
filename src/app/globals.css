@@ -21,6 +21,8 @@
   --dotted-color: #7e7e7e;
   --scroll-bar-color: #8a8a8a;
   --dark-mode-text: #eef0de;
+  --hover-btn-color: #cd6969;
+  --active-btn-color: #903434;
 }
 
 html {

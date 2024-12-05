@@ -4,8 +4,10 @@ import React, { useEffect, useRef, useState } from "react";
 import styles from "./Header.module.css";
 import Link from "next/link";
 import { MoreModal, ChangeModeModal } from "./HeaderModal";
+import { openModal, closeModal } from "@/store/modalSlice";
 
 export default function Header() {
+  // const dispatch = useDispatch();
   const buttonRef = useRef(null);
   const modalRef = useRef(null);
   const [isActive, setIsActive] = useState("홈");
@@ -13,19 +15,16 @@ export default function Header() {
   const [openModalName, setOpenModalName] = useState(null);
   const [modalStyle, setModalStyle] = useState({});
 
-  const handleButtonClick = (e) => {
-    const buttons = document.querySelectorAll("button");
-    const clickedBtn = e.currentTarget;
-    const btnText = clickedBtn.textContent;
+  const navItems = [
+    { label: "홈", className: "home-btn" },
+    { label: "검색", className: "search-btn" },
+    { label: "메세지", className: "message-btn" },
+    { label: "알람", className: "alarm-btn" },
+    { label: "글쓰기", className: "writing-btn" },
+  ];
 
-    setIsActive(btnText);
-
-    buttons.forEach((button) => {
-      if (button !== clickedBtn) {
-        button.classList.remove(styles.active);
-      }
-    });
-    clickedBtn.classList.add(styles.active);
+  const handleButtonClick = (modalType) => {
+    setIsActive(modalType);
   };
 
   const handleClickMoreBtn = (e) => {
@@ -79,46 +78,18 @@ export default function Header() {
       <div className={styles["header-btn-container"]}>
         <nav>
           <ul className={styles.nav}>
-            <li className={styles["nav-items"]}>
-              <button
-                className={`${styles["home-btn"]} ${styles.active}`}
-                onClick={handleButtonClick}
-              >
-                홈
-              </button>
-            </li>
-            <li className={styles["nav-items"]}>
-              <button
-                className={styles["search-btn"]}
-                onClick={handleButtonClick}
-              >
-                검색
-              </button>
-            </li>
-            <li className={styles["nav-items"]}>
-              <button
-                className={styles["message-btn"]}
-                onClick={handleButtonClick}
-              >
-                메시지
-              </button>
-            </li>
-            <li className={styles["nav-items"]}>
-              <button
-                className={styles["alarm-btn"]}
-                onClick={handleButtonClick}
-              >
-                알림
-              </button>
-            </li>
-            <li className={styles["nav-items"]}>
-              <button
-                className={styles["writing-btn"]}
-                onClick={handleButtonClick}
-              >
-                글쓰기
-              </button>
-            </li>
+            {navItems.map((item) => (
+              <li key={item.label} className={styles["nav-items"]}>
+                <button
+                  className={`${styles[`${item.className}`]} ${
+                    isActive === item.label ? styles.active : ""
+                  }`}
+                  onClick={() => handleButtonClick(item.label)}
+                >
+                  {item.label}
+                </button>
+              </li>
+            ))}
           </ul>
         </nav>
         <button className={styles["profile-btn"]} onClick={handleButtonClick}>
@@ -134,20 +105,12 @@ export default function Header() {
         </button>
         {openModalName === "더보기" && isOpenModal && (
           <div ref={modalRef} style={modalStyle}>
-            <MoreModal
-              setOpenModalName={setOpenModalName}
-              isOpen={isOpenModal}
-              onClose={handleCloseModal}
-            />
+            <MoreModal onClose={handleCloseModal} />
           </div>
         )}
         {openModalName === "모드 전환" && isOpenModal && (
           <div ref={modalRef} style={modalStyle}>
-            <ChangeModeModal
-              setOpenModalName={setOpenModalName}
-              isOpen={isOpenModal}
-              onClose={handleCloseModal}
-            />
+            <ChangeModeModal onClose={handleCloseModal} />
           </div>
         )}
       </div>
