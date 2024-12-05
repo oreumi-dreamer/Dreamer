@@ -145,19 +145,23 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
                 </option>
               ))}
             </select>
-            <input
-              type="number"
-              id="birthDay"
+            <select
+              id="birth-day"
               name="birthDay"
-              min="1"
-              max={lastDay}
-              value={day}
               onChange={(e) => {
                 const value = Math.min(Math.max(1, e.target.value), 31);
                 setDay(value);
               }}
+              value={day}
               required
-            />
+            >
+              <option value="1">일</option>
+              {Array.from({ length: lastDay }, (_, i) => (
+                <option key={`day-${i + 1}`} value={i + 1}>
+                  {i + 1}일
+                </option>
+              ))}
+            </select>
           </div>
           <span className={styles["invalid-text"]}>보조텍스트</span>
         </div>
