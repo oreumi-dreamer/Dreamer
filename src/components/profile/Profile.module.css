@@ -1,3 +1,5 @@
+/* profile */
+
 .profile-main {
   margin: 16.6rem auto 0 auto;
   background-color: var(--background-color);
@@ -6,13 +8,15 @@
 
 .profile-container {
   width: 76.5rem;
-  padding: 7.5rem 1rem;
   display: flex;
 }
 
 .profile-wrap {
   display: flex;
   margin: auto;
+  width: 72rem;
+  padding: 4.3rem 10.9rem 4.3rem 5.1rem;
+  border-bottom: 2px dashed var(--gray-font-color);
 }
 
 .profile-wrap img {
@@ -20,53 +24,83 @@
 }
 
 .profile-name-wrap,
-.profile-stat,
 .profile-bio {
-  padding-left: 4.5rem;
+  margin-left: 4.5rem;
 }
 
 .profile-name-wrap {
-  display: grid;
-  grid-template-columns: auto;
-  grid-template-areas:
-    "name btn"
-    "id id";
+  display: flex;
 }
 
-.profile-id {
-  grid-area: id;
+.profile-name-id {
+  display: flex;
+  flex-direction: column;
 }
 
 .profile-name {
   font-size: 3.6rem;
-  grid-area: name;
 }
 
-.follow-btn {
-  background-color: var(--background-white);
+.profile-btn {
+  background-color: var(--deep-pink-color);
+  color: var(--background-white);
   border-radius: 0.5rem;
   padding: 0.5rem 1rem;
   font-size: 1.3rem;
-  grid-area: btn;
-  margin: 0.4rem;
+  margin: 1rem 0 2.4rem 1.2rem;
+}
+
+.profile-btn:hover {
+  background-color: var(--hover-btn-color);
+}
+
+.profile-btn.active {
+  background-color: var(--active-btn-color);
 }
 
 .profile-stat {
   display: flex;
+  margin-bottom: 0.8rem;
+  margin-left: 3.5rem;
+}
+
+.profile-stat dt {
+  margin-right: 0.5rem;
+}
+
+.profile-stat dd {
+  margin-right: 1.4rem;
+}
+
+.profile-bio {
+  font-size: 1.5rem;
+  width: 21rem;
+}
+
+/* post */
+
+.posts-container {
+  width: 72rem;
+  padding: 0 1.2rem; 
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  place-items: center;
+  margin: 3rem auto 0 auto;
+  gap: 2.32rem;
 }
 
 .post-wrap {
-  width: 18rem;
-  height: 18rem;
+  width: 20.8rem;
+  height: 20.8rem;
   background-color: var(--background-white);
   border-radius: 1.5rem;
-  padding: 2rem;
+  padding: 2.6rem 2rem;
   position: relative;
 }
 
 .post-title {
-  width: 12rem;
-  font-size: 1.4rem;
+  width: 15rem;
+  font-size: 1.6rem;
   font-weight: 700;
 }
 
@@ -78,22 +112,29 @@
   width: 1.5rem;
   height: 1.5rem;
   position: absolute;
-  top: 2rem;
+  top: 2.6rem;
   right: 2rem;
 }
 
 .post-text {
-  width: 14rem;
-  height: 9rem;
-  overflow: hidden;
-  padding-top: 1.5rem;
+  width: 16.8rem;
+  height: 9.6rem;
+  margin: 1.5rem 0 0.9rem 0;
   font-size: 1.2rem;
-  line-height: 1.25rem;
+  line-height: 1.6rem;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 6;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .post-btn-container {
-  margin-top: 1rem;
   display: flex;
+}
+
+.post-btn-container dd {
+  margin: 0 1rem 0 0.4rem;
 }
 
 .post-btn-container dt:last-child {
