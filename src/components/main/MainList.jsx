@@ -75,7 +75,7 @@ export default function MainList() {
 
 
   useEffect(() => {
-    // fetch("http://localhost:17777/api/post/search", {
+    // fetch("/api/post/search", {
     //     method: "GET",
     //     headers: {
     //     "Content-Type": "application/json",
@@ -152,7 +152,7 @@ export default function MainList() {
                 <li>
                   <button>
                     <Image
-                      src="/images/share.svg"
+                      src="/images/comment.svg"
                       alt="공유하기"
                       width={30}
                       height={30}
