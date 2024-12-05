@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import styles from "./PostModal.module.css";
 import Image from "next/image";
 import Link from "next/link";
@@ -10,13 +10,13 @@ export default function PostModal() {
   const [isOneiromancy, setOneiromancy] = useState(false);
   const [isPrivate, setIsPrivate] = useState(false);
   const [comment, setComment] = useState(undefined);
+  const commentRef = useRef(null);
 
   // 임시 적용
   const user = null;
 
   const handleViewPost = async () => {
-    const postId = 1;
-
+    // const postId = 1;
     // const posts = await fetch(`/api/post/search/${[postId]}`);
     // const data = await posts.json();
     // console.log(posts);
@@ -29,6 +29,7 @@ export default function PostModal() {
       return exitAnswer ? setIsModalOpen(false) : setIsModalOpen(true);
     }
     setIsModalOpen(false);
+    commentRef.current.parentElement.classList.add(styles["text-long"]);
   }
 
   if (!isModalOpen) {
@@ -63,7 +64,9 @@ export default function PostModal() {
   }
 
   function handleCommentClick(e) {
-    e.currentTarget.classList.toggle(styles["comment-open"]);
+    if (e.currentTarget.querySelector("p").textContent.length >= 127) {
+      e.currentTarget.classList.toggle(styles["comment-open"]);
+    }
   }
 
   return (
@@ -210,7 +213,13 @@ export default function PostModal() {
               </p>
             )}
 
-            <Image width={555} height={330} alt="임시 이미지"></Image>
+            <Image
+              src={"" || "https://via.placeholder.com/555x330"}
+              width={555}
+              height={330}
+              alt="임시 이미지"
+              unoptimized
+            ></Image>
           </section>
         </section>
         <section>
@@ -246,11 +255,11 @@ export default function PostModal() {
               <li>
                 <input
                   type="checkbox"
-                  onChange={handleCheckboxClick}
-                  className={styles["checkbox-hide"]}
                   id="oneiromancy"
+                  className={styles["checkbox-hide"]}
+                  onChange={handleCheckboxClick}
                 />
-                <label className={styles["checkbox"]} htmlFor="oneiromancy">
+                <label htmlFor="oneiromancy" className={styles["checkbox"]}>
                   꿈해몽
                 </label>
               </li>
@@ -258,11 +267,11 @@ export default function PostModal() {
               <li>
                 <input
                   type="checkbox"
-                  onChange={handleCheckboxClick}
-                  className={styles["checkbox-hide"]}
                   id="private"
+                  className={styles["checkbox-hide"]}
+                  onChange={handleCheckboxClick}
                 />
-                <label className={styles["checkbox"]} htmlFor="private">
+                <label htmlFor="private" className={styles["checkbox"]}>
                   비공개
                 </label>
               </li>
@@ -291,7 +300,7 @@ export default function PostModal() {
               <ul className={styles["comment-info"]}>
                 <li>
                   <Link href="/">
-                    <span>{"JIh2"}</span>@jhjh
+                    <span>{"JIh2"}</span> @jhjh
                   </Link>
                 </li>
                 <li>
@@ -329,7 +338,7 @@ export default function PostModal() {
               ></Image>
 
               {/* 글자 수 추후 데이터 불러왔을 때 변수 설정 후 수정 */}
-              <p>
+              <p ref={commentRef}>
                 {
                   "안녕하세요 꿈 과학자 입니다. 저의 소견으로는 당신의 현재 상황에 대한 불안함을 갖고 있던 일이, 곧 좋은 기회를 얻어 좋게 풀려나갈 좋은 징조라고 보여집니다. 이런 경우 외계인은 금전운을 뜻하며, 친구는 영혼의 동반자를 의미할것이라고 예상됩니다. 요즘 말로 소울메이트 같은 존재라는 거죠. 항상 좋은일 가득하시길 바랍니다~^^*"
                 }

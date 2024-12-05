@@ -1,8 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
+import styles from "./BasicInfoForm.module.css";
 
-export default function BasicInfoForm({ onSubmit, formData, setters, styles }) {
+export default function BasicInfoForm({ onSubmit, formData, setters }) {
   const { userId, userName, year, month, day } = formData;
   const { setUserId, setUserName, setYear, setMonth, setDay } = setters;
   const [lastDay, setLastDay] = useState(31);
@@ -50,11 +52,17 @@ export default function BasicInfoForm({ onSubmit, formData, setters, styles }) {
   const todayYear = new Date().getFullYear();
 
   return (
-    <form id="signupFormFirst" noValidate onSubmit={onSubmit}>
+    <form
+      id="signupFormFirst"
+      noValidate
+      onSubmit={onSubmit}
+      className={styles["signup-form"]}
+    >
+      <p>안녕하세요! 드리머가 되신것을 환영합니다.</p>
       <p>시작하기에 앞서, 궁금한게 있어요. 당신에 대해 알려주세요!</p>
 
       <fieldset>
-        <legend>기본 정보</legend>
+        <legend className="sr-only">기본 정보</legend>
 
         <div className="form-field">
           <label htmlFor="userId">아이디</label>
@@ -67,6 +75,7 @@ export default function BasicInfoForm({ onSubmit, formData, setters, styles }) {
             required
           />
         </div>
+        {/* <span>아이디 양식을 맞춰주세요(아이디 형식 표기)</span> */}
 
         <div className="form-field">
           <label htmlFor="userName">이름</label>
@@ -126,6 +135,32 @@ export default function BasicInfoForm({ onSubmit, formData, setters, styles }) {
             />
             <span className="icon">일</span>
           </div>
+        </div>
+
+        <div>
+          <p>이미 회원이신가요? 로그인하여 꿈을 공유해보세요!</p>
+          <ul className={styles["login-buttons"]}>
+            <li>
+              <button type="button">
+                <Image
+                  src="/images/google-logo.svg"
+                  width={40}
+                  height={40}
+                  alt="google 로그인"
+                ></Image>
+              </button>
+            </li>
+            <li>
+              <button type="button">
+                <Image
+                  src="/images/mail.svg"
+                  width={20}
+                  height={20}
+                  alt="이메일 로그인"
+                ></Image>
+              </button>
+            </li>
+          </ul>
         </div>
       </fieldset>
 

@@ -10,6 +10,7 @@ import { validateFirstForm, validateSecondForm } from "@/utils/validation";
 import Loading from "@/components/Loading";
 import { useDispatch, useSelector } from "react-redux";
 import { checkUserExists } from "@/utils/auth/checkUser";
+import SignupHeader from "@/components/signup/SignupHeader";
 
 export default function Signup() {
   const router = useRouter();
@@ -150,13 +151,11 @@ export default function Signup() {
   });
 
   return (
-    <>
-      <header>
-        <h1>Dreamer</h1>
-      </header>
-      <main>
+    <body className={styles["signup-body"]}>
+      <main className={styles["signup-main"]}>
+        <SignupHeader />
         <h2 className="sr-only">회원 가입</h2>
-        {isLoading && <div>처리중...</div>}
+        {isLoading && <Loading />}
         {error && <div className={styles.error}>{error}</div>}
         {isJoined ? (
           <Loading />
@@ -183,6 +182,6 @@ export default function Signup() {
           </>
         )}
       </main>
-    </>
+    </body>
   );
 }
