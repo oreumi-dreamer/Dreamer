@@ -1,10 +1,10 @@
 .footer {
-  width: 45rem;
   height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-right: 10.5rem;
 }
 
 .footer-search-inp {
