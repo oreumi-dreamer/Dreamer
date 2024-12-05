@@ -13,7 +13,7 @@
 
 .signup-form p:nth-of-type(2) {
   font-size: 2rem;
-  margin-bottom: 4rem;
+  margin-bottom: 2.4rem;
 }
 
 .form-field {
@@ -40,6 +40,7 @@
   font-weight: bold;
   width: 13.6rem;
   position: relative;
+  margin-top: 1.6rem;
 }
 
 .form-field label img {
@@ -55,6 +56,7 @@
 .signup-form .user-login-field p {
   font-size: 1.6rem;
   margin: 4rem 0 0.8rem 0;
+  text-align: center;
 }
 
 .input-wrapper {
