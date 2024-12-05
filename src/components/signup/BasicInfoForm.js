@@ -66,7 +66,12 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
 
         <div className={styles["form-field"]}>
           <label htmlFor="userId">
-            <Image src="/Images/invalid.svg" width={40} height={40} />
+            <Image
+              src="/Images/invalid.svg"
+              width={40}
+              height={40}
+              alt="유효하지 않은 아이디"
+            />
             아이디
           </label>
           <input
@@ -82,7 +87,12 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
 
         <div className={styles["form-field"]}>
           <label htmlFor="userName">
-            <Image src="/Images/invalid.svg" width={40} height={40} />
+            <Image
+              src="/Images/invalid.svg"
+              width={40}
+              height={40}
+              alt="유효하지 않은 이름"
+            />
             이름
           </label>
           <input
@@ -98,7 +108,12 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
 
         <div className={styles["form-field"]}>
           <label htmlFor="birthDate">
-            <Image src="/Images/invalid.svg" width={40} height={40} />
+            <Image
+              src="/Images/invalid.svg"
+              width={40}
+              height={40}
+              alt="유효하지 않은 생일"
+            />
             생일
           </label>
           <div className={styles["input-wrapper"]}>
