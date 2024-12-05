@@ -67,8 +67,8 @@ export default function Header() {
   return (
     <header className={styles.header}>
       <h1 className={styles.logo}>
-        <Link href={"#"}>
-          <img src="/images/logo-full.svg" alt="logo" />
+        <Link href="/">
+          <img src="/images/logo-full.svg" alt="DREAMER" />
         </Link>
       </h1>
       <button
