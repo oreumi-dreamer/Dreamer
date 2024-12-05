@@ -12,7 +12,28 @@ export default function MainList() {
       title: "",
       content: "",
       uploadedTime: "",
-      imageList: [],
+      imageList: [
+        {
+          id: "image0001",
+          src: "/images/image.svg"
+        },
+        {
+          id: "image0002",
+          src: "/images/image.svg"
+        },
+        {
+          id: "image0003",
+          src: "/images/image.svg"
+        },
+        {
+          id: "image0004",
+          src: "/images/image.svg"
+        },
+        {
+          id: "image0005",
+          src: "/images/image.svg"
+        },
+      ],
       commentList: [],
       commentCount: 0,
       favoriteCount: 0,
@@ -24,7 +45,28 @@ export default function MainList() {
       title: "",
       content: "",
       uploadedTime: "",
-      imageList: [],
+      imageList: [
+        {
+          id: "image0001",
+          src: "/images/image.svg"
+        },
+        {
+          id: "image0002",
+          src: "/images/image.svg"
+        },
+        {
+          id: "image0003",
+          src: "/images/image.svg"
+        },
+        {
+          id: "image0004",
+          src: "/images/image.svg"
+        },
+        {
+          id: "image0005",
+          src: "/images/image.svg"
+        },
+      ],
       commentList: [],
       commentCount: 0,
       favoriteCount: 0,
@@ -36,7 +78,28 @@ export default function MainList() {
       title: "",
       content: "",
       uploadedTime: "",
-      imageList: [],
+      imageList: [
+        {
+          id: "image0001",
+          src: "/images/image.svg"
+        },
+        {
+          id: "image0002",
+          src: "/images/image.svg"
+        },
+        {
+          id: "image0003",
+          src: "/images/image.svg"
+        },
+        {
+          id: "image0004",
+          src: "/images/image.svg"
+        },
+        {
+          id: "image0005",
+          src: "/images/image.svg"
+        },
+      ],
       commentList: [],
       commentCount: 0,
       favoriteCount: 0,
@@ -48,7 +111,28 @@ export default function MainList() {
       title: "",
       content: "",
       uploadedTime: "",
-      imageList: [],
+      imageList: [
+        {
+          id: "image0001",
+          src: "/images/image.svg"
+        },
+        {
+          id: "image0002",
+          src: "/images/image.svg"
+        },
+        {
+          id: "image0003",
+          src: "/images/image.svg"
+        },
+        {
+          id: "image0004",
+          src: "/images/image.svg"
+        },
+        {
+          id: "image0005",
+          src: "/images/image.svg"
+        },
+      ],
       commentList: [],
       commentCount: 0,
       favoriteCount: 0,
@@ -60,7 +144,28 @@ export default function MainList() {
       title: "",
       content: "",
       uploadedTime: "",
-      imageList: [],
+      imageList: [
+        {
+          id: "image0001",
+          src: "/images/image.svg"
+        },
+        {
+          id: "image0002",
+          src: "/images/image.svg"
+        },
+        {
+          id: "image0003",
+          src: "/images/image.svg"
+        },
+        {
+          id: "image0004",
+          src: "/images/image.svg"
+        },
+        {
+          id: "image0005",
+          src: "/images/image.svg"
+        },
+      ],
       commentList: [],
       commentCount: 0,
       favoriteCount: 0,
@@ -120,7 +225,7 @@ export default function MainList() {
               <section className={styles["post-text"]}>
                 <h3 className="sr-only">본문 내용</h3>
                 <div className={styles["post-text-header"]}></div>
-                <div   className={styles["post-text-content"]}>
+                <p   className={styles["post-text-content"]}>
                   나는 오늘 꿈에서<Link href="/">친구</Link>를 만났다.
                   {/* <br /> */}
                   친구와놀이터에 가서 놀았다.
@@ -132,8 +237,8 @@ export default function MainList() {
                   국가는 무엇을 하는가 우리의 세금은 잔뜩 가져가면서
                   {/* <br /> */}
                   침공에 대한 방안에는 무엇이 있는가 내일까지 작성해오세요.
-                </div>
-                <Image width={555} height={250}></Image>
+                </p>
+                <Image width={100} height={100}></Image>
               </section>
 
               <section   

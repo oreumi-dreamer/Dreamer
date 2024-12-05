@@ -10,7 +10,6 @@
 }
 .post-modal {
   margin: 0 0 0 48.3rem;
-  /* background-color: var(--background-lightgray); */
   border: none;
   padding: 3.7rem 3.2rem 3.5rem 3.2rem;
 }
@@ -89,6 +88,7 @@
 }
 
 .post-text {
+  width: 555px;
   max-width: 63.3rem;
   max-height: 80.3rem;
   background-color: var(--background-white);
