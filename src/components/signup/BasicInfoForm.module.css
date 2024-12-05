@@ -49,10 +49,6 @@
   right: -36rem;
 }
 
-.form-field .input-wrapper input:last-of-type {
-  width: 12.4rem;
-}
-
 .signup-form .user-login-field p {
   font-size: 1.6rem;
   margin: 4rem 0 0.8rem 0;
@@ -65,7 +61,6 @@
 }
 
 .input-wrapper select {
-  /* width: 100%; */
   width: 12.6rem;
   height: 5.6rem;
   background-color: #e8e8e8;
