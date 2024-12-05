@@ -89,10 +89,9 @@ export default function MainList() {
   return (
     <>
       {/* <div className={styles.dimmed}></div> */}
-      <dialog className={styles["post-modal"]} open>
+      <main className={styles["post-modal"]} open>
         
-        {dreamItemList.map(function (item) {
-          return (
+        {dreamItemList.map((item) => (
             <section  key={item.id}   className={styles["each-item-section"]}   >
               <h2 className="sr-only">글 본문 내용 확인</h2>
               <section className={styles["post-info-section"]}>
@@ -175,7 +174,6 @@ export default function MainList() {
                     </button>
                   </li>
                 </ul>
-
                 <ul    className={styles["button-list-sub"]}>
                   <li>
                   <Image
@@ -186,14 +184,12 @@ export default function MainList() {
                   ></Image>
                   </li>
                 </ul>
-
               </section>
-
             </section>
           )
-        })}
+        )}
 
-      </dialog>
+      </main>
     </>
   );
 }
