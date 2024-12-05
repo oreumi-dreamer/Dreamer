@@ -212,7 +212,13 @@ export default function PostModal() {
               </p>
             )}
 
-            <Image width={555} height={330} alt="임시 이미지"></Image>
+            <Image
+              src={"" || "https://via.placeholder.com/555x330"}
+              width={555}
+              height={330}
+              alt="임시 이미지"
+              unoptimized
+            ></Image>
           </section>
         </section>
         <section>
