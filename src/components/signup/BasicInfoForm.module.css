@@ -35,20 +35,18 @@
   text-indent: 2rem;
 }
 
-.id-label,
-.name-label,
-.birth-label {
+.form-field label {
   font-size: 2.4rem;
   font-weight: bold;
   width: 13.6rem;
+  position: relative;
 }
 
-/* .form-field label::after {
-  content: url(/images/invalid.svg);
-  position: relative;
-  top: 5.5rem;
-  right: 0rem;
-} */
+.form-field label img {
+  position: absolute;
+  top: 3.5rem;
+  right: -36rem;
+}
 
 .form-field .input-wrapper input:last-of-type {
   width: 12.4rem;
