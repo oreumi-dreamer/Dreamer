@@ -260,9 +260,9 @@ export default function MainList() {
                         height={30}
                       ></Image>
                     </button>
-                    <span>{"99"}반짝</span>
+                    <span>99반짝</span>
                   </li>
-                  <li>
+                  <li   className={styles["li-button"]}>
                     <button>
                       <Image
                         src="/images/comment.svg"
@@ -271,7 +271,7 @@ export default function MainList() {
                         height={30}
                       ></Image>
                     </button>
-                    <span>{"99"}댓글</span>
+                    <label   className={styles["button-list-span"]}   >{"99"}댓글</label>
                   </li>
                   <li>
                     <button>

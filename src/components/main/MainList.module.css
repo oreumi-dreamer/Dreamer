@@ -57,7 +57,6 @@
   justify-content: space-between;
 }
 
-
 .button-list-bottom {
   display: flex;
   justify-content: start;
@@ -68,6 +67,15 @@
   display: flex;
   justify-content: end;
   gap: 1.5rem;
+}
+
+.button-list-span {
+  display: inline-block;
+  margin: 0 0 4rem 0;
+}
+
+.li-button {
+  max-height: 20px;
 }
 
 .button-list {
