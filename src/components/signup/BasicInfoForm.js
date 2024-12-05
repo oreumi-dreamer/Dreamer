@@ -64,8 +64,10 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
       <fieldset>
         <legend className="sr-only">기본 정보</legend>
 
-        <div className="form-field">
-          <label htmlFor="userId">아이디</label>
+        <div className={styles["form-field"]}>
+          <label htmlFor="userId" className={styles["id-label"]}>
+            아이디
+          </label>
           <input
             type="text"
             id="userId"
@@ -74,11 +76,13 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
             value={userId}
             required
           />
+          <span className={styles["invalid-text"]}>보조텍스트</span>
         </div>
-        {/* <span>아이디 양식을 맞춰주세요(아이디 형식 표기)</span> */}
 
-        <div className="form-field">
-          <label htmlFor="userName">이름</label>
+        <div className={styles["form-field"]}>
+          <label htmlFor="userName" className={styles["name-label"]}>
+            이름
+          </label>
           <input
             type="text"
             id="userName"
@@ -87,11 +91,14 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
             value={userName}
             required
           />
+          <span className={styles["invalid-text"]}>보조텍스트</span>
         </div>
 
-        <div className="form-field">
-          <label htmlFor="birthDate">생일</label>
-          <div className="input-wrapper">
+        <div className={styles["form-field"]}>
+          <label htmlFor="birthDate" className={styles["birth-label"]}>
+            생일
+          </label>
+          <div className={styles["input-wrapper"]}>
             <select
               id="birth-year"
               name="birthYear"
@@ -133,11 +140,12 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
               }}
               required
             />
-            <span className="icon">일</span>
+            <span className="icon"></span>
           </div>
+          <span className={styles["invalid-text"]}>보조텍스트</span>
         </div>
 
-        <div>
+        <div className={styles["user-login-field"]}>
           <p>이미 회원이신가요? 로그인하여 꿈을 공유해보세요!</p>
           <ul className={styles["login-buttons"]}>
             <li>
@@ -147,7 +155,7 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
                   width={40}
                   height={40}
                   alt="google 로그인"
-                ></Image>
+                />
               </button>
             </li>
             <li>
@@ -157,16 +165,15 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
                   width={20}
                   height={20}
                   alt="이메일 로그인"
-                ></Image>
+                />
               </button>
             </li>
           </ul>
         </div>
       </fieldset>
 
-      <button type="submit">
+      <button type="submit" className={styles["next-btn"]}>
         <span>다음</span>
-        <img src="/arrow-icon.png" alt="" aria-hidden="true" />
       </button>
     </form>
   );
