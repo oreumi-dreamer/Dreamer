@@ -15,7 +15,9 @@ function MoreModal({ setOpenModalName, isOpen, onClose }) {
   return (
     <ul className={styles["more-modal"]} ref={modalRef}>
       <li className={styles["modal-items"]}>
-        <button className={styles["setting-btn"]}>계정 설정</button>
+        <Link href="/account" className={styles["setting-btn"]}>
+          계정 설정
+        </Link>
       </li>
       <li className={styles["modal-items"]}>
         <button
