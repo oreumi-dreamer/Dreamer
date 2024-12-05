@@ -125,6 +125,11 @@
   border-radius: 1.3rem;
 }
 
+.post-text-wrap-image {
+  display: flex;
+  margin: 0 2rem 0 2rem;
+}
+
 .post-text-header {
   display: flex;
   justify-content: space-between;

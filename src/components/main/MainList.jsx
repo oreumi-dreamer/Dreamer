@@ -239,9 +239,11 @@ export default function MainList() {
                   침공에 대한 방안에는 무엇이 있는가 내일까지 작성해오세요.
                 </p>
 
-                {item.imageList.map((imgItem) => (
-                  <Image  src={imgItem.src}    width={100} height={100}></Image>
-                ))}
+                <div   className={styles["post-text-wrap-image"]}  >
+                  {item.imageList.map((imgItem) => (
+                    <Image  src={imgItem.src}    width={100} height={100}></Image>
+                  ))}
+                </div>
 
               </section>
 
