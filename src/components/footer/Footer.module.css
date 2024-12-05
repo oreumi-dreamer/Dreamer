@@ -2,9 +2,8 @@
   height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  margin-right: 10.5rem;
+  margin: 19.1rem 10.5rem 0 0;
 }
 
 .footer-search-inp {
