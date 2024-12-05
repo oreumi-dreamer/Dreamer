@@ -65,7 +65,8 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
         <legend className="sr-only">기본 정보</legend>
 
         <div className={styles["form-field"]}>
-          <label htmlFor="userId" className={styles["id-label"]}>
+          <label htmlFor="userId">
+            <Image src="/Images/invalid.svg" width={40} height={40} />
             아이디
           </label>
           <input
@@ -80,7 +81,8 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
         </div>
 
         <div className={styles["form-field"]}>
-          <label htmlFor="userName" className={styles["name-label"]}>
+          <label htmlFor="userName">
+            <Image src="/Images/invalid.svg" width={40} height={40} />
             이름
           </label>
           <input
@@ -95,7 +97,8 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
         </div>
 
         <div className={styles["form-field"]}>
-          <label htmlFor="birthDate" className={styles["birth-label"]}>
+          <label htmlFor="birthDate">
+            <Image src="/Images/invalid.svg" width={40} height={40} />
             생일
           </label>
           <div className={styles["input-wrapper"]}>
