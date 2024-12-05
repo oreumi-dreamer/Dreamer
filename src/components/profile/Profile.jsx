@@ -7,6 +7,7 @@ import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 
 export default function Profile({ userName }) {
   const [profile, setProfile] = useState(null);
+  const [posts, setPosts] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -18,22 +19,28 @@ export default function Profile({ userName }) {
       let data = null;
       if (res.ok) {
         data = await res.json();
+        setPosts(data);
+        setProfile({
+          name: data.userName,
+          id: data.userId,
+          bio: data.bio,
+          length: data.length,
+          profileImageUrl: data.profileImageUrl,
+        });
       }
 
-      setProfile(data);
+      setLoading(false);
     };
 
     getProfile();
-
-    setLoading(false);
   }, [userName]);
-
-  if (!profile) {
-    return <div>사용자를 찾을 수 없습니다.</div>;
-  }
 
   if (loading) {
     return <div>로드 중...</div>;
+  }
+
+  if (!posts) {
+    return <div>사용자를 찾을 수 없습니다.</div>;
   }
 
   return (
@@ -42,12 +49,22 @@ export default function Profile({ userName }) {
         <section className={styles["profile-container"]}>
           <article className={styles["profile-wrap"]}>
             <h2 className="sr-only">프로필</h2>
-            <img src="/images/rabbit.svg" alt="프로필 이미지" />
+            <img
+              src={
+                profile.profileImageUrl
+                  ? profile.profileImageUrl
+                  : "/images/rabbit.svg"
+              }
+              className={styles["profile-image"]}
+              width={160}
+              height={160}
+              alt={profile.name + "님의 프로필 이미지"}
+            />
             <div className={styles["profile-info"]}>
               <div className={styles["profile-name-wrap"]}>
                 <div className={styles["profile-name-id"]}>
-                  <div className={styles["profile-name"]}>JINI</div>
-                  <div className={styles["profile-id"]}>@jini</div>
+                  <div className={styles["profile-name"]}>{profile.name}</div>
+                  <div className={styles["profile-id"]}>@{profile.id}</div>
                 </div>
                 <button className={`${styles["profile-btn"]} ${styles.active}`}>
                   팔로잉
@@ -55,21 +72,19 @@ export default function Profile({ userName }) {
               </div>
               <dl className={styles["profile-stat"]}>
                 <dt>게시물</dt>
-                <dd>9개</dd>
+                <dd>{profile.length}개</dd>
                 <dt>팔로우</dt>
                 <dd>0명</dd>
                 <dt>팔로워</dt>
                 <dd>999명</dd>
               </dl>
-              <div className={styles["profile-bio"]}>
-                안녕하세요 지니입니당~ ✌️😎
-              </div>
+              <div className={styles["profile-bio"]}>{profile.bio}</div>
             </div>
           </article>
         </section>
         <section className={styles["posts-container"]}>
           <h2 className="sr-only">게시물</h2>
-          <PostList posts={profile.posts} styles={styles} />
+          <PostList posts={posts.posts} styles={styles} />
         </section>
       </main>
     </>
