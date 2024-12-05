@@ -63,7 +63,9 @@ export default function PostModal() {
   }
 
   function handleCommentClick(e) {
-    e.currentTarget.classList.toggle(styles["comment-open"]);
+    if (e.currentTarget.querySelector("p").textContent.length >= 127) {
+      e.currentTarget.classList.toggle(styles["comment-open"]);
+    }
   }
 
   return (
@@ -291,6 +293,7 @@ export default function PostModal() {
               <ul className={styles["comment-info"]}>
                 <li>
                   <Link href="/">
+                    <span>{"JIh2"}</span> @jhjh
                   </Link>
                 </li>
                 <li>
