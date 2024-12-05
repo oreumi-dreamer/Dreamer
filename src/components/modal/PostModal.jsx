@@ -291,7 +291,6 @@ export default function PostModal() {
               <ul className={styles["comment-info"]}>
                 <li>
                   <Link href="/">
-                    <span>{"JIh2"}</span>@jhjh
                   </Link>
                 </li>
                 <li>
