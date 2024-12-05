@@ -164,7 +164,7 @@ export default function Signup() {
       </header>
       <main>
         <h2 className="sr-only">회원 가입</h2>
-        {isLoading && <div>처리중...</div>}
+        {isLoading && <Loading />}
         {error && <div className={styles.error}>{error}</div>}
         {isJoined ? (
           <Loading />
