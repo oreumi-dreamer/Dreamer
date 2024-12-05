@@ -151,9 +151,9 @@ export default function Signup() {
   });
 
   return (
-    <>
-      <SignupHeader />
-      <main>
+    <body className={styles["signup-body"]}>
+      <main className={styles["signup-main"]}>
+        <SignupHeader />
         <h2 className="sr-only">회원 가입</h2>
         {isLoading && <Loading />}
         {error && <div className={styles.error}>{error}</div>}
@@ -182,6 +182,6 @@ export default function Signup() {
           </>
         )}
       </main>
-    </>
+    </body>
   );
 }
