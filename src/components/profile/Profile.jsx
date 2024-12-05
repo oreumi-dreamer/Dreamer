@@ -11,9 +11,13 @@ export default function Profile() {
             <img src="/images/rabbit.svg" alt="프로필 이미지" />
             <div className={styles["profile-info"]}>
               <div className={styles["profile-name-wrap"]}>
-                <div className={styles["profile-name"]}>JINI</div>
-                <div className={styles["profile-id"]}>@jini</div>
-                <button className={styles["follow-btn"]}>팔로우</button>
+                <div className={styles["profile-name-id"]}>
+                  <div className={styles["profile-name"]}>JINI</div>
+                  <div className={styles["profile-id"]}>@jini</div>
+                </div>
+                <button className={`${styles["profile-btn"]} ${styles.active}`}>
+                  팔로잉
+                </button>
               </div>
               <dl className={styles["profile-stat"]}>
                 <dt>게시물</dt>
@@ -57,7 +61,7 @@ export default function Profile() {
               <dd>99+</dd>
               <dt>
                 <button>
-                  <img src="/images/more.svg" alt="댓글" />
+                  <img src="/images/more.svg" alt="더보기" />
                 </button>
               </dt>
             </dl>
