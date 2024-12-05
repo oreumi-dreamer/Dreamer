@@ -1,7 +1,37 @@
 import React from "react";
 import styles from "@/components/profile/Profile.module.css";
 
-export default function Profile() {
+export default function Profile({ userName }) {
+  const [profile, setProfile] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const getProfile = async () => {
+      const res = await fetchWithAuth(
+        `/api/post/read/${userName}?summary=true`
+      );
+
+      let data = null;
+      if (res.ok) {
+        data = await res.json();
+      }
+
+      setProfile(data);
+    };
+
+    getProfile();
+
+    setLoading(false);
+  }, [userName]);
+
+  if (!profile) {
+    return <div>사용자를 찾을 수 없습니다.</div>;
+  }
+
+  if (loading) {
+    return <div>로드 중...</div>;
+  }
+
   return (
     <>
       <main className={styles["profile-main"]}>
