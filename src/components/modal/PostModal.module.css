@@ -16,7 +16,7 @@
   z-index: 1000;
   position: fixed;
   margin: 4rem auto;
-  width: 155.4rem;
+  max-width: 155.4rem;
   height: 90vh;
   min-height: 50rem;
   max-height: 100rem;
@@ -28,7 +28,6 @@
 }
 
 .post-section {
-  width: 100%;
   border-right: dotted var(--dotted-color) 0.2rem;
   margin: 0 3.2rem;
   padding-right: 3.2rem;
@@ -175,8 +174,8 @@
   position: relative;
   border-radius: 1rem;
   background-color: var(--comment-input-color);
-  width: 76.1rem;
-  height: 9.4rem;
+  max-width: 76.1rem;
+  max-height: 9.4rem;
   margin-top: 2.5rem;
 }
 
@@ -223,7 +222,7 @@
 
 .comment-article {
   background-color: var(--background-white);
-  width: 76.1rem;
+  max-width: 76.1rem;
   min-height: 7rem;
   border-radius: 1rem;
   margin-bottom: 3rem;
