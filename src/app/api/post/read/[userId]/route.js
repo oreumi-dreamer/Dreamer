@@ -41,6 +41,8 @@ export async function GET(request, { params }) {
   // DB 상의 사용자 이름과 ID를 조회
   const authorId = userSnapshot.docs[0].data().userId;
   const authorName = userSnapshot.docs[0].data().userName;
+  const bio = userSnapshot.docs[0].data().bio;
+  const profileImageUrl = userSnapshot.docs[0].data().profileImageUrl;
 
   const headersList = headers();
   const authorization = headersList.get("Authorization");
@@ -148,6 +150,11 @@ export async function GET(request, { params }) {
 
     return NextResponse.json({
       posts,
+      userId: authorId,
+      userName: authorName,
+      bio: bio,
+      profileImageUrl: profileImageUrl,
+      length: posts.length,
       nextCursor: lastVisible,
       hasMore: posts.length === pageSize,
     });
