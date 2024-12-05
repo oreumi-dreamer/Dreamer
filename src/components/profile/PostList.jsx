@@ -4,16 +4,31 @@ import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 export default function PostList({ posts: initialPosts, styles }) {
   const [posts, setPosts] = useState(initialPosts);
 
-  const sparkHandle = async (postId) => {
-    const res = await fetchWithAuth(`/api/post/spark/${postId}`);
-    const result = await res.json();
+  const changeSpark = (postId) => {
+    setPosts((currentPosts) =>
+      currentPosts.map((post) =>
+        post.id === postId
+          ? {
+              ...post,
+              sparkCount: post.sparkCount + (post.hasUserSparked ? -1 : 1),
+              hasUserSparked: post.hasUserSparked ? false : true,
+            }
+          : post
+      )
+    );
+  };
 
-    if (res.ok && result.success) {
-      setPosts((currentPosts) =>
-        currentPosts.map((post) =>
-          post.id === postId ? { ...post, sparkCount: result.sparkCount } : post
-        )
-      );
+  const sparkHandle = async (postId) => {
+    changeSpark(postId); // 반짝 토글 시 UI 변경
+
+    try {
+      const res = await fetchWithAuth(`/api/post/spark/${postId}`);
+      if (!res.ok || res.status !== 200) {
+        throw new Error("반짝 실패");
+      }
+    } catch (error) {
+      console.error("Error sparking post:", error);
+      changeSpark(postId); // 반짝 실패 시 원래 상태로 복구
     }
   };
 
@@ -32,7 +47,11 @@ export default function PostList({ posts: initialPosts, styles }) {
           <dl className={styles["post-btn-container"]}>
             <dt>
               <button onClick={() => sparkHandle(post.id)}>
-                <img src="/images/star.svg" alt="반짝" />
+                {post.hasUserSparked ? (
+                  <img src="/images/star-fill.svg" alt="반짝 눌림" />
+                ) : (
+                  <img src="/images/star.svg" alt="반짝" />
+                )}
               </button>
             </dt>
             <dd>{post.sparkCount}</dd>
