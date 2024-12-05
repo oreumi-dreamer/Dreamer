@@ -10,13 +10,12 @@
 }
 .post-modal {
   margin: 0 0 0 48.3rem;
-  background-color: var(--background-lightgray);
   border: none;
   padding: 3.7rem 3.2rem 3.5rem 3.2rem;
 }
 
 .each-item-section {
-  margin: 0 0 6rem 0;
+  margin: 0 0 6rem 7rem;
 }
 
 .bookmark {
@@ -25,7 +24,7 @@
 }
 
 .post-info-section {
-  padding-left: 0;
+  padding: 0 0 0 0;
   display: flex;
   justify-content: space-between;
 }
@@ -46,7 +45,6 @@
   flex-wrap: wrap;
   max-width: 12.7rem;
   font-size: 3.2rem;
-  margin-bottom: 1.6rem;
 }
 
 .uploaded-time {
@@ -54,10 +52,30 @@
   color: var(--purple-font-color);
 }
 
+.each-item-bottom {
+  display: flex; 
+  justify-content: space-between;
+}
+
 .button-list-bottom {
   display: flex;
   justify-content: start;
   gap: 1.5rem;
+}
+
+.button-list-sub {
+  display: flex;
+  justify-content: end;
+  gap: 1.5rem;
+}
+
+.button-list-span {
+  display: inline-block;
+  margin: 0 0 4rem 0;
+}
+
+.li-button {
+  max-height: 20px;
 }
 
 .button-list {
@@ -77,6 +95,7 @@
 }
 
 .post-text {
+  width: 555px;
   max-width: 63.3rem;
   max-height: 80.3rem;
   background-color: var(--background-white);
@@ -113,11 +132,20 @@
   border-radius: 1.3rem;
 }
 
+.post-text-wrap-image {
+  display: flex;
+  margin: 0 2rem 0 2rem;
+}
+
 .post-text-header {
   display: flex;
   justify-content: space-between;
   font-size: 1rem;
   margin-bottom: 1.4rem;
+}
+
+.post-text-content {
+  margin: 0 2rem 2rem 2rem;
 }
 
 .post-tag {
