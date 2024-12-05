@@ -137,40 +137,58 @@ export default function MainList() {
                 </p>
                 <Image width={555} height={250}></Image>
               </section>
-              <ul className={styles["button-list-bottom"]}>
-                <li>
-                  <button>
-                    <Image
-                      src="/images/star.svg"
-                      alt="좋아요반짝"
-                      width={30}
-                      height={30}
-                    ></Image>
-                  </button>
-                  <span>{"99"}반짝</span>
-                </li>
-                <li>
-                  <button>
-                    <Image
-                      src="/images/comment.svg"
-                      alt="공유하기"
-                      width={30}
-                      height={30}
-                    ></Image>
-                  </button>
-                  <span>{"99"}댓글</span>
-                </li>
-                <li>
-                  <button>
-                    <Image
-                      src="/images/share.svg"
-                      alt="공유하기"
-                      width={30}
-                      height={30}
-                    ></Image>
-                  </button>
-                </li>
-              </ul>
+
+              <section   
+                className={styles["each-item-bottom"]}  
+              >
+                <ul className={styles["button-list-bottom"]}>
+                  <li>
+                    <button>
+                      <Image
+                        src="/images/star.svg"
+                        alt="좋아요반짝"
+                        width={30}
+                        height={30}
+                      ></Image>
+                    </button>
+                    <span>{"99"}반짝</span>
+                  </li>
+                  <li>
+                    <button>
+                      <Image
+                        src="/images/comment.svg"
+                        alt="공유하기"
+                        width={30}
+                        height={30}
+                      ></Image>
+                    </button>
+                    <span>{"99"}댓글</span>
+                  </li>
+                  <li>
+                    <button>
+                      <Image
+                        src="/images/share.svg"
+                        alt="공유하기"
+                        width={30}
+                        height={30}
+                      ></Image>
+                    </button>
+                  </li>
+                </ul>
+
+                <ul    className={styles["button-list-sub"]}>
+                  <li>
+                  <Image
+                    src={"/images/mark.svg"}
+                    alt="스크랩"
+                    width={30}
+                    height={30}
+                  ></Image>
+                  </li>
+                </ul>
+
+              </section>
+
             </section>
           )
         })}

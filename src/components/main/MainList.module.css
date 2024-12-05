@@ -54,9 +54,21 @@
   color: var(--purple-font-color);
 }
 
+.each-item-bottom {
+  display: flex; 
+  justify-content: space-between;
+}
+
+
 .button-list-bottom {
   display: flex;
   justify-content: start;
+  gap: 1.5rem;
+}
+
+.button-list-sub {
+  display: flex;
+  justify-content: end;
   gap: 1.5rem;
 }
 
