@@ -158,7 +158,6 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
               }}
               required
             />
-            <span className="icon"></span>
           </div>
           <span className={styles["invalid-text"]}>보조텍스트</span>
         </div>
@@ -191,7 +190,7 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
       </fieldset>
 
       <button type="submit" className={styles["next-btn"]}>
-        <span>다음</span>
+        다음
       </button>
     </form>
   );
