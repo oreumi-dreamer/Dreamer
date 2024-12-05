@@ -262,7 +262,7 @@
   -webkit-box-orient: vertical;
 }
 
-.comment-article p::after {
+.comment-article.text-long p::after {
   content: url(/images/comment-close.svg);
   position: absolute;
   display: inline-block;
@@ -272,7 +272,7 @@
   bottom: 1.2rem;
 }
 
-.comment-open p::after {
+.comment-article.text-long.comment-open p::after {
   content: url(/images/comment-open.svg);
 }
 
