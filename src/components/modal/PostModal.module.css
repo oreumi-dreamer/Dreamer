@@ -342,20 +342,25 @@
   margin: -1px;
   overflow: hidden;
 }
+.checkbox {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  padding-left: 2rem; /* 체크박스 이미지를 표시할 공간 */
+}
 
 .checkbox::before {
   content: "";
   display: inline-block;
   width: 1.4rem;
   height: 1.4rem;
-  position: relative;
-  left: -0.2rem;
-  top: 0.3rem;
+  position: absolute;
+  left: 0rem;
+  top: 0rem;
   background-image: url(/images/checkbox.svg);
   background-size: contain;
 }
 
-#oneiromancy:checked + .checkbox::before,
-#private:checked + .checkbox::before {
+input[type="checkbox"]:checked + label.checkbox::before {
   background-image: url(/images/checkbox-checked.svg);
 }
