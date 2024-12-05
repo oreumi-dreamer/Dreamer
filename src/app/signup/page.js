@@ -10,6 +10,7 @@ import { validateFirstForm, validateSecondForm } from "@/utils/validation";
 import Loading from "@/components/Loading";
 import { useDispatch, useSelector } from "react-redux";
 import { checkUserExists } from "@/utils/auth/checkUser";
+import Image from "next/image";
 
 export default function Signup() {
   const router = useRouter();
@@ -152,7 +153,14 @@ export default function Signup() {
   return (
     <>
       <header>
-        <h1>Dreamer</h1>
+        <h1>
+          <Image
+            src="/images/logo-full.svg"
+            width={480}
+            height={200}
+            alt="Dreamer"
+          ></Image>
+        </h1>
       </header>
       <main>
         <h2 className="sr-only">회원 가입</h2>
