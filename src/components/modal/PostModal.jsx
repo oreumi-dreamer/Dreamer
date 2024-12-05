@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import styles from "./PostModal.module.css";
 import Image from "next/image";
 import Link from "next/link";
@@ -16,8 +16,7 @@ export default function PostModal() {
   const user = null;
 
   const handleViewPost = async () => {
-    const postId = 1;
-
+    // const postId = 1;
     // const posts = await fetch(`/api/post/search/${[postId]}`);
     // const data = await posts.json();
     // console.log(posts);
@@ -30,6 +29,7 @@ export default function PostModal() {
       return exitAnswer ? setIsModalOpen(false) : setIsModalOpen(true);
     }
     setIsModalOpen(false);
+    commentRef.current.parentElement.classList.add(styles["text-long"]);
   }
 
   if (!isModalOpen) {
@@ -68,10 +68,6 @@ export default function PostModal() {
       e.currentTarget.classList.toggle(styles["comment-open"]);
     }
   }
-
-  useEffect(() => {
-    commentRef.current.parentElement.classList.add(styles["text-long"]);
-  }, []);
 
   return (
     <>
