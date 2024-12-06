@@ -30,6 +30,7 @@ export async function GET() {
       exists: userDoc.exists,
       userId: userDoc.data()?.userId,
       userName: userDoc.data()?.userName,
+      profileImageUrl: userDoc.data()?.profileImageUrl,
       email: email,
       via: via,
       uid: uid,
