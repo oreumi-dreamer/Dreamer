@@ -1,0 +1,49 @@
+.stop-modal {
+  max-width: 74rem;
+  width: 72rem;
+  height: 19.6rem;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+
+  border: 0;
+  background-color: var(--modal-pink-color);
+  border-radius: 2rem;
+  box-shadow: 0 0.4rem 1rem rgba(0, 0, 0, 0.25);
+
+  padding: 3.5rem 2.5rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 3.2rem;
+  font-weight: 700;
+}
+.stop-modal div {
+  display: flex;
+  gap: 3.2rem;
+}
+.stop-modal div button {
+  width: 14rem;
+  padding: 0.8rem;
+  margin-top: 2.4rem;
+  border-radius: 1rem;
+  font-size: 2.4rem;
+}
+.btn-yes {
+  background-color: var(--deep-pink-color);
+}
+.btn-no {
+  background-color: white;
+}
+.btn-close {
+  background-image: url("/images/close.svg");
+  width: 4rem;
+  height: 4rem;
+  position: absolute;
+  top: 0.8rem;
+  right: 1.6rem;
+}

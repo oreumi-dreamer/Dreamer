@@ -1,0 +1,29 @@
+.podal-on-writepost {
+  width: 20rem;
+  height: 12rem;
+  border: 2px solid rgba(0, 0, 0, 0.6);
+  border-radius: 1rem;
+  padding: 0.8rem 1.2rem;
+  background-color: var(--background-white);
+  font-size: 1.6rem;
+  word-break: keep-all;
+}
+.hashtag-picker {
+  margin: 0.4rem;
+  appearance: none;
+}
+.hashtag-picker::after {
+  background-image: url("/images/checkbox.svg");
+  content: "";
+  background-position: center;
+  background-size: contain;
+  display: inline-block;
+  width: 1.6rem;
+  height: 1.6rem;
+}
+.hashtag-picker:checked::after {
+  background-image: url("/images/checkbox-checked.svg");
+  content: "";
+  background-position: center;
+  background-size: contain;
+}
