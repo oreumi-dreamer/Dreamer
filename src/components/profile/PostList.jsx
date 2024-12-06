@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 
-export default function PostList({ posts: initialPosts, styles }) {
+export default function PostList({ posts: initialPosts, styles, isLoggedIn }) {
   const [posts, setPosts] = useState(initialPosts);
 
   const changeSpark = (postId) => {
@@ -19,6 +19,7 @@ export default function PostList({ posts: initialPosts, styles }) {
   };
 
   const sparkHandle = async (postId) => {
+    if (!isLoggedIn) return;
     changeSpark(postId); // 반짝 토글 시 UI 변경
 
     try {
