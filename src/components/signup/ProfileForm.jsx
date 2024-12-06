@@ -54,6 +54,20 @@ export default function ProfileForm({
             alt="프로필 사진"
             unoptimized
           />
+          {profileImage && (
+            <button
+              type="button"
+              onClick={() => setProfileImage(null)}
+              className={styles["image-delete"]}
+            >
+              <Image
+                src="Images/close.svg"
+                width={20}
+                height={20}
+                alt="이미지 제거"
+              />
+            </button>
+          )}
         </div>
 
         <div className={styles["form-field"]}>
