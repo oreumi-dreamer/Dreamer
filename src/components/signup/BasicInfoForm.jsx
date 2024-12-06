@@ -3,6 +3,10 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import styles from "./BasicInfoForm.module.css";
+import { auth, googleProvider } from "@/lib/firebase";
+import { signInWithPopup } from "firebase/auth";
+import { checkUserExists } from "@/utils/auth/checkUser";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function BasicInfoForm({ onSubmit, formData, setters }) {
   const { userId, userName, year, month, day } = formData;
@@ -11,6 +15,9 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
   const [isIdValid, setIsIdValid] = useState(false);
   const [isNameValid, setIsNameValid] = useState(false);
   const [isBirthValid, setIsBirthValid] = useState(false);
+  const [error, setError] = useState("");
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
 
   // year나 month가 변경될 때마다 해당 월의 마지막 날짜를 계산
   useEffect(() => {
@@ -24,6 +31,37 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
       }
     }
   }, [year, month]);
+
+  const handleGoogleLogin = async () => {
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const idToken = await result.user.getIdToken(true);
+
+      // 1. ID 토큰을 API로 전달하여 세션 토큰을 쿠키에 저장
+      const tokenRes = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ idToken }),
+      });
+
+      if (!tokenRes.ok) {
+        throw new Error("토큰 쿠키 저장 중 오류 발생");
+      }
+
+      // 2. 사용자 존재 여부 확인
+      const exists = await checkUserExists(dispatch);
+
+      // 3. 결과에 따라 리다이렉트
+      if (!exists) {
+        alert("존재하지 않는 사용자 입니다. 회원가입을 이어서 진행해주세요!");
+      }
+    } catch (error) {
+      setError("로그인 중 오류가 발생했습니다.");
+      console.error("Login error:", error);
+    }
+  };
 
   const preventBlank = (e, setState) => {
     if (e.target.value.includes(" ")) {
@@ -184,7 +222,7 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
           <p>이미 회원이신가요? 로그인하여 꿈을 공유해보세요!</p>
           <ul className={styles["login-buttons"]}>
             <li>
-              <button type="button">
+              <button type="button" onClick={handleGoogleLogin}>
                 <Image
                   src="/images/google-logo.svg"
                   width={40}
