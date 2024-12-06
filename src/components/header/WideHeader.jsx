@@ -72,7 +72,7 @@ export default function WideHeader({
         <button
           className={`${styles["nav-item"]} ${styles["more-btn"]} ${isOpen ? styles.active : ""}`}
           ref={buttonRef}
-          onClick={() => onMoreBtnClick("더보기")}
+          onClick={() => onMoreBtnClick("moreModal")}
         >
           더보기
         </button>
