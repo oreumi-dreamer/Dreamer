@@ -25,26 +25,38 @@ export default function ProfileForm({
   };
 
   return (
-    <form id="signupFormSecond" noValidate onSubmit={onSubmit}>
+    <form
+      id="signupFormSecond"
+      noValidate
+      onSubmit={onSubmit}
+      className={styles["profile-form"]}
+    >
       <p>WELCOME DREAMER!</p>
       <p>마지막 단계예요!</p>
 
       <fieldset>
         <legend className="sr-only">프로필 정보</legend>
 
-        <div className="form-field">
-          <label htmlFor="profileImage">프로필 사진</label>
+        <div className={styles["form-field"]}>
+          <p htmlFor="profileImage">프로필 사진</p>
           <span>사진 파일 확장자, 가로세로 크기, 파일 크기 등 조건</span>
+          <label htmlFor="profileImage">파일 첨부</label>
           <input
             type="file"
             id="profileImage"
             accept="image/*"
             onChange={handleImageChange}
           />
-          <Image src={""} width={140} height={140} alt="프로필 사진" />
+          <Image
+            src={"" || "https://via.placeholder.com/140x140"}
+            width={140}
+            height={140}
+            alt="프로필 사진"
+            unoptimized
+          />
         </div>
 
-        <div className="form-field">
+        <div className={styles["form-field"]}>
           <label htmlFor="bio">한줄소개</label>
           <input
             type="text"
@@ -56,9 +68,9 @@ export default function ProfileForm({
           />
         </div>
 
-        <div className="form-field">
+        <div className={styles["form-field"]}>
           <label>다크 모드 설정</label>
-          <div className="input-wrapper">
+          <div className={styles["dark-mode"]}>
             <input
               type="radio"
               name="theme"
@@ -92,7 +104,7 @@ export default function ProfileForm({
         </div>
       </fieldset>
 
-      <div className="buttons">
+      <div className={styles.buttons}>
         <button type="button" onClick={onPrevious}>
           이전
         </button>
