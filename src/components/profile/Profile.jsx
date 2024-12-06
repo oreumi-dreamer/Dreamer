@@ -7,13 +7,14 @@ import PostList from "./PostList";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 import ProfileEdit from "./ProfileEdit";
 import { useSelector } from "react-redux";
+import ProfileInfo from "./ProfileInfo";
 
 export default function Profile({ userName }) {
   const router = useRouter();
   const [profile, setProfile] = useState(null);
   const [posts, setPosts] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [isModal, setIsModal] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
 
   const user = useSelector((state) => state.auth.user);
   const isLoggedIn = user?.exists ? true : false;
@@ -87,59 +88,16 @@ export default function Profile({ userName }) {
     <>
       <main className={styles["profile-main"]}>
         <section className={styles["profile-container"]}>
-          <article className={styles["profile-wrap"]}>
-            <h2 className="sr-only">프로필</h2>
-            <img
-              src={
-                profile.profileImageUrl
-                  ? profile.profileImageUrl
-                  : "/images/rabbit.svg"
-              }
-              className={styles["profile-image"]}
-              width={160}
-              height={160}
-              alt={profile.name + "님의 프로필 이미지"}
+          {isEdit ? (
+            <ProfileInfo
+              profile={profile}
+              toggleFollow={toggleFollow}
+              setIsEdit={setIsEdit}
+              styles={styles}
             />
-            <div className={styles["profile-info"]}>
-              <div className={styles["profile-name-wrap"]}>
-                <div className={styles["profile-name-id"]}>
-                  <div className={styles["profile-name"]}>{profile.name}</div>
-                  <div className={styles["profile-id"]}>@{profile.id}</div>
-                </div>
-                {profile.isMyself ? (
-                  <button
-                    onClick={() => setIsModal(true)}
-                    className={`${styles["profile-btn"]}`}
-                  >
-                    프로필 수정
-                  </button>
-                ) : profile.isFollowing ? (
-                  <button
-                    onClick={toggleFollow}
-                    className={`${styles["profile-btn"]} ${styles.active}`}
-                  >
-                    팔로잉
-                  </button>
-                ) : (
-                  <button
-                    onClick={toggleFollow}
-                    className={`${styles["profile-btn"]}`}
-                  >
-                    팔로우
-                  </button>
-                )}
-              </div>
-              <dl className={styles["profile-stat"]}>
-                <dt>게시물</dt>
-                <dd>{profile.length}개</dd>
-                <dt>팔로우</dt>
-                <dd>{profile.followersCount}명</dd>
-                <dt>팔로워</dt>
-                <dd>{profile.followingCount}명</dd>
-              </dl>
-              <div className={styles["profile-bio"]}>{profile.bio}</div>
-            </div>
-          </article>
+          ) : (
+            <></>
+          )}
         </section>
         <section className={styles["posts-container"]}>
           <h2 className="sr-only">게시물</h2>
@@ -150,7 +108,6 @@ export default function Profile({ userName }) {
           />
         </section>
       </main>
-      {isModal ? <ProfileEdit /> : null}
     </>
   );
 }
