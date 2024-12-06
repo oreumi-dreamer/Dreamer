@@ -81,6 +81,12 @@
   font-size: 2.4rem;
   padding: 1.2rem 2rem;
   margin-bottom: 3.2rem;
+  resize: none;
+}
+
+.form-field:nth-of-type(2) textarea:focus {
+  outline: none;
+  border: 0.2rem solid #a54cb4;
 }
 
 .form-field:nth-of-type(2) input:focus {
