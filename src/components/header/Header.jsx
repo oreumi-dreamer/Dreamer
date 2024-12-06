@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, {useRef, useState } from "react";
 import WideHeader from "@/components/header/WideHeader";
 import { openModal, closeModal, setModalType } from "@/store/modalSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,7 +8,6 @@ export default function Header() {
   const buttonRef = useRef(null);
   const [isActive, setIsActive] = useState("홈");
   const { isOpen, modalType } = useSelector((state) => state.modal);
-  // const [modalStyle, setModalStyle] = useState({});
 
   const dispatch = useDispatch();
   const handleMoreBtnClick = () => {
