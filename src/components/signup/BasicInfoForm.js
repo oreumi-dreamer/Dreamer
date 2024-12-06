@@ -8,6 +8,9 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
   const { userId, userName, year, month, day } = formData;
   const { setUserId, setUserName, setYear, setMonth, setDay } = setters;
   const [lastDay, setLastDay] = useState(31);
+  const [isIdValid, setIsIdValid] = useState(false);
+  const [isNameValid, setIsNameValid] = useState(false);
+  const [isBirthValid, setIsBirthValid] = useState(false);
 
   // year나 month가 변경될 때마다 해당 월의 마지막 날짜를 계산
   useEffect(() => {
@@ -34,17 +37,17 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
 
     if (type === "userId") {
       if (value.length < 4 || value.length > 20) {
-        e.target.classList.add(styles.invalid);
+        setIsIdValid(false);
       } else {
-        e.target.classList.remove(styles.invalid);
+        setIsIdValid(true);
       }
     }
 
     if (type === "userName") {
       if (value.length < 2 || value.length > 20) {
-        e.target.classList.add(styles.invalid);
+        setIsNameValid(false);
       } else {
-        e.target.classList.remove(styles.invalid);
+        setIsNameValid(true);
       }
     }
   };
@@ -67,7 +70,7 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
         <div className={styles["form-field"]}>
           <label htmlFor="userId">
             <Image
-              src="/Images/invalid.svg"
+              src={isIdValid ? "/Images/valid.svg" : "/Images/invalid.svg"}
               width={40}
               height={40}
               alt="유효하지 않은 아이디"
@@ -88,7 +91,7 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
         <div className={styles["form-field"]}>
           <label htmlFor="userName">
             <Image
-              src="/Images/invalid.svg"
+              src={isNameValid ? "/Images/valid.svg" : "/Images/invalid.svg"}
               width={40}
               height={40}
               alt="유효하지 않은 이름"
@@ -109,7 +112,7 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
         <div className={styles["form-field"]}>
           <label htmlFor="birthDate">
             <Image
-              src="/Images/invalid.svg"
+              src={isBirthValid ? "/Images/valid.svg" : "/Images/invalid.svg"}
               width={40}
               height={40}
               alt="유효하지 않은 생일"
@@ -151,6 +154,7 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
               onChange={(e) => {
                 const value = Math.min(Math.max(1, e.target.value), 31);
                 setDay(value);
+                setIsBirthValid(true);
               }}
               value={day}
               required
@@ -193,7 +197,11 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
         </div>
       </fieldset>
 
-      <button type="submit" className={styles["next-btn"]}>
+      <button
+        type="submit"
+        className={styles["next-btn"]}
+        disabled={!isIdValid || !isNameValid || !isBirthValid}
+      >
         다음
       </button>
     </form>
