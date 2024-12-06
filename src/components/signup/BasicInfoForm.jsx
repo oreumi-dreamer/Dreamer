@@ -234,9 +234,9 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
               name="birthDay"
               onChange={(e) => {
                 const value = Math.min(Math.max(1, e.target.value), 31);
-                setDay(value);
+                setDay(e.target.value);
               }}
-              defaultValue={0}
+              value={day}
               required
             >
               <option value="0">일</option>
