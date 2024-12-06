@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import styles from "@/components/profile/Profile.module.css";
 import PostList from "./PostList";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
@@ -21,6 +22,11 @@ export default function Profile({ userName }) {
   };
 
   const toggleFollow = async () => {
+    if (!isLoggedIn) {
+      router.push("/"); // 로그인 페이지로 이동
+      return;
+    }
+
     changeFollow();
 
     try {
@@ -127,7 +133,11 @@ export default function Profile({ userName }) {
         </section>
         <section className={styles["posts-container"]}>
           <h2 className="sr-only">게시물</h2>
-          <PostList posts={posts.posts} styles={styles} />
+          <PostList
+            posts={posts.posts}
+            styles={styles}
+            isLoggedIn={isLoggedIn}
+          />
         </section>
       </main>
     </>
