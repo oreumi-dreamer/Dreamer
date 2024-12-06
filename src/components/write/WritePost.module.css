@@ -23,8 +23,46 @@
   background-color: inherit;
 }
 #title {
-  background-color: darkgray;
-  width: 84%;
+  background-color: var(--background-white);
+  display: flex;
+  gap: 1rem;
+  width: 88%;
+  padding: 2rem;
+  border-radius: 1rem;
+  margin-right: 1rem;
+  position: relative;
+}
+#title input[type="text"] {
+  border: 0;
+  font-size: 1.6rem;
+  margin-left: 1rem;
+  width: 52rem;
+}
+#title input[type="checkbox"] {
+  appearance: none;
+}
+#title input[type="checkbox"]::after {
+  background-image: url("/images/checkbox.svg");
+  content: "";
+  background-position: center;
+  background-size: contain;
+  display: inline-block;
+  width: 2rem;
+  height: 2rem;
+}
+#title input[type="checkbox"]:checked::after {
+  background-image: url("/images/checkbox-checked.svg");
+  content: "";
+  background-position: center;
+  background-size: contain;
+}
+#hidden {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
+  position: absolute;
+  right: -12%;
 }
 .write-field {
   background-color: var(--background-white);
@@ -55,6 +93,9 @@
 .rate-star:checked::after,
 .rate-star:has(~ .rate-star:checked)::after {
   background-image: url("/images/star-fill.svg");
+  display: block;
+  width: 2.4rem;
+  height: 2.4rem;
 }
 .rate-star:hover ~ .rate-star::after {
   background-image: url("/images/star.svg");
