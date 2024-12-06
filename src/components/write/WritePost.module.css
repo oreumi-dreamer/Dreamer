@@ -2,6 +2,8 @@
   max-width: 74rem;
   width: calc(100% - 12rem);
   height: calc(100% - 8rem);
+  max-height: 100rem;
+  min-height: 40rem;
   position: absolute;
   left: 50%;
   top: 50%;
@@ -14,13 +16,34 @@
 .new-post::backdrop {
   background-color: var(--background-dimmed);
 }
+.user-prof {
+  display: flex;
+  gap: 1.6rem;
+  align-items: center;
+  margin-bottom: 3rem;
+}
+.user-name {
+  display: flex;
+  font-size: 3.2rem;
+  font-weight: 700;
+}
+.user-id {
+  font-weight: normal;
+  color: var(--gray-font-color);
+}
 .btn-close {
   width: 3rem;
   height: 3rem;
   position: absolute;
-  right: 1.5rem;
+  right: 2.5rem;
   top: 2rem;
   background-color: inherit;
+}
+#new-post-form {
+  height: 90%;
+  min-height: auto;
+  display: flex;
+  flex-direction: column;
 }
 #title {
   background-color: var(--background-white);
@@ -67,7 +90,7 @@
 .write-field {
   background-color: var(--background-white);
   border-radius: 1rem;
-  height: 80%;
+  height: 100%;
   margin-top: 1rem;
   padding: 2rem;
 }
@@ -102,7 +125,7 @@
 }
 .text-field-area {
   width: 100%;
-  height: 90%;
+  height: calc(100% - 3rem);
   padding: 1rem;
   font-size: 1.6rem;
   resize: none;
@@ -121,4 +144,12 @@
 }
 .text-field-area::-webkit-scrollbar-track {
   border-radius: 1rem;
+}
+.btn-submit {
+  background-color: var(--deep-pink-color);
+  padding: 0.5rem 4rem;
+  border-radius: 0.4rem;
+  position: absolute;
+  right: 2.5rem;
+  bottom: 2rem;
 }
