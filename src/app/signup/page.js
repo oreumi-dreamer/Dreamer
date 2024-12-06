@@ -50,7 +50,7 @@ export default function Signup() {
   const [userName, setUserName] = useState("");
   const [year, setYear] = useState(0);
   const [month, setMonth] = useState(0);
-  const [day, setDay] = useState(1);
+  const [day, setDay] = useState(0);
   const [profileImage, setProfileImage] = useState("");
   const [bio, setBio] = useState("");
   const [theme, setTheme] = useState("deviceMode");
