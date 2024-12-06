@@ -58,7 +58,7 @@ export default function ProfileForm({
 
         <div className={styles["form-field"]}>
           <label htmlFor="bio">한줄소개</label>
-          <input
+          <textarea
             type="text"
             id="bio"
             onChange={(e) => setBio(e.target.value)}
