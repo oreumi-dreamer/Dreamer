@@ -25,6 +25,12 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 3.2rem;
+  position: relative;
+}
+.image-delete {
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 
 .form-field:first-of-type p {
