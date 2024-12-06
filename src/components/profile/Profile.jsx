@@ -52,6 +52,7 @@ export default function Profile({ userName }) {
           profileImageUrl: data.profileImageUrl,
           followersCount: data.followersCount,
           followingCount: data.followingCount,
+          isMyself: data.isMyself,
         });
       }
 
@@ -92,7 +93,11 @@ export default function Profile({ userName }) {
                   <div className={styles["profile-name"]}>{profile.name}</div>
                   <div className={styles["profile-id"]}>@{profile.id}</div>
                 </div>
-                {profile.isFollowing ? (
+                {profile.isMyself ? (
+                  <button className={`${styles["profile-btn"]}`}>
+                    프로필 수정
+                  </button>
+                ) : profile.isFollowing ? (
                   <button
                     onClick={toggleFollow}
                     className={`${styles["profile-btn"]} ${styles.active}`}
