@@ -89,14 +89,19 @@ export default function Profile({ userName }) {
       <main className={styles["profile-main"]}>
         <section className={styles["profile-container"]}>
           {isEdit ? (
+            <ProfileEdit
+              profile={profile}
+              setIsEdit={setIsEdit}
+              setProfile={setProfile}
+              styles={styles}
+            />
+          ) : (
             <ProfileInfo
               profile={profile}
               toggleFollow={toggleFollow}
               setIsEdit={setIsEdit}
               styles={styles}
             />
-          ) : (
-            <></>
           )}
         </section>
         <section className={styles["posts-container"]}>
