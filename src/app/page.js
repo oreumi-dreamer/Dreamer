@@ -21,11 +21,7 @@ export default function Home() {
         <main className={styles.main}>
           <h1>
             <Link href="/">
-              <Image
-                src="/images/logo-full.svg"
-                width={800}
-                height={340}
-              ></Image>
+              <Image src="/images/logo-full.svg" width={800} height={340} />
             </Link>
           </h1>
           <SocialLogin className={styles.login} />

@@ -79,7 +79,7 @@ export default function PostModal() {
           alt="책갈피"
           width={54}
           height={131}
-        ></Image>
+        />
         <section className={styles["post-section"]}>
           <h2 className="sr-only">글 본문 내용 확인</h2>
           <section className={styles["post-info-section"]}>
@@ -90,7 +90,7 @@ export default function PostModal() {
                 width={49}
                 height={49}
                 alt="토끼 프로필"
-              ></Image>
+              />
               <p className={styles["profile-info"]}>
                 {user ? posts.authorName : "JINI"}
                 <span href="/">{user ? `@${posts.authorId}` : "@jini"}</span>
@@ -111,7 +111,7 @@ export default function PostModal() {
                     alt="좋아요반짝"
                     width={30}
                     height={30}
-                  ></Image>
+                  />
                 </button>
                 <span>
                   {user ? posts.sparkCount : "1200"}명의 관심을 받고 있는
@@ -125,7 +125,7 @@ export default function PostModal() {
                     alt="공유하기"
                     width={30}
                     height={30}
-                  ></Image>
+                  />
                 </button>
               </li>
               <li>
@@ -136,7 +136,7 @@ export default function PostModal() {
                     alt="스크랩"
                     width={30}
                     height={30}
-                  ></Image>
+                  />
                 </button>
               </li>
               <li>
@@ -146,7 +146,7 @@ export default function PostModal() {
                     alt="더보기"
                     width={30}
                     height={30}
-                  ></Image>
+                  />
                 </button>
               </li>
             </ul>
@@ -219,7 +219,7 @@ export default function PostModal() {
               height={330}
               alt="임시 이미지"
               unoptimized
-            ></Image>
+            />
           </section>
         </section>
         <section>
@@ -230,7 +230,7 @@ export default function PostModal() {
               width={30}
               height={30}
               alt="닫기 버튼"
-            ></Image>
+            />
           </button>
 
           <form
@@ -283,7 +283,7 @@ export default function PostModal() {
                     width={30}
                     height={30}
                     alt="댓글 입력 버튼"
-                  ></Image>
+                  />
                 </button>
               </li>
             </ul>
@@ -314,7 +314,7 @@ export default function PostModal() {
                     width={10}
                     height={13}
                     alt="비공개 댓글"
-                  ></Image>
+                  />
                 </li>
               </ul>
 
@@ -335,7 +335,7 @@ export default function PostModal() {
                 width={17}
                 height={13}
                 alt="꿈해몽 댓글"
-              ></Image>
+              />
 
               {/* 글자 수 추후 데이터 불러왔을 때 변수 설정 후 수정 */}
               <p ref={commentRef}>
@@ -366,7 +366,7 @@ export default function PostModal() {
                     width={10}
                     height={13}
                     alt="비공개 댓글"
-                  ></Image>
+                  />
                 </li>
               </ul>
 
@@ -387,7 +387,7 @@ export default function PostModal() {
                 width={17}
                 height={13}
                 alt="꿈해몽 댓글"
-              ></Image>
+              />
 
               {/* 글자 수 추후 데이터 불러왔을 때 변수 설정 후 수정 */}
               <p>
