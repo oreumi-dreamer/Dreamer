@@ -52,6 +52,29 @@ export async function POST(request) {
     // 생년월일을 Date 객체로 변환
     const birthDate = new Date(year, month - 1, day);
 
+    // 만 14세 이상인지 확인
+    const today = new Date();
+
+    let age = today.getFullYear() - birthDate.getFullYear();
+
+    if (
+      today.getMonth() < birthDate.getMonth() ||
+      (today.getMonth() === birthDate.getMonth() &&
+        today.getDate() < birthDate.getDate())
+    ) {
+      age--;
+    }
+
+    if (age < 14) {
+      return new Response(
+        JSON.stringify({
+          success: false,
+          message: "만 14세 이상부터 가입 가능합니다.",
+        }),
+        { status: 400, headers: { "Content-Type": "application/json" } }
+      );
+    }
+
     // 사용자가 이미 등록되어 있는지 확인
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
     const verifyResponse = await fetch(`${baseUrl}/api/auth/verify`, {
