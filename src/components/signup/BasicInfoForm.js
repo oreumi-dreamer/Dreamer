@@ -89,7 +89,9 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
             value={userId}
             required
           />
-          <span className={styles["invalid-text"]}>보조텍스트</span>
+          <span className={styles["invalid-text"]}>
+            {!isIdValid && "아이디는 4~20자로 입력해주세요."}
+          </span>
         </div>
 
         <div className={styles["form-field"]}>
@@ -110,7 +112,9 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
             value={userName}
             required
           />
-          <span className={styles["invalid-text"]}>보조텍스트</span>
+          <span className={styles["invalid-text"]}>
+            {!isNameValid && "이름은 2~20자로 입력해주세요."}
+          </span>
         </div>
 
         <div className={styles["form-field"]}>
@@ -171,7 +175,9 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
               ))}
             </select>
           </div>
-          <span className={styles["invalid-text"]}>보조텍스트</span>
+          <span className={styles["invalid-text"]}>
+            {!isBirthValid && "생일은 필수 입력 값 입니다."}
+          </span>
         </div>
 
         <div className={styles["user-login-field"]}>
