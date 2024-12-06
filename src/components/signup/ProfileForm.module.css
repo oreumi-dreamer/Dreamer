@@ -42,6 +42,7 @@
   width: fit-content;
   border-radius: 1rem;
   background-color: #9f9f9f;
+  cursor: pointer;
 }
 
 .form-field:first-of-type input {
