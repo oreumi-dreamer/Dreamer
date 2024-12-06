@@ -66,6 +66,7 @@ export default function ProfileForm({
             maxLength={40}
             required
           />
+          <span>{bio.length}/40</span>
         </div>
 
         <div className={styles["form-field"]}>
