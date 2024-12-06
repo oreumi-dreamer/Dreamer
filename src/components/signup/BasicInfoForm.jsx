@@ -94,6 +94,38 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
     }
   };
 
+  const handleSelectChange = (e) => {
+    const yearData = e.currentTarget.children[0];
+    const monthData = e.currentTarget.children[1];
+    const dayData = e.currentTarget.children[2];
+
+    console.log(dayData.value);
+
+    if (dayData.value && !monthData.value && !yearData.value) {
+      yearData.classList.add(`${styles.invalid}`);
+      monthData.classList.add(`${styles.invalid}`);
+    } else if (dayData.value === "0" && monthData.value && !yearData.value) {
+      yearData.classList.add(`${styles.invalid}`);
+      dayData.classList.add(`${styles.invalid}`);
+    }
+
+    if (dayData.value !== "0") {
+      dayData.classList.remove(`${styles.invalid}`);
+    }
+    if (monthData.value) {
+      monthData.classList.remove(`${styles.invalid}`);
+    }
+    if (yearData.value) {
+      yearData.classList.remove(`${styles.invalid}`);
+    }
+
+    if (!yearData.value || !monthData.value || dayData.value === "0") {
+      setIsBirthValid(false);
+    } else {
+      setIsBirthValid(true);
+    }
+  };
+
   const todayYear = new Date().getFullYear();
 
   return (
@@ -165,7 +197,10 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
             />
             생일
           </label>
-          <div className={styles["input-wrapper"]}>
+          <div
+            className={styles["input-wrapper"]}
+            onChange={handleSelectChange}
+          >
             <select
               id="birth-year"
               name="birthYear"
@@ -200,12 +235,11 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
               onChange={(e) => {
                 const value = Math.min(Math.max(1, e.target.value), 31);
                 setDay(value);
-                setIsBirthValid(true);
               }}
-              value={day}
+              defaultValue={0}
               required
             >
-              <option value="1">일</option>
+              <option value="0">일</option>
               {Array.from({ length: lastDay }, (_, i) => (
                 <option key={`day-${i + 1}`} value={i + 1}>
                   {i + 1}일
