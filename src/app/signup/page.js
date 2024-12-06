@@ -171,7 +171,12 @@ export default function Signup() {
             <ProfileForm
               onSubmit={handleSecondFormSubmit}
               onSkip={handleSkipForm}
-              onPrevious={() => setProcess(0)}
+              onPrevious={() => {
+                setProcess(0);
+                alert(
+                  "이전 단계로 돌아갑니다.\n입력 내용이 유효한지 다시 확인해주세요."
+                );
+              }}
               formData={formData}
               setters={setters}
             />
