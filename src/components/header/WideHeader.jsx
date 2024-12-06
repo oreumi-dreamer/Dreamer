@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useRef } from "react";
 import styles from "./WideHeader.module.css";
 import Link from "next/link";
 import { HeaderBaseModal } from "./HeaderModal";
@@ -72,11 +72,11 @@ export default function WideHeader({
         <button
           className={`${styles["nav-item"]} ${styles["more-btn"]} ${isOpen ? styles.active : ""}`}
           ref={buttonRef}
-          onClick={() => onMoreBtnClick("moreModal")}
+          onClick={onMoreBtnClick}
         >
           더보기
         </button>
-        {isOpen ? <HeaderBaseModal /> : null}
+        {isOpen ? <HeaderBaseModal buttonRef={buttonRef} /> : null}
       </div>
     </header>
   );

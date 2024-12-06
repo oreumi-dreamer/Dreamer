@@ -6,20 +6,18 @@ import { openModal, closeModal, setModalType } from "@/store/modalSlice";
 import { useDispatch, useSelector } from "react-redux";
 export default function Header() {
   const buttonRef = useRef(null);
-  // const modalRef = useRef(null);
   const [isActive, setIsActive] = useState("홈");
   const { isOpen, modalType } = useSelector((state) => state.modal);
-  // const [isOpenModal, setIsOpenModal] = useState(false);
-  // const [openModalName, setOpenModalName] = useState(null);
   // const [modalStyle, setModalStyle] = useState({});
 
   const dispatch = useDispatch();
-  const handleMoreBtnClick = (modalName) => {
+  const handleMoreBtnClick = () => {
     if (!isOpen) {
-      dispatch(setModalType(modalName));
-      dispatch(openModal());
+      dispatch(openModal("moreModal"));
     } else {
-      dispatch(closeModal());
+      if (modalType === "moreModal" || modalType === "changeMode") {
+        dispatch(closeModal());
+      }
     }
   };
 
@@ -56,7 +54,7 @@ export default function Header() {
   return (
     <>
       <WideHeader
-        onMoreBtnClick={handleMoreBtnClick}
+        onMoreBtnClick={() => handleMoreBtnClick("moreModal")}
         buttonRef={buttonRef}
         isActive={isActive}
         handleActiveBtn={handleActiveBtn}

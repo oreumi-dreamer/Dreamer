@@ -1,24 +1,31 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./HeaderModal.module.css";
 import { outsideClickModalClose } from "@/utils/outsideClickModalClose";
 import { openModal, closeModal, setModalType } from "@/store/modalSlice";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 
-const HeaderBaseModal = ({ children }) => {
+const HeaderBaseModal = ({ buttonRef }) => {
   const modalRef = useRef(null);
   const dispatch = useDispatch();
   const { isOpen, modalType } = useSelector((state) => state.modal);
 
   useEffect(() => {
     if (isOpen) {
-      outsideClickModalClose(modalRef, () => {
-        dispatch(closeModal());
-      });
-    }
-  }, [isOpen, closeModal]);
+      const removeOutsideClickListener = outsideClickModalClose(
+        modalRef,
+        buttonRef,
+        () => {
+          dispatch(closeModal());
+        }
+      );
 
-  console.log("ref:", modalRef);
+      return () => {
+        removeOutsideClickListener();
+      };
+    }
+  }, [isOpen, dispatch, buttonRef]);
+
   if (!isOpen) return null;
 
   return (
