@@ -21,6 +21,7 @@ export async function GET(request, { params }) {
   const { userId } = params;
   const { searchParams } = new URL(request.url);
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+  const summary = searchParams.get("summary") === "true";
 
   // 먼저 userId로 사용자의 UID를 조회
   const usersRef = collection(db, "users");
@@ -40,10 +41,15 @@ export async function GET(request, { params }) {
   // DB 상의 사용자 이름과 ID를 조회
   const authorId = userSnapshot.docs[0].data().userId;
   const authorName = userSnapshot.docs[0].data().userName;
+  const bio = userSnapshot.docs[0].data().bio;
+  const followersCount = userSnapshot.docs[0].data().followersCount;
+  const followingCount = userSnapshot.docs[0].data().followingCount;
+  const profileImageUrl = userSnapshot.docs[0].data().profileImageUrl;
 
   const headersList = headers();
   const authorization = headersList.get("Authorization");
   let userData = null;
+  let userUid = null;
 
   if (authorization?.startsWith("Bearer ")) {
     const idToken = authorization.split("Bearer ")[1];
@@ -57,6 +63,7 @@ export async function GET(request, { params }) {
     const result = response.ok ? await response.json() : null;
 
     userData = result?.userId;
+    userUid = result?.uid;
   }
 
   // 기본적으로 공개 게시글만 볼 수 있게 쿼리 조건 설정
@@ -105,28 +112,54 @@ export async function GET(request, { params }) {
       const postData = doc.data();
       lastVisible = doc.id;
 
-      posts.push({
-        id: doc.id,
-        title: postData.title,
-        content: postData.content,
-        createdAt: postData.createdAt?.toDate().toISOString(),
-        updatedAt: postData.updatedAt?.toDate().toISOString(),
-        authorUid: postData.authorUid,
-        authorId: authorId,
-        authorName: authorName,
-        imageUrls: postData.imageUrls,
-        isPrivate: postData.isPrivate,
-        sparkCount: postData.sparkCount,
-        comments: [],
-        commentsCount: postData.commentsCount,
-        dreamGenres: postData.dreamGenres,
-        dreamMoods: postData.dreamMoods,
-        dreamRating: postData.dreamRating,
-      });
+      // summary 모드일 때는 요약 정보만 포함
+      if (summary) {
+        posts.push({
+          id: doc.id,
+          title: postData.title,
+          content: postData.content,
+          hasImages:
+            Array.isArray(postData.imageUrls) && postData.imageUrls.length > 0,
+          sparkCount: postData.sparkCount || 0,
+          hasUserSparked:
+            Array.isArray(postData.spark) && userUid
+              ? postData.spark.includes(userUid)
+              : false,
+          commentsCount: postData.commentsCount || 0,
+        });
+      } else {
+        // 기존 상세 정보 응답
+        posts.push({
+          id: doc.id,
+          title: postData.title,
+          content: postData.content,
+          createdAt: postData.createdAt?.toDate().toISOString(),
+          updatedAt: postData.updatedAt?.toDate().toISOString(),
+          authorUid: postData.authorUid,
+          authorId: authorId,
+          authorName: authorName,
+          imageUrls: postData.imageUrls,
+          isPrivate: postData.isPrivate,
+          sparkCount: postData.sparkCount,
+          comments: [],
+          commentsCount: postData.commentsCount,
+          dreamGenres: postData.dreamGenres,
+          dreamMoods: postData.dreamMoods,
+          dreamRating: postData.dreamRating,
+        });
+      }
     });
 
     return NextResponse.json({
       posts,
+      userId: authorId,
+      userName: authorName,
+      bio: bio,
+      profileImageUrl: profileImageUrl,
+      length: posts.length,
+      followersCount: followersCount,
+      followingCount: followingCount,
+      isMyself: userData === authorId,
       nextCursor: lastVisible,
       hasMore: posts.length === pageSize,
     });

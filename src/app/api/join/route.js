@@ -107,6 +107,10 @@ export async function POST(request) {
       updatedAt: new Date(),
       email: verifyData.email,
       via: verifyData.via,
+      following: [],
+      followingCount: 0,
+      followers: [],
+      followersCount: 0,
     });
 
     return new Response(

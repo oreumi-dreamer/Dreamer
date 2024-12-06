@@ -31,9 +31,12 @@ export function useSignupSubmit() {
         dispatch(
           loginSuccess({
             user: {
+              exists: true,
               uid: data.uid,
               email: data.email,
+              userId: formData.userId,
               userName: formData.userName,
+              profileImageUrl: data.profileImageUrl,
             },
           })
         );

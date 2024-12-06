@@ -10,7 +10,18 @@ export const checkUserExists = async (dispatch) => {
     const userData = await result.json();
 
     if (userData.exists) {
-      dispatch(loginSuccess({ user: userData }));
+      dispatch(
+        loginSuccess({
+          user: {
+            exists: true,
+            uid: userData.uid,
+            email: userData.email,
+            userId: userData.userId,
+            userName: userData.userName,
+            profileImageUrl: userData.profileImageUrl,
+          },
+        })
+      );
       return true;
     }
 

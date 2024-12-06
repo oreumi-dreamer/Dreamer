@@ -11,7 +11,6 @@ import Footer from "@/components/footer/Footer";
 import Profile from "@/components/profile/Profile";
 import MainList from "@/components/main/MainList";
 
-
 export default function Home() {
   const { user, isRegistrationComplete } = useSelector((state) => state.auth);
 
@@ -38,8 +37,6 @@ export default function Home() {
     <div className={styles.container}>
       <Header />
       {/* <PostModal /> */}
-      <MainList  />
-      <Profile />
       <Footer />
     </div>
   );

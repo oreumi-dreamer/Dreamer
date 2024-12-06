@@ -41,19 +41,19 @@ export async function GET(request, { params }) {
 
     // 현재 사용자가 이미 반짝을 눌렀는지 확인
     const spark = postData.spark || [];
-    const hasSparked = spark.includes(userData.userId);
+    const hasSparked = spark.includes(userData.uid);
 
     // 반짝 토글 및 카운트 업데이트
     if (hasSparked) {
       // 반짝 제거
       await updateDoc(postRef, {
-        spark: arrayRemove(userData.userId),
+        spark: arrayRemove(userData.uid),
         sparkCount: postData.sparkCount - 1,
       });
     } else {
       // 반짝 추가
       await updateDoc(postRef, {
-        spark: arrayUnion(userData.userId),
+        spark: arrayUnion(userData.uid),
         sparkCount: postData.sparkCount + 1,
       });
     }
