@@ -34,6 +34,10 @@
   font-size: 2.4rem;
   text-indent: 2rem;
 }
+.form-field input:focus {
+  outline: none;
+  border: 0.2rem solid #a54cb4;
+}
 
 .form-field label {
   font-size: 2.4rem;
@@ -95,4 +99,16 @@
   position: absolute;
   right: 4rem;
   bottom: -2.1rem;
+}
+
+.next-btn:hover {
+  background-color: #cd6969;
+}
+
+.next-btn:active {
+  background-color: #903434;
+}
+
+.next-btn:disabled {
+  background-color: #77777b;
 }
