@@ -1,4 +1,6 @@
 "use client";
+import Image from "next/image";
+import styles from "./ProfileForm.module.css";
 
 export default function ProfileForm({
   onSubmit,
@@ -28,25 +30,28 @@ export default function ProfileForm({
       <p>마지막 단계예요!</p>
 
       <fieldset>
-        <legend>프로필 정보</legend>
+        <legend className="sr-only">프로필 정보</legend>
 
         <div className="form-field">
           <label htmlFor="profileImage">프로필 사진</label>
+          <span>사진 파일 확장자, 가로세로 크기, 파일 크기 등 조건</span>
           <input
             type="file"
             id="profileImage"
             accept="image/*"
             onChange={handleImageChange}
           />
+          <Image src={""} width={140} height={140} alt="프로필 사진" />
         </div>
 
         <div className="form-field">
-          <label htmlFor="bio">한 줄 소개글</label>
+          <label htmlFor="bio">한줄소개</label>
           <input
             type="text"
             id="bio"
             onChange={(e) => setBio(e.target.value)}
             value={bio}
+            maxLength={40}
             required
           />
         </div>
@@ -89,14 +94,12 @@ export default function ProfileForm({
 
       <div className="buttons">
         <button type="button" onClick={onPrevious}>
-          <span>이전</span>
+          이전
         </button>
         <button type="button" onClick={onSkip}>
-          <span>나중에 할게요</span>
+          다음에 하기
         </button>
-        <button type="submit">
-          <span>다음</span>
-        </button>
+        <button type="submit">다음</button>
       </div>
     </form>
   );
