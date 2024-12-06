@@ -1,24 +1,26 @@
-.more-modal,
+ .more-modal,
 .change-mode-modal {
   width: 30rem;
   background-color: var(--background-white);
   border-radius: 2rem;
 }
 
-.modal-items .more-modal-btn {
+.modal-items .header-modal-btn {
   width: 30rem;
   font-size: 2.4rem;
   line-height: 2.4rem;
   color: var(--black-font-color);
   padding: 2rem 0 2rem 3rem;
   margin: 0;
+  display: inline-block;
+  text-align: left;
 }
 
-.modal-items .more-modal-btn:hover {
+.modal-items .header-modal-btn:hover {
   background-color: var(--background-color);
 }
 
-.modal-items .more-modal-btn:not(.logout-btn)::before {
+.modal-items .header-modal-btn:not(.logout-btn)::before {
   content: "";
   width: 3.5rem;
   height: 3.5rem;
@@ -92,4 +94,4 @@
 .more-modal li:last-child .more-modal-btn,
 .change-mode-modal li:last-child .more-modal-btn {
   border-radius: 0 0 2rem 2rem;
-}
+} 
