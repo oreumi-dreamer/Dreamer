@@ -39,6 +39,10 @@
   border: 0.2rem solid #a54cb4;
 }
 
+.form-field .invalid {
+  border: 0.2rem solid #f41e1e;
+}
+
 .form-field label {
   font-size: 2.4rem;
   font-weight: bold;
