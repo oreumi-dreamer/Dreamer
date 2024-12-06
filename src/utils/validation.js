@@ -1,21 +1,12 @@
 "use client";
 
-export async function validateFirstForm(e, styles) {
+export async function validateFirstForm(e) {
   const form = e.target;
   const userId = form.querySelector("#userId");
   const userName = form.querySelector("#userName");
   const birthYear = form.querySelector("#birth-year");
   const birthMonth = form.querySelector("#birth-month");
   const birthDay = form.querySelector("#birth-day");
-
-  function invalidInputsCheck(form) {
-    const invalidItems = form.querySelectorAll(`.${styles.invalid}`);
-    if (invalidItems.length > 0) {
-      return false;
-    } else {
-      return true;
-    }
-  }
 
   if (
     !userId.value ||
@@ -25,12 +16,6 @@ export async function validateFirstForm(e, styles) {
     !birthDay.value
   ) {
     alert("모든 항목을 입력해주세요.");
-    return false;
-  }
-
-  // invalid class가 있는지 확인하는 코드
-  if (!invalidInputsCheck(form)) {
-    alert("입력한 정보를 확인해주세요.");
     return false;
   }
 
@@ -80,7 +65,7 @@ export async function validateFirstForm(e, styles) {
   }
 }
 
-export function validateSecondForm(e, styles) {
+export function validateSecondForm(e) {
   const form = e.target;
   const profileImage = form.querySelector("#profileImage").value;
   const bio = form.querySelector("#bio").value;

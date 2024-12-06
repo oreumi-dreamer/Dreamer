@@ -79,7 +79,7 @@ export default function Signup() {
 
   async function handleFirstFormSubmit(e) {
     e.preventDefault();
-    const isValid = await validateFirstForm(e, styles);
+    const isValid = await validateFirstForm(e);
     if (isValid) {
       setProcess(1);
     }
@@ -165,7 +165,6 @@ export default function Signup() {
               onSubmit={handleFirstFormSubmit}
               formData={formData}
               setters={setters}
-              styles={styles}
             />
           )}
           {process === 1 && (
@@ -175,7 +174,6 @@ export default function Signup() {
               onPrevious={() => setProcess(0)}
               formData={formData}
               setters={setters}
-              styles={styles}
             />
           )}
         </>
