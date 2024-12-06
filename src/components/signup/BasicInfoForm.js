@@ -38,16 +38,20 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
     if (type === "userId") {
       if (value.length < 4 || value.length > 20) {
         setIsIdValid(false);
+        e.target.classList.add(`${styles.invalid}`);
       } else {
         setIsIdValid(true);
+        e.target.classList.remove(`${styles.invalid}`);
       }
     }
 
     if (type === "userName") {
       if (value.length < 2 || value.length > 20) {
         setIsNameValid(false);
+        e.target.classList.add(`${styles.invalid}`);
       } else {
         setIsNameValid(true);
+        e.target.classList.remove(`${styles.invalid}`);
       }
     }
   };
