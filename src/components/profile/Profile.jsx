@@ -5,11 +5,18 @@ import { useRouter } from "next/navigation";
 import styles from "@/components/profile/Profile.module.css";
 import PostList from "./PostList";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
+import ProfileEdit from "./ProfileEdit";
+import { useSelector } from "react-redux";
 
 export default function Profile({ userName }) {
+  const router = useRouter();
   const [profile, setProfile] = useState(null);
   const [posts, setPosts] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isModal, setIsModal] = useState(false);
+
+  const user = useSelector((state) => state.auth.user);
+  const isLoggedIn = user?.exists ? true : false;
 
   const changeFollow = () => {
     setProfile((currentProfile) => ({
@@ -100,7 +107,10 @@ export default function Profile({ userName }) {
                   <div className={styles["profile-id"]}>@{profile.id}</div>
                 </div>
                 {profile.isMyself ? (
-                  <button className={`${styles["profile-btn"]}`}>
+                  <button
+                    onClick={() => setIsModal(true)}
+                    className={`${styles["profile-btn"]}`}
+                  >
                     프로필 수정
                   </button>
                 ) : profile.isFollowing ? (
@@ -140,6 +150,7 @@ export default function Profile({ userName }) {
           />
         </section>
       </main>
+      {isModal ? <ProfileEdit /> : null}
     </>
   );
 }
