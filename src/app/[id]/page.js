@@ -7,7 +7,10 @@ import styles from "@/app/page.module.css";
 import { metadataMaker } from "@/utils/metadata";
 
 export async function generateMetadata({ params }) {
-  return metadataMaker(`${params.id}: DREAMER`, "당신의 꿈을 들려주세요!");
+  return metadataMaker(
+    `${params.id}님의 프로필: DREAMER`,
+    "당신의 꿈을 들려주세요!"
+  );
 }
 
 export default function UserProfile(props) {
