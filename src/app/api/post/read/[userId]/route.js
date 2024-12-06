@@ -159,6 +159,7 @@ export async function GET(request, { params }) {
       length: posts.length,
       followersCount: followersCount,
       followingCount: followingCount,
+      isMyself: userData === authorId,
       nextCursor: lastVisible,
       hasMore: posts.length === pageSize,
     });
