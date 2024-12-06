@@ -42,6 +42,8 @@ export async function GET(request, { params }) {
   const authorId = userSnapshot.docs[0].data().userId;
   const authorName = userSnapshot.docs[0].data().userName;
   const bio = userSnapshot.docs[0].data().bio;
+  const followersCount = userSnapshot.docs[0].data().followersCount;
+  const followingCount = userSnapshot.docs[0].data().followingCount;
   const profileImageUrl = userSnapshot.docs[0].data().profileImageUrl;
 
   const headersList = headers();
@@ -155,6 +157,8 @@ export async function GET(request, { params }) {
       bio: bio,
       profileImageUrl: profileImageUrl,
       length: posts.length,
+      followersCount: followersCount,
+      followingCount: followingCount,
       nextCursor: lastVisible,
       hasMore: posts.length === pageSize,
     });
