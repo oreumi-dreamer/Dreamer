@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef } from "react";
+import React from "react";
 import styles from "./WideHeader.module.css";
 import Link from "next/link";
 import { HeaderBaseModal } from "./HeaderModal";
@@ -12,7 +12,7 @@ export default function WideHeader({
   isActive,
   handleActiveBtn,
 }) {
-  const { isOpen, modalType } = useSelector((state) => state.modal);
+  const { isOpen } = useSelector((state) => state.modal);
 
   const navItems = [
     { label: "홈", className: "home-btn", href: "/" },
@@ -76,7 +76,7 @@ export default function WideHeader({
         >
           더보기
         </button>
-        {isOpen ? <HeaderBaseModal buttonRef={buttonRef} /> : null}
+        {isOpen ? <HeaderBaseModal /> : null}
       </div>
     </header>
   );
