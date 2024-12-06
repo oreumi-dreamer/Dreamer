@@ -108,6 +108,23 @@
   display: none;
 }
 
+.dark-mode input:hover + label,
+.buttons button:hover {
+  background-color: #cd6969;
+  color: #ffffff;
+}
+
+.dark-mode input:active + label,
+.buttons button:active {
+  background-color: #903434;
+  color: #ffffff;
+}
+
+.dark-mode input:checked + label {
+  background-color: #f89b9b;
+  color: #ffffff;
+}
+
 .dark-mode label {
   font-size: 2rem;
   font-weight: unset;
