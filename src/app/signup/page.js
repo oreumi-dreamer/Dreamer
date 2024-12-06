@@ -151,37 +151,35 @@ export default function Signup() {
   });
 
   return (
-    <body className={styles["signup-body"]}>
-      <main className={styles["signup-main"]}>
-        <SignupHeader />
-        <h2 className="sr-only">회원 가입</h2>
-        {isLoading && <Loading />}
-        {error && <div className={styles.error}>{error}</div>}
-        {isJoined ? (
-          <Loading />
-        ) : (
-          <>
-            {process === 0 && (
-              <BasicInfoForm
-                onSubmit={handleFirstFormSubmit}
-                formData={formData}
-                setters={setters}
-                styles={styles}
-              />
-            )}
-            {process === 1 && (
-              <ProfileForm
-                onSubmit={handleSecondFormSubmit}
-                onSkip={handleSkipForm}
-                onPrevious={() => setProcess(0)}
-                formData={formData}
-                setters={setters}
-                styles={styles}
-              />
-            )}
-          </>
-        )}
-      </main>
-    </body>
+    <main className={styles["signup-main"]}>
+      <SignupHeader />
+      <h2 className="sr-only">회원 가입</h2>
+      {isLoading && <Loading />}
+      {error && <div className={styles.error}>{error}</div>}
+      {isJoined ? (
+        <Loading />
+      ) : (
+        <>
+          {process === 0 && (
+            <BasicInfoForm
+              onSubmit={handleFirstFormSubmit}
+              formData={formData}
+              setters={setters}
+              styles={styles}
+            />
+          )}
+          {process === 1 && (
+            <ProfileForm
+              onSubmit={handleSecondFormSubmit}
+              onSkip={handleSkipForm}
+              onPrevious={() => setProcess(0)}
+              formData={formData}
+              setters={setters}
+              styles={styles}
+            />
+          )}
+        </>
+      )}
+    </main>
   );
 }
