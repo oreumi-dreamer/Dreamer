@@ -1,58 +1,77 @@
 import React, { useEffect, useRef } from "react";
 import styles from "./HeaderModal.module.css";
 import { outsideClickModalClose } from "@/utils/outsideClickModalClose";
+import { openModal, closeModal, setModalType } from "@/store/modalSlice";
 import Link from "next/link";
+import { useDispatch, useSelector } from "react-redux";
 
-function MoreModal({ setOpenModalName, isOpen, onClose }) {
+const HeaderBaseModal = ({ children }) => {
   const modalRef = useRef(null);
+  const dispatch = useDispatch();
+  const { isOpen, modalType } = useSelector((state) => state.modal);
 
   useEffect(() => {
     if (isOpen) {
-      outsideClickModalClose(modalRef, onClose);
+      outsideClickModalClose(modalRef, () => {
+        dispatch(closeModal());
+      });
     }
-  }, [isOpen, onClose]);
+  }, [isOpen, closeModal]);
+
+  console.log("ref:", modalRef);
+  if (!isOpen) return null;
 
   return (
-    <ul className={styles["more-modal"]} ref={modalRef}>
+    <div className={styles["modal-wrapper"]} ref={modalRef}>
+      {modalType === "moreModal" && <MoreModal />}
+      {modalType === "changeMode" && <ChangeModeModal />}
+    </div>
+  );
+};
+
+function MoreModal() {
+  const dispatch = useDispatch();
+  return (
+    <ul className={styles["more-modal"]}>
       <li className={styles["modal-items"]}>
-        <Link href="/account" className={styles["setting-btn"]}>
+        <Link
+          href="/account"
+          className={`${styles["setting-btn"]} ${styles["more-modal-btn"]}`}
+        >
           계정 설정
         </Link>
       </li>
       <li className={styles["modal-items"]}>
         <button
-          className={`${styles["change-mode-btn"]} ${styles["light-mode"]}`}
-          onClick={() => setOpenModalName("모드 전환")}
+          className={`${styles["change-mode-btn"]} ${styles["more-modal-btn"]} ${styles["light-mode"]}`}
+          onClick={() => dispatch(setModalType("changeMode"))}
         >
           모드 전환
         </button>
       </li>
-      <li className={styles["modal-items"]}>
+      <li className={`${styles["modal-items"]} ${styles["more-modal-btn"]}`}>
         <button className={styles["inquiry-btn"]}>문의 사항</button>
       </li>
       <li className={styles["modal-items"]}>
-        <Link href="/logout">
-          <button className={styles["logout-btn"]}>로그아웃</button>
+        <Link
+          href="/logout"
+          className={`${styles["logout-btn"]} ${styles["more-modal-btn"]}`}
+        >
+          로그아웃
         </Link>
       </li>
     </ul>
   );
 }
 
-function ChangeModeModal({ setOpenModalName, isOpen, onClose }) {
-  const modalRef = useRef(null);
-
-  useEffect(() => {
-    if (isOpen) {
-      outsideClickModalClose(modalRef, onClose);
-    }
-  }, [isOpen, onClose]);
+function ChangeModeModal() {
+  const dispatch = useDispatch();
   return (
-    <ul className={styles["change-mode-modal"]} ref={modalRef}>
+    <ul className={styles["change-mode-modal"]}>
       <li className={styles["modal-items"]}>
         <button
           className={styles["back-more-modal-btn"]}
-          onClick={() => setOpenModalName("더보기")}
+          onClick={() => dispatch(setModalType("moreModal"))}
         >
           모드 전환
         </button>
@@ -70,4 +89,4 @@ function ChangeModeModal({ setOpenModalName, isOpen, onClose }) {
   );
 }
 
-export { MoreModal, ChangeModeModal };
+export { HeaderBaseModal };

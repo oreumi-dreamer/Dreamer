@@ -1,0 +1,166 @@
+.header {
+  width: 25vw;
+  min-width: 35rem;
+  max-width: 48.9rem;
+  height: 100vh;
+  background: var(--background-pink-top);
+  box-shadow: 4px 0px 75.5px -20px rgba(0, 0, 0, 0.16);
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  padding: 10rem 0 10.6rem 8rem;
+  min-height: 92rem;
+  position: relative;
+}
+
+.logo img {
+  width: 90%;
+  max-width: 31.4rem;
+}
+
+.mode-toggle-btn {
+  margin: 2rem 0 0 0;
+  width: 10rem;
+  border-radius: 5rem;
+  padding: 0.9rem;
+  background-color: transparent;
+  position: relative;
+}
+
+.mode-toggle-btn.light-mode {
+  border: 4px solid var(--black-font-color);
+}
+
+.mode-toggle-btn.dark-mode {
+  border: 4px solid var(--dark-mode-text);
+}
+
+.mode-toggle-btn .toggle-switch {
+  width: 3.2rem;
+  height: 3.2rem;
+  border-radius: 5rem;
+  position: relative;
+}
+
+.mode-toggle-btn.light-mode .toggle-switch {
+  background-color: var(--black-font-color);
+  background-image: url(/images/toggle-sun.svg);
+  background-size: 2rem;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.mode-toggle-btn.dark-mode .toggle-switch {
+  background-color: var(--dark-mode-text);
+  background-image: url(/images/toggle-moon.svg);
+  background-size: 2rem;
+  background-repeat: no-repeat;
+  background-position: center;
+  left: 4.5rem;
+}
+
+.header-btn-container {
+  position: relative;
+  padding: 5rem 0 0 0;
+}
+
+.header-btn-container .nav-item {
+  background-color: transparent;
+  width: 18rem;
+  font-size: 2.4rem;
+  text-wrap: nowrap;
+  color: var(--none-active-color);
+  margin-bottom: 3.2rem;
+  display: flex;
+}
+
+.header-btn-container nav {
+  margin-bottom: 10rem;
+}
+
+.header-btn-container .nav-item.active {
+  padding-bottom: 0.3rem;
+  color: var(--black-font-color);
+}
+
+.header-btn-container .nav-item.active:not(.more-btn) {
+  border-bottom: 3px solid var(--black-font-color);
+}
+
+.header-btn-container .nav-item:not(.more-btn).active::after {
+  content: url(/images/active-star.svg);
+  width: 3rem;
+  height: 3rem;
+  display: inline-block;
+  position: absolute;
+  right: 0;
+}
+
+.nav-items .nav-item::before,
+.more-btn::before {
+  content: "";
+  width: 4rem;
+  height: 4rem;
+  mask-size: contain;
+  background-color: var(--none-active-color);
+  display: inline-block;
+  margin-right: 3rem;
+}
+
+.nav-items .nav-item.active::before,
+.more-btn.active::before {
+  background-color: var(--black-font-color);
+}
+
+.nav-items .home-btn::before {
+  mask: url(/images/home.svg) no-repeat center;
+}
+
+.nav-items .search-btn::before {
+  mask: url(/images/search.svg) no-repeat center;
+}
+
+.nav-items .message-btn::before {
+  mask: url(/images/message.svg) no-repeat center;
+}
+
+.nav-items .alarm-btn::before {
+  mask: url(/images/alarm.svg) no-repeat center;
+}
+
+.nav-items .writing-btn::before {
+  mask: url(/images/writing.svg) no-repeat center;
+}
+
+.more-btn::before {
+  mask: url(/images/more.svg) no-repeat center;
+}
+
+.profile-btn,
+.more-btn {
+  display: flex;
+  align-items: center;
+  position: fixed;
+}
+
+@media (max-height: 980px) {
+  .profile-btn,
+  .more-btn {
+    position: static;
+    margin-top: 2rem;
+  }
+}
+
+.profile-btn {
+  bottom: 12rem;
+}
+.profile-btn img {
+  margin-right: 2rem;
+}
+
+.more-btn {
+  bottom: 5rem;
+}
