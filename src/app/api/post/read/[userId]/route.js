@@ -38,13 +38,16 @@ export async function GET(request, { params }) {
   // 사용자 정보 추출
   const authorUid = userSnapshot.docs[0].id;
 
+  const authorDocsData = userSnapshot.docs[0].data();
+
   // DB 상의 사용자 이름과 ID를 조회
-  const authorId = userSnapshot.docs[0].data().userId;
-  const authorName = userSnapshot.docs[0].data().userName;
-  const bio = userSnapshot.docs[0].data().bio;
-  const followersCount = userSnapshot.docs[0].data().followersCount;
-  const followingCount = userSnapshot.docs[0].data().followingCount;
-  const profileImageUrl = userSnapshot.docs[0].data().profileImageUrl;
+  const authorId = authorDocsData.userId;
+  const authorName = authorDocsData.userName;
+  const bio = authorDocsData.bio;
+  const followersCount = authorDocsData.followersCount;
+  const followingCount = authorDocsData.followingCount;
+  const profileImageUrl = authorDocsData.profileImageUrl;
+  const isPrivate = authorDocsData.isPrivate;
 
   const headersList = headers();
   const authorization = headersList.get("Authorization");
@@ -156,6 +159,7 @@ export async function GET(request, { params }) {
       userName: authorName,
       bio: bio,
       profileImageUrl: profileImageUrl,
+      isPrivate: isPrivate,
       length: posts.length,
       followersCount: followersCount,
       followingCount: followingCount,
