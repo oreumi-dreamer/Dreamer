@@ -30,7 +30,19 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
         setDay(newLastDay);
       }
     }
-  }, [year, month]);
+    // 아이디, 이름, 생일 값이 각각 유효한경우 state 값을 true로 지정
+    userId.length < 4 || userId.length > 20
+      ? setIsIdValid(false)
+      : setIsIdValid(true);
+
+    userName.length < 2 || userName.length > 20
+      ? setIsNameValid(false)
+      : setIsNameValid(true);
+
+    year !== 0 && month !== 0 && day !== 0
+      ? setIsBirthValid(true)
+      : setIsBirthValid(false);
+  }, [year, month, day, userId, userName]);
 
   const handleGoogleLogin = async () => {
     try {
@@ -75,20 +87,16 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
 
     if (type === "userId") {
       if (value.length < 4 || value.length > 20) {
-        setIsIdValid(false);
         e.target.classList.add(`${styles.invalid}`);
       } else {
-        setIsIdValid(true);
         e.target.classList.remove(`${styles.invalid}`);
       }
     }
 
     if (type === "userName") {
       if (value.length < 2 || value.length > 20) {
-        setIsNameValid(false);
         e.target.classList.add(`${styles.invalid}`);
       } else {
-        setIsNameValid(true);
         e.target.classList.remove(`${styles.invalid}`);
       }
     }
@@ -115,12 +123,6 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
     }
     if (yearData.value) {
       yearData.classList.remove(`${styles.invalid}`);
-    }
-
-    if (!yearData.value || !monthData.value || dayData.value === "0") {
-      setIsBirthValid(false);
-    } else {
-      setIsBirthValid(true);
     }
   };
 
