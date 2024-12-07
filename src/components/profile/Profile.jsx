@@ -8,6 +8,7 @@ import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 import ProfileEdit from "./ProfileEdit";
 import { useSelector } from "react-redux";
 import ProfileInfo from "./ProfileInfo";
+import { Button } from "../Controls";
 
 export default function Profile({ userName }) {
   const router = useRouter();
@@ -85,6 +86,40 @@ export default function Profile({ userName }) {
     return <div>사용자를 찾을 수 없습니다.</div>;
   }
 
+  const Posts = () => {
+    if (!posts.length && profile.isMyself) {
+      return (
+        <section className={styles["no-posts"]}>
+          <p>당신의 꿈을 들려주세요!</p>
+          <Button
+            className={styles["write-post-btn"]}
+            onClick={() => router.push("/write")}
+            highlight={true}
+          >
+            글 쓰러 가기
+          </Button>
+        </section>
+      );
+    } else if (!posts.length) {
+      return (
+        <section className={styles["no-posts"]}>
+          <p>아직 들려준 꿈이 없어요!</p>
+        </section>
+      );
+    } else {
+      return (
+        <section className={styles["posts-container"]}>
+          <h2 className="sr-only">게시물</h2>
+          <PostList
+            posts={posts.posts}
+            styles={styles}
+            isLoggedIn={isLoggedIn}
+          />
+        </section>
+      );
+    }
+  };
+
   return (
     <>
       <main className={styles["profile-main"]}>
@@ -105,14 +140,7 @@ export default function Profile({ userName }) {
             />
           )}
         </section>
-        <section className={styles["posts-container"]}>
-          <h2 className="sr-only">게시물</h2>
-          <PostList
-            posts={posts.posts}
-            styles={styles}
-            isLoggedIn={isLoggedIn}
-          />
-        </section>
+        <Posts />
       </main>
     </>
   );
