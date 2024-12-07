@@ -13,9 +13,12 @@ export default function ProfileEdit({
   const [userName, setUserName] = useState(profile.name);
   const [userId, setUserId] = useState(profile.id);
   const [bio, setBio] = useState(profile.bio);
-  const [year, setYear] = useState(todayYear);
-  const [month, setMonth] = useState(today.getMonth() + 1);
-  const [day, setDay] = useState(today.getDate());
+
+  const birthDate = new Date(profile.birthDate);
+
+  const [year, setYear] = useState(birthDate.getFullYear());
+  const [month, setMonth] = useState(birthDate.getMonth() + 1);
+  const [day, setDay] = useState(birthDate.getDate());
   const [lastDay, setLastDay] = useState(31);
   const [isPrivate, setIsPrivate] = useState(profile.isPrivate);
 
@@ -93,6 +96,7 @@ export default function ProfileEdit({
           id: userId,
           bio,
           isPrivate,
+          birthDate: new Date(year, month - 1, day),
           profileImageUrl: newImage,
         });
       } else {
@@ -102,6 +106,7 @@ export default function ProfileEdit({
           id: userId,
           bio,
           isPrivate,
+          birthDate: new Date(year, month - 1, day),
         });
       }
       setIsEdit(false);
