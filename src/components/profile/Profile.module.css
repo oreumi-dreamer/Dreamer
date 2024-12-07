@@ -176,6 +176,12 @@
 .no-posts p {
   font-size: 4rem;
   color: var(--black-transparent-color);
+  display: inline-flex;
+  align-items: center;
+}
+
+.no-posts p img {
+  margin-left: 1rem;
 }
 
 .posts-container {
