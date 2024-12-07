@@ -103,7 +103,7 @@ export default function Profile({ userName }) {
     } else if (!posts.length) {
       return (
         <section className={styles["no-posts"]}>
-          <p>아직 들려준 꿈이 없어요!</p>
+          <p>아직 {profile.name}님이 들려준 꿈이 없어요!</p>
         </section>
       );
     } else {
