@@ -117,12 +117,15 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
 
     if (dayData.value !== "0") {
       dayData.classList.remove(`${styles.invalid}`);
+      dayData.classList.add(`${styles.selected}`);
     }
     if (monthData.value) {
       monthData.classList.remove(`${styles.invalid}`);
+      monthData.classList.add(`${styles.selected}`);
     }
     if (yearData.value) {
       yearData.classList.remove(`${styles.invalid}`);
+      yearData.classList.add(`${styles.selected}`);
     }
   };
 
