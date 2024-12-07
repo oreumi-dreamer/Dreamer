@@ -172,14 +172,7 @@ export default function Signup() {
               onSubmit={handleSecondFormSubmit}
               onSkip={handleSkipForm}
               onPrevious={() => {
-                const prevAnswer = confirm("이전 단계로 돌아가시겠습니까?");
-
-                if (prevAnswer) {
-                  alert(
-                    "이전 단계로 돌아갑니다.\n입력 내용이 유효한지 다시 확인해주세요."
-                  );
-                  setProcess(0);
-                }
+                setProcess(0);
               }}
               formData={formData}
               setters={setters}
