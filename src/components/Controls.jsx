@@ -24,7 +24,7 @@ export function ButtonLabel({ highlight, children, htmlFor }) {
   );
 }
 
-export function Input({ type, value, onChange }) {
+export function Input({ type, value, onChange, background }) {
   let inputClass = styles["input"];
   if (type === "text") {
     inputClass = styles["input-text"];
@@ -36,17 +36,70 @@ export function Input({ type, value, onChange }) {
       value={value}
       onChange={onChange}
       className={inputClass}
+      style={background === "white" ? { backgroundColor: "white" } : {}}
     />
   );
 }
 
-export function Textarea({ value, maxLength, onChange }) {
+export function Textarea({ value, maxLength, onChange, background }) {
   return (
     <textarea
       value={value}
       onChange={onChange}
       maxLength={maxLength}
       className={styles["textarea"]}
+      style={background === "white" ? { backgroundColor: "white" } : {}}
     />
   );
+}
+
+export function Select({
+  id,
+  name,
+  onChange,
+  value,
+  required,
+  children,
+  background,
+}) {
+  return (
+    <select
+      id={id}
+      name={name}
+      onChange={onChange}
+      value={value}
+      required={required}
+      className={styles["select"]}
+      style={background === "white" ? { backgroundColor: "white" } : {}}
+    >
+      {children}
+    </select>
+  );
+}
+
+export function Checkbox({ type, background, value, onChange, children }) {
+  if (type === "col") {
+    return (
+      <label className={styles["checkbox-col"]}>
+        <input
+          type="checkbox"
+          value={value}
+          onChange={onChange}
+          className={styles["checkbox"]}
+          style={background === "white" ? { backgroundColor: "white" } : {}}
+        />
+        {children}
+      </label>
+    );
+  } else {
+    return (
+      <input
+        type="checkbox"
+        value={value}
+        onChange={onChange}
+        className={styles["checkbox"]}
+        style={bg === "white" ? { backgroundColor: "white" } : {}}
+      />
+    );
+  }
 }
