@@ -153,6 +153,8 @@ export async function GET(request, { params }) {
       }
     });
 
+    const birthDate = new Date(authorDocsData.birthDate.seconds * 1000);
+
     return NextResponse.json({
       posts,
       userId: authorId,
@@ -164,6 +166,10 @@ export async function GET(request, { params }) {
       followersCount: followersCount,
       followingCount: followingCount,
       isMyself: userData === authorId,
+      birthDate:
+        userData === authorId
+          ? birthDate // 사용자 본인의 경우만 생일 정보 제공
+          : null,
       nextCursor: lastVisible,
       hasMore: posts.length === pageSize,
     });
