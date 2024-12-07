@@ -159,7 +159,7 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
               value={day}
               required
             >
-              <option value="1">일</option>
+              <option value="0">일</option>
               {Array.from({ length: lastDay }, (_, i) => (
                 <option key={`day-${i + 1}`} value={i + 1}>
                   {i + 1}일
