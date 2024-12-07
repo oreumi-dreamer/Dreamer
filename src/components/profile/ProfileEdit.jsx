@@ -1,5 +1,6 @@
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 import { useState, useEffect } from "react";
+import { Button, ButtonLabel, Input, Textarea } from "../Controls";
 
 export default function ProfileEdit({
   profile,
@@ -112,8 +113,8 @@ export default function ProfileEdit({
   return (
     <article className={styles["profile-wrap"]}>
       <h2 className="sr-only">프로필 편집</h2>
-      <form onSubmit={handleSubmit}>
-        <fieldset>
+      <form onSubmit={handleSubmit} className={styles["profile-form"]}>
+        <fieldset className={styles["profile-form-pic"]}>
           <img
             src={
               newImage
@@ -127,15 +128,15 @@ export default function ProfileEdit({
             height={160}
             alt={profile.name + "님의 프로필 이미지"}
           />
-          <label>
+          <ButtonLabel highlight={true}>
             사진 변경
             <input type="file" accept="image/*" onChange={handleNewImage} />
-          </label>
+          </ButtonLabel>
         </fieldset>
-        <fieldset>
+        <fieldset className={styles["profile-form-info"]}>
           <label>
             이름
-            <input
+            <Input
               type="text"
               value={userName}
               onChange={(e) => setUserName(e.target.value)}
@@ -143,15 +144,20 @@ export default function ProfileEdit({
           </label>
           <label>
             아이디
-            <input
+            <Input
               type="text"
               value={userId}
               onChange={(e) => setUserId(e.target.value)}
             />
           </label>
-          <label>
+          <label className={styles["relative"]}>
             한줄소개
-            <textarea value={bio} onChange={(e) => setBio(e.target.value)} />
+            <Textarea
+              value={bio}
+              maxLength={40}
+              onChange={(e) => setBio(e.target.value)}
+            />
+            <span className={styles["char-limits"]}>{bio.length}/40</span>
           </label>
           <label htmlFor="year">
             생년월일
@@ -202,17 +208,19 @@ export default function ProfileEdit({
               </label>
             </div>
           </label>
-        </fieldset>
-        <fieldset>
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              setIsEdit(false);
-            }}
-          >
-            취소
-          </button>
-          <button type="submit">수정 완료</button>
+          <div>
+            <Button
+              onClick={(e) => {
+                e.preventDefault();
+                setIsEdit(false);
+              }}
+            >
+              취소
+            </Button>
+            <Button type="submit" highlight={true}>
+              수정 완료
+            </Button>
+          </div>
         </fieldset>
       </form>
     </article>
