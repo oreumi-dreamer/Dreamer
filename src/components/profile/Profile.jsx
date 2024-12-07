@@ -9,6 +9,7 @@ import ProfileEdit from "./ProfileEdit";
 import { useSelector } from "react-redux";
 import ProfileInfo from "./ProfileInfo";
 import { Button } from "../Controls";
+import Loading from "../Loading";
 
 export default function Profile({ userName }) {
   const router = useRouter();
@@ -79,7 +80,7 @@ export default function Profile({ userName }) {
   }, [userName]);
 
   if (loading) {
-    return <div>로드 중...</div>;
+    return <Loading />;
   }
 
   if (!posts) {
