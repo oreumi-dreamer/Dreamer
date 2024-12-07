@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 import ProfileInfo from "./ProfileInfo";
 import { Button } from "../Controls";
 import Loading from "../Loading";
+import PostModal from "../modal/PostModal";
 
 export default function Profile({ userName }) {
   const router = useRouter();
@@ -87,7 +88,7 @@ export default function Profile({ userName }) {
     return (
       <section className={styles["no-posts"]}>
         <p>
-          사용자를 찾을 수 없습니다 <img src="/images/invalid.svg" />
+          사용자를 찾을 수 없습니다 <img src="/images/invalid.svg" alt="" />
         </p>
       </section>
     );
@@ -149,6 +150,7 @@ export default function Profile({ userName }) {
         </section>
         <Posts />
       </main>
+      <PostModal />
     </>
   );
 }
