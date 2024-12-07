@@ -6,7 +6,7 @@ export async function validateFirstForm(e, styles) {
   const userName = form.querySelector("#userName");
   const birthYear = form.querySelector("#birth-year");
   const birthMonth = form.querySelector("#birth-month");
-  const birthDay = form.querySelector("#birthDay");
+  const birthDay = form.querySelector("#birth-day");
 
   function invalidInputsCheck(form) {
     const invalidItems = form.querySelectorAll(`.${styles.invalid}`);
