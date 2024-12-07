@@ -121,10 +121,13 @@
   display: none;
 }
 
-.dark-mode input:hover + label,
 .buttons button:hover {
   background-color: #cd6969;
   color: #ffffff;
+}
+.dark-mode input:hover + label,
+.buttons button:nth-of-type(2):hover {
+  background-color: #959595;
 }
 
 .dark-mode input:active + label,
