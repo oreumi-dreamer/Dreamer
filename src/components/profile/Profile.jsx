@@ -67,6 +67,7 @@ export default function Profile({ userName }) {
           followersCount: data.followersCount,
           followingCount: data.followingCount,
           isMyself: data.isMyself,
+          birthDate: data.birthDate,
         });
       }
 
