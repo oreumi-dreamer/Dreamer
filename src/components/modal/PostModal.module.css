@@ -84,20 +84,20 @@
 
 .post-text {
   height: 82.3%;
-  max-width: 63.3rem;
+  max-width: 66.5rem;
   max-height: 80.3rem;
   background-color: var(--background-white);
   border-radius: 1rem;
   padding: 1.6rem 1rem 4rem 4.3rem;
   margin-top: 2.067rem;
   font-size: 2.4rem;
-
   overflow-y: scroll;
 }
 .post-text img {
+  max-width: 100%;
+  margin: 1rem 0;
   background-color: #d3b7b7;
   border-radius: 1.5rem;
-  margin: 1rem 0;
 }
 
 .post-text p {
