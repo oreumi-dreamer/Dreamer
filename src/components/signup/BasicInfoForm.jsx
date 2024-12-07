@@ -99,8 +99,6 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
     const monthData = e.currentTarget.children[1];
     const dayData = e.currentTarget.children[2];
 
-    console.log(dayData.value);
-
     if (dayData.value && !monthData.value && !yearData.value) {
       yearData.classList.add(`${styles.invalid}`);
       monthData.classList.add(`${styles.invalid}`);
