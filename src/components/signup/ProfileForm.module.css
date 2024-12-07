@@ -128,6 +128,7 @@
 .dark-mode input:hover + label,
 .buttons button:nth-of-type(2):hover {
   background-color: #959595;
+  color: #fff;
 }
 
 .dark-mode input:active + label,
