@@ -25,6 +25,7 @@
 .profile-image {
   object-fit: cover;
   border-radius: 50%;
+  margin-bottom: 1.6rem;
 }
 
 .profile-name-wrap,
@@ -79,6 +80,40 @@
 .profile-bio {
   font-size: 1.5rem;
   width: 21rem;
+}
+
+/* profile form */
+
+.profile-form {
+  display: flex;
+  flex-direction: row;
+  column-gap: 3.8rem;
+}
+
+.profile-form-pic {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile-form-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-form-info label {
+  display: flex;
+  flex-direction: column;
+}
+
+.relative {
+  position: relative;
+}
+
+.char-limits {
+  position: absolute;
+  right: 0.8rem;
+  bottom: 0.4rem;
 }
 
 /* post */
