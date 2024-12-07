@@ -1,6 +1,13 @@
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 import { useState, useEffect } from "react";
-import { Button, ButtonLabel, Input, Textarea } from "../Controls";
+import {
+  Button,
+  ButtonLabel,
+  Checkbox,
+  Input,
+  Select,
+  Textarea,
+} from "../Controls";
 
 export default function ProfileEdit({
   profile,
@@ -145,6 +152,7 @@ export default function ProfileEdit({
               type="text"
               value={userName}
               onChange={(e) => setUserName(e.target.value)}
+              background="white"
             />
           </label>
           <label>
@@ -153,6 +161,7 @@ export default function ProfileEdit({
               type="text"
               value={userId}
               onChange={(e) => setUserId(e.target.value)}
+              background="white"
             />
           </label>
           <label className={styles["relative"]}>
@@ -161,59 +170,67 @@ export default function ProfileEdit({
               value={bio}
               maxLength={40}
               onChange={(e) => setBio(e.target.value)}
+              background="white"
             />
             <span className={styles["char-limits"]}>{bio.length}/40</span>
           </label>
-          <label htmlFor="year">
-            생년월일
-            <div>
-              <select
-                id="year"
-                name="year"
-                onChange={(e) => setYear(e.target.value)}
-                value={year}
-              >
-                {Array.from({ length: 120 }, (_, i) => (
-                  <option key={`year-${todayYear - i}`} value={todayYear - i}>
-                    {todayYear - i}년
-                  </option>
-                ))}
-              </select>
-              <select
-                id="month"
-                name="month"
-                onChange={(e) => setMonth(e.target.value)}
-                value={month}
-              >
-                {Array.from({ length: 12 }, (_, i) => (
-                  <option key={`month-${i + 1}`} value={i + 1}>
-                    {i + 1}월
-                  </option>
-                ))}
-              </select>
-              <select
-                id="day"
-                name="day"
-                onChange={(e) => setDay(e.target.value)}
-                value={day}
-              >
-                {Array.from({ length: lastDay }, (_, i) => (
-                  <option key={`day-${i + 1}`} value={i + 1}>
-                    {i + 1}일
-                  </option>
-                ))}
-              </select>
-              <label>
-                <input
-                  type="checkbox"
+          <div className={styles["profile-form-birthdates"]}>
+            <label className={styles["profile-form-birthdate"]}>
+              생년월일
+              <div>
+                <Select
+                  type="ProfileEdit"
+                  id="year"
+                  name="year"
+                  onChange={(e) => setYear(e.target.value)}
+                  value={year}
+                  background="white"
+                >
+                  {Array.from({ length: 120 }, (_, i) => (
+                    <option key={`year-${todayYear - i}`} value={todayYear - i}>
+                      {todayYear - i}년
+                    </option>
+                  ))}
+                </Select>
+                <Select
+                  type="ProfileEdit"
+                  id="month"
+                  name="month"
+                  onChange={(e) => setMonth(e.target.value)}
+                  value={month}
+                  background="white"
+                >
+                  {Array.from({ length: 12 }, (_, i) => (
+                    <option key={`month-${i + 1}`} value={i + 1}>
+                      {i + 1}월
+                    </option>
+                  ))}
+                </Select>
+                <Select
+                  type="ProfileEdit"
+                  id="day"
+                  name="day"
+                  onChange={(e) => setDay(e.target.value)}
+                  value={day}
+                  background="white"
+                >
+                  {Array.from({ length: lastDay }, (_, i) => (
+                    <option key={`day-${i + 1}`} value={i + 1}>
+                      {i + 1}일
+                    </option>
+                  ))}
+                </Select>
+                <Checkbox
+                  type="col"
                   value={isPrivate}
                   onChange={(e) => setIsPrivate(e.target.value)}
-                />
-                비공개
-              </label>
-            </div>
-          </label>
-          <div>
+                >
+                  비공개
+                </Checkbox>
+              </div>
+            </label>
+          </div>
+          <div className={styles["form-btn-row"]}>
             <Button
               onClick={(e) => {
                 e.preventDefault();
