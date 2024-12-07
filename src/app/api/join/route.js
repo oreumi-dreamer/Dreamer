@@ -101,16 +101,17 @@ export async function POST(request) {
     let profileImageFileName = null;
 
     if (profileImage) {
-      const uploadResponse = await fetchWithAuth(
-        `${baseUrl}/api/account/avatar`,
-        {
-          method: "POST",
-          body: JSON.stringify({
-            image: profileImage,
-            uid: verifyData.uid,
-          }),
-        }
-      );
+      const uploadResponse = await fetch(`${baseUrl}/api/account/avatar`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${idToken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          image: profileImage,
+          uid: verifyData.uid,
+        }),
+      });
 
       const uploadData = await uploadResponse.json();
       profileImageFileName = uploadData.fileName;
