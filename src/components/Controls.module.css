@@ -80,3 +80,37 @@
 .checkbox-col:has(input:checked)::before {
   background-image: url("/images/checkbox-checked.svg");
 }
+
+.login-form {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  row-gap: 1.6rem;
+  align-items: center;
+  margin-top: 2.4rem;
+  width: 100%;
+  position: relative;
+  background-color: #fff;
+  border-radius: 2rem;
+  padding: 4.4rem 15.7rem 5.3rem;
+}
+
+.login-form label {
+  width: 100%;
+  font-size: 2.4rem;
+  color: var(--black-font-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.login-form label input {
+  width: max-content;
+  margin-left: 1.6rem;
+}
+
+.button-left-bottom {
+  position: absolute;
+  bottom: 2.4rem;
+  left: 2.4rem;
+}

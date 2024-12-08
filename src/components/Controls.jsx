@@ -1,9 +1,15 @@
 import styles from "./Controls.module.css";
 
-export function Button({ highlight, children, type, onClick }) {
-  const buttonClass = highlight
+export function Button({ highlight, children, type, onClick, float }) {
+  let buttonClass;
+
+  buttonClass = highlight
     ? `${styles["button-highlight"]} ${styles["button"]}`
     : styles["button"];
+
+  if (float === "left-bottom") {
+    buttonClass = `${buttonClass} ${styles["button-left-bottom"]}`;
+  }
 
   return (
     <button type={type} className={buttonClass} onClick={onClick}>
@@ -26,7 +32,7 @@ export function ButtonLabel({ highlight, children, htmlFor }) {
 
 export function Input({ type, value, onChange, background }) {
   let inputClass = styles["input"];
-  if (type === "text") {
+  if (type === "text" || type === "password" || type === "email") {
     inputClass = styles["input-text"];
   }
 
@@ -102,4 +108,12 @@ export function Checkbox({ type, background, value, onChange, children }) {
       />
     );
   }
+}
+
+export function LoginForm({ onSubmit, children }) {
+  return (
+    <form onSubmit={onSubmit} className={styles["login-form"]}>
+      {children}
+    </form>
+  );
 }
