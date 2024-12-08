@@ -32,3 +32,9 @@
   background-color: #4285f4;
   color: var(--background-white);
 }
+
+.join-button {
+  display: flex;
+  align-items: center;
+  column-gap: 1.6rem;
+}
