@@ -23,7 +23,7 @@
   animation-name: moons;
   width: 10.6rem;
   height: 10.6rem;
-  background-image: url(/images/moon1.png);
+  background-image: url(/images/moon1.svg);
   animation-duration: 3s;
   animation-iteration-count: infinite;
   animation-timing-function: linear;
