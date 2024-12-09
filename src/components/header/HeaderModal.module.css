@@ -3,9 +3,6 @@
   width: 30rem;
   background-color: var(--background-white);
   border-radius: 2rem;
-  position: fixed;
-  left: 3.3vw;
-  bottom: 10vh;
   z-index: 100;
 }
 

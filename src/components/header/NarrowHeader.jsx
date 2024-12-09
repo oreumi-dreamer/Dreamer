@@ -1,13 +1,14 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./NarrowHeader.module.css";
 import Link from "next/link";
 import { HeaderBaseModal } from "./HeaderModal";
 import { useDispatch, useSelector } from "react-redux";
 import Image from "next/image";
-import { outsideClickModalClose } from "@/utils/outsideClickModalClose";
 import { closeModal } from "@/store/modalSlice";
+import { outsideClickModalClose } from "@/utils/outsideClickModalClose";
+import { calculateModalPosition } from "@/utils/calculateModalPosition";
 
 
 export default function NarrowHeader({
@@ -17,6 +18,7 @@ export default function NarrowHeader({
   handleActiveBtn,
 }) {
   const { isOpen } = useSelector((state) => state.modal);
+  const [modalStyle, setModalStyle] = useState({});
   const modalRef = useRef(null);
   const dispatch = useDispatch();
 
@@ -43,15 +45,24 @@ export default function NarrowHeader({
   ];
 
   useEffect(() => {
-    console.log("modalRef:", modalRef.current);
-    console.log("buttonRef:", buttonRef.current);
-
     if (modalRef.current && buttonRef.current) {
+      const updatePosition = () => {
+        const position = calculateModalPosition(buttonRef, -30, -600);
+        if (position) {
+          setModalStyle(position);
+        }
+      };
+
+      updatePosition(); // Initial position update
+      window.addEventListener("resize", updatePosition);
+
       const cleanup = outsideClickModalClose(modalRef, buttonRef, () => {
-        console.log("모달닫기");
         dispatch(closeModal());
       });
-      return cleanup;
+      return () => {
+        window.removeEventListener("resize", updatePosition);
+        cleanup();
+      };
     }
   }, [dispatch, modalRef, buttonRef, isOpen]);
 
@@ -142,7 +153,7 @@ export default function NarrowHeader({
             height={40}
           />
         </button>
-        {isOpen && <HeaderBaseModal ref={modalRef} />}
+        {isOpen && <HeaderBaseModal ref={modalRef} style={modalStyle} />}
       </div>
     </header>
   );

@@ -6,14 +6,13 @@ import { closeModal, setModalType } from "@/store/modalSlice";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 
-const HeaderBaseModal = forwardRef((props, ref ) => {
-
+const HeaderBaseModal = forwardRef(({ style }, ref) => {
   const { isOpen, modalType } = useSelector((state) => state.modal);
 
   if (!isOpen) return null;
 
   return (
-    <div className={styles["modal-wrapper"]} ref={ref}>
+    <div className={styles["modal-wrapper"]} ref={ref} style={style}>
       {modalType === "moreModal" && <MoreModal />}
       {modalType === "changeMode" && <ChangeModeModal />}
     </div>
