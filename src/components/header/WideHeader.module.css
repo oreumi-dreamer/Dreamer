@@ -9,10 +9,11 @@
   display: flex;
   align-items: flex-start;
   flex-direction: column;
-  padding: 10rem 0 10.6rem 4rem;
+  padding: 10rem 0 10.6rem 8rem;
+  min-height: 92rem;
 }
 
-.logo Image {
+.logo img {
   width: 90%;
   max-width: 31.4rem;
 }
@@ -135,6 +136,8 @@
   mask: url(/images/more.svg) no-repeat center;
 }
 
+
+/* 하단 프로필/더보기버튼 */
 .profile-btn,
 .more-btn {
   display: flex;
@@ -142,12 +145,19 @@
   position: fixed;
 }
 
+@media (max-height: 980px) {
+  .profile-btn,
+  .more-btn {
+    position: static;
+    margin-top: 2rem;
+  }
+}
+
 .profile-btn {
   bottom: 12rem;
 }
 .profile-btn img {
   margin-right: 2rem;
-  border-radius: 50%;
 }
 
 .more-btn {
