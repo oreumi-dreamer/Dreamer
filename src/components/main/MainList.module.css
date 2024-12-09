@@ -63,6 +63,7 @@
   display: -webkit-box;
   -webkit-line-clamp: 10;
   -webkit-box-orient: vertical;
+  white-space: pre-wrap;
 }
 
 .post-content .post-img-wrap {

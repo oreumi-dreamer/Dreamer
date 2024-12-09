@@ -243,6 +243,7 @@
   -webkit-line-clamp: 6;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: pre-wrap;
 }
 
 .post-btn-container {
