@@ -80,6 +80,7 @@ export async function GET(request, { params }) {
         "createdAt",
         "dreamGenres",
         "dreamMoods",
+        "imageUrls",
       ],
     });
 
@@ -98,6 +99,7 @@ export async function GET(request, { params }) {
       userMap[doc.id] = {
         userId: doc.data().userId,
         userName: doc.data().userName,
+        profileImageUrl: doc.data().profileImageUrl,
       };
     });
 
@@ -151,6 +153,8 @@ export async function GET(request, { params }) {
           score: totalScore,
           authorId: userMap[hit.authorUid]?.userId || "알 수 없음",
           authorName: userMap[hit.authorUid]?.userName || "알 수 없음",
+          profileImageUrl:
+            userMap[hit.authorUid]?.profileImageUrl || "/images/rabbit.svg",
         };
       })
       .sort((a, b) => b.score - a.score);
