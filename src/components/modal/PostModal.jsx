@@ -32,7 +32,7 @@ export default function PostModal() {
       return exitAnswer ? setIsModalOpen(false) : setIsModalOpen(true);
     }
     setIsModalOpen(false);
-    commentRef.current.parentElement.classList.add(styles["text-long"]);
+    // commentRef.current.parentElement.classList.add(styles["text-long"]);
   }
 
   if (!isModalOpen) {
