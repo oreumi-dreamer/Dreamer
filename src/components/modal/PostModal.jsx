@@ -1,27 +1,30 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./PostModal.module.css";
 import Image from "next/image";
 import Link from "next/link";
+import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 
 export default function PostModal() {
-  const [isModalOpen, setIsModalOpen] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(null);
   const [isStarTwinkle, setIsStarTwinkle] = useState(false);
   const [isScrap, setIsScrap] = useState(false);
   const [isOneiromancy, setOneiromancy] = useState(false);
   const [isPrivate, setIsPrivate] = useState(false);
   const [comment, setComment] = useState(undefined);
   const commentRef = useRef(null);
+  const [postData, setPostData] = useState(null);
 
-  // 임시 적용
-  const user = null;
+  useEffect(() => {
+    const viewPost = async () => {
+      const postId = "sZfIASnHrW87XhoC34Id"; // 임시 적용
+      const response = await fetchWithAuth(`/api/post/search/${postId}`);
+      const data = await response.json();
+      setPostData(data.post);
+      setIsModalOpen(true);
+    };
 
-  const handleViewPost = async () => {
-    // const postId = 1;
-    // const posts = await fetch(`/api/post/search/${[postId]}`);
-    // const data = await posts.json();
-    // console.log(posts);
-    // fetchwithauth;
-  };
+    viewPost();
+  }, []);
 
   function handleModalClose() {
     if (comment) {
@@ -92,10 +95,10 @@ export default function PostModal() {
                 alt="토끼 프로필"
               />
               <p className={styles["profile-info"]}>
-                {user ? posts.authorName : "JINI"}
-                <span href="/">{user ? `@${posts.authorId}` : "@jini"}</span>
+                {postData.authorName}
+                <span>{`@${postData.authorId}`}</span>
                 <time className={styles["uploaded-time"]}>
-                  {user ? posts.createdAt : "2시간전"}
+                  {postData.createdAt}
                 </time>
               </p>
             </Link>
@@ -114,8 +117,7 @@ export default function PostModal() {
                   />
                 </button>
                 <span>
-                  {user ? posts.sparkCount : "1200"}명의 관심을 받고 있는
-                  꿈이에요.
+                  {postData.sparkCount} 명의 관심을 받고 있는 꿈이에요.
                 </span>
               </li>
               <li>
@@ -154,66 +156,26 @@ export default function PostModal() {
             <h3 className="sr-only">본문 내용</h3>
             <div className={styles["post-text-header"]}>
               <ul className={styles["post-tag"]}>
-                {user ? (
-                  posts.dramGenres.map((tag) => <li>{tag}</li>)
-                ) : (
-                  <>
-                    <li>친구</li>
-                    <li>가족</li>
-                    <li>외계인</li>
-                  </>
-                )}
+                {postData.dreamGenres.map((tag, index) => (
+                  <li key={index}>{tag}</li>
+                ))}
               </ul>
 
               <span className={styles["dream-felt"]}>
-                {user
-                  ? `${posts.dreamMoods.join(",")}`
-                  : "혼란스러움,무서움,분노"}
+                {`${postData.dreamMoods.join(",")}`}
               </span>
 
               <span className={styles["dream-score"]}>
                 오늘의 꿈 별점:{" "}
-                {user
-                  ? `${"★".repeat(posts.dreamRating)}${"☆".repeat(5 - posts.dreamRating)}`
-                  : "★☆☆☆☆"}
+                {`${"★".repeat(postData.dreamRating)}${"☆".repeat(5 - postData.dreamRating)}`}
               </span>
             </div>
 
-            {user ? (
-              posts.content
-            ) : (
-              <p>
-                나는 오늘 꿈에서<Link href="/">친구</Link>를 만났다.
-                <br />
-                친구와놀이터에 가서 놀았다.
-                <br />
-                놀고 있는데 외계인이 침공했다. 너무 무서웠다.
-                <br />
-                국가는 외계인 침공에 대항해야 할 것이다.
-                <br />
-                국가는 무엇을 하는가 우리의 세금은 잔뜩 가져가면서
-                <br />
-                침공에 대한 방안에는 무엇이 있는가 내일까지 작성해오세요.
-                <br />
-                <br />
-                그림
-                <br />
-                <br />
-                <br />
-                <br />
-                이런식으로
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-              </p>
-            )}
+            <strong>{postData.title}</strong>
+            <p>{postData.content}</p>
 
             <Image
-              src={"" || "https://via.placeholder.com/555x330"}
+              src={postData.imageUrls[0]}
               width={555}
               height={330}
               alt="임시 이미지"
