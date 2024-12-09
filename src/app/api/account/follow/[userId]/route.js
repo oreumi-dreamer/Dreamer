@@ -81,14 +81,10 @@ export async function GET(request, { params }) {
     // 사용자 정보 객체 생성
     const targetUserInfo = {
       uid: targetUserDoc.id,
-      userId: targetUserData.userId,
-      userName: targetUserData.userName,
     };
 
     const currentUserInfo = {
       uid: userData.uid,
-      userId: userData.userId,
-      userName: userData.userName,
     };
 
     // 트랜잭션으로 두 사용자의 문서를 동시에 업데이트
