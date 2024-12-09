@@ -56,6 +56,7 @@
   position: relative;
 }
 #title input[type="text"] {
+  background-color: inherit;
   border: 0;
   font-size: 1.6rem;
   margin-left: 1rem;
@@ -92,13 +93,47 @@
   border-radius: 1rem;
   height: 100%;
   margin-top: 1rem;
+
+  margin-bottom: 2rem;
   padding: 2rem;
+  box-sizing: border-box;
 }
 .write-field-opt {
   display: flex;
   align-items: center;
+  justify-content: space-around;
+  /* gap: 13rem; */
+  margin: 1.6rem;
+
+  background-image: url("/images/line-vertical.svg");
+}
+.genre-picker {
+  position: absolute;
+  left: 8%;
+}
+.user-feeling {
+  position: absolute;
+  left: 35%;
+  display: flex;
+  align-items: center;
+}
+.btn-feeling {
+  background-color: gray;
+  width: 14rem;
+  height: 2rem;
+  border: 0;
+  border-radius: 1rem;
 }
 /* 별점 */
+.rate-star-container {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  left: 64%;
+}
+.rate-star-container p {
+  margin-right: 0.2rem;
+}
 .rate-star {
   appearance: none;
 }
@@ -149,6 +184,7 @@
   background-color: var(--deep-pink-color);
   padding: 0.5rem 4rem;
   border-radius: 0.4rem;
+  margin-top: 2rem;
   position: absolute;
   right: 2.5rem;
   bottom: 2rem;
