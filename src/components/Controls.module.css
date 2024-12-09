@@ -1,0 +1,116 @@
+.button {
+  background-color: var(--dark-white-color);
+  color: var(--black-font-color);
+  width: fit-content;
+  border-radius: 0.5rem;
+  padding: 0.8rem 2.4rem;
+  font-size: 2.4rem;
+  cursor: pointer;
+}
+
+.button-highlight {
+  background-color: var(--deep-pink-color);
+  color: var(--background-white);
+}
+
+.button input[type="file"] {
+  display: none;
+}
+
+.button:hover {
+  background-color: var(--hover-btn-color);
+}
+
+.button.active {
+  background-color: var(--active-btn-color);
+}
+
+.button:disabled {
+  background-color: var(--disabled-btn-color);
+  cursor: not-allowed;
+}
+
+.input-text,
+.textarea {
+  background-color: var(--dark-white-color);
+  color: var(--black-font-color);
+  border-radius: 1rem;
+  padding: 1.2rem 2rem 1.3rem;
+  border: none;
+  font-size: 2.4rem;
+}
+
+.input-text {
+}
+
+.textarea {
+  height: 8.8rem;
+  resize: none;
+}
+
+.select {
+  height: 5.6rem;
+  background-color: #e8e8e8;
+  border: none;
+  border-radius: 1rem;
+  font-size: 2.4rem;
+  text-indent: 2rem;
+}
+
+.checkbox {
+  display: none;
+}
+
+.checkbox-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.checkbox-col::before {
+  content: "";
+  width: 4rem;
+  height: 4rem;
+  background-image: url("/images/checkbox.svg");
+  background-size: contain;
+  margin-bottom: 0.4rem;
+}
+
+.checkbox-col:has(input:checked)::before {
+  background-image: url("/images/checkbox-checked.svg");
+}
+
+.login-form {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  row-gap: 1.6rem;
+  align-items: center;
+  margin-top: 2.4rem;
+  width: 100%;
+  position: relative;
+  background-color: #fff;
+  border-radius: 2rem;
+  padding: 4.4rem 15.7rem 5.3rem;
+}
+
+.login-form label {
+  width: 100%;
+  font-size: 2.4rem;
+  color: var(--black-font-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.login-form label input {
+  width: max-content;
+  margin-left: 1.6rem;
+}
+
+.button-left-bottom {
+  position: absolute;
+  bottom: 2.4rem;
+  left: 2.4rem;
+}

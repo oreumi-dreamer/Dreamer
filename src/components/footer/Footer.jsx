@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import styles from "./Footer.module.css";
 
 export default function Footer() {
@@ -14,7 +15,21 @@ export default function Footer() {
         <div className={styles["recommend-list"]}></div>
       </article>
       <section className={styles["footer-policy"]}>
-        <p>개인정보 어쩌구</p>
+        <ul>
+          <li>
+            <Link href="/terms">이용 약관</Link>
+          </li>
+          <li>
+            <Link href="/privacy">
+              <strong>개인정보 처리방침</strong>
+            </Link>
+          </li>
+        </ul>
+        <p>
+          Copyright © 2024 DREAMER.
+          <br />
+          All rights reserved.
+        </p>
       </section>
     </footer>
   );

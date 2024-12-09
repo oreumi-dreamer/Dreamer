@@ -54,6 +54,35 @@ export async function PUT(request) {
       );
     }
 
+    // 생년월일 처리
+    const birthDate =
+      year && month && day
+        ? new Date(year, month - 1, day)
+        : currentUserData.birthDate;
+
+    // 만 14세 이상인지 확인
+    const today = new Date();
+
+    let age = today.getFullYear() - birthDate.getFullYear();
+
+    if (
+      today.getMonth() < birthDate.getMonth() ||
+      (today.getMonth() === birthDate.getMonth() &&
+        today.getDate() < birthDate.getDate())
+    ) {
+      age--;
+    }
+
+    if (age < 14) {
+      return new Response(
+        JSON.stringify({
+          success: false,
+          message: "만 14세 이상부터 가입 가능합니다.",
+        }),
+        { status: 400, headers: { "Content-Type": "application/json" } }
+      );
+    }
+
     // 현재 사용자 정보 가져오기
     const userRef = doc(db, "users", verifyData.uid);
     const userDoc = await getDoc(userRef);
@@ -121,12 +150,6 @@ export async function PUT(request) {
       profileImageFileName = uploadData.fileName;
       profileImageUrl = uploadData.url;
     }
-
-    // 생년월일 처리
-    const birthDate =
-      year && month && day
-        ? new Date(year, month - 1, day)
-        : currentUserData.birthDate;
 
     // 사용자 정보 업데이트
     const updateData = {

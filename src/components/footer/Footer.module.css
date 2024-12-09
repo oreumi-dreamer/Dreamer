@@ -47,4 +47,26 @@
   border: 1px solid var(--black-font-color);
   margin-top: 3rem;
   padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.footer-policy ul {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 1.6rem;
+}
+
+.footer-policy ul li a {
+  color: var(--black-font-color);
+}
+
+.footer-policy ul li a strong {
+  font-weight: 700;
+}
+
+.footer-policy p {
+  font-size: smaller;
+  line-height: 1.4;
 }

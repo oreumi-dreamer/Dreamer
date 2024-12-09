@@ -1,14 +1,26 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import styles from "@/components/profile/Profile.module.css";
 import PostList from "./PostList";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
+import ProfileEdit from "./ProfileEdit";
+import { useSelector } from "react-redux";
+import ProfileInfo from "./ProfileInfo";
+import { Button } from "../Controls";
+import Loading from "../Loading";
+import PostModal from "../modal/PostModal";
 
 export default function Profile({ userName }) {
+  const router = useRouter();
   const [profile, setProfile] = useState(null);
   const [posts, setPosts] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isEdit, setIsEdit] = useState(false);
+
+  const user = useSelector((state) => state.auth.user);
+  const isLoggedIn = user?.exists ? true : false;
 
   const changeFollow = () => {
     setProfile((currentProfile) => ({
@@ -21,6 +33,11 @@ export default function Profile({ userName }) {
   };
 
   const toggleFollow = async () => {
+    if (!isLoggedIn) {
+      router.push("/"); // 로그인 페이지로 이동
+      return;
+    }
+
     changeFollow();
 
     try {
@@ -52,7 +69,9 @@ export default function Profile({ userName }) {
           profileImageUrl: data.profileImageUrl,
           followersCount: data.followersCount,
           followingCount: data.followingCount,
+          isFollowing: data.isFollowing,
           isMyself: data.isMyself,
+          birthDate: data.birthDate,
         });
       }
 
@@ -63,73 +82,76 @@ export default function Profile({ userName }) {
   }, [userName]);
 
   if (loading) {
-    return <div>로드 중...</div>;
+    return <Loading />;
   }
 
   if (!posts) {
-    return <div>사용자를 찾을 수 없습니다.</div>;
+    return (
+      <section className={styles["no-posts"]}>
+        <p>
+          사용자를 찾을 수 없습니다 <img src="/images/invalid.svg" alt="" />
+        </p>
+      </section>
+    );
   }
+
+  const Posts = () => {
+    if (!posts.length && profile.isMyself) {
+      return (
+        <section className={styles["no-posts"]}>
+          <p>당신의 꿈을 들려주세요!</p>
+          <Button
+            className={styles["write-post-btn"]}
+            onClick={() => router.push("/write")}
+            highlight={true}
+          >
+            글 쓰러 가기
+          </Button>
+        </section>
+      );
+    } else if (!posts.length) {
+      return (
+        <section className={styles["no-posts"]}>
+          <p>아직 {profile.name}님이 들려준 꿈이 없어요!</p>
+        </section>
+      );
+    } else {
+      return (
+        <section className={styles["posts-container"]}>
+          <h2 className="sr-only">게시물</h2>
+          <PostList
+            posts={posts.posts}
+            styles={styles}
+            isLoggedIn={isLoggedIn}
+          />
+        </section>
+      );
+    }
+  };
 
   return (
     <>
       <main className={styles["profile-main"]}>
         <section className={styles["profile-container"]}>
-          <article className={styles["profile-wrap"]}>
-            <h2 className="sr-only">프로필</h2>
-            <img
-              src={
-                profile.profileImageUrl
-                  ? profile.profileImageUrl
-                  : "/images/rabbit.svg"
-              }
-              className={styles["profile-image"]}
-              width={160}
-              height={160}
-              alt={profile.name + "님의 프로필 이미지"}
+          {isEdit ? (
+            <ProfileEdit
+              profile={profile}
+              setIsEdit={setIsEdit}
+              setProfile={setProfile}
+              styles={styles}
             />
-            <div className={styles["profile-info"]}>
-              <div className={styles["profile-name-wrap"]}>
-                <div className={styles["profile-name-id"]}>
-                  <div className={styles["profile-name"]}>{profile.name}</div>
-                  <div className={styles["profile-id"]}>@{profile.id}</div>
-                </div>
-                {profile.isMyself ? (
-                  <button className={`${styles["profile-btn"]}`}>
-                    프로필 수정
-                  </button>
-                ) : profile.isFollowing ? (
-                  <button
-                    onClick={toggleFollow}
-                    className={`${styles["profile-btn"]} ${styles.active}`}
-                  >
-                    팔로잉
-                  </button>
-                ) : (
-                  <button
-                    onClick={toggleFollow}
-                    className={`${styles["profile-btn"]}`}
-                  >
-                    팔로우
-                  </button>
-                )}
-              </div>
-              <dl className={styles["profile-stat"]}>
-                <dt>게시물</dt>
-                <dd>{profile.length}개</dd>
-                <dt>팔로우</dt>
-                <dd>{profile.followersCount}명</dd>
-                <dt>팔로워</dt>
-                <dd>{profile.followingCount}명</dd>
-              </dl>
-              <div className={styles["profile-bio"]}>{profile.bio}</div>
-            </div>
-          </article>
+          ) : (
+            <ProfileInfo
+              profile={profile}
+              toggleFollow={toggleFollow}
+              setIsEdit={setIsEdit}
+              styles={styles}
+            />
+          )}
         </section>
-        <section className={styles["posts-container"]}>
-          <h2 className="sr-only">게시물</h2>
-          <PostList posts={posts.posts} styles={styles} />
-        </section>
+        <Posts />
       </main>
+      <PostModal />
     </>
   );
 }

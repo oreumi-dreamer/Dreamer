@@ -25,6 +25,7 @@
 .profile-image {
   object-fit: cover;
   border-radius: 50%;
+  margin-bottom: 1.6rem;
 }
 
 .profile-name-wrap,
@@ -81,7 +82,106 @@
   width: 21rem;
 }
 
+/* profile form */
+
+.profile-form {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  column-gap: 3.8rem;
+}
+
+.profile-form-pic {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile-form-info {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  row-gap: 0.8rem;
+}
+
+.profile-form-info label {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-form-birthdates {
+  display: flex;
+  width: 100%;
+}
+
+.profile-form-birthdate {
+  width: 100%;
+}
+
+.profile-form-birthdate div {
+  display: grid;
+  grid-template-columns: 11fr 8fr 8fr 4.1rem;
+  align-items: center;
+}
+
+.profile-form-birthdate div select {
+  margin-right: 0.8rem;
+}
+.profile-form-birthdate div select:nth-of-type(1) {
+  margin-right: 1.6rem;
+}
+
+.profile-form-birthdate div select:last-of-type {
+  margin-right: 1.6rem;
+}
+
+.profile-form-private {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 4.1rem;
+}
+
+.relative {
+  position: relative;
+}
+
+.char-limits {
+  position: absolute;
+  right: 0.8rem;
+  bottom: 0.4rem;
+}
+
+.form-btn-row {
+  margin-top: 1.6rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  column-gap: 0.8rem;
+}
+
 /* post */
+
+.no-posts {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 3.2rem;
+}
+
+.no-posts p {
+  font-size: 4rem;
+  color: var(--black-transparent-color);
+  display: inline-flex;
+  align-items: center;
+}
+
+.no-posts p img {
+  margin-left: 1rem;
+}
 
 .posts-container {
   width: 72rem;

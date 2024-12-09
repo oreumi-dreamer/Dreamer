@@ -6,6 +6,7 @@ import { persistor } from "@/store/store";
 import { useEffect } from "react";
 import { signOut } from "firebase/auth";
 import { auth } from "@/lib/firebase";
+import Loading from "@/components/Loading";
 
 export default function Logout() {
   const router = useRouter();
@@ -43,5 +44,5 @@ export default function Logout() {
     handleLogout();
   }, []);
 
-  return <p>로그아웃 중...</p>;
+  return <Loading />;
 }

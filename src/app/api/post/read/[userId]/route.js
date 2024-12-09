@@ -38,13 +38,17 @@ export async function GET(request, { params }) {
   // 사용자 정보 추출
   const authorUid = userSnapshot.docs[0].id;
 
+  const authorDocsData = userSnapshot.docs[0].data();
+
   // DB 상의 사용자 이름과 ID를 조회
-  const authorId = userSnapshot.docs[0].data().userId;
-  const authorName = userSnapshot.docs[0].data().userName;
-  const bio = userSnapshot.docs[0].data().bio;
-  const followersCount = userSnapshot.docs[0].data().followersCount;
-  const followingCount = userSnapshot.docs[0].data().followingCount;
-  const profileImageUrl = userSnapshot.docs[0].data().profileImageUrl;
+  const authorId = authorDocsData.userId;
+  const authorName = authorDocsData.userName;
+  const bio = authorDocsData.bio;
+  const followersCount = authorDocsData.followersCount;
+  const followingCount = authorDocsData.followingCount;
+  const followers = authorDocsData.followers;
+  const profileImageUrl = authorDocsData.profileImageUrl;
+  const isPrivate = authorDocsData.isPrivate;
 
   const headersList = headers();
   const authorization = headersList.get("Authorization");
@@ -141,7 +145,7 @@ export async function GET(request, { params }) {
           imageUrls: postData.imageUrls,
           isPrivate: postData.isPrivate,
           sparkCount: postData.sparkCount,
-          comments: [],
+          comments: postData.comments ? postData.comments : [],
           commentsCount: postData.commentsCount,
           dreamGenres: postData.dreamGenres,
           dreamMoods: postData.dreamMoods,
@@ -150,16 +154,24 @@ export async function GET(request, { params }) {
       }
     });
 
+    const birthDate = new Date(authorDocsData.birthDate.seconds * 1000);
+
     return NextResponse.json({
       posts,
       userId: authorId,
       userName: authorName,
       bio: bio,
       profileImageUrl: profileImageUrl,
+      isPrivate: isPrivate,
       length: posts.length,
-      followersCount: followersCount,
-      followingCount: followingCount,
+      followersCount: followersCount ? followersCount : 0,
+      followingCount: followingCount ? followersCount : 0,
+      isFollowing: followers?.some((follower) => follower.uid === userUid),
       isMyself: userData === authorId,
+      birthDate:
+        userData === authorId
+          ? birthDate // 사용자 본인의 경우만 생일 정보 제공
+          : null,
       nextCursor: lastVisible,
       hasMore: posts.length === pageSize,
     });

@@ -4,7 +4,13 @@
 import { headers } from "next/headers";
 import sharp from "sharp";
 import { Buffer } from "buffer";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  serverTimestamp,
+  runTransaction,
+  doc,
+} from "firebase/firestore";
 
 import { db, storage } from "@/lib/firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
@@ -135,7 +141,43 @@ export async function POST(request) {
       isDeleted: false,
     };
 
-    const docRef = await addDoc(collection(db, "posts"), postData);
+    // 트랜잭션 실행
+    const docRef = await runTransaction(db, async (transaction) => {
+      // 1. 사용자 문서 참조
+      const userRef = doc(db, "users", userData.uid);
+      const userDoc = await transaction.get(userRef);
+      const userDocData = userDoc.data() || {};
+
+      // 2. 장르와 느낌 통계 데이터 준비
+      const genreStats = { ...(userDocData.genreStats || {}) };
+      const moodStats = { ...(userDocData.moodStats || {}) };
+
+      // 3. 통계 업데이트 데이터 준비
+      genres.forEach((genre) => {
+        genreStats[genre] = {
+          count: (genreStats[genre]?.count || 0) + 1,
+          lastDreamDate: serverTimestamp(),
+        };
+      });
+
+      moods.forEach((mood) => {
+        moodStats[mood] = {
+          count: (moodStats[mood]?.count || 0) + 1,
+          lastDreamDate: serverTimestamp(),
+        };
+      });
+
+      // 4. 모든 읽기가 완료된 후 쓰기 작업을 수행
+      const postRef = doc(collection(db, "posts"));
+      transaction.set(postRef, postData);
+
+      transaction.update(userRef, {
+        genreStats,
+        moodStats,
+      });
+
+      return postRef.id; // postId 반환
+    });
 
     return new Response(
       JSON.stringify({
