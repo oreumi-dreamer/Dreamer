@@ -1,17 +1,20 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Post({ styles, post }) {
   return (
     <article className={styles["main-post-wrap"]}>
       <section className={styles["post-user-info"]}>
+        <Link href={`/${post.authorId}`}>
         <img
           src={post.profileImageUrl}
           alt={`${post.authorName}님의 프로필 사진`}
           width={49}
           height={49}
         />
-        <div className={styles["user-name"]}>{post.authorName}</div>
-        <div className={styles["user-id"]}>@{post.authorId}</div>
+          <span className={styles["user-name"]}>{post.authorName}</span>
+          <span className={styles["user-id"]}>@{post.authorId}</span>
+        </Link>
         <time className={styles["posting-time"]}>2시간 전</time>
         <button>
           <Image
