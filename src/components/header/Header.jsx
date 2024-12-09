@@ -10,10 +10,43 @@ export default function Header() {
   const buttonRef = useRef(null);
   const [modalStyle, setModalStyle] = useState({});
   const [isActive, setIsActive] = useState("홈");
+  const [urlState, setUrlState] = useState(window.location.pathname);
   const { isOpen, modalType } = useSelector((state) => state.modal);
   const isNarrowHeader = useMediaQuery("(max-width: 1440px)");
 
   const dispatch = useDispatch();
+
+  const getActiveStateFromURL = (path) => {
+    switch (path) {
+      case "/":
+        return "홈";
+      case "/search":
+        return "검색";
+      case "/message":
+        return "메세지";
+      case "/alarm":
+        return "알람";
+      default:
+        return "";
+    }
+  };
+
+  const handleURLChange = () => {
+    const currentPath = window.location.pathname;
+    const newActiveState = getActiveStateFromURL(currentPath);
+    setIsActive(newActiveState);
+  };
+
+  // URL 변경 감지 및 상태 업데이트
+  useEffect(() => {
+    handleURLChange(); // 초기 URL 상태 설정
+
+    window.addEventListener("popstate", handleURLChange);
+    return () => {
+      window.removeEventListener("popstate", handleURLChange);
+    };
+  }, []);
+
   const handleMoreBtnClick = () => {
     if (!isOpen) {
       dispatch(openModal("moreModal"));
