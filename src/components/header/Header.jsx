@@ -52,7 +52,13 @@ export default function Header() {
   return (
     <>
       {isNarrowHeader ? (
-        <NarrowHeader />
+        <NarrowHeader
+          onMoreBtnClick={() => handleMoreBtnClick("moreModal")}
+          buttonRef={buttonRef}
+          modalStyle={modalStyle}
+          isActive={isActive}
+          handleActiveBtn={handleActiveBtn}
+        />
       ) : (
         <WideHeader
           onMoreBtnClick={() => handleMoreBtnClick("moreModal")}
