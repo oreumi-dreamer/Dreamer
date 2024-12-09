@@ -46,6 +46,7 @@ export async function GET(request, { params }) {
   const bio = authorDocsData.bio;
   const followersCount = authorDocsData.followersCount;
   const followingCount = authorDocsData.followingCount;
+  const followers = authorDocsData.followers;
   const profileImageUrl = authorDocsData.profileImageUrl;
   const isPrivate = authorDocsData.isPrivate;
 
@@ -165,6 +166,7 @@ export async function GET(request, { params }) {
       length: posts.length,
       followersCount: followersCount,
       followingCount: followingCount,
+      isFollowing: followers.some((follower) => follower.uid === userUid),
       isMyself: userData === authorId,
       birthDate:
         userData === authorId
