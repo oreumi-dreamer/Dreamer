@@ -75,6 +75,7 @@ export async function GET(request, { params }) {
         "title",
         "content",
         "authorUid",
+        "spark",
         "sparkCount",
         "commentsCount",
         "createdAt",
@@ -155,6 +156,7 @@ export async function GET(request, { params }) {
           authorName: userMap[hit.authorUid]?.userName || "알 수 없음",
           profileImageUrl:
             userMap[hit.authorUid]?.profileImageUrl || "/images/rabbit.svg",
+          hasUserSparked: hit.spark?.includes(userData.uid),
         };
       })
       .sort((a, b) => b.score - a.score);
