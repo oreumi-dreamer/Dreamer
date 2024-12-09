@@ -172,7 +172,7 @@
   background-color: var(--comment-input-color);
   max-width: 76.1rem;
   max-height: 9.4rem;
-  margin-top: 2.5rem;
+  margin: 1.5rem 0 4.5rem 0;
 }
 
 .comment-input {
@@ -196,8 +196,8 @@
   gap: 0.8rem;
 
   position: absolute;
-  bottom: 1.5rem;
-  right: 5rem;
+  bottom: -3rem;
+  right: 3rem;
   font-size: 1.2rem;
 }
 .comment-setting input {
@@ -206,18 +206,18 @@
 
 .comment-setting button {
   position: absolute;
-  bottom: -1rem;
+  bottom: -1.2rem;
 }
 
 .comment-articles-section {
-  max-height: 82%;
+  max-height: 79%;
   overflow-y: scroll;
   border-radius: 1rem;
 }
 
 .comment-article {
   background-color: var(--background-white);
-  max-width: 76.1rem;
+  max-width: 81rem;
   min-height: 7rem;
   border-radius: 1rem;
   margin-bottom: 3rem;
