@@ -85,6 +85,7 @@ export default function PostModal() {
     }
   }
 
+  // 댓글 api 구현 시 수정 예정
   function CommentArticles() {
     if (postData.commentsCount === 0) {
       return <p className={styles["no-comment"]}>댓글이 없습니다.</p>;
