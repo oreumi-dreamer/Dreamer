@@ -6,7 +6,6 @@ import { openModal, closeModal, setModalType } from "@/store/modalSlice";
 import { useDispatch, useSelector } from "react-redux";
 import useMediaQuery from "@/hooks/styling/useMediaQuery";
 import NarrowHeader from "./NarrowHeader";
-import { calculateModalPosition } from "@/utils/calculateModalPosition";
 export default function Header() {
   const buttonRef = useRef(null);
   const [isActive, setIsActive] = useState("홈");
