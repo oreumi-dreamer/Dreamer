@@ -20,9 +20,16 @@
 
 .container {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   flex-wrap: nowrap;
   width: 100vw;
-  height: 100vh;
+  height: 100%;
   background-color: var(--background-color);
+  padding-left: 32rem;
+}
+
+@media (max-width: 1440px) {
+  .container {
+    padding-left: 10.4rem;
+  }
 }
