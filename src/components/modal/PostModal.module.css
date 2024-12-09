@@ -135,7 +135,7 @@
 .post-text-header {
   display: flex;
   justify-content: space-between;
-  font-size: 1rem;
+  font-size: 1.2rem;
 }
 
 .post-tag {
@@ -143,9 +143,9 @@
   gap: 0.526rem;
 }
 .post-tag li {
-  width: 3.894rem;
+  width: fit-content;
   height: 2rem;
-  padding: 0.4rem 0;
+  padding: 0.3rem 1rem;
   border-radius: 0.5rem;
   text-align: center;
   background-color: var(--background-dimmed);
@@ -153,9 +153,9 @@
 }
 
 .dream-felt {
-  width: 13.602rem;
+  width: fit-content;
   height: 2rem;
-  padding: 0.4rem 0;
+  padding: 0.3rem 2.3rem;
   text-align: center;
   border-radius: 2rem;
   background-color: var(--background-lightgray);
