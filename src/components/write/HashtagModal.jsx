@@ -12,8 +12,10 @@ export default function HashtagModal() {
         </p>
         {/* 추후 선택지 데이터 불러오기 -- 끝 */}
       </div>
-      <p className={styles["sub-text"]}>(최대 5개 선택 가능)</p>
-      <button>확인</button>
+      <p className={styles["sub-text-container"]}>
+        <span className={styles["sub-text"]}>(최대 5개 선택 가능)</span>
+        <button>확인</button>
+      </p>
     </dialog>
   );
 }
