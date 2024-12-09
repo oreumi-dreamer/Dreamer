@@ -9,9 +9,7 @@ import NarrowHeader from "./NarrowHeader";
 import { calculateModalPosition } from "@/utils/calculateModalPosition";
 export default function Header() {
   const buttonRef = useRef(null);
-  const [modalStyle, setModalStyle] = useState({});
   const [isActive, setIsActive] = useState("홈");
-  const [urlState, setUrlState] = useState(window.location.pathname);
   const { isOpen, modalType } = useSelector((state) => state.modal);
   const isNarrowHeader = useMediaQuery("(max-width: 1440px)");
 
