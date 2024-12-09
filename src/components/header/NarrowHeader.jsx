@@ -2,6 +2,7 @@
 
 import React from "react";
 import styles from "./NarrowHeader.module.css";
+import Link from "next/link";
 
 export default function NarrowHeader() {
   return (
@@ -18,8 +19,7 @@ export default function NarrowHeader() {
       </button>
       <div className={styles["header-btn-container"]}>
         <nav>
-            <ul className={styles.nav}>
-            </ul>
+          <ul className={styles.nav}></ul>
         </nav>
       </div>
     </header>
