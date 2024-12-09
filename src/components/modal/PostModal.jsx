@@ -67,23 +67,6 @@ export default function PostModal() {
       e.currentTarget.classList.toggle(styles["comment-open"]);
     }
   }
-  function postCreatedTime() {
-    const createDate = new Date(postData.createdAt).getTime();
-    const updateDate = new Date(postData.updatedAt).getTime();
-    const nowDate = new Date().getTime();
-
-    if (createDate === updateDate) {
-      const calHour = (nowDate - createDate) / (1000 * 60 * 60);
-      return calHour < 24
-        ? `${calHour}시간 전`
-        : postData.createdAt.slice(0, -14);
-    } else {
-      const updateCalHour = (nowDate - updateDate) / (1000 * 60 * 60);
-      return updateCalHour < 24
-        ? `${updateCalHour}시간 전(수정됨)`
-        : `${postData.updatedAt.slice(0, -14)}(수정됨)`;
-    }
-  }
 
   // 댓글 api 구현 시 수정 예정
   function CommentArticles() {
@@ -178,7 +161,6 @@ export default function PostModal() {
                   dateTime={postData.createdAt.slice(0, -5)}
                   className={styles["uploaded-time"]}
                 >
-                  {postCreatedTime()}
                 </time>
               </p>
             </Link>
