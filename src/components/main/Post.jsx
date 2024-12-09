@@ -6,12 +6,12 @@ export default function Post({ styles, post }) {
     <article className={styles["main-post-wrap"]}>
       <section className={styles["post-user-info"]}>
         <Link href={`/${post.authorId}`}>
-        <img
-          src={post.profileImageUrl}
-          alt={`${post.authorName}님의 프로필 사진`}
-          width={49}
-          height={49}
-        />
+          <img
+            src={post.profileImageUrl}
+            alt={`${post.authorName}님의 프로필 사진`}
+            width={49}
+            height={49}
+          />
           <span className={styles["user-name"]}>{post.authorName}</span>
           <span className={styles["user-id"]}>@{post.authorId}</span>
         </Link>
@@ -43,15 +43,24 @@ export default function Post({ styles, post }) {
       </section>
       <section className={styles["post-btn-content"]}>
         <button>
-          <Image src="/images/star.svg" alt="반짝" width={40} height={40} />
+          <span className="sr-only">반짝 누르기</span>
+          <Image src="/images/star.svg" alt="" width={40} height={40} />
           <span className={styles["btn-label"]}>{post.sparkCount} 반짝</span>
         </button>
         <button>
-          <Image src="/images/message.svg" alt="댓글" width={40} height={40} />
+          <span className="sr-only">댓글 작성하기</span>
+          <Image
+            className={styles["icon-padding"]}
+            src="/images/message.svg"
+            alt=""
+            width={40}
+            height={40}
+          />
           <span className={styles["btn-label"]}>{post.commentsCount} 댓글</span>
         </button>
         <button>
           <Image
+            className={styles["icon-padding"]}
             src="/images/share.svg"
             alt="공유하기"
             width={40}
@@ -59,7 +68,13 @@ export default function Post({ styles, post }) {
           />
         </button>
         <button className={styles["mark-btn"]}>
-          <Image src="/images/mark.svg" alt="스크랩" width={40} height={40} />
+          <Image
+            className={styles["icon-padding"]}
+            src="/images/mark.svg"
+            alt="스크랩"
+            width={40}
+            height={40}
+          />
         </button>
       </section>
     </article>
