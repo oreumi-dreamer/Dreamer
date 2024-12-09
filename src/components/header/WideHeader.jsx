@@ -12,7 +12,7 @@ export default function WideHeader({
   isActive,
   handleActiveBtn,
 }) {
-  const { isOpen, modalType } = useSelector((state) => state.modal);
+  const { isOpen } = useSelector((state) => state.modal);
 
   const navItems = [
     { label: "홈", className: "home-btn", href: "/" },
@@ -72,11 +72,11 @@ export default function WideHeader({
         <button
           className={`${styles["nav-item"]} ${styles["more-btn"]} ${isOpen ? styles.active : ""}`}
           ref={buttonRef}
-          onClick={() => onMoreBtnClick("moreModal")}
+          onClick={onMoreBtnClick}
         >
           더보기
         </button>
-        {isOpen ? <HeaderBaseModal /> : null}
+        {isOpen ? <HeaderBaseModal buttonRef={buttonRef} /> : null}
       </div>
     </header>
   );
