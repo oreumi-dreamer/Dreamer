@@ -145,7 +145,7 @@ export async function GET(request, { params }) {
           imageUrls: postData.imageUrls,
           isPrivate: postData.isPrivate,
           sparkCount: postData.sparkCount,
-          comments: [],
+          comments: postData.comments ? postData.comments : [],
           commentsCount: postData.commentsCount,
           dreamGenres: postData.dreamGenres,
           dreamMoods: postData.dreamMoods,
@@ -164,9 +164,9 @@ export async function GET(request, { params }) {
       profileImageUrl: profileImageUrl,
       isPrivate: isPrivate,
       length: posts.length,
-      followersCount: followersCount,
-      followingCount: followingCount,
-      isFollowing: followers.some((follower) => follower.uid === userUid),
+      followersCount: followersCount ? followersCount : 0,
+      followingCount: followingCount ? followersCount : 0,
+      isFollowing: followers?.some((follower) => follower.uid === userUid),
       isMyself: userData === authorId,
       birthDate:
         userData === authorId
