@@ -5,7 +5,7 @@
   border-radius: 1rem;
   padding: 0.8rem 1.2rem;
   background-color: var(--background-white);
-  font-size: 1.2rem;
+  font-size: var(--small-text-font-size);
   word-break: keep-all;
 }
 .hashtag-picker-container {
