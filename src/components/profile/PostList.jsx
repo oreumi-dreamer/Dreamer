@@ -44,12 +44,12 @@ export default function PostList({ posts: initialPosts, styles, isLoggedIn }) {
           ) : (
             <h3 className={`${styles["post-title"]}`}>{post.title}</h3>
           )}
-          <div className={styles["post-text"]}>{post.content}</div>
+          <p className={styles["post-text"]}>{post.content}</p>
           <dl className={styles["post-btn-container"]}>
             <dt>
               <button onClick={() => sparkHandle(post.id)}>
                 {post.hasUserSparked ? (
-                  <img src="/images/star-fill.svg" alt="반짝 눌림" />
+                  <img src="/images/star-fill.svg" alt="반짝 취소" />
                 ) : (
                   <img src="/images/star.svg" alt="반짝" />
                 )}
