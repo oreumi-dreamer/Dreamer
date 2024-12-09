@@ -51,9 +51,9 @@ export default function ProfileInfo({
           <dt>게시물</dt>
           <dd>{profile.length}개</dd>
           <dt>팔로우</dt>
-          <dd>{profile.followersCount}명</dd>
+          <dd>{profile.followersCount ? profile.followersCount : 0}명</dd>
           <dt>팔로워</dt>
-          <dd>{profile.followingCount}명</dd>
+          <dd>{profile.followingCount ? profile.followingCount : 0}명</dd>
         </dl>
         <div className={styles["profile-bio"]}>{profile.bio}</div>
       </div>
