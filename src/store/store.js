@@ -3,7 +3,7 @@ import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import authReducer from "./authSlice";
 import modalReducer from "./modalSlice";
-import activeStateSlice from "./activeStateSlice";
+import activeStateReducer from "./activeStateSlice";
 
 const persistConfig = {
   key: "auth",
