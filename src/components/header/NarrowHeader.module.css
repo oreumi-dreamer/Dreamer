@@ -1,0 +1,114 @@
+.header {
+  width: 10.4rem;
+  height: 100vh;
+  background: var(--background-pink-top);
+  box-shadow: 4px 0px 75.5px -20px rgba(0, 0, 0, 0.16);
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 12.8rem;
+  min-height: 92rem;
+}
+
+.mode-toggle-btn {
+  margin-top: 2rem;
+}
+
+.mode-toggle-btn img {
+  object-fit: cover;
+}
+
+.mode-toggle-btn.light-mode {
+  background-color: var(--black-font-color);
+  width: 5.6rem;
+  height: 5.6rem;
+  border-radius: 50%;
+}
+
+.header-btn-container {
+  position: relative;
+  padding: 5rem 0 0 0;
+}
+
+.header-btn-container .nav-item {
+  background-color: var(--background-white);
+  width: 4.4rem;
+  height: 4.4rem;
+  border-radius: 50%;
+  margin-bottom: 3.2rem;
+  display: flex;
+}
+
+.header-btn-container nav {
+  margin-bottom: 12rem;
+}
+
+.header-btn-container .nav-item.active {
+  background-color: var(--deep-pink-color);
+}
+
+.nav-items .nav-item::before,
+.more-btn::before {
+  content: "";
+  width: 2.6rem;
+  height: 2.6rem;
+  mask-size: contain;
+  background-color: var(--none-active-color);
+  display: inline-block;
+}
+
+.nav-items .nav-item.active::before,
+.more-btn.active::before {
+  background-color: var(--black-white-color);
+}
+
+.nav-items .home-btn::before {
+  mask: url(/images/home.svg) no-repeat center;
+}
+
+.nav-items .search-btn::before {
+  mask: url(/images/search.svg) no-repeat center;
+}
+
+.nav-items .message-btn::before {
+  mask: url(/images/message.svg) no-repeat center;
+}
+
+.nav-items .alarm-btn::before {
+  mask: url(/images/alarm.svg) no-repeat center;
+}
+
+.nav-items .writing-btn::before {
+  mask: url(/images/writing.svg) no-repeat center;
+}
+
+.more-btn::before {
+  mask: url(/images/more.svg) no-repeat center;
+}
+
+/* 하단 프로필/더보기버튼 */
+.profile-btn,
+.more-btn {
+  display: flex;
+  align-items: center;
+  position: fixed;
+}
+
+@media (max-height: 980px) {
+  .profile-btn,
+  .more-btn {
+    position: static;
+    margin-top: 2rem;
+  }
+}
+
+.profile-btn {
+  bottom: 12rem;
+}
+
+.more-btn {
+  bottom: 5rem;
+}
