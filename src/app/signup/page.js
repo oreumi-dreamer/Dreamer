@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
-import { useSignupSubmit } from "@/hooks/signup/useSignupSubmit"; // 추가
+import { useSignupSubmit } from "@/hooks/signup/useSignupSubmit";
 import BasicInfoForm from "@/components/signup/BasicInfoForm";
 import ProfileForm from "@/components/signup/ProfileForm";
 import { validateFirstForm, validateSecondForm } from "@/utils/validation";
