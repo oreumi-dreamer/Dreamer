@@ -18,7 +18,7 @@ export default function WideHeader({
 }) {
   const { isOpen } = useSelector((state) => state.modal);
   const { user } = useSelector((state) => state.auth);
-  const { userId, userName } = user;
+  const { userId, userName, profileImageUrl  } = user;
   const [modalStyle, setModalStyle] = useState({});
   const modalRef = useRef(null);
   const dispatch = useDispatch();
@@ -102,8 +102,8 @@ export default function WideHeader({
           className={`${styles["nav-item"]} ${styles["profile-btn"]} ${isActive === "프로필" ? styles.active : ""}`}
           onClick={() => handleActiveBtn("프로필")}
         >
-          <Image
-            src="/images/rabbit.svg"
+          <img
+            src={profileImageUrl ? profileImageUrl : "/images/rabbit.svg"} 
             alt="프로필사진"
             loading="lazy"
             width={40}

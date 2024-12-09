@@ -19,7 +19,7 @@ export default function NarrowHeader({
 }) {
   const { isOpen } = useSelector((state) => state.modal);
   const { user } = useSelector((state) => state.auth);
-  const { userId } = user;
+  const { userId, profileImageUrl  } = user;
   const [modalStyle, setModalStyle] = useState({});
   const modalRef = useRef(null);
   const dispatch = useDispatch();
@@ -134,8 +134,7 @@ export default function NarrowHeader({
           className={`${styles["nav-item"]} ${styles["profile-btn"]} ${isActive === "프로필" ? styles.active : ""}`}
           onClick={() => handleActiveBtn("프로필")}
         >
-          <Image
-            src="/images/rabbit.svg"
+          <img src={profileImageUrl ? profileImageUrl : "/images/rabbit.svg"}  
             alt="프로필사진"
             loading="lazy"
             width={40}
