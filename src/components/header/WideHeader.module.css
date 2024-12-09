@@ -1,6 +1,6 @@
 .header {
   width: 32rem;
-  height: 100%;
+  height: 100vh;
   background: var(--background-pink-top);
   box-shadow: 4px 0px 75.5px -20px rgba(0, 0, 0, 0.16);
   position: fixed;
@@ -10,7 +10,6 @@
   align-items: flex-start;
   flex-direction: column;
   padding: 10rem 0 10.6rem 8rem;
-  position: relative;
 }
 
 .logo img {
@@ -141,14 +140,6 @@
   display: flex;
   align-items: center;
   position: fixed;
-}
-
-@media (max-height: 980px) {
-  .profile-btn,
-  .more-btn {
-    position: static;
-    margin-top: 2rem;
-  }
 }
 
 .profile-btn {
