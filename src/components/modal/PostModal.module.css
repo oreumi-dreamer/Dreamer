@@ -28,9 +28,10 @@
 }
 
 .post-section {
-  border-right: dotted var(--dotted-color) 0.2rem;
-  margin: 0 3.2rem;
+  margin-right: 3.2rem;
   padding-right: 3.2rem;
+
+  background: url(/images/vertical-line.svg) no-repeat right;
 }
 
 .bookmark {
