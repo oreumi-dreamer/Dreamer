@@ -1,4 +1,58 @@
-.main-container{
+.main-container {
   margin: 16.6rem auto 0 auto;
   background-color: var(--background-color);
+}
+
+.post-user-info {
+  display: flex;
+  align-items: center;
+  border-bottom: 2px dashed var(--gray-font-color);
+  padding-bottom: 0.8rem;
+}
+
+.post-user-info .more-btn {
+  margin-left: auto;
+}
+
+.post-content {
+  width: 66rem;
+  background-color: var(--background-white);
+  border-radius: 1.5rem;
+  padding: 2.4rem 4rem;
+  margin-top: 0.8rem;
+}
+
+.post-content .post-text {
+  max-height: 20rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 10;
+  -webkit-box-orient: vertical;
+}
+
+.post-content .post-img-wrap {
+  display: flex;
+  gap: 1rem;
+}
+
+.post-content .post-img {
+  width: 10.8rem;
+  height: 10.8rem;
+  background-color: brown;
+  margin-top: 2.5rem;
+}
+
+.post-btn-content {
+  display: flex;
+  align-items: center;
+  margin-top: 1.2rem;
+}
+
+.post-btn-content .btn-label {
+  padding: 0 1.4rem 0 0.2rem;
+}
+
+.post-btn-content .mark-btn {
+  margin-left: auto;
 }
