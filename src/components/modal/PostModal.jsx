@@ -73,6 +73,9 @@ export default function PostModal() {
   }
 
   function CommentArticles() {
+    if (postData.commentsCount === 0) {
+      return <p className={styles["no-comment"]}>댓글이 없습니다.</p>;
+    }
 
     return postData.comments.map((comment, index) => {
       return (
