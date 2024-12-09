@@ -71,6 +71,19 @@ export default function PostModal() {
       e.currentTarget.classList.toggle(styles["comment-open"]);
     }
   }
+  function postCreatedTime() {
+    const createDate = new Date(postData.createdAt);
+    const nowDate = new Date();
+
+    const calHour =
+      (nowDate.getTime() - createDate.getTime()) / (1000 * 60 * 60);
+
+    if (calHour < 24) {
+      return `${calHour}시간 전`;
+    } else {
+      return postData.createdAt.slice(0, -14);
+    }
+  }
 
   function CommentArticles() {
     if (postData.commentsCount === 0) {
@@ -160,8 +173,11 @@ export default function PostModal() {
               <p className={styles["profile-info"]}>
                 {postData.authorName}
                 <span>{`@${postData.authorId}`}</span>
-                <time className={styles["uploaded-time"]}>
-                  {postData.createdAt}
+                <time
+                  dateTime={postData.createdAt.slice(0, -5)}
+                  className={styles["uploaded-time"]}
+                >
+                  {postCreatedTime()}
                 </time>
               </p>
             </Link>
