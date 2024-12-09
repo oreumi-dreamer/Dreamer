@@ -1,15 +1,14 @@
 "use client";
 
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import WideHeader from "@/components/header/WideHeader";
-import { openModal, closeModal, setModalType } from "@/store/modalSlice";
-import { setActiveState } from '@/store/activeStateSlice';
+import { openModal, closeModal } from "@/store/modalSlice";
+import { setActiveState } from "@/store/activeStateSlice";
 import { useDispatch, useSelector } from "react-redux";
 import useMediaQuery from "@/hooks/styling/useMediaQuery";
 import NarrowHeader from "./NarrowHeader";
 export default function Header() {
   const buttonRef = useRef(null);
-  // const [isActive, setIsActive] = useState("홈");
   const { isOpen, modalType } = useSelector((state) => state.modal);
   const { isActive } = useSelector((state) => state.activeState);
   const isNarrowHeader = useMediaQuery("(max-width: 1440px)");
