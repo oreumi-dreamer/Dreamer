@@ -1,8 +1,9 @@
 export default function postTime(createdAt, updatedAt) {
-  const createDate = new Date(createdAt).getTime();
-  const updateDate = new Date(updatedAt).getTime();
-  const nowDate = new Date().getTime();
+  const createDate = new Date(createdAt).getTime(); // 게시일시
+  const updateDate = new Date(updatedAt).getTime(); // 수정일시
+  const nowDate = new Date().getTime(); // 현재 일시
 
+  // 게시일시와 수정일시 비교 (수정 시 수정됨 표기)
   if (createDate === updateDate) {
     const calHour = (nowDate - createDate) / (1000 * 60 * 60);
     return calHour < 24
