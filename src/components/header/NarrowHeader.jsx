@@ -1,11 +1,14 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import styles from "./NarrowHeader.module.css";
 import Link from "next/link";
-import { useSelector } from "react-redux";
-import Image from "next/image";
 import { HeaderBaseModal } from "./HeaderModal";
+import { useDispatch, useSelector } from "react-redux";
+import Image from "next/image";
+import { outsideClickModalClose } from "@/utils/outsideClickModalClose";
+import { closeModal } from "@/store/modalSlice";
+
 
 export default function NarrowHeader({
   onMoreBtnClick,
@@ -14,6 +17,8 @@ export default function NarrowHeader({
   handleActiveBtn,
 }) {
   const { isOpen } = useSelector((state) => state.modal);
+  const modalRef = useRef(null);
+  const dispatch = useDispatch();
 
   const navItems = [
     { label: "홈", className: "home-btn", href: "/", img: "/images/home.svg" },
@@ -36,6 +41,19 @@ export default function NarrowHeader({
       img: "/images/alarm.svg",
     },
   ];
+
+  useEffect(() => {
+    console.log("modalRef:", modalRef.current);
+    console.log("buttonRef:", buttonRef.current);
+
+    if (modalRef.current && buttonRef.current) {
+      const cleanup = outsideClickModalClose(modalRef, buttonRef, () => {
+        console.log("모달닫기");
+        dispatch(closeModal());
+      });
+      return cleanup;
+    }
+  }, [dispatch, modalRef, buttonRef, isOpen]);
 
   return (
     <header className={styles.header}>
@@ -124,7 +142,7 @@ export default function NarrowHeader({
             height={40}
           />
         </button>
-        {isOpen ? <HeaderBaseModal buttonRef={buttonRef} /> : null}
+        {isOpen && <HeaderBaseModal ref={modalRef} />}
       </div>
     </header>
   );

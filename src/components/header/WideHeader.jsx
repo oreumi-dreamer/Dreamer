@@ -1,11 +1,13 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import styles from "./WideHeader.module.css";
 import Link from "next/link";
 import { HeaderBaseModal } from "./HeaderModal";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Image from "next/image";
+import { outsideClickModalClose } from "@/utils/outsideClickModalClose";
+import { closeModal } from "@/store/modalSlice";
 
 export default function WideHeader({
   onMoreBtnClick,
@@ -14,6 +16,8 @@ export default function WideHeader({
   handleActiveBtn,
 }) {
   const { isOpen } = useSelector((state) => state.modal);
+  const modalRef = useRef(null);
+  const dispatch = useDispatch();
 
   const navItems = [
     { label: "홈", className: "home-btn", href: "/" },
@@ -21,6 +25,15 @@ export default function WideHeader({
     { label: "메세지", className: "message-btn", href: "/message" },
     { label: "알람", className: "alarm-btn", href: "/alarm" },
   ];
+
+  useEffect(() => {
+    if (modalRef.current && buttonRef.current) {
+      const cleanup = outsideClickModalClose(modalRef, buttonRef, () => {
+        dispatch(closeModal());
+      });
+      return cleanup;
+    }
+  }, [dispatch, modalRef, buttonRef, isOpen]);
 
   return (
     <header className={styles.header}>
@@ -88,7 +101,7 @@ export default function WideHeader({
         >
           더보기
         </button>
-        {isOpen ? <HeaderBaseModal buttonRef={buttonRef} /> : null}
+        {isOpen && <HeaderBaseModal ref={modalRef} />}
       </div>
     </header>
   );

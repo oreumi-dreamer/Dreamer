@@ -6,6 +6,7 @@ import { openModal, closeModal, setModalType } from "@/store/modalSlice";
 import { useDispatch, useSelector } from "react-redux";
 import useMediaQuery from "@/hooks/styling/useMediaQuery";
 import NarrowHeader from "./NarrowHeader";
+import { calculateModalPosition } from "@/utils/calculateModalPosition";
 export default function Header() {
   const buttonRef = useRef(null);
   const [modalStyle, setModalStyle] = useState({});
@@ -62,14 +63,8 @@ export default function Header() {
   };
 
   const updateModalPosition = () => {
-    if (buttonRef.current) {
-      const buttonRect = buttonRef.current.getBoundingClientRect();
-      setModalStyle({
-        position: "absolute",
-        top: `${buttonRect.top + window.scrollY - 600}px`,
-        left: `${buttonRect.left + window.scrollX - 80}px`,
-      });
-    }
+    const position = calculateModalPosition(buttonRef, -80, -600);
+    if (position) setModalStyle(position);
   };
 
   useEffect(() => {

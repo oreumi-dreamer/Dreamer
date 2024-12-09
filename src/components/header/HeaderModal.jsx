@@ -1,41 +1,24 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { forwardRef } from "react";
 import styles from "./HeaderModal.module.css";
-import { outsideClickModalClose } from "@/utils/outsideClickModalClose";
 import { closeModal, setModalType } from "@/store/modalSlice";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 
-const HeaderBaseModal = ({ buttonRef }) => {
-  const modalRef = useRef(null);
-  const dispatch = useDispatch();
+const HeaderBaseModal = forwardRef((props, ref ) => {
+
   const { isOpen, modalType } = useSelector((state) => state.modal);
-
-  useEffect(() => {
-    if (isOpen) {
-      const removeOutsideClickListener = outsideClickModalClose(
-        modalRef,
-        () => {
-          dispatch(closeModal());
-        }
-      );
-
-      return () => {
-        removeOutsideClickListener();
-      };
-    }
-  }, [isOpen, dispatch]);
 
   if (!isOpen) return null;
 
   return (
-    <div className={styles["modal-wrapper"]} ref={modalRef}>
+    <div className={styles["modal-wrapper"]} ref={ref}>
       {modalType === "moreModal" && <MoreModal />}
       {modalType === "changeMode" && <ChangeModeModal />}
     </div>
   );
-};
+});
 
 function MoreModal() {
   const dispatch = useDispatch();
