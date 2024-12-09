@@ -12,7 +12,7 @@
   padding: 10rem 0 10.6rem 4rem;
 }
 
-.logo img {
+.logo Image {
   width: 90%;
   max-width: 31.4rem;
 }
@@ -147,6 +147,7 @@
 }
 .profile-btn img {
   margin-right: 2rem;
+  border-radius: 50%;
 }
 
 .more-btn {

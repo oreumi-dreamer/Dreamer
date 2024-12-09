@@ -5,6 +5,7 @@ import styles from "./WideHeader.module.css";
 import Link from "next/link";
 import { HeaderBaseModal } from "./HeaderModal";
 import { useSelector } from "react-redux";
+import Image from "next/image";
 
 export default function WideHeader({
   onMoreBtnClick,
@@ -25,7 +26,12 @@ export default function WideHeader({
     <header className={styles.header}>
       <h1 className={styles.logo}>
         <Link href="/">
-          <img src="/images/logo-full.svg" alt="DREAMER" />
+          <Image
+            src="/images/logo-full.svg"
+            alt="DREAMER"
+            width={252}
+            height={105}
+          />
         </Link>
       </h1>
       <button
@@ -66,7 +72,13 @@ export default function WideHeader({
           className={`${styles["nav-item"]} ${styles["profile-btn"]} ${isActive === "프로필" ? styles.active : ""}`}
           onClick={() => handleActiveBtn("프로필")}
         >
-          <img src="/images/rabbit.svg" alt="프로필사진" loading="lazy" />
+          <Image
+            src="/images/rabbit.svg"
+            alt="프로필사진"
+            loading="lazy"
+            width={40}
+            height={40}
+          />
           <p>JINI</p>
         </Link>
         <button
