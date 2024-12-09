@@ -73,6 +73,11 @@
   bottom: 12rem;
 }
 
+.profile-btn img{
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 .more-btn {
   bottom: 5rem;
 }

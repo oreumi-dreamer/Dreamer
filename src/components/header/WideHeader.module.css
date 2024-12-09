@@ -158,6 +158,8 @@
 }
 .profile-btn img {
   margin-right: 2rem;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .more-btn {
