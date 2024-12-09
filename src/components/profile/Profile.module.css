@@ -43,7 +43,7 @@
 }
 
 .profile-name {
-  font-size: 3.6rem;
+  font-size: var(--h2-font-size);
 }
 
 .profile-btn {
@@ -51,7 +51,6 @@
   color: var(--background-white);
   border-radius: 0.5rem;
   padding: 0.5rem 1rem;
-  font-size: 1.3rem;
   margin: 1rem 0 2.4rem 1.2rem;
 }
 
@@ -78,7 +77,6 @@
 }
 
 .profile-bio {
-  font-size: 1.5rem;
   width: 21rem;
 }
 
@@ -204,7 +202,7 @@
 
 .post-title {
   width: 15rem;
-  font-size: 1.6rem;
+  font-size: var(--body-font-size);
   font-weight: 700;
 }
 
@@ -224,7 +222,7 @@
   width: 16.8rem;
   height: 9.6rem;
   margin: 1.5rem 0 0.9rem 0;
-  font-size: 1.2rem;
+  font-size: var(--small-text-font-size);
   line-height: 1.6rem;
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -238,6 +236,7 @@
 }
 
 .post-btn-container dd {
+  font-size: var(--small-text-font-size);
   margin: 0 1rem 0 0.4rem;
 }
 

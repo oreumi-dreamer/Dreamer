@@ -18,7 +18,7 @@
 }
 
 .recommend-wrap .recommend-title {
-  font-size: 3.2rem;
+  font-size: var(--h2-font-size);
   padding: 3rem 0 2rem 0;
 }
 
@@ -43,6 +43,7 @@
 .footer-policy {
   width: 26rem;
   height: 12rem;
+  font-size: var(--small-text-font-size);
   border-radius: 1.5rem;
   border: 1px solid var(--black-font-color);
   margin-top: 3rem;
@@ -64,9 +65,4 @@
 
 .footer-policy ul li a strong {
   font-weight: 700;
-}
-
-.footer-policy p {
-  font-size: smaller;
-  line-height: 1.4;
 }
