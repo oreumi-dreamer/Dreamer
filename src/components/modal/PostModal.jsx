@@ -3,6 +3,7 @@ import styles from "./PostModal.module.css";
 import Image from "next/image";
 import Link from "next/link";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
+import postTime from "@/utils/postTime";
 
 export default function PostModal() {
   const [isModalOpen, setIsModalOpen] = useState(null);
@@ -161,6 +162,7 @@ export default function PostModal() {
                   dateTime={postData.createdAt.slice(0, -5)}
                   className={styles["uploaded-time"]}
                 >
+                  {postTime(postData.createdAt, postData.updatedAt)}
                 </time>
               </p>
             </Link>
