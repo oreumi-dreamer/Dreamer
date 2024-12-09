@@ -72,16 +72,20 @@ export default function PostModal() {
     }
   }
   function postCreatedTime() {
-    const createDate = new Date(postData.createdAt);
-    const nowDate = new Date();
+    const createDate = new Date(postData.createdAt).getTime();
+    const updateDate = new Date(postData.updatedAt).getTime();
+    const nowDate = new Date().getTime();
 
-    const calHour =
-      (nowDate.getTime() - createDate.getTime()) / (1000 * 60 * 60);
-
-    if (calHour < 24) {
-      return `${calHour}시간 전`;
+    if (createDate === updateDate) {
+      const calHour = (nowDate - createDate) / (1000 * 60 * 60);
+      return calHour < 24
+        ? `${calHour}시간 전`
+        : postData.createdAt.slice(0, -14);
     } else {
-      return postData.createdAt.slice(0, -14);
+      const updateCalHour = (nowDate - updateDate) / (1000 * 60 * 60);
+      return updateCalHour < 24
+        ? `${updateCalHour}시간 전(수정됨)`
+        : `${postData.updatedAt.slice(0, -14)}(수정됨)`;
     }
   }
 
