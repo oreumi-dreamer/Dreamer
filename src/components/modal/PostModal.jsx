@@ -58,10 +58,6 @@ export default function PostModal() {
     }
   }
 
-  function handleChangeComment(e) {
-    setComment(e.target.value);
-  }
-
   function handleCommentSubmit(e) {
     e.preventDefault();
   }
