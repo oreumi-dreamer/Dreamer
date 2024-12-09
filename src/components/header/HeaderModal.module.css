@@ -1,8 +1,12 @@
- .more-modal,
+.more-modal,
 .change-mode-modal {
   width: 30rem;
   background-color: var(--background-white);
   border-radius: 2rem;
+  position: fixed;
+  left: 3.3vw;
+  bottom: 10vh;
+  z-index: 100;
 }
 
 .modal-items .header-modal-btn {
@@ -18,6 +22,16 @@
 
 .modal-items .header-modal-btn:hover {
   background-color: var(--background-color);
+}
+
+.modal-items .header-modal-btn.setting-btn:hover,
+.modal-items .header-modal-btn.back-more-modal-btn:hover {
+  border-radius: 2rem 2rem 0 0;
+}
+
+.modal-items .header-modal-btn.logout-btn:hover,
+.modal-items .header-modal-btn.device-setting-btn:hover {
+  border-radius: 0 0 2rem 2rem;
 }
 
 .modal-items .header-modal-btn:not(.logout-btn)::before {
@@ -94,4 +108,4 @@
 .more-modal li:last-child .more-modal-btn,
 .change-mode-modal li:last-child .more-modal-btn {
   border-radius: 0 0 2rem 2rem;
-} 
+}
