@@ -72,6 +72,66 @@ export default function PostModal() {
     }
   }
 
+  function CommentArticles() {
+
+    return postData.comments.map((comment, index) => {
+      return (
+        <article
+          key={index}
+          className={styles["comment-article"]}
+          onClick={handleCommentClick}
+        >
+          <ul className={styles["comment-info"]}>
+            <li>
+              <Link href="/">
+                <span>{"JIh2"}</span> @jhjh
+              </Link>
+            </li>
+            <li>
+              <time>{"1분 전"}</time>
+            </li>
+
+            <li>
+              {/* {isPrivate && <Image />} */}
+              <Image
+                src="/images/lock.svg"
+                width={10}
+                height={13}
+                alt="비공개 댓글"
+              />
+            </li>
+          </ul>
+
+          {/* {isMyComment && <ul ></ul>} */}
+          <ul className={styles["edit-delete-button"]}>
+            <li>
+              <button>수정</button>
+            </li>
+            <li>
+              <button>삭제</button>
+            </li>
+          </ul>
+
+          {/* {isOneiromancy && <Image />} */}
+          <Image
+            src="/images/oneiromancy.svg"
+            className={styles.oneiromancy}
+            width={17}
+            height={13}
+            alt="꿈해몽 댓글"
+          />
+
+          {/* 글자 수 추후 데이터 불러왔을 때 변수 설정 후 수정 */}
+          <p ref={commentRef}>
+            {
+              "안녕하세요 꿈 과학자 입니다. 저의 소견으로는 당신의 현재 상황에 대한 불안함을 갖고 있던 일이, 곧 좋은 기회를 얻어 좋게 풀려나갈 좋은 징조라고 보여집니다. 이런 경우 외계인은 금전운을 뜻하며, 친구는 영혼의 동반자를 의미할것이라고 예상됩니다. 요즘 말로 소울메이트 같은 존재라는 거죠. 항상 좋은일 가득하시길 바랍니다~^^*"
+            }
+          </p>
+        </article>
+      );
+    });
+  }
+
   return (
     <>
       <div className={styles.dimmed} onClick={handleModalClose}></div>
@@ -252,119 +312,7 @@ export default function PostModal() {
 
           <section className={styles["comment-articles-section"]}>
             <h3 className="sr-only">댓글 모음 확인</h3>
-
-            {/* 컴포넌트 분리 예정 */}
-            <article
-              className={styles["comment-article"]}
-              onClick={handleCommentClick}
-            >
-              <ul className={styles["comment-info"]}>
-                <li>
-                  <Link href="/">
-                    <span>{"JIh2"}</span> @jhjh
-                  </Link>
-                </li>
-                <li>
-                  <time>{"1분 전"}</time>
-                </li>
-
-                <li>
-                  {/* {isPrivate && <Image />} */}
-                  <Image
-                    src="/images/lock.svg"
-                    width={10}
-                    height={13}
-                    alt="비공개 댓글"
-                  />
-                </li>
-              </ul>
-
-              {/* {isMyComment && <ul ></ul>} */}
-              <ul className={styles["edit-delete-button"]}>
-                <li>
-                  <button>수정</button>
-                </li>
-                <li>
-                  <button>삭제</button>
-                </li>
-              </ul>
-
-              {/* {isOneiromancy && <Image />} */}
-              <Image
-                src="/images/oneiromancy.svg"
-                className={styles.oneiromancy}
-                width={17}
-                height={13}
-                alt="꿈해몽 댓글"
-              />
-
-              {/* 글자 수 추후 데이터 불러왔을 때 변수 설정 후 수정 */}
-              <p ref={commentRef}>
-                {
-                  "안녕하세요 꿈 과학자 입니다. 저의 소견으로는 당신의 현재 상황에 대한 불안함을 갖고 있던 일이, 곧 좋은 기회를 얻어 좋게 풀려나갈 좋은 징조라고 보여집니다. 이런 경우 외계인은 금전운을 뜻하며, 친구는 영혼의 동반자를 의미할것이라고 예상됩니다. 요즘 말로 소울메이트 같은 존재라는 거죠. 항상 좋은일 가득하시길 바랍니다~^^*"
-                }
-              </p>
-            </article>
-            {/* 컴포넌트 분리 예정 */}
-            <article
-              className={styles["comment-article"]}
-              onClick={handleCommentClick}
-            >
-              <ul className={styles["comment-info"]}>
-                <li>
-                  <Link href="/">
-                    <span>{"JIh2"}</span>@jhjh
-                  </Link>
-                </li>
-                <li>
-                  <time>{"1분 전"}</time>
-                </li>
-
-                <li>
-                  {/* {isPrivate && <Image />} */}
-                  <Image
-                    src="/images/lock.svg"
-                    width={10}
-                    height={13}
-                    alt="비공개 댓글"
-                  />
-                </li>
-              </ul>
-
-              {/* {isMyComment && <ul ></ul>} */}
-              <ul className={styles["edit-delete-button"]}>
-                <li>
-                  <button>수정</button>
-                </li>
-                <li>
-                  <button>삭제</button>
-                </li>
-              </ul>
-
-              {/* {isOneiromancy && <Image />} */}
-              <Image
-                src="/images/oneiromancy.svg"
-                className={styles.oneiromancy}
-                width={17}
-                height={13}
-                alt="꿈해몽 댓글"
-              />
-
-              {/* 글자 수 추후 데이터 불러왔을 때 변수 설정 후 수정 */}
-              <p>
-                {
-                  "안녕하세요. 외계인 침공방안에는 1번 지구 진입 시 불에 타죽게끔 뜨거운 띠를 설치한다. 2번 외계인에게 말을 걸다가 중간에 멈추게 되면"
-                }
-              </p>
-            </article>
-            <article className={styles["comment-article"]}></article>
-            <article className={styles["comment-article"]}></article>
-            <article className={styles["comment-article"]}></article>
-            <article className={styles["comment-article"]}></article>
-            <article className={styles["comment-article"]}></article>
-            <article className={styles["comment-article"]}></article>
-            <article className={styles["comment-article"]}></article>
-            <article className={styles["comment-article"]}></article>
+            <CommentArticles />
           </section>
         </section>
       </dialog>
