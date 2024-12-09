@@ -134,6 +134,8 @@
 
 .post-text-header {
   display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
   justify-content: space-between;
   font-size: 1rem;
 }
