@@ -101,6 +101,27 @@ export async function GET(request, { params }) {
       };
     });
 
+    const calculateTimeDecay = (
+      createdAt,
+      sparkCount = 0,
+      commentsCount = 0
+    ) => {
+      const now = new Date();
+      const postDate = new Date(createdAt);
+      const hoursElapsed = (now - postDate) / (1000 * 60 * 60);
+
+      // 기본 감쇠율 계산 (로그 함수 사용)
+      const baseDecay = Math.max(
+        0,
+        15 * (1 - Math.log(hoursElapsed + 1) / Math.log(720))
+      ); // 30일 기준
+
+      // 상호작용 보정
+      const interactionBonus = Math.min(5, (sparkCount + commentsCount) / 10);
+
+      return Math.min(15, baseDecay + interactionBonus);
+    };
+
     // 5. 점수 계산 및 정렬
     const posts = hits
       .map((hit) => {
@@ -116,11 +137,10 @@ export async function GET(request, { params }) {
             0
           ) || 0
         );
-        const timeFreshnessScore = Math.min(
-          15,
-          ((new Date() - new Date(hit.createdAt)) / (1000 * 60 * 60 * 24)) *
-            -1 +
-            15
+        const timeFreshnessScore = calculateTimeDecay(
+          hit.createdAt,
+          hit.sparkCount,
+          hit.commentsCount
         );
 
         const totalScore =
