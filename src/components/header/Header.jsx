@@ -3,13 +3,15 @@
 import React, { useRef, useState, useEffect } from "react";
 import WideHeader from "@/components/header/WideHeader";
 import { openModal, closeModal, setModalType } from "@/store/modalSlice";
+import { setActiveState } from '@/store/activeStateSlice';
 import { useDispatch, useSelector } from "react-redux";
 import useMediaQuery from "@/hooks/styling/useMediaQuery";
 import NarrowHeader from "./NarrowHeader";
 export default function Header() {
   const buttonRef = useRef(null);
-  const [isActive, setIsActive] = useState("홈");
+  // const [isActive, setIsActive] = useState("홈");
   const { isOpen, modalType } = useSelector((state) => state.modal);
+  const { isActive } = useSelector((state) => state.activeState);
   const isNarrowHeader = useMediaQuery("(max-width: 1440px)");
   const dispatch = useDispatch();
 
@@ -31,7 +33,7 @@ export default function Header() {
   const handleURLChange = () => {
     const currentPath = window.location.pathname;
     const newActiveState = getActiveStateFromURL(currentPath);
-    setIsActive(newActiveState);
+    dispatch(setActiveState(newActiveState));
   };
 
   // URL 변경 감지 및 상태 업데이트
@@ -55,7 +57,7 @@ export default function Header() {
   };
 
   const handleActiveBtn = (btn) => {
-    setIsActive(btn);
+    dispatch(setActiveState(btn));
   };
 
   return (
