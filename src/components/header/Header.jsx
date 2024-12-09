@@ -59,21 +59,6 @@ export default function Header() {
     setIsActive(btn);
   };
 
-  const updateModalPosition = () => {
-    const position = calculateModalPosition(buttonRef, -80, -600);
-    if (position) setModalStyle(position);
-  };
-
-  useEffect(() => {
-    if (isOpen) {
-      updateModalPosition();
-      window.addEventListener("resize", updateModalPosition);
-    }
-    return () => {
-      window.removeEventListener("resize", updateModalPosition);
-    };
-  }, [isOpen, modalType]);
-
   return (
     <>
       {isNarrowHeader ? (
