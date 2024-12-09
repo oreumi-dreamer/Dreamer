@@ -31,7 +31,7 @@ export default function MainList() {
         <h2 className="sr-only">게시글 목록</h2>
         {isLoading && <Loading />}
         {posts.map((post) => (
-          <Post styles={styles} key={post.id} post={post} />
+          <Post styles={styles} key={post.objectID} post={post} />
         ))}
       </main>
     </>
