@@ -4,6 +4,7 @@ import Image from "next/image";
 import Post from "./Post";
 import { useState, useEffect } from "react";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
+import Loading from "../Loading";
 
 export default function MainList() {
   const [posts, setPosts] = useState([]);
@@ -28,7 +29,7 @@ export default function MainList() {
     <>
       <main className={styles["main-container"]}>
         <h2 className="sr-only">게시글 목록</h2>
-        {isLoading && <div>Loading...</div>}
+        {isLoading && <Loading />}
         {posts.map((post) => (
           <Post styles={styles} key={post.id} post={post} />
         ))}
