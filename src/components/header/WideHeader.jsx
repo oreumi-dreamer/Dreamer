@@ -45,7 +45,7 @@ export default function WideHeader({
             {navItems.map((item) => (
               <li key={item.label} className={styles["nav-items"]}>
                 <Link
-                  href={"#"}
+                  href={item.href}
                   className={`${styles["nav-item"]} ${styles[`${item.className}`]} ${
                     isActive === item.label ? styles.active : ""
                   }`}
