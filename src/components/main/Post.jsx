@@ -13,13 +13,15 @@ export default function Post({ styles, post }) {
         <div className={styles["user-name"]}>{post.authorName}</div>
         <div className={styles["user-id"]}>@{post.authorId}</div>
         <time className={styles["posting-time"]}>2시간 전</time>
-        <Image
-          src="/images/more.svg"
-          alt="더보기"
-          width={40}
-          height={40}
-          className={styles["more-btn"]}
-        />
+        <button>
+          <Image
+            src="/images/more.svg"
+            alt="더보기"
+            width={40}
+            height={40}
+            className={styles["more-btn"]}
+          />
+        </button>
       </section>
       <section className={styles["post-content"]}>
         <p className={styles["post-text"]}>{post.content}</p>
@@ -30,7 +32,7 @@ export default function Post({ styles, post }) {
                 key={index}
                 className={styles["post-img"]}
                 src={url}
-                alt="게시글 이미지"
+                alt={`게시글 이미지 ${index}`}
               />
             ))}
           </div>
@@ -39,12 +41,12 @@ export default function Post({ styles, post }) {
       <section className={styles["post-btn-content"]}>
         <button>
           <Image src="/images/star.svg" alt="반짝" width={40} height={40} />
+          <span className={styles["btn-label"]}>{post.sparkCount} 반짝</span>
         </button>
-        <button className={styles["btn-label"]}>99+ 반짝</button>
         <button>
           <Image src="/images/message.svg" alt="댓글" width={40} height={40} />
+          <span className={styles["btn-label"]}>{post.commentsCount} 댓글</span>
         </button>
-        <button className={styles["btn-label"]}>99+ 댓글</button>
         <button>
           <Image
             src="/images/share.svg"
