@@ -24,7 +24,7 @@
   background-color: var(--background-lightgray);
   border: none;
   display: flex;
-  padding: 3.7rem 3.2rem 3.5rem 3.2rem;
+  padding: 3.7rem 0 3.5rem 3.2rem;
 }
 
 .post-section {
@@ -218,7 +218,7 @@
 
 .comment-article {
   background-color: var(--background-white);
-  max-width: 81rem;
+  max-width: 76.1rem;
   min-height: 7rem;
   border-radius: 1rem;
   margin-bottom: 3rem;
