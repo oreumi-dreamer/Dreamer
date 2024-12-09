@@ -16,10 +16,25 @@ export default function NarrowHeader({
   const { isOpen } = useSelector((state) => state.modal);
 
   const navItems = [
-    { label: "홈", className: "home-btn", href: "/" },
-    { label: "검색", className: "search-btn", href: "/search" },
-    { label: "메세지", className: "message-btn", href: "/message" },
-    { label: "알람", className: "alarm-btn", href: "/alarm" },
+    { label: "홈", className: "home-btn", href: "/", img: "/images/home.svg" },
+    {
+      label: "검색",
+      className: "search-btn",
+      href: "/search",
+      img: "/images/search.svg",
+    },
+    {
+      label: "메세지",
+      className: "message-btn",
+      href: "/message",
+      img: "/images/message.svg",
+    },
+    {
+      label: "알람",
+      className: "alarm-btn",
+      href: "/alarm",
+      img: "/images/alarm.svg",
+    },
   ];
 
   return (
@@ -57,7 +72,12 @@ export default function NarrowHeader({
                   }`}
                   onClick={() => handleActiveBtn(item.label)}
                 >
-                  <span className="sr-only">{item.label}</span>
+                  <Image
+                    src={item.img}
+                    alt={item.label}
+                    width={30}
+                    height={30}
+                  />
                 </Link>
               </li>
             ))}
@@ -67,7 +87,14 @@ export default function NarrowHeader({
                   isActive === "글쓰기" ? styles.active : ""
                 }`}
                 onClick={() => handleActiveBtn("글쓰기")}
-              ></button>
+              >
+                <Image
+                  src="/images/writing.svg"
+                  alt="글쓰기"
+                  width={35.2}
+                  height={35.2}
+                />
+              </button>
             </li>
           </ul>
         </nav>
@@ -88,7 +115,15 @@ export default function NarrowHeader({
           className={`${styles["nav-item"]} ${styles["more-btn"]} ${isOpen ? styles.active : ""}`}
           ref={buttonRef}
           onClick={onMoreBtnClick}
-        ></button>
+        >
+          <Image
+            src="/images/more.svg"
+            alt="더보기"
+            loading="lazy"
+            width={40}
+            height={40}
+          />
+        </button>
         {isOpen ? <HeaderBaseModal buttonRef={buttonRef} /> : null}
       </div>
     </header>
