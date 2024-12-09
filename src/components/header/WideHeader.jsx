@@ -17,6 +17,8 @@ export default function WideHeader({
   handleActiveBtn,
 }) {
   const { isOpen } = useSelector((state) => state.modal);
+  const { user } = useSelector((state) => state.auth);
+  const { userId, userName } = user;
   const [modalStyle, setModalStyle] = useState({});
   const modalRef = useRef(null);
   const dispatch = useDispatch();
@@ -96,7 +98,7 @@ export default function WideHeader({
           </ul>
         </nav>
         <Link
-          href="#"
+          href={`/${userId}`}
           className={`${styles["nav-item"]} ${styles["profile-btn"]} ${isActive === "프로필" ? styles.active : ""}`}
           onClick={() => handleActiveBtn("프로필")}
         >
@@ -107,7 +109,7 @@ export default function WideHeader({
             width={40}
             height={40}
           />
-          <p>JINI</p>
+          <p>{userName}</p>
         </Link>
         <button
           className={`${styles["nav-item"]} ${styles["more-btn"]} ${isOpen ? styles.active : ""}`}

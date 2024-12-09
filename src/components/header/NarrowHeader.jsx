@@ -18,6 +18,8 @@ export default function NarrowHeader({
   handleActiveBtn,
 }) {
   const { isOpen } = useSelector((state) => state.modal);
+  const { user } = useSelector((state) => state.auth);
+  const { userId } = user;
   const [modalStyle, setModalStyle] = useState({});
   const modalRef = useRef(null);
   const dispatch = useDispatch();
@@ -128,7 +130,7 @@ export default function NarrowHeader({
           </ul>
         </nav>
         <Link
-          href="#"
+          href={`/${userId}`}
           className={`${styles["nav-item"]} ${styles["profile-btn"]} ${isActive === "프로필" ? styles.active : ""}`}
           onClick={() => handleActiveBtn("프로필")}
         >
