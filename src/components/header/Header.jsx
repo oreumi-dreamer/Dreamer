@@ -4,11 +4,14 @@ import React, { useRef, useState, useEffect } from "react";
 import WideHeader from "@/components/header/WideHeader";
 import { openModal, closeModal, setModalType } from "@/store/modalSlice";
 import { useDispatch, useSelector } from "react-redux";
+import useMediaQuery from "@/hooks/styling/useMediaQuery";
+import NarrowHeader from "./NarrowHeader";
 export default function Header() {
   const buttonRef = useRef(null);
   const [modalStyle, setModalStyle] = useState({});
   const [isActive, setIsActive] = useState("홈");
   const { isOpen, modalType } = useSelector((state) => state.modal);
+  const isNarrowHeader = useMediaQuery("(max-width: 1440px)");
 
   const dispatch = useDispatch();
   const handleMoreBtnClick = () => {
@@ -48,13 +51,17 @@ export default function Header() {
 
   return (
     <>
-      <WideHeader
-        onMoreBtnClick={() => handleMoreBtnClick("moreModal")}
-        buttonRef={buttonRef}
-        modalStyle={modalStyle}
-        isActive={isActive}
-        handleActiveBtn={handleActiveBtn}
-      />
+      {isNarrowHeader ? (
+        <NarrowHeader />
+      ) : (
+        <WideHeader
+          onMoreBtnClick={() => handleMoreBtnClick("moreModal")}
+          buttonRef={buttonRef}
+          modalStyle={modalStyle}
+          isActive={isActive}
+          handleActiveBtn={handleActiveBtn}
+        />
+      )}
     </>
   );
 }
