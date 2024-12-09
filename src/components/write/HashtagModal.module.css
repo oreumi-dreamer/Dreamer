@@ -1,4 +1,4 @@
-.podal-on-writepost {
+.modal-on-writepost {
   width: 20rem;
   height: 16rem;
   border: 2px solid rgba(0, 0, 0, 0.6);
@@ -7,6 +7,9 @@
   background-color: var(--background-white);
   font-size: 1.2rem;
   word-break: keep-all;
+}
+.modal-on-writepost::backdrop {
+  opacity: 0;
 }
 .hashtag-picker-container {
   width: 100%;
@@ -57,7 +60,7 @@
 .sub-text {
   opacity: 0.6;
 }
-.podal-on-writepost button {
+.modal-on-writepost button {
   padding: 0.4rem 1.6rem;
   border-radius: 0.5rem;
   color: white;
