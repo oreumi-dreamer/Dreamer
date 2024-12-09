@@ -149,6 +149,8 @@ export default function Profile({ userName }) {
             />
           )}
         </section>
+        <div className={styles["dashed-line"]}></div>
+
         <Posts />
       </main>
       <PostModal />
