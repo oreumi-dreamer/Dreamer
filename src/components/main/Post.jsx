@@ -1,7 +1,35 @@
 import Image from "next/image";
 import Link from "next/link";
+import { useState, useEffect } from "react";
+import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 
-export default function Post({ styles, post }) {
+export default function Post({ styles, post: initialPosts }) {
+  const [post, setPost] = useState(initialPosts);
+
+  const changeSpark = () => {
+    setPost((prevPost) => ({
+      ...prevPost,
+      hasUserSparked: !prevPost.hasUserSparked,
+      sparkCount: prevPost.hasUserSparked
+        ? prevPost.sparkCount - 1
+        : prevPost.sparkCount + 1,
+    }));
+  };
+
+  const sparkHandle = async (postId) => {
+    changeSpark(postId); // 반짝 토글 시 UI 변경
+
+    try {
+      const res = await fetchWithAuth(`/api/post/spark/${postId}`);
+      if (!res.ok || res.status !== 200) {
+        throw new Error("반짝 실패");
+      }
+    } catch (error) {
+      console.error("Error sparking post:", error);
+      changeSpark(postId); // 반짝 실패 시 원래 상태로 복구
+    }
+  };
+
   return (
     <article className={styles["main-post-wrap"]}>
       <section className={styles["post-user-info"]}>
@@ -42,10 +70,30 @@ export default function Post({ styles, post }) {
         )}
       </section>
       <section className={styles["post-btn-content"]}>
-        <button>
-          <span className="sr-only">반짝 누르기</span>
-          <Image src="/images/star.svg" alt="" width={40} height={40} />
-          <span className={styles["btn-label"]}>{post.sparkCount} 반짝</span>
+        <button onClick={() => sparkHandle(post.objectID)}>
+          {post.hasUserSparked ? (
+            <>
+              {" "}
+              <span className="sr-only">반짝 해제하기</span>
+              <Image
+                src="/images/star-fill.svg"
+                alt=""
+                width={40}
+                height={40}
+              />
+              <span className={styles["btn-label"]}>
+                {post.sparkCount} 반짝
+              </span>
+            </>
+          ) : (
+            <>
+              <span className="sr-only">반짝 누르기</span>
+              <Image src="/images/star.svg" alt="" width={40} height={40} />
+              <span className={styles["btn-label"]}>
+                {post.sparkCount} 반짝
+              </span>
+            </>
+          )}
         </button>
         <button>
           <span className="sr-only">댓글 작성하기</span>
