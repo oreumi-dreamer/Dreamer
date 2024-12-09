@@ -3,7 +3,7 @@ export default function postTime(createdAt, updatedAt) {
   const updateDate = new Date(updatedAt).getTime(); // 수정일시
   const nowDate = new Date().getTime(); // 현재 일시
 
-  // 게시일시와 수정일시 비교 (수정 시 수정됨 표기)
+  // 시간 기준으로 24 시간 전 / 7일 전 / 전체 날짜 표기 | 수정 업로드시 (수정됨) 표기
   if (createDate === updateDate) {
     const calHour = (nowDate - createDate) / (1000 * 60 * 60);
     return calHour < 24
