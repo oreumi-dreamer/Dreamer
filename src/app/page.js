@@ -41,7 +41,7 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <Header />
-      {/* <PostModal /> */}
+      <MainList />
       <Footer />
     </div>
   );
