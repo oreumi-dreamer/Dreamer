@@ -23,7 +23,7 @@
   justify-content: space-evenly;
   flex-wrap: nowrap;
   width: 100vw;
-  height: 100%;
+  height: 100vh;
   background-color: var(--background-color);
   padding-left: 32rem;
 }
