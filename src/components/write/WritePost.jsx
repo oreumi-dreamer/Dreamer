@@ -12,11 +12,13 @@ export default function WritePost() {
   return (
     <dialog className={styles["new-post"]} open>
       <h2 className="sr-only">새로운 글 작성</h2>
-      <Image src="/images/rabbit.svg" width={52} height={52} />
-      <p>
-        {"JINI"}
-        <p>@jini</p>
-      </p>
+      <div className={styles["user-prof"]}>
+        <Image src="/images/rabbit.svg" width={52} height={52} />
+        <p className={styles["user-name"]}>
+          {"JINI"}
+          <p className={styles["user-id"]}>@jini</p>
+        </p>
+      </div>
 
       <button className={styles["btn-close"]}>
         <Image src="/images/close.svg" width={40} height={40}></Image>
@@ -42,18 +44,22 @@ export default function WritePost() {
         <div className={styles["write-field"]}>
           <div className={styles["write-field-opt"]}>
             {/* 버튼 누르면 해시태그 입력용 모달 나타나기? */}
-            <button>
-              <Image src="/images/plus-circle.svg" width={28} height={28} />
-              <span className="sr-only">태그 추가하기</span>
-            </button>
+            <div className={styles["genre-picker"]}>
+              <button>
+                <Image src="/images/plus-circle.svg" width={28} height={28} />
+                <span className="sr-only">태그 추가하기</span>
+              </button>
+            </div>
             {/* 기분 추가 */}
-            <p>
-              지금 상태
-              <button>{/* 누르면 체크박스 모달 열기 */}</button>
-            </p>
+            <div className={styles["user-feeling"]}>
+              <p>지금 상태</p>
+              <input type="button" className={styles["btn-feeling"]}>
+                {/* 누르면 체크박스 모달 열기 */}
+              </input>
+            </div>
 
-            <p>오늘의 꿈 별점: </p>
-            <div className="rate-stars">
+            <div className={styles["rate-star-container"]}>
+              <p>오늘의 꿈 별점: </p>
               <input
                 type="radio"
                 className={styles["rate-star"]}
@@ -88,24 +94,25 @@ export default function WritePost() {
           </div>
 
           {/* 구분선 */}
-          <span className={styles["break-line"]}></span>
-
-          <label>
+          {/* <span className={styles["break-line"]}></span> */}
+          <p className={styles["text-field-area"]}>
             <span className="sr-only">글 작성</span>
             <textarea
               placeholder="오늘은 어떤 꿈을 꾸셨나요?"
               className={styles["text-field-area"]}
             />
-          </label>
+          </p>
+        </div>
+        <div className={styles["btn-submit"]}>
+          <button
+            type="submit"
+            form="new-post-form"
+            //   className={styles["btn-submit"]}
+          >
+            전송
+          </button>
         </div>
       </form>
-      <button
-        type="submit"
-        form="new-post-form"
-        className={styles["btn-submit"]}
-      >
-        전송
-      </button>
     </dialog>
   );
 }
