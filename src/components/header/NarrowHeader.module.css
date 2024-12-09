@@ -8,12 +8,15 @@
   left: 0;
   display: flex;
   align-items: center;
-  flex-direction: column;
   padding-top: 12.8rem;
+  flex-direction: column;
   min-height: 92rem;
 }
 
 .mode-toggle-btn {
+  width: 5.6rem;
+  height: 5.6rem;
+  border-radius: 50%;
   margin-top: 2rem;
 }
 
@@ -23,9 +26,6 @@
 
 .mode-toggle-btn.light-mode {
   background-color: var(--black-font-color);
-  width: 5.6rem;
-  height: 5.6rem;
-  border-radius: 50%;
 }
 
 .header-btn-container {
@@ -40,54 +40,18 @@
   border-radius: 50%;
   margin-bottom: 3.2rem;
   display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.header-btn-container nav {
-  margin-bottom: 12rem;
-}
-
-.header-btn-container .nav-item.active {
+.header-btn-container .nav-item.active:not(.profile-btn) {
   background-color: var(--deep-pink-color);
 }
 
-.nav-items .nav-item::before,
-.more-btn::before {
-  content: "";
-  width: 2.6rem;
-  height: 2.6rem;
-  mask-size: contain;
-  background-color: var(--none-active-color);
-  display: inline-block;
+.header-btn-container .nav-item.active:not(.profile-btn) img {
+  filter: invert(1) brightness(2);
 }
 
-.nav-items .nav-item.active::before,
-.more-btn.active::before {
-  background-color: var(--black-white-color);
-}
-
-.nav-items .home-btn::before {
-  mask: url(/images/home.svg) no-repeat center;
-}
-
-.nav-items .search-btn::before {
-  mask: url(/images/search.svg) no-repeat center;
-}
-
-.nav-items .message-btn::before {
-  mask: url(/images/message.svg) no-repeat center;
-}
-
-.nav-items .alarm-btn::before {
-  mask: url(/images/alarm.svg) no-repeat center;
-}
-
-.nav-items .writing-btn::before {
-  mask: url(/images/writing.svg) no-repeat center;
-}
-
-.more-btn::before {
-  mask: url(/images/more.svg) no-repeat center;
-}
 
 /* 하단 프로필/더보기버튼 */
 .profile-btn,
