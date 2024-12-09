@@ -12,7 +12,6 @@ export default function Header() {
   const [isActive, setIsActive] = useState("홈");
   const { isOpen, modalType } = useSelector((state) => state.modal);
   const isNarrowHeader = useMediaQuery("(max-width: 1440px)");
-
   const dispatch = useDispatch();
 
   const getActiveStateFromURL = (path) => {
@@ -81,7 +80,6 @@ export default function Header() {
         <NarrowHeader
           onMoreBtnClick={() => handleMoreBtnClick("moreModal")}
           buttonRef={buttonRef}
-          modalStyle={modalStyle}
           isActive={isActive}
           handleActiveBtn={handleActiveBtn}
         />
@@ -89,7 +87,6 @@ export default function Header() {
         <WideHeader
           onMoreBtnClick={() => handleMoreBtnClick("moreModal")}
           buttonRef={buttonRef}
-          modalStyle={modalStyle}
           isActive={isActive}
           handleActiveBtn={handleActiveBtn}
         />
