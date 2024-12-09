@@ -163,7 +163,7 @@ export default function PostModal() {
           <h2 className="sr-only">글 본문 내용 확인</h2>
           <section className={styles["post-info-section"]}>
             <h3 className="sr-only">작성자 정보 및 본문 관련 버튼 모음</h3>
-            <Link className={styles.profile} href="/">
+            <Link className={styles.profile} href={`/${postData.authorId}`}>
               <Image
                 src="/images/rabbit.svg"
                 width={49}
