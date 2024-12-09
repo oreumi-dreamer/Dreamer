@@ -97,8 +97,8 @@
 .post-text img {
   max-width: 100%;
   margin: 1rem 0;
-  background-color: #d3b7b7;
   border-radius: 1.5rem;
+  object-fit: contain;
 }
 
 .post-text p {
