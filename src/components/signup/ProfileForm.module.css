@@ -107,8 +107,8 @@
 
 .form-field:nth-of-type(2) span {
   position: absolute;
-  right: 0.8rem;
-  bottom: 3.6rem;
+  right: 0rem;
+  bottom: 1rem;
 }
 
 .dark-mode {
