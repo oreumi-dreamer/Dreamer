@@ -76,7 +76,7 @@ export default function WideHeader({
         >
           더보기
         </button>
-        {isOpen ? <HeaderBaseModal /> : null}
+        {isOpen ? <HeaderBaseModal buttonRef={buttonRef} /> : null}
       </div>
     </header>
   );
