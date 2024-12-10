@@ -7,14 +7,14 @@ export default function postTime(createdAt, updatedAt) {
   if (createDate === updateDate) {
     const calHour = (nowDate - createDate) / (1000 * 60 * 60);
     return calHour < 24
-      ? `${calHour}시간 전`
+      ? `${Math.trunc(calHour)}시간 전`
       : calHour / 24 < 7
         ? `${Math.trunc(calHour / 24)}일 전`
         : createdAt.slice(0, -14);
   } else {
     const updateCalHour = (nowDate - updateDate) / (1000 * 60 * 60);
     return updateCalHour < 24
-      ? `${updateCalHour}시간 전(수정됨)`
+      ? `${Math.trunc(updateCalHour)}시간 전(수정됨)`
       : updateCalHour / 24 < 7
         ? `${Math.trunc(updateCalHour / 24)}일 전(수정됨)`
         : `${updatedAt.slice(0, -14)}(수정됨)`;
