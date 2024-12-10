@@ -15,6 +15,17 @@ export default function Post({ styles, post: initialPosts }) {
   const [modalStyle, setModalStyle] = useState({});
   const modalRef = useRef(null);
   const buttonRef = useRef(null);
+
+  useEffect(() => {
+    if (modalRef.current && buttonRef.current) {
+      const cleanup = outsideClickModalClose(modalRef, buttonRef, () => {
+        setIsOpen(false);
+      });
+      return () => {
+        cleanup();
+      };
+    }
+  }, [modalRef, buttonRef, isOpen]);
   const handlePostMoreBtnClick = async (postId, userId) => {
     try {
       const data = await isMyPost(postId, userId);
