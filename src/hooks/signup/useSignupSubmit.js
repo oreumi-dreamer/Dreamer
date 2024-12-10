@@ -37,6 +37,7 @@ export function useSignupSubmit() {
               userId: formData.userId,
               userName: formData.userName,
               profileImageUrl: data.profileImageUrl,
+              theme: userData.theme,
             },
           })
         );

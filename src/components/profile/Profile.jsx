@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import styles from "@/components/profile/Profile.module.css";
 import PostList from "./PostList";
@@ -11,6 +11,7 @@ import ProfileInfo from "./ProfileInfo";
 import { Button } from "../Controls";
 import Loading from "../Loading";
 import PostModal from "../modal/PostModal";
+import { CustomScrollbar } from "../Controls";
 
 export default function Profile({ userName }) {
   const router = useRouter();
@@ -18,6 +19,7 @@ export default function Profile({ userName }) {
   const [posts, setPosts] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isEdit, setIsEdit] = useState(false);
+  const mainRef = useRef(null);
 
   const user = useSelector((state) => state.auth.user);
   const isLoggedIn = user?.exists ? true : false;
@@ -131,7 +133,7 @@ export default function Profile({ userName }) {
 
   return (
     <>
-      <main className={styles["profile-main"]}>
+      <main className={styles["profile-main"]} ref={mainRef}>
         <section className={styles["profile-container"]}>
           {isEdit ? (
             <ProfileEdit
@@ -153,6 +155,7 @@ export default function Profile({ userName }) {
 
         <Posts />
       </main>
+      <CustomScrollbar containerRef={mainRef} isLoading={loading} />
       <PostModal />
     </>
   );

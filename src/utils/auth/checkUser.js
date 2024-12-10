@@ -19,6 +19,7 @@ export const checkUserExists = async (dispatch) => {
             userId: userData.userId,
             userName: userData.userName,
             profileImageUrl: userData.profileImageUrl,
+            theme: userData.theme,
           },
         })
       );

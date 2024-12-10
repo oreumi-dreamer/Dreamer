@@ -1,6 +1,7 @@
 .main-container {
-  margin: 16.6rem auto 0 auto;
+  padding: 16.6rem 0 0 0;
   background-color: var(--background-color);
+  overflow: scroll;
 }
 
 .main-container article {
