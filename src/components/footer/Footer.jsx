@@ -5,11 +5,11 @@ import styles from "./Footer.module.css";
 export default function Footer() {
   return (
     <footer className={styles.footer}>
-      <input
+      {/* <input
         type="text"
         className={styles["footer-search-inp"]}
         name="footer-search"
-      />
+      /> */}
       <article className={styles["recommend-wrap"]}>
         <h2 className={styles["recommend-title"]}>추천 DREAMER</h2>
         <div className={styles["recommend-list"]}></div>
