@@ -17,6 +17,7 @@ export default function PostModal({
   const [comment, setComment] = useState(undefined);
   const commentRef = useRef(null);
   const [postData, setPostData] = useState(null);
+  const [commentData, setCommentData] = useState(null);
 
   useEffect(() => {
     const viewPost = async () => {
@@ -30,7 +31,14 @@ export default function PostModal({
       }
     };
 
+    const viewComments = async () => {
+      const response = await fetchWithAuth(`/api/comment/read/${postId}`);
+      const data = await response.json();
+      setCommentData(data.comments);
+    };
+
     viewPost();
+    viewComments();
   }, []);
 
   function handleModalClose() {
@@ -77,63 +85,65 @@ export default function PostModal({
 
   // 댓글 api 구현 시 수정 예정
   function CommentArticles() {
-    if (postData.commentsCount === 0) {
+    if (!commentData) {
       return <p className={styles["no-comment"]}>댓글이 없습니다.</p>;
     }
 
-    return postData.comments.map((comment, index) => {
+    return commentData.map((comment) => {
       return (
         <article
-          key={index}
-          className={styles["comment-article"]}
+          key={comment.commentId}
+          className={`${styles["comment-article"]} ${comment.content.length >= 127 ? styles["text-long"] : ""}`}
           onClick={handleCommentClick}
         >
           <ul className={styles["comment-info"]}>
             <li>
               <Link href="/">
-                <span>{"JIh2"}</span> @jhjh
+                <span>{comment.authorName}</span> {`@${comment.authorId}`}
               </Link>
             </li>
             <li>
-              <time>{"1분 전"}</time>
+              <time>
+                {postTime(
+                  new Date(comment.createdAt.seconds * 1000),
+                  new Date(comment.createdAt.seconds * 1000)
+                )}
+              </time>
             </li>
-
-            <li>
-              {/* {isPrivate && <Image />} */}
-              <Image
-                src="/images/lock.svg"
-                width={10}
-                height={13}
-                alt="비공개 댓글"
-              />
-            </li>
+            {comment.isPrivate && (
+              <li>
+                <Image
+                  src="/images/lock.svg"
+                  width={10}
+                  height={13}
+                  alt="비공개 댓글"
+                />
+              </li>
+            )}
           </ul>
 
-          {/* {isMyComment && <ul ></ul>} */}
-          <ul className={styles["edit-delete-button"]}>
-            <li>
-              <button>수정</button>
-            </li>
-            <li>
-              <button>삭제</button>
-            </li>
-          </ul>
+          {postData.authorId !== comment.authorId && (
+            <ul className={styles["edit-delete-button"]}>
+              <li>
+                <button>수정</button>
+              </li>
+              <li>
+                <button>삭제</button>
+              </li>
+            </ul>
+          )}
 
-          {/* {isOneiromancy && <Image />} */}
-          <Image
-            src="/images/oneiromancy.svg"
-            className={styles.oneiromancy}
-            width={17}
-            height={13}
-            alt="꿈해몽 댓글"
-          />
+          {comment.isDreamInterpretation && (
+            <Image
+              src="/images/oneiromancy.svg"
+              className={styles.oneiromancy}
+              width={17}
+              height={13}
+              alt="꿈해몽 댓글"
+            />
+          )}
 
-          {/* 글자 수 추후 데이터 불러왔을 때 변수 설정 후 수정 */}
-          <p ref={commentRef}>
-            {
-              "안녕하세요 꿈 과학자 입니다. 저의 소견으로는 당신의 현재 상황에 대한 불안함을 갖고 있던 일이, 곧 좋은 기회를 얻어 좋게 풀려나갈 좋은 징조라고 보여집니다. 이런 경우 외계인은 금전운을 뜻하며, 친구는 영혼의 동반자를 의미할것이라고 예상됩니다. 요즘 말로 소울메이트 같은 존재라는 거죠. 항상 좋은일 가득하시길 바랍니다~^^*"
-            }
-          </p>
+          <p>{comment.content}</p>
         </article>
       );
     });
