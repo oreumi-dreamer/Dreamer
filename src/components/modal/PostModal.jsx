@@ -17,11 +17,15 @@ export default function PostModal() {
 
   useEffect(() => {
     const viewPost = async () => {
-      const postId = "sZfIASnHrW87XhoC34Id"; // 임시 적용
-      const response = await fetchWithAuth(`/api/post/search/${postId}`);
-      const data = await response.json();
-      setPostData(data.post);
-      setIsModalOpen(true);
+      try {
+        const postId = "sZfIASnHrW87XhoC34Id"; // 임시 적용
+        const response = await fetchWithAuth(`/api/post/search/${postId}`);
+        const data = await response.json();
+        setPostData(data.post);
+        setIsModalOpen(true);
+      } catch (error) {
+        console.error("게시글을 불러올 수 없습니다.:", error);
+      }
     };
 
     viewPost();
