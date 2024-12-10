@@ -43,6 +43,10 @@
   padding-left: 8.6rem;
 }
 
+.post-info-section a img {
+  border-radius: 50%;
+}
+
 .profile {
   display: flex;
   width: fit-content;
