@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./PostModal.module.css";
 import Image from "next/image";
 import Link from "next/link";
@@ -15,7 +15,6 @@ export default function PostModal({
   const [isOneiromancy, setOneiromancy] = useState(false);
   const [isPrivate, setIsPrivate] = useState(false);
   const [comment, setComment] = useState(undefined);
-  const commentRef = useRef(null);
   const [postData, setPostData] = useState(null);
   const [commentData, setCommentData] = useState(null);
 
@@ -47,7 +46,6 @@ export default function PostModal({
       if (!exitAnswer) return;
     }
     setIsModalOpen(false);
-    // commentRef.current.parentElement.classList.add(styles["text-long"]);
   }
 
   if (!isModalOpen) {
