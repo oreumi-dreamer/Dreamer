@@ -14,7 +14,6 @@ export default function PostModal({ postId = "sZfIASnHrW87XhoC34Id" }) {
   const [isScrap, setIsScrap] = useState(false);
   const [comment, setComment] = useState(undefined);
   const [postData, setPostData] = useState(null);
-  const [profileImage, setProfileImage] = useState("/images/rabbit.svg");
   const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
@@ -23,14 +22,6 @@ export default function PostModal({ postId = "sZfIASnHrW87XhoC34Id" }) {
         const response = await fetchWithAuth(`/api/post/search/${postId}`);
         const data = await response.json();
         setPostData(data.post);
-        // 프로필 사진 불러오기 api 적용하여 profileImage에 저장
-        const profileImageRes = await fetchWithAuth(
-          `/api/account/avatar/${user.userId}`
-        );
-        const profileImageUrl = await profileImageRes.json();
-        if (!profileImageUrl.error) {
-          setProfileImage(profileImageUrl);
-        }
         setIsModalOpen(true);
       } catch (error) {
         console.error("게시글을 불러올 수 없습니다.:", error);
@@ -92,6 +83,7 @@ export default function PostModal({ postId = "sZfIASnHrW87XhoC34Id" }) {
             <Link className={styles.profile} href={`/${postData.authorId}`}>
               <Image
                 src={profileImage}
+                src={`/api/account/avatar/${user.userId}`}
                 width={49}
                 height={49}
                 alt="프로필 사진"
