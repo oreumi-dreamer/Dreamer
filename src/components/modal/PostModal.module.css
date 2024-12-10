@@ -227,11 +227,10 @@
   max-width: 76.1rem;
   min-height: 7rem;
   border-radius: 1rem;
-  margin-bottom: 3rem;
+  margin: 3rem 0;
   position: relative;
   padding: 1.6rem 4.2rem 2rem 4rem;
   font-size: var(--small-text-font-size);
-  margin-top: 3rem;
 }
 .comment-articles-section::-webkit-scrollbar {
   width: 3.2rem;
@@ -287,12 +286,11 @@
 
 .comment-info {
   display: flex;
-
+  align-items: flex-end;
   gap: 0.4rem;
   color: var(--gray-font-color);
-
   position: absolute;
-  top: -1.8rem;
+  top: -2.4rem;
   left: 0.4rem;
 }
 
@@ -306,6 +304,10 @@
 }
 .comment-info time {
   color: rgba(0, 0, 0, 0.2);
+}
+.comment-info img {
+  position: absolute;
+  top: 0.7rem;
 }
 
 .edit-delete-button {
