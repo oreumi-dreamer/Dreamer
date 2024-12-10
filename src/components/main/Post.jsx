@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 import postTime from "@/utils/postTime";
+import { Divider } from "../Controls";
 
 export default function Post({ styles, post: initialPosts }) {
   const [post, setPost] = useState(initialPosts);
@@ -60,6 +61,7 @@ export default function Post({ styles, post: initialPosts }) {
           />
         </button>
       </section>
+      <Divider className={styles["divider"]} />
       <section className={styles["post-content"]}>
         <p className={styles["post-text"]}>{post.content}</p>
         {post.imageUrls && (
