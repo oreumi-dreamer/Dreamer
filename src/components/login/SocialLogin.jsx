@@ -3,33 +3,50 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { auth, googleProvider } from "@/lib/firebase";
-import { signInWithPopup } from "firebase/auth";
+import {
+  signInWithPopup,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+} from "firebase/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { loginSuccess } from "@/store/authSlice";
 import { checkUserExists } from "@/utils/auth/checkUser";
 import styles from "./SocialLogin.module.css";
 import { Button, Form, Input, LoginForm } from "../Controls";
+import EmailSignup from "./EmailSignup";
 
 export default function SocialLogin() {
   const router = useRouter();
   const [error, setError] = useState("");
   const [showEmailForm, setShowEmailForm] = useState(false);
+  const [showSignupForm, setShowSignupForm] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.auth);
+  const { user: reduxUser } = useSelector((state) => state.auth);
 
   useEffect(() => {
     const checkUser = async () => {
-      if (!user) return;
+      if (!reduxUser) return;
 
       const exists = await checkUserExists(dispatch);
-      if (exists === false) {
+      if (exists === false && !showSignupForm) {
         router.push("/signup");
+      } else if (!reduxUser.emailVerified) {
+        setError("이메일 인증이 필요합니다. 이메일을 확인하세요.");
+      } else {
+        router.push("/");
       }
     };
 
-    checkUser();
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        checkUser();
+      }
+    });
+
+    return () => unsubscribe();
   }, [router, dispatch]);
 
   const handleGoogleLogin = async () => {
@@ -68,8 +85,40 @@ export default function SocialLogin() {
   const handleEmailLogin = async (e) => {
     e.preventDefault();
     try {
-      // 이메일 로그인 로직 구현
-      console.log("Email login with:", email, password);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+      const idToken = await user.getIdToken(true);
+
+      // ID 토큰을 API로 전달하여 세션 토큰을 쿠키에 저장
+      const tokenRes = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ idToken }),
+      });
+
+      if (!tokenRes.ok) {
+        throw new Error("토큰 쿠키 저장 중 오류 발생");
+      }
+
+      // 사용자 존재 여부 확인
+      const exists = await checkUserExists(dispatch);
+
+      // 결과에 따라 리다이렉트
+      // 이메일 회원가입 중인 경우는 리다이렉션하지 않음
+      if (exists === false && !showSignupForm) {
+        router.push("/signup");
+        console.log("signup");
+      } else if (!reduxUser.emailVerified && !showSignupForm) {
+        setError("이메일 인증이 필요합니다. 이메일을 확인하세요.");
+      } else if (exists && reduxUser.emailVerified && !showSignupForm) {
+        router.push("/");
+      }
     } catch (error) {
       setError("이메일 로그인 중 오류가 발생했습니다.");
       console.error("Email login error:", error);
@@ -84,7 +133,7 @@ export default function SocialLogin() {
         </p>
       )}
 
-      {showEmailForm ? (
+      {showEmailForm && !showSignupForm ? (
         <>
           <h2 className="sr-only">이메일로 로그인</h2>
           <LoginForm onSubmit={handleEmailLogin}>
@@ -113,7 +162,9 @@ export default function SocialLogin() {
             </Button>
             <div className={styles["join-button"]}>
               <p>회원이 아니신가요?</p>
-              <Button type="button">가입하기</Button>
+              <Button type="button" onClick={() => setShowSignupForm(true)}>
+                가입하기
+              </Button>
             </div>
             <Button
               type="button"
@@ -123,6 +174,19 @@ export default function SocialLogin() {
               돌아가기
             </Button>
           </LoginForm>
+        </>
+      ) : showSignupForm ? (
+        <>
+          <h2 className="sr-only">회원가입</h2>
+          <EmailSignup
+            email={email}
+            setEmail={setEmail}
+            password={password}
+            setPassword={setPassword}
+            setShowSignupForm={setShowSignupForm}
+            setError={setError}
+            checkUserExists={checkUserExists}
+          />
         </>
       ) : (
         <>

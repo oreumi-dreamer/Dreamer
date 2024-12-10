@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { auth } from "@/lib/firebase";
 import {
@@ -16,6 +16,7 @@ export default function AuthStateHandler({ children }) {
   const dispatch = useDispatch();
   const router = useRouter();
   const [isAuthChecked, setIsAuthChecked] = useState(false);
+  const isRegistering = useSelector((state) => state.auth.isRegistering); // 회원가입 중인지 확인
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
@@ -25,7 +26,8 @@ export default function AuthStateHandler({ children }) {
 
           if (result === true) {
             dispatch(setRegistrationComplete());
-          } else {
+          } else if (!isRegistering) {
+            // 회원가입 중이 아닐 때만 리다이렉트
             dispatch(resetRegistrationComplete());
             router.push("/signup");
           }
@@ -40,7 +42,7 @@ export default function AuthStateHandler({ children }) {
     });
 
     return () => unsubscribe();
-  }, [dispatch, router]);
+  }, [dispatch, router, isRegistering]);
 
   if (!isAuthChecked) {
     return <Loading />;
