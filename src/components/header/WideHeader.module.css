@@ -1,6 +1,6 @@
 .header {
   width: 32rem;
-  height: 100%;
+  height: 100vh;
   background: var(--background-pink-top);
   box-shadow: 4px 0px 75.5px -20px rgba(0, 0, 0, 0.16);
   position: fixed;
@@ -10,7 +10,7 @@
   align-items: flex-start;
   flex-direction: column;
   padding: 10rem 0 10.6rem 8rem;
-  position: relative;
+  min-height: 92rem;
 }
 
 .logo img {
@@ -19,7 +19,7 @@
 }
 
 .mode-toggle-btn {
-  margin: 2rem 0 0 0;
+  margin-top: 2rem;
   width: 10rem;
   border-radius: 5rem;
   padding: 0.9rem;
@@ -136,6 +136,8 @@
   mask: url(/images/more.svg) no-repeat center;
 }
 
+
+/* 하단 프로필/더보기버튼 */
 .profile-btn,
 .more-btn {
   display: flex;
@@ -156,6 +158,8 @@
 }
 .profile-btn img {
   margin-right: 2rem;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .more-btn {

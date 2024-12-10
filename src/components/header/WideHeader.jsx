@@ -1,10 +1,14 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./WideHeader.module.css";
 import Link from "next/link";
 import { HeaderBaseModal } from "./HeaderModal";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import Image from "next/image";
+import { closeModal } from "@/store/modalSlice";
+import { outsideClickModalClose } from "@/utils/outsideClickModalClose";
+import { calculateModalPosition } from "@/utils/calculateModalPosition";
 
 export default function WideHeader({
   onMoreBtnClick,
@@ -13,6 +17,11 @@ export default function WideHeader({
   handleActiveBtn,
 }) {
   const { isOpen } = useSelector((state) => state.modal);
+  const { user } = useSelector((state) => state.auth);
+  const { userId, userName, profileImageUrl  } = user;
+  const [modalStyle, setModalStyle] = useState({});
+  const modalRef = useRef(null);
+  const dispatch = useDispatch();
 
   const navItems = [
     { label: "홈", className: "home-btn", href: "/" },
@@ -21,11 +30,38 @@ export default function WideHeader({
     { label: "알람", className: "alarm-btn", href: "/alarm" },
   ];
 
+  useEffect(() => {
+    if (modalRef.current && buttonRef.current) {
+      const updatePosition = () => {
+        const position = calculateModalPosition(buttonRef, -80, -600);
+        if (position) {
+          setModalStyle(position);
+        }
+      };
+
+      updatePosition(); // Initial position update
+      window.addEventListener("resize", updatePosition);
+
+      const cleanup = outsideClickModalClose(modalRef, buttonRef, () => {
+        dispatch(closeModal());
+      });
+      return () => {
+        window.removeEventListener("resize", updatePosition);
+        cleanup();
+      };
+    }
+  }, [dispatch, modalRef, buttonRef, isOpen]);
+
   return (
     <header className={styles.header}>
       <h1 className={styles.logo}>
         <Link href="/">
-          <img src="/images/logo-full.svg" alt="DREAMER" />
+          <Image
+            src="/images/logo-full.svg"
+            alt="DREAMER"
+            width={252}
+            height={105}
+          />
         </Link>
       </h1>
       <button
@@ -39,7 +75,7 @@ export default function WideHeader({
             {navItems.map((item) => (
               <li key={item.label} className={styles["nav-items"]}>
                 <Link
-                  href={"#"}
+                  href={item.href}
                   className={`${styles["nav-item"]} ${styles[`${item.className}`]} ${
                     isActive === item.label ? styles.active : ""
                   }`}
@@ -62,12 +98,18 @@ export default function WideHeader({
           </ul>
         </nav>
         <Link
-          href="#"
+          href={`/${userId}`}
           className={`${styles["nav-item"]} ${styles["profile-btn"]} ${isActive === "프로필" ? styles.active : ""}`}
           onClick={() => handleActiveBtn("프로필")}
         >
-          <img src="/images/rabbit.svg" alt="프로필사진" loading="lazy" />
-          <p>JINI</p>
+          <img
+            src={profileImageUrl ? profileImageUrl : "/images/rabbit.svg"} 
+            alt="프로필사진"
+            loading="lazy"
+            width={40}
+            height={40}
+          />
+          <p>{userName}</p>
         </Link>
         <button
           className={`${styles["nav-item"]} ${styles["more-btn"]} ${isOpen ? styles.active : ""}`}
@@ -76,7 +118,7 @@ export default function WideHeader({
         >
           더보기
         </button>
-        {isOpen ? <HeaderBaseModal buttonRef={buttonRef} /> : null}
+        {isOpen && <HeaderBaseModal ref={modalRef} style={modalStyle} />}
       </div>
     </header>
   );
