@@ -49,7 +49,7 @@ export default function CommentArticles({ postId }) {
       >
         <ul className={styles["comment-info"]}>
           <li>
-            <Link href="/">
+            <Link href={`/${comment.authorId}`}>
               <span>{comment.authorName}</span> {`@${comment.authorId}`}
             </Link>
           </li>
