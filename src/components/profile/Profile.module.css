@@ -15,11 +15,11 @@
   margin: auto;
   width: 72rem;
   padding: 4.3rem 10.9rem 4.3rem 5.1rem;
-  border-bottom: 2px dashed var(--gray-font-color);
 }
 
 .profile-wrap img {
   width: 15rem;
+  margin-right: 4.5rem;
 }
 
 .profile-image {
@@ -28,31 +28,34 @@
   margin-bottom: 1.6rem;
 }
 
-.profile-name-wrap,
-.profile-bio {
-  margin-left: 4.5rem;
-}
-
 .profile-name-wrap {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  grid-template-areas: "name follow-btn" "id id";
 }
 
-.profile-name-id {
+.profile-id {
   display: flex;
   flex-direction: column;
+  grid-area: id;
+  color: var(--black-transparent-color);
 }
 
 .profile-name {
-  font-size: 3.6rem;
+  font-size: var(--h2-font-size);
+  grid-area: name;
 }
 
 .profile-btn {
+  width: fit-content;
+  height: fit-content;
   background-color: var(--deep-pink-color);
   color: var(--background-white);
   border-radius: 0.5rem;
   padding: 0.5rem 1rem;
-  font-size: 1.3rem;
-  margin: 1rem 0 2.4rem 1.2rem;
+  grid-area: follow-btn;
+  margin-left: 2.4rem;
 }
 
 .profile-btn:hover {
@@ -66,7 +69,6 @@
 .profile-stat {
   display: flex;
   margin-bottom: 0.8rem;
-  margin-left: 3.5rem;
 }
 
 .profile-stat dt {
@@ -78,7 +80,6 @@
 }
 
 .profile-bio {
-  font-size: 1.5rem;
   width: 21rem;
 }
 
@@ -161,6 +162,17 @@
   column-gap: 0.8rem;
 }
 
+/* dashed divider */
+.dashed-line {
+  width: 100%;
+  height: 2px;
+  background-image: url(/images/dash.svg);
+  background-size: 12px 2px;
+  background-repeat: repeat-x;
+  background-position: center;
+  padding: 4rem 0;
+}
+
 /* post */
 
 .no-posts {
@@ -204,7 +216,7 @@
 
 .post-title {
   width: 15rem;
-  font-size: 1.6rem;
+  font-size: var(--body-font-size);
   font-weight: 700;
 }
 
@@ -224,13 +236,14 @@
   width: 16.8rem;
   height: 9.6rem;
   margin: 1.5rem 0 0.9rem 0;
-  font-size: 1.2rem;
+  font-size: var(--small-text-font-size);
   line-height: 1.6rem;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 6;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: pre-wrap;
 }
 
 .post-btn-container {
@@ -238,6 +251,7 @@
 }
 
 .post-btn-container dd {
+  font-size: var(--small-text-font-size);
   margin: 0 1rem 0 0.4rem;
 }
 
@@ -246,4 +260,12 @@
 }
 .post-btn-container img {
   width: 1.5rem;
+}
+
+/* // 다크 모드일 시 대시의 배경 이미지를 변경 */
+
+@media (prefers-color-scheme: dark) {
+  .dashed-line {
+    background-image: url(/images/dash-bright.svg);
+  }
 }

@@ -75,11 +75,13 @@ export async function GET(request, { params }) {
         "title",
         "content",
         "authorUid",
+        "spark",
         "sparkCount",
         "commentsCount",
         "createdAt",
         "dreamGenres",
         "dreamMoods",
+        "imageUrls",
       ],
     });
 
@@ -98,6 +100,7 @@ export async function GET(request, { params }) {
       userMap[doc.id] = {
         userId: doc.data().userId,
         userName: doc.data().userName,
+        profileImageUrl: doc.data().profileImageUrl,
       };
     });
 
@@ -151,6 +154,9 @@ export async function GET(request, { params }) {
           score: totalScore,
           authorId: userMap[hit.authorUid]?.userId || "알 수 없음",
           authorName: userMap[hit.authorUid]?.userName || "알 수 없음",
+          profileImageUrl:
+            userMap[hit.authorUid]?.profileImageUrl || "/images/rabbit.svg",
+          hasUserSparked: hit.spark?.includes(userData.uid),
         };
       })
       .sort((a, b) => b.score - a.score);

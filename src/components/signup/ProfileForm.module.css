@@ -7,12 +7,12 @@
 }
 
 .profile-form p:first-of-type {
-  font-size: 3.6rem;
+  font-size: var(--big-text-font-size);
   margin-bottom: 1.6rem;
 }
 
 .profile-form p:nth-of-type(2) {
-  font-size: 2rem;
+  font-size: var(--h3-font-size);
   margin-bottom: 2.4rem;
 }
 
@@ -34,7 +34,7 @@
 }
 
 .form-field:first-of-type p {
-  font-size: 2.4rem;
+  font-size: var(--h2-font-size);
   grid-area: p;
   margin: 0;
 }
@@ -57,7 +57,7 @@
 
 .form-field:first-of-type span {
   grid-area: span;
-  font-size: 1.4rem;
+  font-size: var(--h3-font-size);
   color: rgba(0, 0, 0, 0.6);
   align-self: flex-start;
 }
@@ -73,9 +73,12 @@
   gap: 0.4rem;
 }
 
-.form-field label,
+.form-field label {
+  font-size: var(--h2-font-size);
+  font-weight: bold;
+}
+
 .form-field p {
-  font-size: 2.4rem;
   font-weight: bold;
 }
 
@@ -85,7 +88,6 @@
   background-color: #e8e8e8;
   border: none;
   border-radius: 1rem;
-  font-size: 2.4rem;
   padding: 1.2rem 2rem;
   margin-bottom: 3.2rem;
   resize: none;
@@ -143,11 +145,9 @@
 }
 
 .dark-mode label {
-  font-size: 2rem;
+  font-size: var(--h3-font-size);
   font-weight: unset;
-  width: 16rem;
-  height: 4.1rem;
-  padding: 1.2rem 0;
+  padding: 0.8rem 3.9rem;
   text-align: center;
   background-color: #d9d9d9;
   border-radius: 1rem;
@@ -155,7 +155,7 @@
 }
 
 .buttons button {
-  font-size: 2.4rem;
+  font-size: var(--h3-font-size);
   width: fit-content;
   padding: 0.8rem 2.4rem;
   border-radius: 1rem;

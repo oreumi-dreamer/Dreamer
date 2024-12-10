@@ -20,10 +20,7 @@ export default function ProfileInfo({
       />
       <div className={styles["profile-info"]}>
         <div className={styles["profile-name-wrap"]}>
-          <div className={styles["profile-name-id"]}>
-            <div className={styles["profile-name"]}>{profile.name}</div>
-            <div className={styles["profile-id"]}>@{profile.id}</div>
-          </div>
+          <p className={styles["profile-name"]}>{profile.name}</p>
           {profile.isMyself ? (
             <button
               onClick={() => setIsEdit(true)}
@@ -46,6 +43,7 @@ export default function ProfileInfo({
               팔로우
             </button>
           )}
+          <p className={styles["profile-id"]}>@{profile.id}</p>
         </div>
         <dl className={styles["profile-stat"]}>
           <dt>게시물</dt>

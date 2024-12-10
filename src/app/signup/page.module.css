@@ -1,8 +1,6 @@
 body:has(.signup-main) {
   width: 100vw;
-  height: 100vh;
   background: var(--background-blue-top);
-  overflow: hidden;
 }
 
 .signup-main {

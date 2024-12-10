@@ -58,7 +58,7 @@
 #title input[type="text"] {
   background-color: inherit;
   border: 0;
-  font-size: 1.6rem;
+
   margin-left: 1rem;
   width: 52rem;
 }
@@ -162,7 +162,7 @@
   width: 100%;
   height: calc(100% - 3rem);
   padding: 1rem;
-  font-size: 1.6rem;
+
   resize: none;
   border: 0;
 }

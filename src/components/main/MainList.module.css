@@ -3,6 +3,10 @@
   background-color: var(--background-color);
 }
 
+.main-container article {
+  margin-bottom: 4rem;
+}
+
 .post-user-info {
   display: flex;
   align-items: center;
@@ -10,7 +14,38 @@
   padding-bottom: 0.8rem;
 }
 
-.post-user-info .more-btn {
+.post-user-info > a img {
+  width: 4.9rem;
+  height: 4.9rem;
+  border-radius: 50%;
+  background-color: #fff;
+  object-fit: cover;
+  margin-right: 1.7rem;
+}
+
+.post-user-info a {
+  display: flex;
+  align-items: center;
+  color: #000;
+  font-size: var(--h2-font-size);
+}
+
+.post-user-info time {
+  padding: 0.4rem 0;
+  margin-top: 0.8rem;
+  margin-left: 0.8rem;
+  color: rgba(0, 0, 0, 0.2);
+}
+
+.user-name {
+  margin-right: 0.4rem;
+}
+
+.user-id {
+  color: var(--black-transparent-color);
+}
+
+.post-user-info button {
   margin-left: auto;
 }
 
@@ -23,12 +58,12 @@
 }
 
 .post-content .post-text {
-  max-height: 20rem;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 10;
   -webkit-box-orient: vertical;
+  white-space: pre-wrap;
 }
 
 .post-content .post-img-wrap {
@@ -49,8 +84,17 @@
   margin-top: 1.2rem;
 }
 
+.post-btn-content button {
+  display: flex;
+  align-items: center;
+}
+
+.icon-padding {
+  padding: 0.333rem;
+}
+
 .post-btn-content .btn-label {
-  padding: 0 1.4rem 0 0.2rem;
+  padding: 0 1.4rem 0 1rem;
 }
 
 .post-btn-content .mark-btn {
