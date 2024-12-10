@@ -1,17 +1,5 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import styles from "./DropDown.module.css";
-
-function DropDown() {
-  return (
-    <>
-      <div className={styles["drop-down"]}>
-        {isOpen && modalType === "isMyPost" && <MyPost />}
-        {isOpen && modalType === "isNotMyPost" && <OtherPost />}
-      </div>
-    </>
-  );
-}
 
 export function MyPost() {
   return (
