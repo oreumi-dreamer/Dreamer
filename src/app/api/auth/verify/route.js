@@ -34,6 +34,7 @@ export async function GET() {
       email: email,
       via: via,
       uid: uid,
+      theme: userDoc.data()?.theme,
     });
   } catch (error) {
     console.error("Verification error:", error);
