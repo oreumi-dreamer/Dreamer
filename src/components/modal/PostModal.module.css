@@ -1,4 +1,3 @@
-/* 따로 container 사용 시 사용 예정 */
 .dimmed {
   position: fixed;
   top: 0px;
@@ -142,7 +141,6 @@
   flex-direction: column;
   gap: 0.5rem;
   justify-content: space-between;
-  /* font-size: var(--small-text-font-size); */
 }
 
 .post-tag {
@@ -155,7 +153,6 @@
   border-radius: 0.5rem;
   text-align: center;
   background-color: var(--background-dimmed);
-  /* 내용에 따라 색상 background-color 변경 */
 }
 
 .dream-felt {
@@ -235,7 +232,6 @@
   border: 1.2rem solid var(--background-lightgray);
   border-radius: 2.6rem;
 }
-
 .comment-articles-section::-webkit-scrollbar-corner {
   background-color: unset;
 }
@@ -252,7 +248,7 @@
   position: relative;
   display: inline-block;
   cursor: pointer;
-  padding-left: 2rem; /* 체크박스 이미지를 표시할 공간 */
+  padding-left: 2rem;
 }
 
 .checkbox::before {
