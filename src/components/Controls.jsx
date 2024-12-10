@@ -3,7 +3,14 @@
 import { useState, useEffect, useRef, useCallback, createRef } from "react";
 import styles from "./Controls.module.css";
 
-export function Button({ highlight, children, type, onClick, float }) {
+export function Button({
+  highlight,
+  children,
+  type,
+  onClick,
+  float,
+  className,
+}) {
   let buttonClass;
 
   buttonClass = highlight
@@ -13,6 +20,8 @@ export function Button({ highlight, children, type, onClick, float }) {
   if (float === "left-bottom") {
     buttonClass = `${buttonClass} ${styles["button-left-bottom"]}`;
   }
+
+  buttonClass = className ? `${buttonClass} ${className}` : buttonClass;
 
   return (
     <button type={type} className={buttonClass} onClick={onClick}>
