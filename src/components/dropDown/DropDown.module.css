@@ -1,0 +1,34 @@
+.drop-down {
+  width: 15rem;
+  background-color: var(--background-white);
+  border-radius: 1rem;
+}
+
+.drop-down-items .drop-down-item {
+  width: 15rem;
+  font-size: var(--body-font-size);
+  padding: 0.5rem 0 0.5rem 1rem;
+  margin: 0;
+  text-align: left;
+}
+
+.drop-down-items .drop-down-item:hover {
+  background-color: var(--background-color);
+}
+
+.drop-down-items .drop-down-item:active {
+  background-color: var(--active-btn-color);
+  color: var(--background-white);
+}
+
+.drop-down-items .drop-down-item.edit-btn:hover {
+  border-radius: 1rem 1rem 0 0;
+}
+
+.drop-down-items .drop-down-item.secret-btn:hover {
+  border-radius: 0 0 1rem 1rem;
+}
+
+.drop-down-items .drop-down-item.report-btn:hover {
+  border-radius: 1rem;
+}
