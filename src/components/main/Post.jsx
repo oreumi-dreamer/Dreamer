@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
+import postTime from "@/utils/postTime";
 
 export default function Post({ styles, post: initialPosts }) {
   const [post, setPost] = useState(initialPosts);
@@ -43,7 +44,12 @@ export default function Post({ styles, post: initialPosts }) {
           <span className={styles["user-name"]}>{post.authorName}</span>
           <span className={styles["user-id"]}>@{post.authorId}</span>
         </Link>
-        <time className={styles["posting-time"]}>2시간 전</time>
+        <time
+          className={styles["posting-time"]}
+          dateTime={new Date(post.createdAt).toLocaleString("ko-KR")}
+        >
+          {postTime(post.createdAt, post.createdAt)}
+        </time>
         <button>
           <Image
             src="/images/more.svg"
