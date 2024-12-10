@@ -1,9 +1,9 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import styles from "./DropDown.module.css";
 
-export function MyPost() {
+export const MyPost = forwardRef(({ style }, ref) => {
   return (
-    <div className={styles["drop-down"]}>
+    <div className={styles["drop-down"]} ref={ref} style={style}>
       <ul className={styles["my-post"]}>
         <li className={styles["drop-down-items"]}>
           <button
@@ -29,11 +29,11 @@ export function MyPost() {
       </ul>
     </div>
   );
-}
+});
 
-export function OtherPost() {
+export const OtherPost = forwardRef(({ style }, ref) => {
   return (
-    <div className={styles["drop-down"]}>
+    <div className={styles["drop-down"]} ref={ref} style={style}>
       <ul className={styles["other-post"]}>
         <li className={styles["drop-down-items"]}>
           <button
@@ -45,4 +45,4 @@ export function OtherPost() {
       </ul>
     </div>
   );
-}
+});

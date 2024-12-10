@@ -1,15 +1,22 @@
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 import postTime from "@/utils/postTime";
 import { MyPost, OtherPost } from "../dropDown/DropDown";
 import isMyPost from "@/utils/isMyPost";
+import { calculateModalPosition } from "@/utils/calculateModalPosition";
+import { outsideClickModalClose } from "@/utils/outsideClickModalClose";
 
 export default function Post({ styles, post: initialPosts }) {
   const [post, setPost] = useState(initialPosts);
   const [isOpen, setIsOpen] = useState(false);
   const [modalType, setModalType] = useState(null);
+  const [modalStyle, setModalStyle] = useState({});
+  const modalRef = useRef(null);
+  const buttonRef = useRef(null);
+
+
 
   const handlePostMoreBtnClick = async (postId, userId) => {
     try {
@@ -20,6 +27,11 @@ export default function Post({ styles, post: initialPosts }) {
       if (!isOpen) {
         setModalType(modalType);
         setIsOpen(true);
+
+        if (buttonRef.current) {
+          const position = calculateModalPosition(buttonRef, 40, 55);
+          setModalStyle(position);
+        }
       } else {
         setModalType(null);
         setIsOpen(false);
@@ -72,6 +84,7 @@ export default function Post({ styles, post: initialPosts }) {
           {postTime(post.createdAt, post.createdAt)}
         </time>
         <button
+          ref={buttonRef}
           onClick={() => handlePostMoreBtnClick(post.objectID, post.authorId)}
         >
           <Image
@@ -82,8 +95,12 @@ export default function Post({ styles, post: initialPosts }) {
             className={styles["more-btn"]}
           />
         </button>
-        {isOpen && modalType === "isMyPost" && <MyPost />}
-        {isOpen && modalType === "isNotMyPost" && <OtherPost />}
+        {isOpen && modalType === "isMyPost" && (
+          <MyPost ref={modalRef} style={modalStyle} />
+        )}
+        {isOpen && modalType === "isNotMyPost" && (
+          <OtherPost ref={modalRef} style={modalStyle} />
+        )}
       </section>
       <section className={styles["post-content"]}>
         <p className={styles["post-text"]}>{post.content}</p>
