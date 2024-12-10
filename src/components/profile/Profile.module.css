@@ -112,6 +112,8 @@
 .profile-form-info label {
   display: flex;
   flex-direction: column;
+  grid-area: private;
+  font-size: var(--small-text-font-size);
 }
 
 .profile-form-birthdates {
@@ -123,22 +125,35 @@
   width: 100%;
 }
 
-.profile-form-birthdate div {
+.profile-form-birthdate > div {
   display: grid;
-  grid-template-columns: 11fr 8fr 8fr 4.1rem;
-  align-items: center;
+  grid-template-columns: 131fr 1.6rem 96fr 0.8rem 96fr 1.6rem 4.1rem;
+  grid-template-areas: "year blank1 month blank2 day blank3 private";
+  align-items: start;
 }
 
-.profile-form-birthdate div select {
-  margin-right: 0.8rem;
-}
-.profile-form-birthdate div select:nth-of-type(1) {
-  margin-right: 1.6rem;
+.profile-form-birthdate > div > div:nth-of-type(1) {
+  grid-area: year;
 }
 
-.profile-form-birthdate div select:last-of-type {
-  margin-right: 1.6rem;
+.profile-form-birthdate > div > div:nth-of-type(2) {
+  grid-area: month;
 }
+
+.profile-form-birthdate > div > div:nth-of-type(3) {
+  grid-area: day;
+}
+
+/* .profile-form-birthdate > div > div {
+  padding-right: 0.8rem;
+}
+.profile-form-birthdate > div > div:nth-of-type(1) {
+  padding-right: 1.6rem;
+}
+
+.profile-form-birthdate > div > div:last-of-type {
+  padding-right: 1.6rem;
+} */
 
 .profile-form-private {
   display: flex;
