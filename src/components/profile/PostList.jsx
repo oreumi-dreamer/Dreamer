@@ -45,29 +45,26 @@ export default function PostList({ posts: initialPosts, styles, isLoggedIn }) {
             <h3 className={`${styles["post-title"]}`}>{post.title}</h3>
           )}
           <p className={styles["post-text"]}>{post.content}</p>
-          <dl className={styles["post-btn-container"]}>
-            <dt>
-              <button onClick={() => sparkHandle(post.id)}>
-                {post.hasUserSparked ? (
-                  <img src="/images/star-fill.svg" alt="반짝 취소" />
-                ) : (
-                  <img src="/images/star.svg" alt="반짝" />
-                )}
-              </button>
-            </dt>
-            <dd>{post.sparkCount}</dd>
-            <dt>
-              <button>
-                <img src="/images/message.svg" alt="댓글" />
-              </button>
-            </dt>
-            <dd>{post.commentsCount}</dd>
-            <dt>
-              <button>
-                <img src="/images/more.svg" alt="더보기" />
-              </button>
-            </dt>
-          </dl>
+          <div className={styles["post-btn-container"]}>
+            <button onClick={() => sparkHandle(post.id)}>
+              <img
+                src={
+                  post.hasUserSparked
+                    ? "/images/star-fill.svg"
+                    : "/images/star.svg"
+                }
+                alt={post.hasUserSparked ? "반짝 취소" : "반짝"}
+              />
+              <span>{post.sparkCount}</span>
+            </button>
+            <button>
+              <img src="/images/message.svg" alt="댓글" />
+              <span>{post.commentsCount}</span>
+            </button>
+            <button>
+              <img src="/images/more.svg" alt="더보기" />
+            </button>
+          </div>
         </article>
       ))}
     </>
