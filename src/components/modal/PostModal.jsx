@@ -5,7 +5,7 @@ import Link from "next/link";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 import postTime from "@/utils/postTime";
 
-export default function PostModal() {
+export default function PostModal({ postId = "sZfIASnHrW87XhoC34Id" }) {
   const [isModalOpen, setIsModalOpen] = useState(null);
   const [isStarTwinkle, setIsStarTwinkle] = useState(false);
   const [isScrap, setIsScrap] = useState(false);
@@ -17,11 +17,14 @@ export default function PostModal() {
 
   useEffect(() => {
     const viewPost = async () => {
-      const postId = "sZfIASnHrW87XhoC34Id"; // 임시 적용
-      const response = await fetchWithAuth(`/api/post/search/${postId}`);
-      const data = await response.json();
-      setPostData(data.post);
-      setIsModalOpen(true);
+      try {
+        const response = await fetchWithAuth(`/api/post/search/${postId}`);
+        const data = await response.json();
+        setPostData(data.post);
+        setIsModalOpen(true);
+      } catch (error) {
+        console.error("게시글을 불러올 수 없습니다.:", error);
+      }
     };
 
     viewPost();
@@ -30,7 +33,7 @@ export default function PostModal() {
   function handleModalClose() {
     if (comment) {
       const exitAnswer = confirm("댓글을 작성중입니다. 종료하시겠습니까?");
-      return exitAnswer ? setIsModalOpen(false) : setIsModalOpen(true);
+      if (!exitAnswer) return;
     }
     setIsModalOpen(false);
     // commentRef.current.parentElement.classList.add(styles["text-long"]);
