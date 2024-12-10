@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import styles from "./CommentArticles.module.css";
-import Image from "next/image";
 import Link from "next/link";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 import postTime from "@/utils/postTime";
@@ -63,7 +62,7 @@ export default function CommentArticles({ postId }) {
           </li>
           {comment.isPrivate && (
             <li>
-              <Image
+              <img
                 src="/images/lock.svg"
                 width={10}
                 height={13}
@@ -83,7 +82,7 @@ export default function CommentArticles({ postId }) {
           </ul>
         )}
         {comment.isDreamInterpretation && (
-          <Image
+          <img
             src="/images/oneiromancy.svg"
             className={styles.oneiromancy}
             width={17}

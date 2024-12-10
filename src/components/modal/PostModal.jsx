@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import styles from "./PostModal.module.css";
-import Image from "next/image";
 import Link from "next/link";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 import postTime from "@/utils/postTime";
@@ -69,7 +68,7 @@ export default function PostModal({ postId = "sZfIASnHrW87XhoC34Id" }) {
     <>
       <div className={styles.dimmed} onClick={handleModalClose}></div>
       <dialog className={styles["post-modal"]}>
-        <Image
+        <img
           className={styles.bookmark}
           src="/images/bookmark.svg"
           alt="책갈피"
@@ -101,7 +100,7 @@ export default function PostModal({ postId = "sZfIASnHrW87XhoC34Id" }) {
             <ul className={styles["button-list"]}>
               <li>
                 <button onClick={handleButtonClick} className="star">
-                  <Image
+                  <img
                     src={
                       isStarTwinkle
                         ? "/images/star-fill.svg"
@@ -118,7 +117,7 @@ export default function PostModal({ postId = "sZfIASnHrW87XhoC34Id" }) {
               </li>
               <li>
                 <button>
-                  <Image
+                  <img
                     src="/images/share.svg"
                     alt="공유하기"
                     width={30}
@@ -128,7 +127,7 @@ export default function PostModal({ postId = "sZfIASnHrW87XhoC34Id" }) {
               </li>
               <li>
                 <button onClick={handleButtonClick} className="scrap">
-                  <Image
+                  <img
                     src={isScrap ? "/images/mark-fill.svg" : "/images/mark.svg"}
                     alt="스크랩"
                     width={30}
@@ -138,7 +137,7 @@ export default function PostModal({ postId = "sZfIASnHrW87XhoC34Id" }) {
               </li>
               <li>
                 <button>
-                  <Image
+                  <img
                     src="/images/more.svg"
                     alt="더보기"
                     width={30}
@@ -199,7 +198,7 @@ export default function PostModal({ postId = "sZfIASnHrW87XhoC34Id" }) {
         <section>
           <h2 className="sr-only">댓글 작성 및 확인</h2>
           <button className={styles["close-btn"]} onClick={handleModalClose}>
-            <Image
+            <img
               src="/images/close.svg"
               width={30}
               height={30}
@@ -252,7 +251,7 @@ export default function PostModal({ postId = "sZfIASnHrW87XhoC34Id" }) {
 
               <li>
                 <button type="submit">
-                  <Image
+                  <img
                     src="/images/send.svg"
                     width={30}
                     height={30}
