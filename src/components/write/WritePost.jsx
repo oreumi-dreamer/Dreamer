@@ -6,37 +6,46 @@ import StopModal from "./StopModal";
 import HashtagModal from "./HashtagModal";
 
 export default function WritePost() {
+  const [isWritingModalOpen, setIsWritingModalOpen] = useState(true);
+  const [inputValue, setInputValue] = useState("");
+  const [isContentChanged, setIsContentChanged] = useState(false);
   // 작성 중단 상태 저장(영역 밖 클릭 여부)
-  const [isStop, setIsStop] = useState(false);
-
+  const modalRef = useRef(null);
   // 해시태그/기분 클릭 목록
-  const [selectedItems, setSelectedItems] = useState([]);
+  const [selectedGenres, setSelectedGenres] = useState([]);
+  const [selectedMoods, setSelectedMoods] = useState([]);
   // 모달 열림 확인
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const buttonPosition = useRef(null);
-  const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
-
-  const handleCheckboxChange = (e) => {
+  const [isStopModalOpen, setIsStopModalOpen] = useState(false);
+  // 선택지 여부 확인
+  const handleSelectGenres = (e) => {
     const { value, checked } = e.target;
-    setSelectedItems((prev) =>
+    setSelectedGenres((prev) =>
       checked ? [...prev, value] : prev.filter((item) => item !== value)
     );
+    setIsContentChanged(true);
+  };
+  const handleInputChange = (e) => {
+    setInputValue(e.target.value);
+    setIsContentChanged(true);
   };
   const openModal = () => {
-    if (buttonPosition.current) {
-      const rect = buttonPosition.current.getBoundingClientRect();
-      setModalPosition({
-        top: rect.bottom + window.scrollY,
-        left: rect.left + window.scrollX,
-      });
-    }
     setIsModalOpen(true);
   };
   const closeModal = () => setIsModalOpen(false);
+  const closeStopModal = () => setIsStopModalOpen(false);
+  const handleStopWriting = () => {
+    if (isContentChanged) {
+      setIsStopModalOpen(true);
+    } else {
+      setIsWritingModalOpen(false);
+    }
+  };
+  const stopWriting = () => setIsWritingModalOpen(false);
 
   return (
     <div>
-      <dialog className={styles["new-post"]} open>
+      <dialog className={styles["new-post"]} open={isWritingModalOpen}>
         <h2 className="sr-only">새로운 글 작성</h2>
         <div className={styles["user-prof"]}>
           <Image src="/images/rabbit.svg" width={52} height={52} />
@@ -46,12 +55,12 @@ export default function WritePost() {
           </p>
         </div>
 
-        <button className={styles["btn-close"]}>
+        <button onClick={handleStopWriting} className={styles["btn-close"]}>
           <Image src="/images/close.svg" width={40} height={40}></Image>
           <span className="sr-only">닫기</span>
         </button>
 
-        <form id={styles["new-post-form"]}>
+        <form id={styles["new-post-form"]} onChange={handleInputChange}>
           <div id={styles["title"]}>
             <label id={styles["title-input"]}>
               Title
@@ -76,9 +85,9 @@ export default function WritePost() {
                   <span className="sr-only">태그 추가하기</span>
                 </button>
                 <ul>
-                  {selectedItems.length === 0
+                  {selectedGenres.length === 0
                     ? null
-                    : selectedItems.map((item, index) => (
+                    : selectedGenres.map((item, index) => (
                         <li key={index}>{item}</li>
                       ))}
                 </ul>
@@ -136,17 +145,34 @@ export default function WritePost() {
               />
             </p>
           </div>
-          <div className={styles["btn-submit"]}>
+          <div className={styles["btn-submit-area"]}>
             <button
               type="submit"
               form="new-post-form"
-              //   className={styles["btn-submit"]}
+              className={styles["btn-submit"]}
             >
               전송
             </button>
           </div>
         </form>
-        <HashtagModal isModalOpen={isModalOpen} closeModal={closeModal} />
+
+        <HashtagModal
+          isModalOpen={isModalOpen}
+          closeModal={closeModal}
+          onConfirm={handleSelectGenres}
+        />
+        {isStopModalOpen && (
+          <StopModal
+            closeModal={closeStopModal}
+            onConfirm={() => {
+              stopWriting();
+              setInputValue("");
+              setSelectedGenres([]);
+              setSelectedMoods([]);
+              setIsContentChanged(false);
+            }}
+          />
+        )}
       </dialog>
     </div>
   );
