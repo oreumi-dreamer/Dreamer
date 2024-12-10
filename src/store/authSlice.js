@@ -5,6 +5,7 @@ const initialState = {
   isLoading: false,
   error: null,
   isRegistrationComplete: false,
+  isRegistering: false, // 추가
 };
 
 const authSlice = createSlice({
@@ -36,6 +37,12 @@ const authSlice = createSlice({
       state.error = null;
       state.isLoading = false;
     },
+    setRegistering: (state) => {
+      state.isRegistering = true;
+    },
+    resetRegistering: (state) => {
+      state.isRegistering = false;
+    },
   },
 });
 
@@ -46,5 +53,7 @@ export const {
   resetRegistrationComplete,
   loginFailure,
   logout,
+  setRegistering,
+  resetRegistering,
 } = authSlice.actions;
 export default authSlice.reducer;
