@@ -76,6 +76,8 @@ export default function PostModal({ postId = "sZfIASnHrW87XhoC34Id" }) {
     }
   }
 
+  function handleScrapButtonClick(e) {
+    if (e.currentTarget.className === "scrap") {
       setIsScrap((prev) => !prev);
     }
   }
