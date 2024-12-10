@@ -7,10 +7,7 @@ import postTime from "@/utils/postTime";
 import { useSelector } from "react-redux";
 import CommentArticles from "./CommentArticles";
 
-export default function PostModal({
-  postId = "sZfIASnHrW87XhoC34Id",
-  profileImageUrl = "/images/rabbit.svg",
-}) {
+export default function PostModal({ postId = "sZfIASnHrW87XhoC34Id" }) {
   const [isModalOpen, setIsModalOpen] = useState(null);
   const [isStarTwinkle, setIsStarTwinkle] = useState(false);
   const [isScrap, setIsScrap] = useState(false);
