@@ -37,7 +37,6 @@ export default function PostModal({
       const data = await response.json();
       setCommentData(data.comments);
     };
-
     viewPost();
     viewComments();
   }, []);
@@ -121,7 +120,6 @@ export default function PostModal({
               </li>
             )}
           </ul>
-
           {postData.authorId !== comment.authorId && (
             <ul className={styles["edit-delete-button"]}>
               <li>
@@ -132,7 +130,6 @@ export default function PostModal({
               </li>
             </ul>
           )}
-
           {comment.isDreamInterpretation && (
             <Image
               src="/images/oneiromancy.svg"
@@ -142,7 +139,6 @@ export default function PostModal({
               alt="꿈해몽 댓글"
             />
           )}
-
           <p>{comment.content}</p>
         </article>
       );
