@@ -5,6 +5,7 @@ import Link from "next/link";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 import postTime from "@/utils/postTime";
 import { useSelector } from "react-redux";
+import CommentArticles from "./CommentArticles";
 
 export default function PostModal({
   postId = "sZfIASnHrW87XhoC34Id",
@@ -13,11 +14,8 @@ export default function PostModal({
   const [isModalOpen, setIsModalOpen] = useState(null);
   const [isStarTwinkle, setIsStarTwinkle] = useState(false);
   const [isScrap, setIsScrap] = useState(false);
-  const [isOneiromancy, setOneiromancy] = useState(false);
-  const [isPrivate, setIsPrivate] = useState(false);
   const [comment, setComment] = useState(undefined);
   const [postData, setPostData] = useState(null);
-  const [commentData, setCommentData] = useState(null);
   const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
@@ -32,13 +30,7 @@ export default function PostModal({
       }
     };
 
-    const viewComments = async () => {
-      const response = await fetchWithAuth(`/api/comment/read/${postId}`);
-      const data = await response.json();
-      setCommentData(data.comments);
-    };
     viewPost();
-    viewComments();
   }, [postId]);
 
   function handleModalClose() {
@@ -53,13 +45,8 @@ export default function PostModal({
     return null;
   }
 
-  function handleButtonClick(e) {
-    const buttonName = e.currentTarget.className;
-    if (buttonName === "star") {
-      setIsStarTwinkle((prev) => !prev);
-    } else if (buttonName === "scrap") {
-      setIsScrap((prev) => !prev);
-    }
+  function handleCommentSubmit(e) {
+    e.preventDefault();
   }
 
   function handleCheckboxClick(e) {
@@ -72,83 +59,13 @@ export default function PostModal({
     }
   }
 
-  function handleCommentSubmit(e) {
-    e.preventDefault();
-  }
-
-  function handleCommentClick(e) {
-    if (e.currentTarget.querySelector("p").textContent.length >= 127) {
-      e.currentTarget.classList.toggle(styles["comment-open"]);
+  function handleButtonClick(e) {
+    const buttonName = e.currentTarget.className;
+    if (buttonName === "star") {
+      setIsStarTwinkle((prev) => !prev);
+    } else if (buttonName === "scrap") {
+      setIsScrap((prev) => !prev);
     }
-  }
-
-  // 댓글 api 구현 시 수정 예정
-  function CommentArticles() {
-    if (!commentData) {
-      return <p className={styles["no-comment"]}>댓글이 없습니다.</p>;
-    }
-
-    return commentData.map((comment) => {
-      return (
-        <article
-          key={comment.commentId}
-          className={`${styles["comment-article"]} ${comment.content.length >= 127 ? styles["text-long"] : ""}`}
-          onClick={handleCommentClick}
-        >
-          <ul className={styles["comment-info"]}>
-            <li>
-              <Link href="/">
-                <span>{comment.authorName}</span> {`@${comment.authorId}`}
-              </Link>
-            </li>
-            <li>
-              <time>
-                {postTime(
-                  new Date(comment.createdAt.seconds * 1000),
-                  new Date(comment.createdAt.seconds * 1000)
-                )}
-              </time>
-            </li>
-            {comment.isPrivate && (
-              <li>
-                <Image
-                  src="/images/lock.svg"
-                  width={10}
-                  height={13}
-                  alt="비공개 댓글"
-                />
-              </li>
-            )}
-          </ul>
-          {user.userId === comment.authorId && (
-            <ul className={styles["edit-delete-button"]}>
-              <li>
-                <button>수정</button>
-              </li>
-              <li>
-                <button>삭제</button>
-              </li>
-            </ul>
-          )}
-          {comment.isDreamInterpretation && (
-            <Image
-              src="/images/oneiromancy.svg"
-              className={styles.oneiromancy}
-              width={17}
-              height={13}
-              alt="꿈해몽 댓글"
-            />
-          )}
-          <p>
-            {!comment.isPrivate
-              ? comment.content
-              : comment.authorId === user.userId
-                ? comment.content
-                : "비공개 댓글입니다 :)"}
-          </p>
-        </article>
-      );
-    });
   }
 
   return (
@@ -342,7 +259,7 @@ export default function PostModal({
 
           <section className={styles["comment-articles-section"]}>
             <h3 className="sr-only">댓글 모음 확인</h3>
-            <CommentArticles />
+            <CommentArticles postId={postId} />
           </section>
         </section>
       </dialog>
