@@ -39,7 +39,7 @@ export default function PostModal({
     };
     viewPost();
     viewComments();
-  }, []);
+  }, [postId]);
 
   function handleModalClose() {
     if (comment) {
@@ -120,7 +120,7 @@ export default function PostModal({
               </li>
             )}
           </ul>
-          {postData.authorId !== comment.authorId && (
+          {user.userId === comment.authorId && (
             <ul className={styles["edit-delete-button"]}>
               <li>
                 <button>수정</button>
@@ -139,7 +139,13 @@ export default function PostModal({
               alt="꿈해몽 댓글"
             />
           )}
-          <p>{comment.content}</p>
+          <p>
+            {!comment.isPrivate
+              ? comment.content
+              : comment.authorId === user.userId
+                ? comment.content
+                : "비공개 댓글입니다 :)"}
+          </p>
         </article>
       );
     });
