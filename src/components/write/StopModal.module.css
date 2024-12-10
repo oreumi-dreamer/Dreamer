@@ -1,7 +1,7 @@
 .stop-modal {
   max-width: 74rem;
   width: 72rem;
-  height: 19.6rem;
+  height: 16.7rem;
   position: absolute;
   left: 50%;
   top: 50%;
@@ -19,7 +19,7 @@
   align-items: center;
   justify-content: center;
 
-  font-size: 3.2rem;
+  font-size: 2.4rem;
   font-weight: 700;
 }
 .stop-modal::backdrop {
@@ -34,7 +34,7 @@
   padding: 0.8rem;
   margin-top: 2.4rem;
   border-radius: 1rem;
-  font-size: 2.4rem;
+  font-size: 1.6rem;
 }
 .btn-yes {
   background-color: var(--deep-pink-color);
