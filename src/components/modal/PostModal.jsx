@@ -6,6 +6,7 @@ import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 import postTime from "@/utils/postTime";
 import { useSelector } from "react-redux";
 import CommentArticles from "./CommentArticles";
+import { DREAM_GENRES, DREAM_MOODS } from "@/utils/constants";
 
 export default function PostModal({ postId = "sZfIASnHrW87XhoC34Id" }) {
   const [isModalOpen, setIsModalOpen] = useState(null);
@@ -30,7 +31,6 @@ export default function PostModal({ postId = "sZfIASnHrW87XhoC34Id" }) {
         if (!profileImageUrl.error) {
           setProfileImage(profileImageUrl);
         }
-
         setIsModalOpen(true);
       } catch (error) {
         console.error("게시글을 불러올 수 없습니다.:", error);
@@ -163,14 +163,24 @@ export default function PostModal({ postId = "sZfIASnHrW87XhoC34Id" }) {
               {postData.dreamGenres.length > 0 && (
                 <ul className={styles["post-tag"]}>
                   {postData.dreamGenres.map((tag, index) => (
-                    <li key={index}>{tag}</li>
+                    <li
+                      key={index}
+                      style={{
+                        backgroundColor: `${DREAM_GENRES.find((genre) => genre.id === tag).color.hex}`,
+                        color:
+                          `${DREAM_GENRES.find((genre) => genre.id === tag).color.textColor}` &&
+                          `${DREAM_GENRES.find((genre) => genre.id === tag).color.textColor}`,
+                      }}
+                    >
+                      {`${DREAM_GENRES.find((genre) => genre.id === tag).text}`}
+                    </li>
                   ))}
                 </ul>
               )}
 
               {postData.dreamMoods.length > 0 && (
                 <span className={styles["dream-felt"]}>
-                  {`${postData.dreamMoods.join(", ")}`}
+                  {`${postData.dreamMoods.map((mood1) => `${DREAM_MOODS.find((mood) => mood.id === mood1).text}`).join(", ")}`}
                 </span>
               )}
 
