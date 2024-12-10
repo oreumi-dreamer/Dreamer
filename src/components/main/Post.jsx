@@ -15,9 +15,6 @@ export default function Post({ styles, post: initialPosts }) {
   const [modalStyle, setModalStyle] = useState({});
   const modalRef = useRef(null);
   const buttonRef = useRef(null);
-
-
-
   const handlePostMoreBtnClick = async (postId, userId) => {
     try {
       const data = await isMyPost(postId, userId);
@@ -29,7 +26,7 @@ export default function Post({ styles, post: initialPosts }) {
         setIsOpen(true);
 
         if (buttonRef.current) {
-          const position = calculateModalPosition(buttonRef, 40, 55);
+          const position = calculateModalPosition(buttonRef, -110, 55);
           setModalStyle(position);
         }
       } else {
