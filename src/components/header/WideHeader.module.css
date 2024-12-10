@@ -11,6 +11,7 @@
   flex-direction: column;
   padding: 10rem 0 10.6rem 8rem;
   min-height: 92rem;
+  z-index: 100;
 }
 
 .logo img {
@@ -135,7 +136,6 @@
 .more-btn::before {
   mask: url(/images/more.svg) no-repeat center;
 }
-
 
 /* 하단 프로필/더보기버튼 */
 .profile-btn,

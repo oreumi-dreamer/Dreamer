@@ -3,9 +3,9 @@ import styles from "./Loading.module.css";
 
 export default function Loading() {
   return (
-    <main className={styles.loading}>
+    <div className={styles.loading}>
       <div></div>
       {/* <Image src="images/moon1.svg" width={106} height={106}></Image> */}
-    </main>
+    </div>
   );
 }

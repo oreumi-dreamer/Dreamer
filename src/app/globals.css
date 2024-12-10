@@ -38,6 +38,7 @@
 html {
   font-size: 62.5%;
   font-family: var(--font-family);
+  overflow: hidden;
 }
 
 html,
@@ -51,6 +52,15 @@ body {
   font-size: var(--body-font-size);
   line-height: 1.44;
   letter-spacing: 0.03em;
+}
+
+main {
+  overflow-y: scroll;
+  scrollbar-width: none;
+}
+
+main::-webkit-scrollbar {
+  display: none;
 }
 
 * {

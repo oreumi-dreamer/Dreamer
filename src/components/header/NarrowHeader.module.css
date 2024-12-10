@@ -11,6 +11,7 @@
   padding-top: 12.8rem;
   flex-direction: column;
   min-height: 92rem;
+  z-index: 100;
 }
 
 .mode-toggle-btn {
@@ -52,7 +53,6 @@
   filter: invert(1) brightness(2);
 }
 
-
 /* 하단 프로필/더보기버튼 */
 .profile-btn,
 .more-btn {
@@ -73,7 +73,7 @@
   bottom: 12rem;
 }
 
-.profile-btn img{
+.profile-btn img {
   border-radius: 50%;
   object-fit: cover;
 }

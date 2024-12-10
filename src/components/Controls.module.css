@@ -114,3 +114,27 @@
   bottom: 2.4rem;
   left: 2.4rem;
 }
+
+.scrollbar-track {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 8px;
+  height: 100%;
+  z-index: 50;
+  background-color: rgba(229, 231, 235, 0.2);
+}
+
+.scrollbar-thumb {
+  position: absolute;
+  width: 100%;
+  background-color: #888;
+  border-radius: 999px;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 150ms ease;
+}
+
+.scrollbar-thumb:hover {
+  opacity: 0.8;
+}
