@@ -9,18 +9,22 @@ import { DREAM_GENRES, DREAM_MOODS } from "@/utils/constants";
 
 export default function PostModal({ postId = "sZfIASnHrW87XhoC34Id" }) {
   const [isModalOpen, setIsModalOpen] = useState(null);
-  const [isStarTwinkle, setIsStarTwinkle] = useState(false);
   const [isScrap, setIsScrap] = useState(false);
   const [comment, setComment] = useState(undefined);
   const [postData, setPostData] = useState(null);
   const { user } = useSelector((state) => state.auth);
-
   useEffect(() => {
     const viewPost = async () => {
       try {
         const response = await fetchWithAuth(`/api/post/search/${postId}`);
         const data = await response.json();
-        setPostData(data.post);
+        const starRes = await fetchWithAuth(`/api/post/spark/${postId}`);
+        const starData = await starRes.json();
+        setPostData({
+          ...data.post,
+          hasSparked: starData.hasSparked,
+        });
+
         setIsModalOpen(true);
       } catch (error) {
         console.error("게시글을 불러올 수 없습니다.:", error);
@@ -55,11 +59,23 @@ export default function PostModal({ postId = "sZfIASnHrW87XhoC34Id" }) {
     }
   }
 
-  function handleButtonClick(e) {
-    const buttonName = e.currentTarget.className;
-    if (buttonName === "star") {
-      setIsStarTwinkle((prev) => !prev);
-    } else if (buttonName === "scrap") {
+  async function handleStarButtonClick(e) {
+    if (e.currentTarget.className === "star") {
+      try {
+        const starRes2 = await fetchWithAuth(`/api/post/spark/${postId}`);
+        setPostData((prev) => ({
+          ...prev,
+          hasSparked: !prev.hasSparked,
+          sparkCount: prev.hasSparked
+            ? prev.sparkCount - 1
+            : prev.sparkCount + 1,
+        }));
+      } catch (error) {
+        console.error("반짝을 실행하지 못했어요 :", error);
+      }
+    }
+  }
+
       setIsScrap((prev) => !prev);
     }
   }
@@ -99,10 +115,10 @@ export default function PostModal({ postId = "sZfIASnHrW87XhoC34Id" }) {
             </Link>
             <ul className={styles["button-list"]}>
               <li>
-                <button onClick={handleButtonClick} className="star">
+                <button onClick={handleStarButtonClick} className="star">
                   <img
                     src={
-                      isStarTwinkle
+                      postData.hasSparked
                         ? "/images/star-fill.svg"
                         : "/images/star.svg"
                     }
@@ -126,7 +142,7 @@ export default function PostModal({ postId = "sZfIASnHrW87XhoC34Id" }) {
                 </button>
               </li>
               <li>
-                <button onClick={handleButtonClick} className="scrap">
+                <button onClick={handleScrapButtonClick} className="scrap">
                   <img
                     src={isScrap ? "/images/mark-fill.svg" : "/images/mark.svg"}
                     alt="스크랩"
