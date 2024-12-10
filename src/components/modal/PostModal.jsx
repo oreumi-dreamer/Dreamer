@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 import postTime from "@/utils/postTime";
+import { useSelector } from "react-redux";
 
 export default function PostModal({
   postId = "sZfIASnHrW87XhoC34Id",
@@ -17,6 +18,7 @@ export default function PostModal({
   const [comment, setComment] = useState(undefined);
   const [postData, setPostData] = useState(null);
   const [commentData, setCommentData] = useState(null);
+  const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
     const viewPost = async () => {
