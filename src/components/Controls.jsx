@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, createRef } from "react";
 import styles from "./Controls.module.css";
 
 export function Button({ highlight, children, type, onClick, float }) {
@@ -68,21 +68,187 @@ export function Select({
   onChange,
   value,
   required,
-  children,
-  background,
+  background = "default",
+  label,
+  options = [],
 }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedOption, setSelectedOption] = useState(value);
+  const selectRef = useRef(null);
+  const listboxRef = useRef(null);
+  const [focusedIndex, setFocusedIndex] = useState(-1);
+  const optionRefs = useRef([]);
+
+  // 옵션 요소들의 ref 배열 초기화
+  useEffect(() => {
+    optionRefs.current = Array(options.length)
+      .fill()
+      .map((_, i) => optionRefs.current[i] || createRef());
+  }, [options.length]);
+
+  // focusedIndex가 변경될 때마다 해당 요소에 포커스
+  useEffect(() => {
+    if (
+      isOpen &&
+      focusedIndex >= 0 &&
+      optionRefs.current[focusedIndex]?.current
+    ) {
+      optionRefs.current[focusedIndex].current.focus();
+    }
+  }, [focusedIndex, isOpen]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (selectRef.current && !selectRef.current.contains(event.target)) {
+        setIsOpen(false);
+        // 외부 클릭 시 select 버튼으로 포커스 이동
+        selectRef.current.querySelector("button").focus();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleKeyDown = (e) => {
+    switch (e.key) {
+      case "Escape":
+        setIsOpen(false);
+        selectRef.current.querySelector("button").focus();
+        break;
+      case "ArrowDown":
+        e.preventDefault();
+        if (!isOpen) {
+          setIsOpen(true);
+          setFocusedIndex(0);
+        } else {
+          setFocusedIndex((prev) =>
+            prev < options.length - 1 ? prev + 1 : prev
+          );
+        }
+        break;
+      case "ArrowUp":
+        e.preventDefault();
+        setFocusedIndex((prev) => (prev > 0 ? prev - 1 : prev));
+        break;
+      case "Enter":
+      case " ":
+        e.preventDefault();
+        if (isOpen && focusedIndex !== -1) {
+          handleSelect(options[focusedIndex]);
+          selectRef.current.querySelector("button").focus();
+        } else {
+          setIsOpen((prev) => !prev);
+          if (!isOpen) {
+            setFocusedIndex(0);
+          }
+        }
+        break;
+      case "Tab":
+        if (isOpen) {
+          setIsOpen(false);
+        }
+        break;
+      default:
+        break;
+    }
+  };
+
+  const handleSelect = (option) => {
+    setSelectedOption(option.value);
+    onChange?.({ target: { name, value: option.value } });
+    setIsOpen(false);
+  };
+
+  const handleOptionClick = (option, e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    handleSelect(option);
+    setIsOpen(false);
+    selectRef.current.querySelector("button").focus();
+  };
+
+  const toggleSelect = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsOpen((prev) => !prev);
+    if (!isOpen) {
+      // 드롭다운이 열릴 때 첫 번째 옵션에 포커스
+      setFocusedIndex(0);
+    }
+  };
+
+  const selectedLabel =
+    options.find((opt) => opt.value === selectedOption)?.label ||
+    "Select option";
+
   return (
-    <select
-      id={id}
-      name={name}
-      onChange={onChange}
-      value={value}
-      required={required}
-      className={styles["select"]}
-      style={background === "white" ? { backgroundColor: "white" } : {}}
+    <div
+      className={styles.selectContainer}
+      ref={selectRef}
+      onClick={(e) => e.stopPropagation()}
     >
-      {children}
-    </select>
+      <button
+        type="button"
+        className={styles.selectButton}
+        aria-haspopup="listbox"
+        aria-expanded={isOpen}
+        aria-labelledby={label ? `${id}-label` : undefined}
+        id={id}
+        onClick={toggleSelect}
+        onKeyDown={handleKeyDown}
+        style={background === "white" ? { backgroundColor: "white" } : {}}
+      >
+        {selectedLabel}
+      </button>
+
+      {label && (
+        <label id={`${id}-label`} className={styles.label}>
+          {label}
+        </label>
+      )}
+
+      {isOpen && (
+        <ul
+          ref={listboxRef}
+          role="listbox"
+          aria-labelledby={`${id}-label`}
+          className={styles.optionsList}
+          tabIndex={-1}
+          style={background === "white" ? { backgroundColor: "white" } : {}}
+        >
+          {options.map((option, index) => (
+            <li
+              key={option.value}
+              ref={optionRefs.current[index]}
+              role="option"
+              aria-selected={selectedOption === option.value}
+              className={`${styles.option} ${focusedIndex === index ? styles.focused : ""}`}
+              onClick={(e) => handleOptionClick(option, e)}
+              onMouseEnter={() => setFocusedIndex(index)}
+              tabIndex={0}
+              onKeyDown={handleKeyDown}
+            >
+              {option.label}
+            </li>
+          ))}
+        </ul>
+      )}
+
+      <select
+        name={name}
+        value={selectedOption}
+        required={required}
+        style={{ display: "none" }}
+        onChange={() => {}}
+      >
+        {options.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
+    </div>
   );
 }
 
