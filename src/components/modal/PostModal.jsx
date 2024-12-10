@@ -233,9 +233,11 @@ export default function PostModal({
                 </ul>
               )}
 
-              <span className={styles["dream-felt"]}>
-                {`${postData.dreamMoods.join(",")}`}
-              </span>
+              {postData.dreamMoods.length > 0 && (
+                <span className={styles["dream-felt"]}>
+                  {`${postData.dreamMoods.join(", ")}`}
+                </span>
+              )}
 
               <span className={styles["dream-score"]}>
                 오늘의 꿈 별점:{" "}
