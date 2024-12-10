@@ -126,7 +126,7 @@ export async function POST(request) {
       profileImageFileName: profileImageFileName || "",
       profileImageUrl: profileImageUrl || "",
       bio: bio || "",
-      theme: theme || "default",
+      theme: theme || "deviceMode",
       createdAt: new Date(),
       updatedAt: new Date(),
       email: verifyData.email,
