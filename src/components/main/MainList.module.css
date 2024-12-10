@@ -1,7 +1,6 @@
 .main-container {
   padding: 16.6rem 0 0 0;
   background-color: var(--background-color);
-  overflow: scroll;
 }
 
 .main-container article {
@@ -75,8 +74,9 @@
 .post-content .post-img {
   width: 10.8rem;
   height: 10.8rem;
-  background-color: brown;
   margin-top: 2.5rem;
+  background-color: var(--gray-font-color);
+  object-fit: cover;
 }
 
 .post-btn-content {

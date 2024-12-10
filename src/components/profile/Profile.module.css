@@ -3,7 +3,6 @@
 .profile-main {
   padding: 16.6rem 0 0 0;
   background-color: var(--background-color);
-  overflow: scroll;
 }
 
 .profile-container {
