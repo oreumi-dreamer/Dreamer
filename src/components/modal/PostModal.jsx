@@ -248,13 +248,16 @@ export default function PostModal({
             <strong>{postData.title}</strong>
             <p>{postData.content}</p>
 
-            <Image
-              src={postData.imageUrls[0]}
-              width={555}
-              height={330}
-              alt="임시 이미지"
-              unoptimized
-            />
+            {postData.imageUrls.length > 0 &&
+              postData.imageUrls.map((image, index) => (
+                <Image
+                  key={image}
+                  src={image}
+                  width={555}
+                  height={330}
+                  alt={`이미지${index}`}
+                />
+              ))}
           </section>
         </section>
         <section>
