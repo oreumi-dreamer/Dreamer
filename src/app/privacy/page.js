@@ -2,10 +2,11 @@ import Header from "@/components/header/Header";
 import basicStyles from "../page.module.css";
 import styles from "./page.module.css";
 import Footer from "@/components/footer/Footer";
+import { CustomScrollbar } from "@/components/Controls";
 
 export default function Privacy() {
   return (
-    <div className={basicStyles.container}>
+    <div id="container" className={basicStyles.container}>
       <Header />
       <main className={styles["main"]}>
         <h2>DREAMER 개인정보 처리방침</h2>
@@ -290,6 +291,7 @@ export default function Privacy() {
         </ol>
       </main>
       <Footer />
+      <CustomScrollbar />
     </div>
   );
 }

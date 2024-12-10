@@ -10,6 +10,7 @@ import PostModal from "@/components/modal/PostModal";
 import Footer from "@/components/footer/Footer";
 import Profile from "@/components/profile/Profile";
 import MainList from "@/components/main/MainList";
+import { CustomScrollbar } from "@/components/Controls";
 
 export default function Home() {
   const { user, isRegistrationComplete } = useSelector((state) => state.auth);
@@ -39,10 +40,11 @@ export default function Home() {
   }
 
   return (
-    <div className={styles.container}>
+    <div id="container" className={styles.container}>
       <Header />
       <MainList />
       <Footer />
+      <CustomScrollbar />
     </div>
   );
 }

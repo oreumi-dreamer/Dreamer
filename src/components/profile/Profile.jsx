@@ -155,7 +155,7 @@ export default function Profile({ userName }) {
 
         <Posts />
       </main>
-      <CustomScrollbar containerRef={mainRef} isLoading={loading} />
+      {/* <CustomScrollbar containerRef={mainRef} isLoading={loading} /> */}
       <PostModal />
     </>
   );

@@ -33,7 +33,7 @@ export default function MainList() {
       {posts.map((post) => (
         <Post styles={styles} key={post.objectID} post={post} />
       ))}
-      <CustomScrollbar containerRef={mainRef} isLoading={isLoading} />
+      {/* <CustomScrollbar containerRef={mainRef} isLoading={isLoading} /> */}
     </main>
   );
 }

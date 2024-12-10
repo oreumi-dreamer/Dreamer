@@ -1,4 +1,6 @@
-import { useState, useEffect, useRef } from "react";
+"use client";
+
+import { useState, useEffect, useRef, useCallback } from "react";
 import styles from "./Controls.module.css";
 
 export function Button({ highlight, children, type, onClick, float }) {
@@ -119,67 +121,76 @@ export function LoginForm({ onSubmit, children }) {
   );
 }
 
-export const CustomScrollbar = ({ containerRef, isLoading }) => {
+export const CustomScrollbar = () => {
   const thumbRef = useRef(null);
   const [thumbHeight, setThumbHeight] = useState(0);
   const [thumbTop, setThumbTop] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [startY, setStartY] = useState(0);
   const [startScrollTop, setStartScrollTop] = useState(0);
+  const [container, setContainer] = useState(null);
 
-  const calculateThumbSize = () => {
-    if (!containerRef.current) return;
+  const calculateThumbSize = useCallback(() => {
+    if (!container) return;
 
-    const { clientHeight, scrollHeight } = containerRef.current;
-    const heightPercentage = (clientHeight / scrollHeight) * 100;
-    const minHeight = 20; // 최소 스크롤바 높이
+    // 전체 문서의 높이와 viewport 높이를 사용
+    const documentHeight = container.offsetHeight; // 컨테이너의 전체 높이
+    const viewportHeight = window.innerHeight; // viewport 높이
+
+    const heightPercentage = (viewportHeight / documentHeight) * 100;
+    const minHeight = 20;
     const calculatedHeight = Math.max(
       minHeight,
-      (clientHeight * heightPercentage) / 100
+      (viewportHeight * heightPercentage) / 100
     );
+
     setThumbHeight(calculatedHeight);
-  };
+  }, [container]);
 
-  const handleScroll = () => {
-    if (!containerRef.current || isDragging) return;
+  const handleScroll = useCallback(() => {
+    if (!container || isDragging) return;
 
-    const { scrollTop, scrollHeight, clientHeight } = containerRef.current;
-    const trackHeight = clientHeight - thumbHeight;
-    const percentage = scrollTop / (scrollHeight - clientHeight);
+    const documentHeight = container.offsetHeight;
+    const viewportHeight = window.innerHeight;
+    const scrollTop = window.scrollY;
+
+    const trackHeight = viewportHeight - thumbHeight;
+    const percentage = scrollTop / (documentHeight - viewportHeight);
     setThumbTop(percentage * trackHeight);
-  };
+  }, [container, isDragging, thumbHeight]);
 
-  // 컨텐츠 로드 완료 후 초기 계산
   useEffect(() => {
-    if (isLoading || !containerRef.current) return;
+    const htmlElement = document.querySelector("div#container");
+    if (!htmlElement) return;
 
-    // 컨텐츠가 완전히 렌더링될 시간을 주기 위해 약간의 지연 추가
-    const timeoutId = setTimeout(() => {
-      calculateThumbSize();
-      handleScroll();
-    }, 100);
+    setContainer(htmlElement);
+    const resizeObserver = new ResizeObserver(() => {
+      requestAnimationFrame(() => {
+        calculateThumbSize();
+        handleScroll();
+      });
+    });
 
-    return () => clearTimeout(timeoutId);
-  }, [isLoading]);
+    resizeObserver.observe(htmlElement);
 
-  // 스크롤 및 리사이즈 이벤트 리스너
-  useEffect(() => {
-    if (!containerRef.current) return;
+    // window의 스크롤 이벤트를 감지
+    window.addEventListener("scroll", handleScroll);
 
-    containerRef.current.addEventListener("scroll", handleScroll);
-    window.addEventListener("resize", calculateThumbSize);
+    // 초기 계산
+    calculateThumbSize();
+    handleScroll();
 
     return () => {
-      containerRef.current?.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", calculateThumbSize);
+      resizeObserver.disconnect();
+      window.removeEventListener("scroll", handleScroll);
     };
-  }, [thumbHeight]);
+  }, [calculateThumbSize, handleScroll]);
 
   const handleMouseDown = (e) => {
     e.preventDefault();
     setIsDragging(true);
     setStartY(e.clientY);
-    setStartScrollTop(containerRef.current.scrollTop);
+    setStartScrollTop(window.scrollY); // container.scrollTop 대신 window.scrollY 사용
   };
 
   useEffect(() => {
@@ -187,14 +198,28 @@ export const CustomScrollbar = ({ containerRef, isLoading }) => {
 
     const handleMouseMove = (e) => {
       const deltaY = e.clientY - startY;
-      const { scrollHeight, clientHeight } = containerRef.current;
-      const trackHeight = clientHeight - thumbHeight;
+      const documentHeight = container.offsetHeight;
+      const viewportHeight = window.innerHeight;
+      const trackHeight = viewportHeight - thumbHeight;
 
+      // 스크롤바 위치 계산
       const percentage = deltaY / trackHeight;
-      const newScrollTop =
-        startScrollTop + percentage * (scrollHeight - clientHeight);
+      const scrollDistance = documentHeight - viewportHeight;
+      const newScrollTop = Math.min(
+        Math.max(0, startScrollTop + percentage * scrollDistance),
+        scrollDistance
+      ); // 스크롤 위치를 0과 최대값 사이로 제한
 
-      containerRef.current.scrollTop = newScrollTop;
+      window.scrollTo(0, newScrollTop);
+
+      // 스크롤바 thumb의 위치도 제한하여 업데이트
+      const thumbPercentage = newScrollTop / scrollDistance;
+      const newThumbTop = Math.min(
+        Math.max(0, thumbPercentage * trackHeight),
+        trackHeight
+      ); // thumb 위치를 0과 track 높이 사이로 제한
+
+      setThumbTop(newThumbTop);
     };
 
     const handleMouseUp = () => {
@@ -208,15 +233,12 @@ export const CustomScrollbar = ({ containerRef, isLoading }) => {
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mouseup", handleMouseUp);
     };
-  }, [isDragging, startY, startScrollTop, thumbHeight]);
+  }, [isDragging, startY, startScrollTop, thumbHeight, container]);
 
   // 스크롤이 필요 없는 경우 스크롤바를 숨김
-  if (
-    containerRef.current &&
-    containerRef.current.scrollHeight <= containerRef.current.clientHeight
-  ) {
-    return null;
-  }
+  // if (container && container.scrollHeight <= container.clientHeight) {
+  //   return null;
+  // }
 
   return (
     <div className={styles["scrollbar-track"]}>

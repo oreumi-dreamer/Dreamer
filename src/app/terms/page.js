@@ -2,10 +2,11 @@ import Header from "@/components/header/Header";
 import basicStyles from "../page.module.css";
 import styles from "../privacy/page.module.css";
 import Footer from "@/components/footer/Footer";
+import { CustomScrollbar } from "@/components/Controls";
 
 export default function Terms() {
   return (
-    <div className={basicStyles.container}>
+    <div id="container" className={basicStyles.container}>
       <Header />
       <main className={styles["main"]}>
         <h2>DREAMER 서비스 이용약관</h2>
@@ -168,6 +169,7 @@ export default function Terms() {
         <p>본 약관은 2024년 12월 16일부터 시행합니다.</p>
       </main>
       <Footer />
+      <CustomScrollbar />
     </div>
   );
 }
