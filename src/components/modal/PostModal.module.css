@@ -137,7 +137,7 @@
   flex-direction: column;
   gap: 0.5rem;
   justify-content: space-between;
-  font-size: var(--small-text-font-size);
+  /* font-size: var(--small-text-font-size); */
 }
 
 .post-tag {
