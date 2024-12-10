@@ -5,7 +5,10 @@ import Link from "next/link";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 import postTime from "@/utils/postTime";
 
-export default function PostModal({ postId = "sZfIASnHrW87XhoC34Id" }) {
+export default function PostModal({
+  postId = "sZfIASnHrW87XhoC34Id",
+  profileImageUrl = "/images/rabbit.svg",
+}) {
   const [isModalOpen, setIsModalOpen] = useState(null);
   const [isStarTwinkle, setIsStarTwinkle] = useState(false);
   const [isScrap, setIsScrap] = useState(false);
