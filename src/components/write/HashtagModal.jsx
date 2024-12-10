@@ -38,7 +38,6 @@ export default function HashtagModal({ isModalOpen, closeModal, onConfirm }) {
       className={styles["modal-on-writepost"]}
     >
       <form className={styles["hashtag-picker-container"]}>
-        {/* 추후 선택지 데이터 불러오기 -- 시작 */}
         <ul>
           {DREAM_GENRES.map((item) => (
             <li key={item.id}>
@@ -52,16 +51,7 @@ export default function HashtagModal({ isModalOpen, closeModal, onConfirm }) {
               <label for={item.id}>{item.text}</label>
             </li>
           ))}
-          {/* <li>
-            <input
-              type="checkbox"
-              className={styles["hashtag-picker"]}
-              id="1"
-            />
-            <label for="1">선택지</label>
-          </li> */}
         </ul>
-        {/* 추후 선택지 데이터 불러오기 -- 끝 */}
       </form>
       <p className={styles["sub-text-container"]}>
         <span className={styles["sub-text"]}>(최대 5개 선택 가능)</span>
