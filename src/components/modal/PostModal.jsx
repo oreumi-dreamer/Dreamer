@@ -34,7 +34,7 @@ export default function PostModal() {
   function handleModalClose() {
     if (comment) {
       const exitAnswer = confirm("댓글을 작성중입니다. 종료하시겠습니까?");
-      return exitAnswer ? setIsModalOpen(false) : setIsModalOpen(true);
+      if (!exitAnswer) return;
     }
     setIsModalOpen(false);
     // commentRef.current.parentElement.classList.add(styles["text-long"]);
