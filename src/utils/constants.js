@@ -6,12 +6,12 @@ const COLORS = {
   green: { hex: "#B4DA9E" },
   blue: { hex: "#B5E9F3" },
   navy: { hex: "#B1B6E3" },
-  purple: { hex: "#8C6AAC", textColor: "white" },
+  purple: { hex: "#8C6AAC", textColor: "#fff" },
   lavender: { hex: "#D599CA" },
   pink: { hex: "#F6C9D5" },
   stone: { hex: "#9DB5A8" },
-  gray: { hex: "#CCCCCC" },
-  black: { hex: "#646464", textColor: "white" },
+  gray: { hex: "#CCC" },
+  black: { hex: "#646464", textColor: "#fff" },
 };
 
 const DREAM_GENRES = [
