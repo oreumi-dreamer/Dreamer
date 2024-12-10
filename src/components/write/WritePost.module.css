@@ -180,12 +180,14 @@
 .text-field-area::-webkit-scrollbar-track {
   border-radius: 1rem;
 }
-.btn-submit {
-  background-color: var(--deep-pink-color);
-  padding: 0.5rem 4rem;
-  border-radius: 0.4rem;
+.btn-submit-area {
   margin-top: 2rem;
   position: absolute;
   right: 2.5rem;
   bottom: 2rem;
+}
+.btn-submit {
+  background-color: var(--deep-pink-color);
+  padding: 0.8rem 4rem;
+  border-radius: 0.4rem;
 }
