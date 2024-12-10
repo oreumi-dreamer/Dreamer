@@ -1,5 +1,3 @@
-"use client";
-
 import React, { forwardRef } from "react";
 import styles from "./HeaderModal.module.css";
 import { setModalType } from "@/store/modalSlice";
