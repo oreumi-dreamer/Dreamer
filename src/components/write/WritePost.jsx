@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./WritePost.module.css";
@@ -11,6 +11,7 @@ export default function WritePost() {
   const [isContentChanged, setIsContentChanged] = useState(false);
   // 작성 중단 상태 저장(영역 밖 클릭 여부)
   const modalRef = useRef(null);
+
   // 해시태그/기분 클릭 목록
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [selectedMoods, setSelectedMoods] = useState([]);
@@ -18,11 +19,9 @@ export default function WritePost() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isStopModalOpen, setIsStopModalOpen] = useState(false);
   // 선택지 여부 확인
-  const handleSelectGenres = (e) => {
-    const { value, checked } = e.target;
-    setSelectedGenres((prev) =>
-      checked ? [...prev, value] : prev.filter((item) => item !== value)
-    );
+  const handleSelectGenres = (items) => {
+    console.log(items);
+    setSelectedGenres(items);
     setIsContentChanged(true);
   };
   const handleInputChange = (e) => {
@@ -85,11 +84,9 @@ export default function WritePost() {
                   <span className="sr-only">태그 추가하기</span>
                 </button>
                 <ul>
-                  {selectedGenres.length === 0
-                    ? null
-                    : selectedGenres.map((item, index) => (
-                        <li key={index}>{item}</li>
-                      ))}
+                  {selectedGenres.map((item) => (
+                    <li key={item.text}>{item.text}</li>
+                  ))}
                 </ul>
               </div>
               {/* 기분 추가 */}
@@ -163,6 +160,7 @@ export default function WritePost() {
         />
         {isStopModalOpen && (
           <StopModal
+            isStopModalOpen={isStopModalOpen}
             closeModal={closeStopModal}
             onConfirm={() => {
               stopWriting();
