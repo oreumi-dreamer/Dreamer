@@ -453,3 +453,11 @@ export const CustomScrollbar = () => {
     </div>
   );
 };
+
+export function Divider({ className }) {
+  const dividerClass = className
+    ? `${styles["dashed-line"]} ${className}`
+    : styles["dashed-line"];
+
+  return <div className={dividerClass}></div>;
+}
