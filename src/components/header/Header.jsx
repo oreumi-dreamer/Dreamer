@@ -11,7 +11,7 @@ export default function Header() {
   const buttonRef = useRef(null);
   const { isOpen, modalType } = useSelector((state) => state.modal);
   const { isActive } = useSelector((state) => state.activeState);
-  const isNarrowHeader = useMediaQuery("(max-width: 1440px)");
+  const isNarrowHeader = useMediaQuery("(max-width: 1152px)");
   const dispatch = useDispatch();
 
   const getActiveStateFromURL = (path) => {
