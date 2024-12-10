@@ -1,25 +1,26 @@
 /* profile */
 
 .profile-main {
-  padding: 16.6rem 0;
+  width: 100%;
   background-color: var(--background-color);
 }
 
 .profile-container {
-  width: 76.5rem;
+  width: 100%;
   display: flex;
 }
 
 .profile-wrap {
   display: flex;
   margin: auto;
-  width: 72rem;
-  padding: 4.3rem 10.9rem 4.3rem 5.1rem;
+  width: 100%;
+  padding: 4.3rem 0 4.3rem 5.1rem;
 }
 
 .profile-wrap img {
   width: 15rem;
   margin-right: 4.5rem;
+  object-fit: cover;
 }
 
 .profile-image {
@@ -69,13 +70,10 @@
 .profile-stat {
   display: flex;
   margin-bottom: 0.8rem;
+  white-space: nowrap;
 }
 
-.profile-stat dt {
-  margin-right: 0.5rem;
-}
-
-.profile-stat dd {
+.profile-stat li {
   margin-right: 1.4rem;
 }
 
@@ -144,17 +142,6 @@
   grid-area: day;
 }
 
-/* .profile-form-birthdate > div > div {
-  padding-right: 0.8rem;
-}
-.profile-form-birthdate > div > div:nth-of-type(1) {
-  padding-right: 1.6rem;
-}
-
-.profile-form-birthdate > div > div:last-of-type {
-  padding-right: 1.6rem;
-} */
-
 .profile-form-private {
   display: flex;
   flex-direction: column;
@@ -181,17 +168,6 @@
   column-gap: 0.8rem;
 }
 
-/* dashed divider */
-.dashed-line {
-  width: 100%;
-  height: 2px;
-  background-image: url(/images/dash.svg);
-  background-size: 12px 2px;
-  background-repeat: repeat-x;
-  background-position: center;
-  padding: 4rem 0;
-}
-
 /* post */
 
 .no-posts {
@@ -215,26 +191,27 @@
 }
 
 .posts-container {
-  width: 72rem;
+  width: 100%;
   padding: 0 1.2rem;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   place-items: center;
   margin: 3rem auto 0 auto;
   gap: 2.32rem;
 }
 
 .post-wrap {
-  width: 20.8rem;
-  height: 20.8rem;
+  width: 100%;
+  aspect-ratio: 1 / 1;
   background-color: var(--background-white);
   border-radius: 1.5rem;
   padding: 2.6rem 2rem;
   position: relative;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
 }
 
 .post-title {
-  width: 15rem;
   font-size: var(--body-font-size);
   font-weight: 700;
 }
@@ -252,39 +229,56 @@
 }
 
 .post-text {
-  width: 16.8rem;
-  height: 9.6rem;
+  width: 100%;
+  /* height: 100%; */
   margin: 1.5rem 0 0.9rem 0;
   font-size: var(--small-text-font-size);
   line-height: 1.6rem;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 6;
   overflow: hidden;
-  text-overflow: ellipsis;
   white-space: pre-wrap;
+  word-break: break-word;
+  position: relative;
+}
+
+.post-text::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 20%;
+  bottom: 0;
+  display: block;
+  background: linear-gradient(#fcfcfc00, #fcfcfc);
+  pointer-events: none;
 }
 
 .post-btn-container {
   display: flex;
+  column-gap: 1rem;
 }
 
-.post-btn-container dd {
+.post-btn-container button {
+  display: flex;
+  align-items: center;
   font-size: var(--small-text-font-size);
-  margin: 0 1rem 0 0.4rem;
+  column-gap: 0.4rem;
 }
 
-.post-btn-container dt:last-child {
+.post-btn-container button:last-child {
   margin-left: auto;
 }
 .post-btn-container img {
   width: 1.5rem;
 }
 
-/* // 다크 모드일 시 대시의 배경 이미지를 변경 */
+@media (max-width: 860px) {
+  .profile-wrap {
+    padding: 4.3rem 0 4.3rem 0;
+    flex-direction: column;
+  }
 
-@media (prefers-color-scheme: dark) {
-  .dashed-line {
-    background-image: url(/images/dash-bright.svg);
+  .profile-wrap img {
+    width: clamp(10rem, 20vw + 10rem, 15rem);
+    height: clamp(10rem, 20vw + 10rem, 15rem);
+    margin-right: 2rem;
   }
 }

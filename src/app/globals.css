@@ -63,6 +63,10 @@ body {
   letter-spacing: 0.03em;
 }
 
+main {
+  padding: 16.6rem 0 16.6rem 6.4rem;
+}
+
 * {
   font-family: inherit;
   box-sizing: border-box;
@@ -85,4 +89,10 @@ body {
   clip-path: inset(50%);
   border: 0;
   clip: rect(0 0 0 0);
+}
+
+@media (max-width: 860px) {
+  main {
+    padding: 16.6rem 0 16.6rem 0;
+  }
 }
