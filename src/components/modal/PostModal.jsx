@@ -256,6 +256,7 @@ export default function PostModal({
                   width={555}
                   height={330}
                   alt={`이미지${index}`}
+                  unoptimized
                 />
               ))}
           </section>
