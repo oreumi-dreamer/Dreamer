@@ -28,6 +28,7 @@ export default function HashtagModal({ isModalOpen, closeModal, onConfirm }) {
   };
   const handleConfirm = () => {
     onConfirm(selectedGenres);
+    closeModal();
   };
 
   return (
