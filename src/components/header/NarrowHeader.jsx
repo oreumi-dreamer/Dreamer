@@ -10,7 +10,6 @@ import { closeModal } from "@/store/modalSlice";
 import { outsideClickModalClose } from "@/utils/outsideClickModalClose";
 import { calculateModalPosition } from "@/utils/calculateModalPosition";
 
-
 export default function NarrowHeader({
   onMoreBtnClick,
   buttonRef,
@@ -19,7 +18,7 @@ export default function NarrowHeader({
 }) {
   const { isOpen } = useSelector((state) => state.modal);
   const { user } = useSelector((state) => state.auth);
-  const { userId, profileImageUrl  } = user;
+  const { userId, profileImageUrl } = user;
   const [modalStyle, setModalStyle] = useState({});
   const modalRef = useRef(null);
   const dispatch = useDispatch();
@@ -116,8 +115,8 @@ export default function NarrowHeader({
                 <Image
                   src="/images/writing.svg"
                   alt="글쓰기"
-                  width={35.2}
-                  height={35.2}
+                  width={30}
+                  height={30}
                 />
               </button>
             </li>
@@ -128,7 +127,8 @@ export default function NarrowHeader({
           className={`${styles["nav-item"]} ${styles["profile-btn"]} ${isActive === "프로필" ? styles.active : ""}`}
           onClick={() => handleActiveBtn("프로필")}
         >
-          <img src={profileImageUrl ? profileImageUrl : "/images/rabbit.svg"}  
+          <img
+            src={profileImageUrl ? profileImageUrl : "/images/rabbit.svg"}
             alt="프로필사진"
             loading="lazy"
             width={40}
