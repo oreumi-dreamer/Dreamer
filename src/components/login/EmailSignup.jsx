@@ -82,6 +82,26 @@ export default function EmailSignup({
     }
   };
 
+  // 유효성 검사 함수 추가
+  const validatePassword = (password) => {
+    const minLength = 6;
+    const maxLength = 4096;
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasLowerCase = /[a-z]/.test(password);
+    const hasNumber = /[0-9]/.test(password);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+    const isValidLength =
+      password.length >= minLength && password.length <= maxLength;
+
+    return (
+      hasUpperCase &&
+      hasLowerCase &&
+      hasNumber &&
+      hasSpecialChar &&
+      isValidLength
+    );
+  };
+
   const handleSignup = async (e) => {
     e.preventDefault();
     if (!isEmailVerified) {
@@ -90,6 +110,12 @@ export default function EmailSignup({
     }
     if (password !== confirmPassword) {
       setError("비밀번호가 일치하지 않습니다.");
+      return;
+    }
+    if (!validatePassword(password)) {
+      setError(
+        "비밀번호는 대문자, 소문자, 숫자, 특수문자를 포함하고 6자 이상이어야 합니다."
+      );
       return;
     }
 
