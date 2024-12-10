@@ -61,7 +61,7 @@
   position: fixed;
 }
 
-@media (max-height: 980px) {
+@media (max-height: 850px) {
   .profile-btn,
   .more-btn {
     position: static;

@@ -33,12 +33,6 @@ export default function NarrowHeader({
       img: "/images/search.svg",
     },
     {
-      label: "메세지",
-      className: "message-btn",
-      href: "/message",
-      img: "/images/message.svg",
-    },
-    {
       label: "알람",
       className: "alarm-btn",
       href: "/alarm",
