@@ -2,7 +2,7 @@
 
 import React, { forwardRef } from "react";
 import styles from "./HeaderModal.module.css";
-import { closeModal, setModalType } from "@/store/modalSlice";
+import { setModalType } from "@/store/modalSlice";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 
