@@ -153,10 +153,21 @@ export const CustomScrollbar = () => {
     const documentHeight = container.offsetHeight;
     const viewportHeight = window.innerHeight;
     const scrollTop = window.scrollY;
-
     const trackHeight = viewportHeight - thumbHeight;
-    const percentage = scrollTop / (documentHeight - viewportHeight);
-    setThumbTop(percentage * trackHeight);
+
+    // scrollDistance 추가
+    const scrollDistance = documentHeight - viewportHeight;
+
+    // percentage 계산 수정
+    const percentage = scrollDistance > 0 ? scrollTop / scrollDistance : 0;
+
+    // thumbTop 계산 수정
+    const newThumbTop = Math.min(
+      Math.max(0, percentage * trackHeight),
+      trackHeight
+    );
+
+    setThumbTop(newThumbTop);
   }, [container, isDragging, thumbHeight]);
 
   useEffect(() => {
@@ -173,8 +184,14 @@ export const CustomScrollbar = () => {
 
     resizeObserver.observe(htmlElement);
 
-    // window의 스크롤 이벤트를 감지
-    window.addEventListener("scroll", handleScroll);
+    const handleResize = () => {
+      requestAnimationFrame(() => {
+        calculateThumbSize();
+        handleScroll();
+      });
+    };
+
+    window.addEventListener("resize", handleResize);
 
     // 초기 계산
     calculateThumbSize();
@@ -182,9 +199,23 @@ export const CustomScrollbar = () => {
 
     return () => {
       resizeObserver.disconnect();
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleResize);
     };
   }, [calculateThumbSize, handleScroll]);
+
+  useEffect(() => {
+    if (!container) return;
+
+    // 스크롤 이벤트 핸들러를 별도 함수로 분리
+    const scrollHandler = () => {
+      requestAnimationFrame(() => {
+        handleScroll();
+      });
+    };
+
+    window.addEventListener("scroll", scrollHandler);
+    return () => window.removeEventListener("scroll", scrollHandler);
+  }, [container, handleScroll]);
 
   const handleMouseDown = (e) => {
     e.preventDefault();
@@ -236,9 +267,9 @@ export const CustomScrollbar = () => {
   }, [isDragging, startY, startScrollTop, thumbHeight, container]);
 
   // 스크롤이 필요 없는 경우 스크롤바를 숨김
-  // if (container && container.scrollHeight <= container.clientHeight) {
-  //   return null;
-  // }
+  if (container && container.offsetHeight <= window.innerHeight) {
+    return null;
+  }
 
   return (
     <div className={styles["scrollbar-track"]}>
