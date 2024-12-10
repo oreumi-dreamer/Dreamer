@@ -225,11 +225,13 @@ export default function PostModal({
           <section className={styles["post-text"]}>
             <h3 className="sr-only">본문 내용</h3>
             <div className={styles["post-text-header"]}>
-              <ul className={styles["post-tag"]}>
-                {postData.dreamGenres.map((tag, index) => (
-                  <li key={index}>{tag}</li>
-                ))}
-              </ul>
+              {postData.dreamGenres.length > 0 && (
+                <ul className={styles["post-tag"]}>
+                  {postData.dreamGenres.map((tag, index) => (
+                    <li key={index}>{tag}</li>
+                  ))}
+                </ul>
+              )}
 
               <span className={styles["dream-felt"]}>
                 {`${postData.dreamMoods.join(",")}`}
