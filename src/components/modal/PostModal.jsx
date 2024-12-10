@@ -81,8 +81,7 @@ export default function PostModal({ postId = "sZfIASnHrW87XhoC34Id" }) {
           <section className={styles["post-info-section"]}>
             <h3 className="sr-only">작성자 정보 및 본문 관련 버튼 모음</h3>
             <Link className={styles.profile} href={`/${postData.authorId}`}>
-              <Image
-                src={profileImage}
+              <img
                 src={`/api/account/avatar/${user.userId}`}
                 width={49}
                 height={49}
@@ -187,13 +186,12 @@ export default function PostModal({ postId = "sZfIASnHrW87XhoC34Id" }) {
 
             {postData.imageUrls.length > 0 &&
               postData.imageUrls.map((image, index) => (
-                <Image
+                <img
                   key={image}
                   src={image}
                   width={555}
                   height={330}
                   alt={`이미지${index}`}
-                  unoptimized
                 />
               ))}
           </section>
