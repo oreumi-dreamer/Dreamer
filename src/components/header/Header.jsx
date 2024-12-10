@@ -20,8 +20,6 @@ export default function Header() {
         return "홈";
       case "/search":
         return "검색";
-      case "/message":
-        return "메세지";
       case "/alarm":
         return "알람";
       default:

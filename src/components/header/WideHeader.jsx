@@ -26,7 +26,6 @@ export default function WideHeader({
   const navItems = [
     { label: "홈", className: "home-btn", href: "/" },
     { label: "검색", className: "search-btn", href: "/search" },
-    { label: "메세지", className: "message-btn", href: "/message" },
     { label: "알람", className: "alarm-btn", href: "/alarm" },
   ];
 
