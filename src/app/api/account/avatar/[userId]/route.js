@@ -21,9 +21,10 @@ export async function GET(request, { params }) {
 
     const userData = userSnapshot.docs[0].data();
     const profileImageUrl = userData.profileImageUrl;
+    const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
     if (!profileImageUrl) {
-      return NextResponse.redirect("/images/rabbit.svg");
+      return NextResponse.redirect(`${BASE_URL}/images/rabbit.svg`);
     }
 
     // 이미지 URL로 리다이렉트
