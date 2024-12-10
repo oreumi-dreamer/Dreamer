@@ -5,7 +5,7 @@ import Link from "next/link";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 import postTime from "@/utils/postTime";
 
-export default function PostModal() {
+export default function PostModal({ postId = "sZfIASnHrW87XhoC34Id" }) {
   const [isModalOpen, setIsModalOpen] = useState(null);
   const [isStarTwinkle, setIsStarTwinkle] = useState(false);
   const [isScrap, setIsScrap] = useState(false);
@@ -18,7 +18,6 @@ export default function PostModal() {
   useEffect(() => {
     const viewPost = async () => {
       try {
-        const postId = "sZfIASnHrW87XhoC34Id"; // 임시 적용
         const response = await fetchWithAuth(`/api/post/search/${postId}`);
         const data = await response.json();
         setPostData(data.post);
