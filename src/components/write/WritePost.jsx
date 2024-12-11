@@ -31,12 +31,10 @@ export default function WritePost(/*isModalOpen*/) {
   const [isStopModalOpen, setIsStopModalOpen] = useState(false);
   // 선택지 여부 확인
   const handleSelectGenres = (items) => {
-    console.log(items); // 콘솔 확인용
     setSelectedGenres(items);
     setIsContentChanged(true);
   };
   const handleSelectMoods = (items) => {
-    console.log(items); // 콘솔 확인용
     setSelectedMoods(items);
     setIsContentChanged(true);
   };
