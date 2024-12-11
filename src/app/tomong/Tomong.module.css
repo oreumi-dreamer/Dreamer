@@ -4,6 +4,7 @@
   background: var(--background-blue-top);
   display: flex;
   flex-direction: column;
+  row-gap: 1.6rem;
   justify-content: center;
   align-items: center;
 }
@@ -15,6 +16,7 @@
   border-radius: 1.5rem;
   display: grid;
   grid-template-rows: auto 1fr auto;
+  row-gap: 1.6rem;
   padding: 3rem;
   align-items: center;
   justify-items: center;
