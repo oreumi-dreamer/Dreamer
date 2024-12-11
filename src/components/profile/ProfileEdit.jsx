@@ -8,6 +8,9 @@ import {
   Select,
   Textarea,
 } from "../Controls";
+import { useRouter } from "next/navigation";
+import { loginSuccess } from "@/store/authSlice";
+import { useDispatch } from "react-redux";
 
 export default function ProfileEdit({
   profile,
@@ -30,6 +33,9 @@ export default function ProfileEdit({
   const [isPrivate, setIsPrivate] = useState(profile.isPrivate);
 
   const [newImage, setNewImage] = useState(null);
+
+  const router = useRouter();
+  const dispatch = useDispatch();
 
   const handleNewImage = (e) => {
     const file = e.target.files[0];
@@ -94,6 +100,17 @@ export default function ProfileEdit({
       if (!res.ok) {
         throw new Error(data.message || "프로필 수정에 실패했습니다.");
       }
+      // Redux 상태 업데이트
+      dispatch(
+        loginSuccess({
+          user: {
+            userId: userId,
+            userName: userName,
+            bio: bio,
+            profileImageUrl: data.profileImageUrl,
+          },
+        })
+      );
 
       alert("프로필이 성공적으로 수정되었습니다!"); // 임시로 alert를 사용함
       if (newImage) {
@@ -117,6 +134,7 @@ export default function ProfileEdit({
         });
       }
       setIsEdit(false);
+      router.push(`/${userId}`);
     } catch (err) {
       alert(err.message); // 임시로 alert를 사용함
     }
