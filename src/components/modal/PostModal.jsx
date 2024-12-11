@@ -3,7 +3,6 @@ import styles from "./PostModal.module.css";
 import Link from "next/link";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 import postTime from "@/utils/postTime";
-import { useSelector } from "react-redux";
 import CommentArticles from "./CommentArticles";
 import { DREAM_GENRES, DREAM_MOODS } from "@/utils/constants";
 
@@ -12,7 +11,7 @@ export default function PostModal({ postId = "sZfIASnHrW87XhoC34Id" }) {
   const [isScrap, setIsScrap] = useState(false);
   const [comment, setComment] = useState(undefined);
   const [postData, setPostData] = useState(null);
-  const { user } = useSelector((state) => state.auth);
+
   useEffect(() => {
     const viewPost = async () => {
       try {
