@@ -80,6 +80,15 @@ export async function GET(request, { params }) {
     // 작성자와 게시자가 동일할 경우 isMyself를 true로 설정
     const isMyself = userData ? userData.userId === userData2.userId : false;
 
+    // 반짝 했는지 여부
+    const spark = postData.spark;
+    console.log("spark", spark);
+    console.log("userData", userData.uid);
+    let hasUserSparked = false;
+    if (spark && userData) {
+      hasUserSparked = spark.includes(userData.uid);
+    }
+
     // 응답 데이터 구성
     const post = {
       id: postDoc.id,
@@ -93,6 +102,7 @@ export async function GET(request, { params }) {
       isMyself: isMyself,
       imageUrls: postData.imageUrls,
       isPrivate: postData.isPrivate,
+      hasUserSparked: hasUserSparked,
       sparkCount: postData.sparkCount,
       comments: [],
       commentsCount: postData.commentsCount,
