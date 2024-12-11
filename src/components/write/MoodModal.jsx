@@ -20,6 +20,9 @@ export default function MoodModal({ isModalOpen, closeModal, onConfirm }) {
   const [selectedGenres, setSelectedGenres] = useState([]);
   const maxSelect = 5;
 
+  const handleResetSelected = () => {
+    setSelectedGenres([]);
+  };
   const handleCheckboxChange = (item) => {
     if (selectedGenres.includes(item)) {
       setSelectedGenres((prev) => prev.filter((i) => i !== item));
@@ -40,6 +43,12 @@ export default function MoodModal({ isModalOpen, closeModal, onConfirm }) {
       onClick={handleBackgroundClick}
       className={styles["modal-on-writepost"]}
     >
+      <button
+        onClick={handleResetSelected}
+        className={styles["btn-reset-select"]}
+      >
+        다시 선택하기
+      </button>
       <form className={styles["hashtag-picker-container"]}>
         <ul>
           {DREAM_MOODS.map((item) => (
