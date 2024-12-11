@@ -12,7 +12,10 @@ export default function HashtagModal({ isModalOpen, closeModal, onConfirm }) {
     }
   }, [isModalOpen]);
   const handleBackgroundClick = (e) => {
-    if (e.target === e.currentTarget) closeModal();
+    if (e.target === e.currentTarget) {
+      onConfirm(selectedGenres);
+      closeModal();
+    }
   };
   const [selectedGenres, setSelectedGenres] = useState([]);
   const maxSelect = 5;
