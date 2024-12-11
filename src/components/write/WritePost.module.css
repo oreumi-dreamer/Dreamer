@@ -129,7 +129,7 @@
   gap: 1rem;
 }
 .btn-feeling {
-  background-color: gray;
+  background-color: var(--background-lightgray);
   width: 14rem;
   height: 2rem;
   border: 0;
@@ -138,7 +138,7 @@
 .btn-feeling-selected {
   height: 2rem;
   padding: 0 2rem;
-  background-color: gray;
+  background-color: var(--background-lightgray);
   border-radius: 1rem;
 }
 .btn-feeling-selected ul {
