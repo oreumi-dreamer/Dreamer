@@ -37,6 +37,12 @@ export default function NarrowHeader({
       href: "/alarm",
       img: "/images/alarm.svg",
     },
+    {
+      label: "토몽",
+      className: "tomong-btn",
+      href: "/tomong",
+      img: "/images/tomong.svg",
+    },
   ];
 
   useEffect(() => {
