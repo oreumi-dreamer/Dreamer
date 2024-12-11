@@ -18,7 +18,7 @@ export default function WritePost(/*isModalOpen*/) {
   if (!user) {
     return <Error404 />;
   }
-  const profileImageUrl = user.profileImageUrl;
+  const profileImageUrl = user.profileImageUrl || "/images/rabbit.svg";
   const userId = user.userId;
   const userName = user.userName;
   // 모달 오픈 상태
