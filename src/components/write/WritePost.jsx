@@ -5,6 +5,8 @@ import styles from "./WritePost.module.css";
 import StopModal from "./StopModal";
 import HashtagModal from "./HashtagModal";
 
+import { DREAM_GENRES, DREAM_MOODS } from "@/utils/constants";
+
 export default function WritePost(/*isModalOpen*/) {
   const [isWritingModalOpen, setIsWritingModalOpen] = useState(true);
   const [inputValue, setInputValue] = useState("");
@@ -27,7 +29,7 @@ export default function WritePost(/*isModalOpen*/) {
   const [isStopModalOpen, setIsStopModalOpen] = useState(false);
   // 선택지 여부 확인
   const handleSelectGenres = (items) => {
-    console.log(items);
+    console.log(items); // 콘솔 확인용
     setSelectedGenres(items);
     setIsContentChanged(true);
   };
@@ -92,7 +94,15 @@ export default function WritePost(/*isModalOpen*/) {
                 </button>
                 <ul>
                   {selectedGenres.map((item) => (
-                    <li key={item.text}>{item.text}</li>
+                    <li
+                      key={item.text}
+                      style={{
+                        backgroundColor: `${item.color.hex}`,
+                        color: `${item.color.textColor}`,
+                      }}
+                    >
+                      {item.text}
+                    </li>
                   ))}
                 </ul>
               </div>

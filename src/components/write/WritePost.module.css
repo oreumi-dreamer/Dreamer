@@ -119,6 +119,10 @@
   align-items: center;
   margin-left: 1rem;
 }
+.genre-picker li {
+  padding: 0.2rem 1rem;
+  border-radius: 3rem;
+}
 .user-feeling {
   display: flex;
   align-items: center;
