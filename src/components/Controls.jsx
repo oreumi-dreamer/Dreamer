@@ -60,7 +60,7 @@ export function ButtonLink({ highlight, children, href }) {
   );
 }
 
-export function Input({ type, value, onChange, background }) {
+export function Input({ type, value, onChange, background, disabled }) {
   let inputClass = styles["input"];
   if (type === "text" || type === "password" || type === "email") {
     inputClass = styles["input-text"];
@@ -72,6 +72,7 @@ export function Input({ type, value, onChange, background }) {
       value={value}
       onChange={onChange}
       className={inputClass}
+      disabled={disabled}
       style={background === "white" ? { backgroundColor: "white" } : {}}
     />
   );
