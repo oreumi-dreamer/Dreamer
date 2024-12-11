@@ -1,12 +1,53 @@
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 import postTime from "@/utils/postTime";
+import { MyPost, OtherPost } from "../dropDown/DropDown";
+import isMyPost from "@/utils/isMyPost";
+import { calculateModalPosition } from "@/utils/calculateModalPosition";
+import { outsideClickModalClose } from "@/utils/outsideClickModalClose";
 
 export default function Post({ styles, post: initialPosts }) {
   const [post, setPost] = useState(initialPosts);
+  const [isOpen, setIsOpen] = useState(false);
+  const [modalType, setModalType] = useState(null);
+  const [modalStyle, setModalStyle] = useState({});
+  const modalRef = useRef(null);
+  const buttonRef = useRef(null);
 
+  useEffect(() => {
+    if (modalRef.current && buttonRef.current) {
+      const cleanup = outsideClickModalClose(modalRef, buttonRef, () => {
+        setIsOpen(false);
+      });
+      return () => {
+        cleanup();
+      };
+    }
+  }, [modalRef, buttonRef, isOpen]);
+  const handlePostMoreBtnClick = async (postId, userId) => {
+    try {
+      const data = await isMyPost(postId, userId);
+      const modalType = data ? "isMyPost" : "isNotMyPost";
+      console.log(modalType, userId);
+
+      if (!isOpen) {
+        setModalType(modalType);
+        setIsOpen(true);
+
+        if (buttonRef.current) {
+          const position = calculateModalPosition(buttonRef, -110, 55);
+          setModalStyle(position);
+        }
+      } else {
+        setModalType(null);
+        setIsOpen(false);
+      }
+    } catch (error) {
+      console.error("Error checking isMyPost:", error);
+    }
+  };
   const changeSpark = () => {
     setPost((prevPost) => ({
       ...prevPost,
@@ -50,7 +91,10 @@ export default function Post({ styles, post: initialPosts }) {
         >
           {postTime(post.createdAt, post.createdAt)}
         </time>
-        <button>
+        <button
+          ref={buttonRef}
+          onClick={() => handlePostMoreBtnClick(post.objectID, post.authorId)}
+        >
           <Image
             src="/images/more.svg"
             alt="더보기"
@@ -59,6 +103,12 @@ export default function Post({ styles, post: initialPosts }) {
             className={styles["more-btn"]}
           />
         </button>
+        {isOpen && modalType === "isMyPost" && (
+          <MyPost ref={modalRef} style={modalStyle} />
+        )}
+        {isOpen && modalType === "isNotMyPost" && (
+          <OtherPost ref={modalRef} style={modalStyle} />
+        )}
       </section>
       <section className={styles["post-content"]}>
         <p className={styles["post-text"]}>{post.content}</p>

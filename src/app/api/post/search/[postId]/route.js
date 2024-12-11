@@ -77,6 +77,9 @@ export async function GET(request, { params }) {
       );
     }
 
+    // 작성자와 게시자가 동일할 경우 isMyself를 true로 설정
+    const isMyself = userData ? userData.userId === userData2.userId : false;
+
     // 응답 데이터 구성
     const post = {
       id: postDoc.id,
@@ -87,6 +90,7 @@ export async function GET(request, { params }) {
       authorUid: postData.authorUid,
       authorId: userData2.userId,
       authorName: userData2.userName,
+      isMyself: isMyself,
       imageUrls: postData.imageUrls,
       isPrivate: postData.isPrivate,
       sparkCount: postData.sparkCount,

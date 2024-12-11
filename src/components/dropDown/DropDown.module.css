@@ -2,6 +2,7 @@
   width: 15rem;
   background-color: var(--background-white);
   border-radius: 1rem;
+  filter: drop-shadow(6px 6px 9.4px rgba(0, 0, 0, 0.15));
 }
 
 .drop-down-items .drop-down-item {
