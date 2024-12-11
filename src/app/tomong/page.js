@@ -9,15 +9,19 @@ import Loading from "@/components/Loading";
 import { DREAM_MOODS, DREAM_GENRES } from "@/utils/constants";
 import { auth } from "@/lib/firebase";
 import convertToHtml from "@/utils/markdownToHtml";
+import Link from "next/link";
 
 function TomongIntro({ setProcess }) {
   return (
     <>
-      <h2 className={styles["title"]}>인공지능 토몽이 들려주는 꿈 해몽</h2>
-      <p className={styles["tomong-body"]}>
-        반가워요, 토몽이에요! <br />
-        앨런 AI와 함께 여러분의 꿈을 해몽해보세요!
-      </p>
+      <h2 className={styles["title"]}>토몽 AI</h2>
+      <div className={styles["tomong-body"]}>
+        <p>
+          반가워요! 드리머 여러분의 꿈 해몽가 <strong>토몽</strong>이에요!{" "}
+          <br />
+          앨런 AI의 도움으로 드리머님이 작성하신 꿈의 해몽을 들어보실래요?
+        </p>
+      </div>
       <div className={styles["btn-row"]}>
         <Button onClick={() => history.back()}>뒤로 가기</Button>
         <Button highlight={true} onClick={() => setProcess(1)}>
@@ -107,9 +111,12 @@ function TomongSelect({ setProcess, setSelectedDream }) {
       </div>
       <div className={styles["btn-row"]}>
         <Button onClick={() => setProcess(0)}>뒤로 가기</Button>
-        <Button highlight={true} onClick={() => setProcess(2)}>
-          다음
-        </Button>
+        {!selectedDream && <Button disabled>다음</Button>}
+        {selectedDream && (
+          <Button highlight={true} onClick={() => setProcess(2)}>
+            다음
+          </Button>
+        )}
       </div>
     </>
   );
@@ -240,8 +247,6 @@ function TomongResult({ setProcess, selectedDream }) {
     };
   }, [selectedDream]);
 
-  console.log(convertToHtml("###Test"));
-
   return (
     <>
       <h2 className={styles["title"]}>꿈을 해몽해드릴게요!</h2>
@@ -270,6 +275,9 @@ export default function Tomong() {
 
   return (
     <div className={styles["container"]}>
+      <Link href="/">
+        <img src="/images/logo-full.svg" alt="DREAMER" width={240} />
+      </Link>
       <main className={styles["main"]}>
         {process === 0 && <TomongIntro setProcess={setProcess} />}
         {process === 1 && (
