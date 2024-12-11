@@ -122,6 +122,7 @@
 .user-feeling {
   display: flex;
   align-items: center;
+  gap: 1rem;
 }
 .btn-feeling {
   background-color: gray;
@@ -164,7 +165,7 @@
 }
 .text-field-area {
   width: 100%;
-  height: calc(100% - 3rem);
+  height: calc(100% - 5rem);
   padding: 1rem;
 
   resize: none;
