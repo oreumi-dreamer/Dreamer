@@ -162,11 +162,12 @@
   row-gap: 1.6rem;
   align-items: center;
   margin-top: 2.4rem;
-  width: 100%;
+  width: 80vw;
   position: relative;
   background-color: #fff;
   border-radius: 2rem;
-  padding: 4.4rem 15.7rem 5.3rem;
+  padding: 4.4rem 7rem 5.3rem;
+  margin: 4rem;
 }
 
 .login-form label {
@@ -181,6 +182,18 @@
 .login-form label input {
   width: max-content;
   margin-left: 1.6rem;
+}
+
+@media (max-width: 560px) {
+  .login-form label {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .login-form label input {
+    width: 100%;
+    margin-left: 0;
+  }
 }
 
 .button-left-bottom {
