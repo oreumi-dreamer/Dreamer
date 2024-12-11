@@ -194,11 +194,13 @@ export default function SocialLogin() {
           <ul className={styles["login-buttons"]}>
             <li>
               <button onClick={handleGoogleLogin} type="button">
+                <img src="/images/google-logo.svg" alt="" srcset="" />
                 Google로 로그인
               </button>
             </li>
             <li>
               <button type="button" onClick={() => setShowEmailForm(true)}>
+                <img src="/images/mail.svg" alt="" srcset="" />
                 이메일로 로그인
               </button>
             </li>
