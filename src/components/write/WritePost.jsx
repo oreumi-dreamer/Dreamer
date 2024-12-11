@@ -4,6 +4,7 @@ import Link from "next/link";
 import styles from "./WritePost.module.css";
 import StopModal from "./StopModal";
 import HashtagModal from "./HashtagModal";
+import MoodModal from "./MoodModal";
 
 import { DREAM_GENRES, DREAM_MOODS } from "@/utils/constants";
 
@@ -26,11 +27,17 @@ export default function WritePost(/*isModalOpen*/) {
   const [selectedMoods, setSelectedMoods] = useState([]);
   // 모달 열림 확인
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isMoodModalOpen, setIsMoodModalOpen] = useState(false);
   const [isStopModalOpen, setIsStopModalOpen] = useState(false);
   // 선택지 여부 확인
   const handleSelectGenres = (items) => {
     console.log(items); // 콘솔 확인용
     setSelectedGenres(items);
+    setIsContentChanged(true);
+  };
+  const handleSelectMoods = (items) => {
+    console.log(items); // 콘솔 확인용
+    setSelectedMoods(items);
     setIsContentChanged(true);
   };
   const handleInputChange = (e) => {
@@ -40,7 +47,11 @@ export default function WritePost(/*isModalOpen*/) {
   const openModal = () => {
     setIsModalOpen(true);
   };
+  const openMoodModal = () => {
+    setIsMoodModalOpen(true);
+  };
   const closeModal = () => setIsModalOpen(false);
+  const closeMoodModal = () => setIsMoodModalOpen(false);
   const closeStopModal = () => setIsStopModalOpen(false);
   const handleStopWriting = () => {
     if (isContentChanged) {
@@ -109,9 +120,30 @@ export default function WritePost(/*isModalOpen*/) {
               {/* 기분 추가 */}
               <div className={styles["user-feeling"]}>
                 <p>지금 상태</p>
-                <input type="button" className={styles["btn-feeling"]}>
-                  {/* 누르면 체크박스 모달 열기 */}
-                </input>
+                {selectedMoods.length === 0 && (
+                  <button
+                    type="button"
+                    className={styles["btn-feeling"]}
+                    onClick={openMoodModal}
+                  >
+                    {/* {selectedMoods.map((item) => (
+                    <li key={item.text}>{item.text}</li>
+                  ))} */}
+                  </button>
+                )}
+                {selectedMoods.length !== 0 && (
+                  <button
+                    type="button"
+                    className={styles["btn-feeling-selected"]}
+                    onClick={openMoodModal}
+                  >
+                    <ul>
+                      {selectedMoods.map((item) => (
+                        <li key={item.text}>{item.text}</li>
+                      ))}
+                    </ul>
+                  </button>
+                )}
               </div>
 
               <div className={styles["rate-star-container"]}>
@@ -174,6 +206,11 @@ export default function WritePost(/*isModalOpen*/) {
           isModalOpen={isModalOpen}
           closeModal={closeModal}
           onConfirm={handleSelectGenres}
+        />
+        <MoodModal
+          isModalOpen={isMoodModalOpen}
+          closeModal={closeMoodModal}
+          onConfirm={handleSelectMoods}
         />
         {isStopModalOpen && (
           <StopModal
