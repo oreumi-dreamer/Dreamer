@@ -56,13 +56,13 @@ export default function PostModal({ postId, onClose }) {
   async function handleStarButtonClick(e) {
     if (e.currentTarget.className === "star") {
       try {
-        const starRes2 = await fetchWithAuth(`/api/post/spark/${postId}`);
+        const starRes = await fetchWithAuth(`/api/post/spark/${postId}`);
+        const starData = await starRes.json();
+
         setPostData((prev) => ({
           ...prev,
-          hasSparked: !prev.hasSparked,
-          sparkCount: prev.hasSparked
-            ? prev.sparkCount - 1
-            : prev.sparkCount + 1,
+          hasUserSparked: starData.hasSparked,
+          sparkCount: starData.sparkCount,
         }));
       } catch (error) {
         console.error("반짝을 실행하지 못했어요 :", error);
