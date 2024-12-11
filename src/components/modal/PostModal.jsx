@@ -17,13 +17,7 @@ export default function PostModal({ postId, onClose }) {
       try {
         const response = await fetchWithAuth(`/api/post/search/${postId}`);
         const data = await response.json();
-        const starRes = await fetchWithAuth(`/api/post/spark/${postId}`);
-        const starData = await starRes.json();
-        setPostData({
-          ...data.post,
-          hasSparked: starData.hasSparked,
-        });
-
+        setPostData(data.post);
         setIsModalOpen(true);
       } catch (error) {
         console.error("게시글을 불러올 수 없습니다.:", error);
@@ -120,7 +114,7 @@ export default function PostModal({ postId, onClose }) {
                 <button onClick={handleStarButtonClick} className="star">
                   <img
                     src={
-                      postData.hasSparked
+                      postData.hasUserSparked
                         ? "/images/star-fill.svg"
                         : "/images/star.svg"
                     }
