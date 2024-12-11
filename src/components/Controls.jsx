@@ -306,9 +306,13 @@ export function Checkbox({ type, background, value, onChange, children }) {
   }
 }
 
-export function LoginForm({ onSubmit, children }) {
+export function LoginForm({ onSubmit, className, children }) {
+  let formClass = styles["login-form"];
+  if (className) {
+    formClass = `${formClass} ${className}`;
+  }
   return (
-    <form onSubmit={onSubmit} className={styles["login-form"]}>
+    <form onSubmit={onSubmit} className={formClass}>
       {children}
     </form>
   );
