@@ -62,6 +62,12 @@ export default function WritePost(/*isModalOpen*/) {
   };
   const stopWriting = () => setIsWritingModalOpen(false);
 
+  // 날짜
+  const today = new Date();
+  const year = ("0" + today.getFullYear()).slice(-2);
+  const month = (today.getMonth() + 1).toString().padStart(2, "0");
+  const date = today.getDate().toString().padStart(2, "0");
+
   return (
     <div>
       <dialog className={styles["new-post"]} open={isWritingModalOpen}>
@@ -86,7 +92,7 @@ export default function WritePost(/*isModalOpen*/) {
               <input
                 type="text"
                 for="title"
-                placeholder={`00년 00월 00일 꿈 일기`}
+                placeholder={`${year}년 ${month}월 ${date}일 꿈 일기`}
               />
             </label>
             <label id={styles["hidden"]}>
