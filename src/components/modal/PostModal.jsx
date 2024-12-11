@@ -1,34 +1,37 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./PostModal.module.css";
-import Image from "next/image";
 import Link from "next/link";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 import postTime from "@/utils/postTime";
+import { useSelector } from "react-redux";
+import CommentArticles from "./CommentArticles";
+import { DREAM_GENRES, DREAM_MOODS } from "@/utils/constants";
 
 export default function PostModal({ postId = "sZfIASnHrW87XhoC34Id" }) {
   const [isModalOpen, setIsModalOpen] = useState(null);
-  const [isStarTwinkle, setIsStarTwinkle] = useState(false);
   const [isScrap, setIsScrap] = useState(false);
-  const [isOneiromancy, setOneiromancy] = useState(false);
-  const [isPrivate, setIsPrivate] = useState(false);
   const [comment, setComment] = useState(undefined);
-  const commentRef = useRef(null);
   const [postData, setPostData] = useState(null);
-
+  const { user } = useSelector((state) => state.auth);
   useEffect(() => {
     const viewPost = async () => {
       try {
         const response = await fetchWithAuth(`/api/post/search/${postId}`);
         const data = await response.json();
-        setPostData(data.post);
+        const starRes = await fetchWithAuth(`/api/post/spark/${postId}`);
+        const starData = await starRes.json();
+        setPostData({
+          ...data.post,
+          hasSparked: starData.hasSparked,
+        });
+
         setIsModalOpen(true);
       } catch (error) {
         console.error("게시글을 불러올 수 없습니다.:", error);
       }
     };
-
     viewPost();
-  }, []);
+  }, [postId]);
 
   function handleModalClose() {
     if (comment) {
@@ -36,20 +39,14 @@ export default function PostModal({ postId = "sZfIASnHrW87XhoC34Id" }) {
       if (!exitAnswer) return;
     }
     setIsModalOpen(false);
-    // commentRef.current.parentElement.classList.add(styles["text-long"]);
   }
 
   if (!isModalOpen) {
     return null;
   }
 
-  function handleButtonClick(e) {
-    const buttonName = e.currentTarget.className;
-    if (buttonName === "star") {
-      setIsStarTwinkle((prev) => !prev);
-    } else if (buttonName === "scrap") {
-      setIsScrap((prev) => !prev);
-    }
+  function handleCommentSubmit(e) {
+    e.preventDefault();
   }
 
   function handleCheckboxClick(e) {
@@ -62,85 +59,34 @@ export default function PostModal({ postId = "sZfIASnHrW87XhoC34Id" }) {
     }
   }
 
-  function handleCommentSubmit(e) {
-    e.preventDefault();
-  }
-
-  function handleCommentClick(e) {
-    if (e.currentTarget.querySelector("p").textContent.length >= 127) {
-      e.currentTarget.classList.toggle(styles["comment-open"]);
+  async function handleStarButtonClick(e) {
+    if (e.currentTarget.className === "star") {
+      try {
+        const starRes2 = await fetchWithAuth(`/api/post/spark/${postId}`);
+        setPostData((prev) => ({
+          ...prev,
+          hasSparked: !prev.hasSparked,
+          sparkCount: prev.hasSparked
+            ? prev.sparkCount - 1
+            : prev.sparkCount + 1,
+        }));
+      } catch (error) {
+        console.error("반짝을 실행하지 못했어요 :", error);
+      }
     }
   }
 
-  // 댓글 api 구현 시 수정 예정
-  function CommentArticles() {
-    if (postData.commentsCount === 0) {
-      return <p className={styles["no-comment"]}>댓글이 없습니다.</p>;
+  function handleScrapButtonClick(e) {
+    if (e.currentTarget.className === "scrap") {
+      setIsScrap((prev) => !prev);
     }
-
-    return postData.comments.map((comment, index) => {
-      return (
-        <article
-          key={index}
-          className={styles["comment-article"]}
-          onClick={handleCommentClick}
-        >
-          <ul className={styles["comment-info"]}>
-            <li>
-              <Link href="/">
-                <span>{"JIh2"}</span> @jhjh
-              </Link>
-            </li>
-            <li>
-              <time>{"1분 전"}</time>
-            </li>
-
-            <li>
-              {/* {isPrivate && <Image />} */}
-              <Image
-                src="/images/lock.svg"
-                width={10}
-                height={13}
-                alt="비공개 댓글"
-              />
-            </li>
-          </ul>
-
-          {/* {isMyComment && <ul ></ul>} */}
-          <ul className={styles["edit-delete-button"]}>
-            <li>
-              <button>수정</button>
-            </li>
-            <li>
-              <button>삭제</button>
-            </li>
-          </ul>
-
-          {/* {isOneiromancy && <Image />} */}
-          <Image
-            src="/images/oneiromancy.svg"
-            className={styles.oneiromancy}
-            width={17}
-            height={13}
-            alt="꿈해몽 댓글"
-          />
-
-          {/* 글자 수 추후 데이터 불러왔을 때 변수 설정 후 수정 */}
-          <p ref={commentRef}>
-            {
-              "안녕하세요 꿈 과학자 입니다. 저의 소견으로는 당신의 현재 상황에 대한 불안함을 갖고 있던 일이, 곧 좋은 기회를 얻어 좋게 풀려나갈 좋은 징조라고 보여집니다. 이런 경우 외계인은 금전운을 뜻하며, 친구는 영혼의 동반자를 의미할것이라고 예상됩니다. 요즘 말로 소울메이트 같은 존재라는 거죠. 항상 좋은일 가득하시길 바랍니다~^^*"
-            }
-          </p>
-        </article>
-      );
-    });
   }
 
   return (
     <>
       <div className={styles.dimmed} onClick={handleModalClose}></div>
       <dialog className={styles["post-modal"]}>
-        <Image
+        <img
           className={styles.bookmark}
           src="/images/bookmark.svg"
           alt="책갈피"
@@ -152,11 +98,11 @@ export default function PostModal({ postId = "sZfIASnHrW87XhoC34Id" }) {
           <section className={styles["post-info-section"]}>
             <h3 className="sr-only">작성자 정보 및 본문 관련 버튼 모음</h3>
             <Link className={styles.profile} href={`/${postData.authorId}`}>
-              <Image
-                src="/images/rabbit.svg"
+              <img
+                src={`/api/account/avatar/${user.userId}`}
                 width={49}
                 height={49}
-                alt="토끼 프로필"
+                alt="프로필 사진"
               />
               <p className={styles["profile-info"]}>
                 {postData.authorName}
@@ -171,10 +117,10 @@ export default function PostModal({ postId = "sZfIASnHrW87XhoC34Id" }) {
             </Link>
             <ul className={styles["button-list"]}>
               <li>
-                <button onClick={handleButtonClick} className="star">
-                  <Image
+                <button onClick={handleStarButtonClick} className="star">
+                  <img
                     src={
-                      isStarTwinkle
+                      postData.hasSparked
                         ? "/images/star-fill.svg"
                         : "/images/star.svg"
                     }
@@ -189,7 +135,7 @@ export default function PostModal({ postId = "sZfIASnHrW87XhoC34Id" }) {
               </li>
               <li>
                 <button>
-                  <Image
+                  <img
                     src="/images/share.svg"
                     alt="공유하기"
                     width={30}
@@ -198,8 +144,8 @@ export default function PostModal({ postId = "sZfIASnHrW87XhoC34Id" }) {
                 </button>
               </li>
               <li>
-                <button onClick={handleButtonClick} className="scrap">
-                  <Image
+                <button onClick={handleScrapButtonClick} className="scrap">
+                  <img
                     src={isScrap ? "/images/mark-fill.svg" : "/images/mark.svg"}
                     alt="스크랩"
                     width={30}
@@ -209,7 +155,7 @@ export default function PostModal({ postId = "sZfIASnHrW87XhoC34Id" }) {
               </li>
               <li>
                 <button>
-                  <Image
+                  <img
                     src="/images/more.svg"
                     alt="더보기"
                     width={30}
@@ -222,15 +168,29 @@ export default function PostModal({ postId = "sZfIASnHrW87XhoC34Id" }) {
           <section className={styles["post-text"]}>
             <h3 className="sr-only">본문 내용</h3>
             <div className={styles["post-text-header"]}>
-              <ul className={styles["post-tag"]}>
-                {postData.dreamGenres.map((tag, index) => (
-                  <li key={index}>{tag}</li>
-                ))}
-              </ul>
+              {postData.dreamGenres.length > 0 && (
+                <ul className={styles["post-tag"]}>
+                  {postData.dreamGenres.map((tag, index) => (
+                    <li
+                      key={index}
+                      style={{
+                        backgroundColor: `${DREAM_GENRES.find((genre) => genre.id === tag).color.hex}`,
+                        color:
+                          `${DREAM_GENRES.find((genre) => genre.id === tag).color.textColor}` &&
+                          `${DREAM_GENRES.find((genre) => genre.id === tag).color.textColor}`,
+                      }}
+                    >
+                      {`${DREAM_GENRES.find((genre) => genre.id === tag).text}`}
+                    </li>
+                  ))}
+                </ul>
+              )}
 
-              <span className={styles["dream-felt"]}>
-                {`${postData.dreamMoods.join(",")}`}
-              </span>
+              {postData.dreamMoods.length > 0 && (
+                <span className={styles["dream-felt"]}>
+                  {`${postData.dreamMoods.map((mood1) => `${DREAM_MOODS.find((mood) => mood.id === mood1).text}`).join(", ")}`}
+                </span>
+              )}
 
               <span className={styles["dream-score"]}>
                 오늘의 꿈 별점:{" "}
@@ -241,19 +201,22 @@ export default function PostModal({ postId = "sZfIASnHrW87XhoC34Id" }) {
             <strong>{postData.title}</strong>
             <p>{postData.content}</p>
 
-            <Image
-              src={postData.imageUrls[0]}
-              width={555}
-              height={330}
-              alt="임시 이미지"
-              unoptimized
-            />
+            {postData.imageUrls.length > 0 &&
+              postData.imageUrls.map((image, index) => (
+                <img
+                  key={image}
+                  src={image}
+                  width={555}
+                  height={330}
+                  alt={`이미지${index}`}
+                />
+              ))}
           </section>
         </section>
         <section>
           <h2 className="sr-only">댓글 작성 및 확인</h2>
           <button className={styles["close-btn"]} onClick={handleModalClose}>
-            <Image
+            <img
               src="/images/close.svg"
               width={30}
               height={30}
@@ -306,7 +269,7 @@ export default function PostModal({ postId = "sZfIASnHrW87XhoC34Id" }) {
 
               <li>
                 <button type="submit">
-                  <Image
+                  <img
                     src="/images/send.svg"
                     width={30}
                     height={30}
@@ -319,7 +282,7 @@ export default function PostModal({ postId = "sZfIASnHrW87XhoC34Id" }) {
 
           <section className={styles["comment-articles-section"]}>
             <h3 className="sr-only">댓글 모음 확인</h3>
-            <CommentArticles />
+            <CommentArticles postId={postId} />
           </section>
         </section>
       </dialog>
