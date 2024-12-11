@@ -5,6 +5,8 @@ import styles from "./WritePost.module.css";
 import StopModal from "./StopModal";
 import HashtagModal from "./HashtagModal";
 import MoodModal from "./MoodModal";
+import { useSelector } from "react-redux";
+import Error404 from "../error404/Error404";
 
 import { DREAM_GENRES, DREAM_MOODS } from "@/utils/constants";
 
@@ -12,6 +14,13 @@ export default function WritePost(/*isModalOpen*/) {
   const [isWritingModalOpen, setIsWritingModalOpen] = useState(true);
   const [inputValue, setInputValue] = useState("");
   const [isContentChanged, setIsContentChanged] = useState(false);
+  const { user } = useSelector((state) => state.auth);
+  if (!user) {
+    return <Error404 />;
+  }
+  const profileImageUrl = user.profileImageUrl;
+  const userId = user.userId;
+  const userName = user.userName;
   // 모달 오픈 상태
   //   const modalRef = useRef(null);
   //   useEffect(() => {
@@ -71,10 +80,10 @@ export default function WritePost(/*isModalOpen*/) {
       <dialog className={styles["new-post"]} open={isWritingModalOpen}>
         <h2 className="sr-only">새로운 글 작성</h2>
         <div className={styles["user-prof"]}>
-          <Image src="/images/rabbit.svg" width={52} height={52} />
+          <Image src={profileImageUrl} width={52} height={52} />
           <p className={styles["user-name"]}>
-            {"JINI"}
-            <p className={styles["user-id"]}>@jini</p>
+            {userName}
+            <p className={styles["user-id"]}>@{userId}</p>
           </p>
         </div>
 
