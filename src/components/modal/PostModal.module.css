@@ -89,6 +89,7 @@
 }
 
 .post-text {
+  min-width: 50rem;
   max-width: 66.5rem;
   height: 82.3%;
   max-height: 80.3rem;
