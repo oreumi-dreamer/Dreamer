@@ -6,8 +6,8 @@ import postTime from "@/utils/postTime";
 import CommentArticles from "./CommentArticles";
 import { DREAM_GENRES, DREAM_MOODS } from "@/utils/constants";
 
-export default function PostModal({ postId = "sZfIASnHrW87XhoC34Id" }) {
-  const [isModalOpen, setIsModalOpen] = useState(null);
+export default function PostModal({ postId, onClose }) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isScrap, setIsScrap] = useState(false);
   const [comment, setComment] = useState(undefined);
   const [postData, setPostData] = useState(null);
@@ -38,6 +38,7 @@ export default function PostModal({ postId = "sZfIASnHrW87XhoC34Id" }) {
       if (!exitAnswer) return;
     }
     setIsModalOpen(false);
+    onClose();
   }
 
   if (!isModalOpen) {
