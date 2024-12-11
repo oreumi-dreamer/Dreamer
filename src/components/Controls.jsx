@@ -42,6 +42,18 @@ export function ButtonLabel({ highlight, children, htmlFor }) {
   );
 }
 
+export function ButtonLink({ highlight, children, href }) {
+  const buttonClass = highlight
+    ? `${styles["button-highlight"]} ${styles["button"]}`
+    : styles["button"];
+
+  return (
+    <a href={href} className={buttonClass}>
+      {children}
+    </a>
+  );
+}
+
 export function Input({ type, value, onChange, background }) {
   let inputClass = styles["input"];
   if (type === "text" || type === "password" || type === "email") {

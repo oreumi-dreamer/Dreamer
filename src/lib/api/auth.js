@@ -1,5 +1,4 @@
 // src/lib/api/auth.js
-import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 
 export const verifyUser = async (idToken) => {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;

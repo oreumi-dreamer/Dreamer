@@ -130,6 +130,7 @@ export async function GET(request, { params }) {
               ? postData.spark.includes(userUid)
               : false,
           commentsCount: postData.commentsCount || 0,
+          createdAt: postData.createdAt?.toDate().toISOString(),
         });
       } else {
         // 기존 상세 정보 응답
