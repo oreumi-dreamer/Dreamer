@@ -33,7 +33,7 @@ div.divider {
 .post-user-info a {
   display: flex;
   align-items: center;
-  color: #000;
+  color: var(--black-font-color);
   font-size: var(--h2-font-size);
 }
 
@@ -41,7 +41,7 @@ div.divider {
   padding: 0.4rem 0;
   margin-top: 0.8rem;
   margin-left: 0.8rem;
-  color: rgba(0, 0, 0, 0.2);
+  color: var(--time-font-color);
 }
 
 .user-name {
@@ -71,6 +71,7 @@ div.divider {
   -webkit-line-clamp: 10;
   -webkit-box-orient: vertical;
   white-space: pre-wrap;
+  color: var(--black-font-color);
 }
 
 .post-content .post-img-wrap {

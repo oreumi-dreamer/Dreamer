@@ -9,6 +9,7 @@ import Image from "next/image";
 import { closeModal } from "@/store/modalSlice";
 import { outsideClickModalClose } from "@/utils/outsideClickModalClose";
 import { calculateModalPosition } from "@/utils/calculateModalPosition";
+import useTheme from "@/hooks/styling/useTheme";
 
 export default function WideHeader({
   onMoreBtnClick,
@@ -18,10 +19,11 @@ export default function WideHeader({
 }) {
   const { isOpen } = useSelector((state) => state.modal);
   const { user } = useSelector((state) => state.auth);
-  const { userId, userName, profileImageUrl  } = user;
+  const { userId, userName, profileImageUrl } = user;
   const [modalStyle, setModalStyle] = useState({});
   const modalRef = useRef(null);
   const dispatch = useDispatch();
+  const { theme, changeTheme } = useTheme();
 
   const navItems = [
     { label: "홈", className: "home-btn", href: "/" },
@@ -51,6 +53,20 @@ export default function WideHeader({
     }
   }, [dispatch, modalRef, buttonRef, isOpen]);
 
+  const handleModeToggle = () => {
+    const modeToggleBtn = document.querySelector(
+      `.${styles["mode-toggle-btn"]}`
+    );
+
+    if (modeToggleBtn.classList.contains(styles["light-mode"])) {
+      modeToggleBtn.classList.remove(styles["light-mode"]);
+      modeToggleBtn.classList.add(styles["dark-mode"]);
+    } else if (modeToggleBtn.classList.contains(styles["dark-mode"])) {
+      modeToggleBtn.classList.remove(styles["dark-mode"]);
+      modeToggleBtn.classList.add(styles["light-mode"]);
+    }
+  };
+
   return (
     <header className={styles.header}>
       <h1 className={styles.logo}>
@@ -64,7 +80,8 @@ export default function WideHeader({
         </Link>
       </h1>
       <button
-        className={`${styles["mode-toggle-btn"]} ${styles["light-mode"]}`}
+        className={`${styles["mode-toggle-btn"]} ${styles["light-mode"]} ${theme === "device" ? styles["hidden-btn"] : ""}`}
+        onClick={handleModeToggle}
       >
         <div className={`${styles["toggle-switch"]}`}></div>
       </button>
@@ -102,7 +119,7 @@ export default function WideHeader({
           onClick={() => handleActiveBtn("프로필")}
         >
           <img
-            src={profileImageUrl ? profileImageUrl : "/images/rabbit.svg"} 
+            src={profileImageUrl ? profileImageUrl : "/images/rabbit.svg"}
             alt="프로필사진"
             loading="lazy"
             width={40}

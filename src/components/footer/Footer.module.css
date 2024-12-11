@@ -22,6 +22,7 @@
   font-size: var(--h2-font-size);
   padding: 3rem 0 2rem 0;
   white-space: nowrap;
+  color: var(--black-font-color);
 }
 
 .recommend-wrap .recommend-title::before {
@@ -32,6 +33,10 @@
   position: relative;
   top: 0.8rem;
   margin-right: 0.5rem;
+}
+
+[data-theme="dark"] .recommend-wrap .recommend-title::before {
+  filter: invert(1);
 }
 
 .recommend-wrap .recommend-list {
@@ -46,13 +51,12 @@
   max-width: 26rem;
   height: fit-content;
   font-size: var(--small-text-font-size);
-  border-radius: 1.5rem;
-  border: 1px solid var(--black-font-color);
   margin-top: 3rem;
   padding: 2rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  color: var(--black-font-color);
 }
 
 .footer-policy ul {

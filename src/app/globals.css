@@ -13,7 +13,7 @@
   --none-active-color: #959595;
   --black-font-color: #141420;
   --gray-font-color: #5f5f5f;
-  --purple-font-color: #b79fca;
+  --time-font-color: #00000020;
   --black-transparent-color: rgba(0, 0, 0, 40%);
   --modal-pink-color: #f3e7e9;
   --deep-pink-color: #f89b9b;
@@ -33,6 +33,62 @@
   --big-text-font-size: 3.2rem;
   --small-text-font-size: 1.2rem;
   --tiny-text-font-size: 1rem;
+}
+
+[data-theme="dark"] {
+  --background-blue-top: #242424;
+  --background-pink-top: #242424;
+  --background-color: #242424;
+  --background-lightgray: #242424;
+  --background-white: #111111;
+  --background-gray: rgba(149, 149, 149, 0.5);
+  --background-dimmed: rgba(17, 17, 17, 0.4);
+  --background-dark: #242424;
+  --none-active-color: #959595;
+  --black-font-color: #e0e0e0;
+  --gray-font-color: #eef0de40;
+  --time-font-color: #e0e0e080;
+  --black-transparent-color: rgba(0, 0, 0, 40%);
+  --modal-pink-color: #f3e7e9;
+  --deep-pink-color: #f89b9b;
+  --white-color: #e8e8e8;
+  --dark-white-color: #e0e0e0;
+  --placeholder-color: #959595;
+  --comment-input-color: #95959530;
+  --dotted-color: #7e7e7e;
+  --scroll-bar-color: #8a8a8a;
+  --dark-mode-text: #eef0de;
+  --hover-btn-color: #cd6969;
+  --active-btn-color: #903434;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background-blue-top: #242424;
+    --background-pink-top: #242424;
+    --background-color: #242424;
+    --background-lightgray: #242424;
+    --background-white: #111111;
+    --background-gray: rgba(149, 149, 149, 0.5);
+    --background-dimmed: rgba(17, 17, 17, 0.4);
+    --background-dark: #242424;
+    --none-active-color: #959595;
+    --black-font-color: #e0e0e0;
+    --gray-font-color: #eef0de40;
+    --time-font-color: #e0e0e080;
+    --black-transparent-color: rgba(0, 0, 0, 40%);
+    --modal-pink-color: #f3e7e9;
+    --deep-pink-color: #f89b9b;
+    --white-color: #e8e8e8;
+    --dark-white-color: #e0e0e0;
+    --placeholder-color: #959595;
+    --comment-input-color: #95959530;
+    --dotted-color: #7e7e7e;
+    --scroll-bar-color: #8a8a8a;
+    --dark-mode-text: #eef0de;
+    --hover-btn-color: #cd6969;
+    --active-btn-color: #903434;
+  }
 }
 
 html {

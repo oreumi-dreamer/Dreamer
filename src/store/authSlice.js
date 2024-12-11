@@ -43,6 +43,12 @@ const authSlice = createSlice({
     resetRegistering: (state) => {
       state.isRegistering = false;
     },
+
+    setUserTheme: (state, action) => {
+      if (state.user) {
+        state.user.theme = action.payload.theme;
+      }
+    },
   },
 });
 
@@ -55,5 +61,6 @@ export const {
   logout,
   setRegistering,
   resetRegistering,
+  setUserTheme,
 } = authSlice.actions;
 export default authSlice.reducer;

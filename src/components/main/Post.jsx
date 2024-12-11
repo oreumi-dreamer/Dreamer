@@ -38,7 +38,7 @@ export default function Post({ styles, post: initialPosts }) {
         setIsOpen(true);
 
         if (buttonRef.current) {
-          const position = calculateModalPosition(buttonRef, -110, 55);
+          const position = calculateModalPosition(buttonRef, -110, 50);
           setModalStyle(position);
         }
       } else {

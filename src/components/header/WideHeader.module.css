@@ -19,6 +19,10 @@
   max-width: 31.4rem;
 }
 
+[data-theme="dark"] .logo img {
+  filter: invert(1);
+}
+
 .mode-toggle-btn {
   margin-top: 2rem;
   width: 10rem;
@@ -26,6 +30,7 @@
   padding: 0.9rem;
   background-color: transparent;
   position: relative;
+  transition: all 0.5s ease-in-out;
 }
 
 .mode-toggle-btn.light-mode {
@@ -41,6 +46,7 @@
   height: 3.2rem;
   border-radius: 5rem;
   position: relative;
+  transition: all 0.4s ease-in-out;
 }
 
 .mode-toggle-btn.light-mode .toggle-switch {
@@ -57,7 +63,12 @@
   background-size: 2rem;
   background-repeat: no-repeat;
   background-position: center;
-  left: 4.5rem;
+  transform: translate(4.5rem, 0);
+}
+
+.hidden-btn {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .header-btn-container {
@@ -95,6 +106,10 @@
   display: inline-block;
   position: absolute;
   right: 0;
+}
+
+[data-theme="dark"] .header-btn-container .nav-item:not(.more-btn).active::after {
+  filter: invert(1);
 }
 
 .nav-items .nav-item::before,

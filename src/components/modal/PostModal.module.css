@@ -67,7 +67,7 @@
 
 .uploaded-time {
   font-size: var(--body-font-size);
-  color: var(--purple-font-color);
+  color: var(--time-font-color);
 }
 
 .button-list {
@@ -95,6 +95,7 @@
   padding: 1.6rem 1rem 4rem 4.3rem;
   margin-top: 2.067rem;
   overflow-y: scroll;
+  color: var(--black-font-color);
 }
 .post-text img {
   max-width: 100%;
@@ -220,6 +221,7 @@
   max-height: 79%;
   overflow-y: scroll;
   border-radius: 1rem;
+  color: var(--black-font-color);
 }
 
 .comment-articles-section::-webkit-scrollbar {
