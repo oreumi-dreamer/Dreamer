@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 import ProfileInfo from "./ProfileInfo";
 import { Button, Divider } from "../Controls";
 import Loading from "../Loading";
-import { CustomScrollbar } from "../Controls";
+import PostModal from "../modal/PostModal";
 
 export default function Profile({ userName }) {
   const router = useRouter();
@@ -18,6 +18,8 @@ export default function Profile({ userName }) {
   const [posts, setPosts] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isEdit, setIsEdit] = useState(false);
+  const [isShowModal, setIsShowModal] = useState(false);
+  const [selectedPostId, setSelectedPostId] = useState(null);
   const mainRef = useRef(null);
 
   const user = useSelector((state) => state.auth.user);
@@ -82,6 +84,14 @@ export default function Profile({ userName }) {
     getProfile();
   }, [userName]);
 
+  const handleModalClose = () => {
+    setSelectedPostId(null);
+  };
+
+  useEffect(() => {
+    setIsShowModal(!!selectedPostId);
+  }, [selectedPostId]);
+
   if (loading) {
     return <Loading type="small" />;
   }
@@ -96,7 +106,7 @@ export default function Profile({ userName }) {
     );
   }
 
-  const Posts = () => {
+  const Posts = ({ setSelectedPostId }) => {
     if (!posts.length && profile.isMyself) {
       return (
         <section className={styles["no-posts"]}>
@@ -124,6 +134,7 @@ export default function Profile({ userName }) {
             posts={posts.posts}
             styles={styles}
             isLoggedIn={isLoggedIn}
+            setSelectedPostId={setSelectedPostId}
           />
         </section>
       );
@@ -151,9 +162,13 @@ export default function Profile({ userName }) {
           )}
         </section>
         <Divider />
-        <Posts />
+        <Posts setSelectedPostId={setSelectedPostId} />
       </main>
-      {/* <CustomScrollbar containerRef={mainRef} isLoading={loading} /> */}
+      <PostModal
+        postId={selectedPostId}
+        isShow={isShowModal}
+        onClose={handleModalClose}
+      />
     </>
   );
 }
