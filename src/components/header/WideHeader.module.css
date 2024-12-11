@@ -90,6 +90,10 @@
   margin-bottom: 10rem;
 }
 
+.header-btn-container .nav-item:hover {
+  color: var(--hover-text-color);
+}
+
 .header-btn-container .nav-item.active {
   padding-bottom: 0.3rem;
   color: var(--black-font-color);
@@ -108,7 +112,9 @@
   right: 0;
 }
 
-[data-theme="dark"] .header-btn-container .nav-item:not(.more-btn).active::after {
+[data-theme="dark"]
+  .header-btn-container
+  .nav-item:not(.more-btn).active::after {
   filter: invert(1);
 }
 
@@ -117,39 +123,66 @@
   content: "";
   width: 4rem;
   height: 4rem;
-  mask-size: contain;
   background-color: var(--none-active-color);
   display: inline-block;
   margin-right: 3rem;
+  /* #959595  */
+  filter: brightness(0) saturate(100%) invert(59%) sepia(9%) saturate(16%) hue-rotate(346deg) brightness(98%) contrast(89%);
+}
+
+.nav-items .home-btn::before {
+  content: "";
+  display: block;
+  background: url(/images/home.svg) no-repeat center;
+}
+
+.nav-items .search-btn::before {
+  content: "";
+  display: block;
+  background: url(/images/search.svg) no-repeat center;
+}
+
+.nav-items .message-btn::before {
+  content: "";
+  display: block;
+  background: url(/images/message.svg) no-repeat center;
+}
+
+.nav-items .alarm-btn::before {
+  content: "";
+  display: block;
+  background: url(/images/alarm.svg) no-repeat center;
+}
+
+.nav-items .tomong-btn::before {
+  content: "";
+  display: block;
+  background: url(/images/tomong.svg) no-repeat center;
+  background-size: contain;
+}
+
+.nav-items .writing-btn::before {
+  content: "";
+  display: block;
+  background: url(/images/writing.svg) no-repeat center;
+}
+
+.more-btn::before {
+  content: "";
+  display: block;
+  background: url(/images/more.svg) no-repeat center;
+}
+
+.nav-items .nav-item:hover::before,
+.more-btn:hover::before {
+  /* #5F6368  */
+  filter: invert(59%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(58%)
+    contrast(91%);
 }
 
 .nav-items .nav-item.active::before,
 .more-btn.active::before {
-  background-color: var(--black-font-color);
-}
-
-.nav-items .home-btn::before {
-  mask: url(/images/home.svg) no-repeat center;
-}
-
-.nav-items .search-btn::before {
-  mask: url(/images/search.svg) no-repeat center;
-}
-
-.nav-items .message-btn::before {
-  mask: url(/images/message.svg) no-repeat center;
-}
-
-.nav-items .alarm-btn::before {
-  mask: url(/images/alarm.svg) no-repeat center;
-}
-
-.nav-items .writing-btn::before {
-  mask: url(/images/writing.svg) no-repeat center;
-}
-
-.more-btn::before {
-  mask: url(/images/more.svg) no-repeat center;
+  filter: none;
 }
 
 /* 하단 프로필/더보기버튼 */
