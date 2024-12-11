@@ -195,7 +195,7 @@ export default function WritePost(/*isModalOpen*/) {
             </div>
 
             {/* 구분선 */}
-            {/* <span className={styles["break-line"]}></span> */}
+            <span className={styles["break-line"]}></span>
             <p className={styles["text-field-area"]}>
               <span className="sr-only">글 작성</span>
               <textarea
