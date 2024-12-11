@@ -9,6 +9,7 @@ import Image from "next/image";
 import { closeModal } from "@/store/modalSlice";
 import { outsideClickModalClose } from "@/utils/outsideClickModalClose";
 import { calculateModalPosition } from "@/utils/calculateModalPosition";
+import useTheme from "@/hooks/styling/useTheme";
 
 export default function WideHeader({
   onMoreBtnClick,
@@ -22,6 +23,7 @@ export default function WideHeader({
   const [modalStyle, setModalStyle] = useState({});
   const modalRef = useRef(null);
   const dispatch = useDispatch();
+  const { theme, changeTheme } = useTheme();
 
   const navItems = [
     { label: "홈", className: "home-btn", href: "/" },
@@ -78,7 +80,7 @@ export default function WideHeader({
         </Link>
       </h1>
       <button
-        className={`${styles["mode-toggle-btn"]} ${styles["light-mode"]}`}
+        className={`${styles["mode-toggle-btn"]} ${styles["light-mode"]} ${theme === "device" ? styles["hidden-btn"] : ""}`}
         onClick={handleModeToggle}
       >
         <div className={`${styles["toggle-switch"]}`}></div>
