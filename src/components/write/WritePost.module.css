@@ -135,6 +135,19 @@
   border: 0;
   border-radius: 1rem;
 }
+.btn-feeling-selected {
+  height: 2rem;
+  padding: 0 2rem;
+  background-color: gray;
+  border-radius: 1rem;
+}
+.btn-feeling-selected ul {
+  display: flex;
+  gap: 1rem;
+}
+.btn-feeling-selected li {
+  list-style: none;
+}
 /* 별점 */
 .rate-star-container {
   display: flex;
