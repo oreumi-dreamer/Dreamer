@@ -5,12 +5,19 @@ import styles from "./WritePost.module.css";
 import StopModal from "./StopModal";
 import HashtagModal from "./HashtagModal";
 
-export default function WritePost() {
+export default function WritePost(/*isModalOpen*/) {
   const [isWritingModalOpen, setIsWritingModalOpen] = useState(true);
   const [inputValue, setInputValue] = useState("");
   const [isContentChanged, setIsContentChanged] = useState(false);
-  // 작성 중단 상태 저장(영역 밖 클릭 여부)
-  const modalRef = useRef(null);
+  // 모달 오픈 상태
+  //   const modalRef = useRef(null);
+  //   useEffect(() => {
+  //     if (isModalOpen && modalRef.current) {
+  //       modalRef.current.showModal();
+  //     } else if (modalRef.current) {
+  //       modalRef.current.close();
+  //     }
+  //   }, [isModalOpen]);
 
   // 해시태그/기분 클릭 목록
   const [selectedGenres, setSelectedGenres] = useState([]);
