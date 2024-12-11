@@ -175,7 +175,7 @@ export default function ProfileEdit({
             <span className={styles["char-limits"]}>{bio.length}/40</span>
           </label>
           <div className={styles["profile-form-birthdates"]}>
-            <label className={styles["profile-form-birthdate"]}>
+            <label htmlFor="" className={styles["profile-form-birthdate"]}>
               생년월일
               <div>
                 <Select
@@ -185,13 +185,11 @@ export default function ProfileEdit({
                   onChange={(e) => setYear(e.target.value)}
                   value={year}
                   background="white"
-                >
-                  {Array.from({ length: 120 }, (_, i) => (
-                    <option key={`year-${todayYear - i}`} value={todayYear - i}>
-                      {todayYear - i}년
-                    </option>
-                  ))}
-                </Select>
+                  options={Array.from({ length: 120 }, (_, i) => ({
+                    value: todayYear - i,
+                    label: `${todayYear - i}년`,
+                  }))}
+                />
                 <Select
                   type="ProfileEdit"
                   id="month"
@@ -199,13 +197,11 @@ export default function ProfileEdit({
                   onChange={(e) => setMonth(e.target.value)}
                   value={month}
                   background="white"
-                >
-                  {Array.from({ length: 12 }, (_, i) => (
-                    <option key={`month-${i + 1}`} value={i + 1}>
-                      {i + 1}월
-                    </option>
-                  ))}
-                </Select>
+                  options={Array.from({ length: 12 }, (_, i) => ({
+                    value: i + 1,
+                    label: `${i + 1}월`,
+                  }))}
+                />
                 <Select
                   type="ProfileEdit"
                   id="day"
@@ -213,13 +209,11 @@ export default function ProfileEdit({
                   onChange={(e) => setDay(e.target.value)}
                   value={day}
                   background="white"
-                >
-                  {Array.from({ length: lastDay }, (_, i) => (
-                    <option key={`day-${i + 1}`} value={i + 1}>
-                      {i + 1}일
-                    </option>
-                  ))}
-                </Select>
+                  options={Array.from({ length: lastDay }, (_, i) => ({
+                    value: i + 1,
+                    label: `${i + 1}일`,
+                  }))}
+                />
                 <Checkbox
                   type="col"
                   value={isPrivate}

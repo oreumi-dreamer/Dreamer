@@ -7,6 +7,7 @@ import { MyPost, OtherPost } from "../dropDown/DropDown";
 import isMyPost from "@/utils/isMyPost";
 import { calculateModalPosition } from "@/utils/calculateModalPosition";
 import { outsideClickModalClose } from "@/utils/outsideClickModalClose";
+import { Divider } from "../Controls";
 
 export default function Post({ styles, post: initialPosts }) {
   const [post, setPost] = useState(initialPosts);
@@ -110,6 +111,7 @@ export default function Post({ styles, post: initialPosts }) {
           <OtherPost ref={modalRef} style={modalStyle} />
         )}
       </section>
+      <Divider className={styles["divider"]} />
       <section className={styles["post-content"]}>
         <p className={styles["post-text"]}>{post.content}</p>
         {post.imageUrls && (

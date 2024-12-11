@@ -20,6 +20,11 @@ export async function GET(request, { params }) {
   const authorization = headersList.get("Authorization");
   const idToken = authorization.split("Bearer ")[1];
 
+  // URL에서 페이지네이션 파라미터 추출
+  const { searchParams } = new URL(request.url);
+  const page = parseInt(searchParams.get("page")) || 1;
+  const limit = parseInt(searchParams.get("limit")) || 20; // 페이지당 기본 20개
+
   const userData = await verifyUser(idToken);
   if (!userData.exists) {
     return NextResponse.json(
@@ -61,15 +66,16 @@ export async function GET(request, { params }) {
       )
       .join(",");
 
-    // 4. Algolia 검색 실행
-    const { hits } = await searchOnlyPostsIndex.search("", {
+    // 4. Algolia 검색 실행 - 페이지네이션 파라미터 추가
+    const { hits, nbHits, nbPages } = await searchOnlyPostsIndex.search("", {
       filters: `(${baseFilter}) AND (${publicFilter})`,
       optionalFilters: [
         followBoost, // 팔로우 가중치 (30%)
         genreBoosts, // 장르 관심사 가중치 (25%)
         moodBoosts, // 무드 관심사 가중치 (25%)
       ],
-      hitsPerPage: 1000,
+      page: page - 1, // Algolia는 0-based 페이지 인덱스 사용
+      hitsPerPage: limit,
       attributesToRetrieve: [
         "objectID",
         "title",
@@ -163,7 +169,12 @@ export async function GET(request, { params }) {
 
     return NextResponse.json({
       posts,
-      count: posts.length,
+      pagination: {
+        currentPage: page,
+        totalPages: nbPages,
+        totalItems: nbHits,
+        itemsPerPage: limit,
+      },
     });
   } catch (error) {
     console.error("Error fetching posts:", error);

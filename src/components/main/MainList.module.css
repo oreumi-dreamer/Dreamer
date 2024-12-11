@@ -1,7 +1,8 @@
 .main-container {
-  padding: 16.6rem 0 0 0;
+  padding: 16.6rem 0 16.6rem 6.4rem;
   background-color: var(--background-color);
-  overflow: scroll;
+  display: flex;
+  flex-direction: column;
 }
 
 .main-container article {
@@ -10,9 +11,14 @@
 
 .post-user-info {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  border-bottom: 2px dashed var(--gray-font-color);
   padding-bottom: 0.8rem;
+  white-space: nowrap;
+}
+
+.divider {
+  padding: 0;
 }
 
 .post-user-info > a img {
@@ -51,7 +57,7 @@
 }
 
 .post-content {
-  width: 66rem;
+  max-width: 66rem;
   background-color: var(--background-white);
   border-radius: 1.5rem;
   padding: 2.4rem 4rem;
@@ -69,14 +75,16 @@
 
 .post-content .post-img-wrap {
   display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
 }
 
 .post-content .post-img {
   width: 10.8rem;
   height: 10.8rem;
-  background-color: brown;
   margin-top: 2.5rem;
+  background-color: var(--gray-font-color);
+  object-fit: cover;
 }
 
 .post-btn-content {
@@ -100,4 +108,9 @@
 
 .post-btn-content .mark-btn {
   margin-left: auto;
+}
+
+.load-more-button {
+  margin-left: auto;
+  margin-right: auto;
 }

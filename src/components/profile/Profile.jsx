@@ -8,7 +8,7 @@ import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 import ProfileEdit from "./ProfileEdit";
 import { useSelector } from "react-redux";
 import ProfileInfo from "./ProfileInfo";
-import { Button } from "../Controls";
+import { Button, Divider } from "../Controls";
 import Loading from "../Loading";
 import PostModal from "../modal/PostModal";
 import { CustomScrollbar } from "../Controls";
@@ -84,7 +84,7 @@ export default function Profile({ userName }) {
   }, [userName]);
 
   if (loading) {
-    return <Loading />;
+    return <Loading type="small" />;
   }
 
   if (!posts) {
@@ -151,8 +151,7 @@ export default function Profile({ userName }) {
             />
           )}
         </section>
-        <div className={styles["dashed-line"]}></div>
-
+        <Divider />
         <Posts />
       </main>
       {/* <CustomScrollbar containerRef={mainRef} isLoading={loading} /> */}

@@ -44,11 +44,16 @@ html {
   overflow-y: auto;
 }
 
+html::-webkit-scrollbar {
+  display: none;
+}
+
 html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
   background-color: var(--background-color);
+  overscroll-behavior: none;
 }
 
 body {
@@ -56,6 +61,10 @@ body {
   font-size: var(--body-font-size);
   line-height: 1.44;
   letter-spacing: 0.03em;
+}
+
+main {
+  padding: 16.6rem 0 16.6rem 6.4rem;
 }
 
 * {
@@ -80,4 +89,10 @@ body {
   clip-path: inset(50%);
   border: 0;
   clip: rect(0 0 0 0);
+}
+
+@media (max-width: 860px) {
+  main {
+    padding: 16.6rem 0 16.6rem 0;
+  }
 }
