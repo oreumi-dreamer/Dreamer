@@ -26,6 +26,7 @@
   padding: 0.9rem;
   background-color: transparent;
   position: relative;
+  transition: all 0.5s ease-in-out;
 }
 
 .mode-toggle-btn.light-mode {
@@ -41,6 +42,7 @@
   height: 3.2rem;
   border-radius: 5rem;
   position: relative;
+  transition: all 0.4s ease-in-out;
 }
 
 .mode-toggle-btn.light-mode .toggle-switch {
@@ -57,7 +59,7 @@
   background-size: 2rem;
   background-repeat: no-repeat;
   background-position: center;
-  left: 4.5rem;
+  transform: translate(4.5rem, 0);
 }
 
 .header-btn-container {
