@@ -3,6 +3,7 @@ import styles from "./HeaderModal.module.css";
 import { setModalType } from "@/store/modalSlice";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
+import useTheme from "@/hooks/styling/useTheme";
 
 const HeaderBaseModal = forwardRef(({ style }, ref) => {
   const { isOpen, modalType } = useSelector((state) => state.modal);
@@ -58,6 +59,7 @@ function MoreModal() {
 
 function ChangeModeModal() {
   const dispatch = useDispatch();
+  const { changeTheme } = useTheme();
   return (
     <ul className={styles["change-mode-modal"]}>
       <li className={styles["modal-items"]}>
@@ -71,6 +73,7 @@ function ChangeModeModal() {
       <li className={styles["modal-items"]}>
         <button
           className={`${styles["dark-mode-btn"]} ${styles["header-modal-btn"]}`}
+          onClick={() => changeTheme("dark")}
         >
           다크 모드
         </button>
@@ -78,6 +81,7 @@ function ChangeModeModal() {
       <li className={styles["modal-items"]}>
         <button
           className={`${styles["light-mode-btn"]} ${styles["header-modal-btn"]}`}
+          onClick={() => changeTheme("light")}
         >
           라이트 모드
         </button>
@@ -85,6 +89,7 @@ function ChangeModeModal() {
       <li className={styles["modal-items"]}>
         <button
           className={`${styles["device-setting-btn"]} ${styles["header-modal-btn"]}`}
+          onClick={() => changeTheme("device")}
         >
           기기 설정 사용
         </button>
