@@ -10,6 +10,7 @@ export function Button({
   onClick,
   float,
   className,
+  disabled,
 }) {
   let buttonClass;
 
@@ -24,7 +25,12 @@ export function Button({
   buttonClass = className ? `${buttonClass} ${className}` : buttonClass;
 
   return (
-    <button type={type} className={buttonClass} onClick={onClick}>
+    <button
+      type={type}
+      disabled={disabled}
+      className={buttonClass}
+      onClick={onClick}
+    >
       {children}
     </button>
   );
