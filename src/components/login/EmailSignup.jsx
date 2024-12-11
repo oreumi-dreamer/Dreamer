@@ -11,6 +11,7 @@ import { auth } from "@/lib/firebase";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux"; // 만약 Redux를 사용한다면
 import { setRegistering, resetRegistering } from "@/store/authSlice";
+import styles from "./SocialLogin.module.css";
 
 export default function EmailSignup({
   email,
@@ -18,6 +19,7 @@ export default function EmailSignup({
   password,
   setPassword,
   setShowSignupForm,
+  error,
   setError,
 }) {
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -155,7 +157,12 @@ export default function EmailSignup({
   };
 
   return (
-    <LoginForm onSubmit={handleSignup}>
+    <LoginForm className={styles["email-signup"]} onSubmit={handleSignup}>
+      {error && (
+        <p role="alert" className={styles["error-message"]}>
+          {error}
+        </p>
+      )}
       <label>
         이메일
         <Input
@@ -164,9 +171,15 @@ export default function EmailSignup({
           onChange={(e) => setEmail(e.target.value)}
           disabled={isEmailSent}
           required
+          className={styles["email-input"]}
         />
-        {!isEmailSent && (
-          <Button type="button" onClick={(e) => handleEmailVerification(e)}>
+        {!isEmailVerified && (
+          <Button
+            type="button"
+            disabled={isEmailSent}
+            className={styles["email-verify-btn"]}
+            onClick={(e) => handleEmailVerification(e)}
+          >
             인증 메일 발송
           </Button>
         )}
@@ -192,23 +205,22 @@ export default function EmailSignup({
               required
             />
           </label>
+        </>
+      )}
+      <div className={styles["btn-row"]}>
+        {isEmailVerified && (
           <Button type="submit" highlight={true}>
             가입하기
           </Button>
-        </>
-      )}
-
-      {isEmailSent && !isEmailVerified && (
-        <p>이메일의 인증 링크를 클릭하신 후 계속 진행해주세요.</p>
-      )}
-
-      <Button
-        type="button"
-        onClick={() => setShowSignupForm(false)}
-        float="left-bottom"
-      >
-        돌아가기
-      </Button>
+        )}
+        <Button
+          type="button"
+          onClick={() => setShowSignupForm(false)}
+          className={styles["back-btn"]}
+        >
+          돌아가기
+        </Button>
+      </div>
     </LoginForm>
   );
 }
