@@ -5,12 +5,12 @@ export default function SignupHeader() {
   return (
     <header className={styles["signup-header"]}>
       <h1>
-        <Image
+        <img
           src="/images/logo-full.svg"
           width={480}
           height={200}
-          alt="Dreamer"
-        ></Image>
+          alt="DREAMER"
+        ></img>
       </h1>
     </header>
   );
