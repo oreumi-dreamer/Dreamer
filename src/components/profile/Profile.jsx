@@ -10,7 +10,6 @@ import { useSelector } from "react-redux";
 import ProfileInfo from "./ProfileInfo";
 import { Button, Divider } from "../Controls";
 import Loading from "../Loading";
-import PostModal from "../modal/PostModal";
 import { CustomScrollbar } from "../Controls";
 
 export default function Profile({ userName }) {
@@ -155,7 +154,6 @@ export default function Profile({ userName }) {
         <Posts />
       </main>
       {/* <CustomScrollbar containerRef={mainRef} isLoading={loading} /> */}
-      <PostModal />
     </>
   );
 }

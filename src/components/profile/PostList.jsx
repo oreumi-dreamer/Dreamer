@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
+import PostModal from "../modal/PostModal";
 
 export default function PostList({ posts: initialPosts, styles, isLoggedIn }) {
   const [posts, setPosts] = useState(initialPosts);
+  const [selectedPostId, setSelectedPostId] = useState(null);
 
   const changeSpark = (postId) => {
     setPosts((currentPosts) =>
@@ -33,10 +35,24 @@ export default function PostList({ posts: initialPosts, styles, isLoggedIn }) {
     }
   };
 
+  const handleModalOpen = (postId) => {
+    setSelectedPostId(postId);
+  };
+
   return (
     <>
+      {selectedPostId && (
+        <PostModal
+          postId={selectedPostId}
+          onClose={() => setSelectedPostId(null)}
+        />
+      )}
       {posts.map((post) => (
-        <article className={styles["post-wrap"]} key={post.id}>
+        <article
+          className={styles["post-wrap"]}
+          key={post.id}
+          onClick={() => handleModalOpen(post.id)}
+        >
           {post.hasImages ? (
             <h3 className={`${styles["post-title"]} ${styles["include-img"]}`}>
               {post.title}
@@ -46,7 +62,12 @@ export default function PostList({ posts: initialPosts, styles, isLoggedIn }) {
           )}
           <p className={styles["post-text"]}>{post.content}</p>
           <div className={styles["post-btn-container"]}>
-            <button onClick={() => sparkHandle(post.id)}>
+            <button
+              onClick={(e) => {
+                e.stopPropagation(); // article 클릭 이벤트 방지
+                sparkHandle(post.id);
+              }}
+            >
               <img
                 src={
                   post.hasUserSparked
@@ -57,7 +78,7 @@ export default function PostList({ posts: initialPosts, styles, isLoggedIn }) {
               />
               <span>{post.sparkCount}</span>
             </button>
-            <button>
+            <button onClick={() => handleModalOpen(post.objectID)}>
               <img src="/images/message.svg" alt="댓글" />
               <span>{post.commentsCount}</span>
             </button>

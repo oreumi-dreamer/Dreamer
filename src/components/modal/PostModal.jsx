@@ -3,28 +3,21 @@ import styles from "./PostModal.module.css";
 import Link from "next/link";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 import postTime from "@/utils/postTime";
-import { useSelector } from "react-redux";
 import CommentArticles from "./CommentArticles";
 import { DREAM_GENRES, DREAM_MOODS } from "@/utils/constants";
 
-export default function PostModal({ postId = "sZfIASnHrW87XhoC34Id" }) {
-  const [isModalOpen, setIsModalOpen] = useState(null);
+export default function PostModal({ postId, onClose }) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isScrap, setIsScrap] = useState(false);
   const [comment, setComment] = useState(undefined);
   const [postData, setPostData] = useState(null);
-  const { user } = useSelector((state) => state.auth);
+
   useEffect(() => {
     const viewPost = async () => {
       try {
         const response = await fetchWithAuth(`/api/post/search/${postId}`);
         const data = await response.json();
-        const starRes = await fetchWithAuth(`/api/post/spark/${postId}`);
-        const starData = await starRes.json();
-        setPostData({
-          ...data.post,
-          hasSparked: starData.hasSparked,
-        });
-
+        setPostData(data.post);
         setIsModalOpen(true);
       } catch (error) {
         console.error("게시글을 불러올 수 없습니다.:", error);
@@ -39,6 +32,7 @@ export default function PostModal({ postId = "sZfIASnHrW87XhoC34Id" }) {
       if (!exitAnswer) return;
     }
     setIsModalOpen(false);
+    onClose();
   }
 
   if (!isModalOpen) {
@@ -62,13 +56,13 @@ export default function PostModal({ postId = "sZfIASnHrW87XhoC34Id" }) {
   async function handleStarButtonClick(e) {
     if (e.currentTarget.className === "star") {
       try {
-        const starRes2 = await fetchWithAuth(`/api/post/spark/${postId}`);
+        const starRes = await fetchWithAuth(`/api/post/spark/${postId}`);
+        const starData = await starRes.json();
+
         setPostData((prev) => ({
           ...prev,
-          hasSparked: !prev.hasSparked,
-          sparkCount: prev.hasSparked
-            ? prev.sparkCount - 1
-            : prev.sparkCount + 1,
+          hasUserSparked: starData.hasSparked,
+          sparkCount: starData.sparkCount,
         }));
       } catch (error) {
         console.error("반짝을 실행하지 못했어요 :", error);
@@ -99,7 +93,7 @@ export default function PostModal({ postId = "sZfIASnHrW87XhoC34Id" }) {
             <h3 className="sr-only">작성자 정보 및 본문 관련 버튼 모음</h3>
             <Link className={styles.profile} href={`/${postData.authorId}`}>
               <img
-                src={`/api/account/avatar/${user.userId}`}
+                src={`/api/account/avatar/${postData.authorId}`}
                 width={49}
                 height={49}
                 alt="프로필 사진"
@@ -120,7 +114,7 @@ export default function PostModal({ postId = "sZfIASnHrW87XhoC34Id" }) {
                 <button onClick={handleStarButtonClick} className="star">
                   <img
                     src={
-                      postData.hasSparked
+                      postData.hasUserSparked
                         ? "/images/star-fill.svg"
                         : "/images/star.svg"
                     }

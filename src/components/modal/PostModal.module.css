@@ -14,7 +14,9 @@
 .post-modal {
   z-index: 1000;
   position: fixed;
-  margin: 4rem auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   max-width: 155.4rem;
   height: 90vh;
   min-height: 50rem;
@@ -29,7 +31,6 @@
 .post-section {
   margin-right: 3.2rem;
   padding-right: 3.2rem;
-
   background: url(/images/vertical-line.svg) no-repeat right;
 }
 
@@ -44,6 +45,7 @@
 
 .post-info-section a img {
   border-radius: 50%;
+  object-fit: cover;
 }
 
 .profile {
@@ -87,8 +89,9 @@
 }
 
 .post-text {
-  height: 82.3%;
+  min-width: 50rem;
   max-width: 66.5rem;
+  height: 82.3%;
   max-height: 80.3rem;
   background-color: var(--background-white);
   border-radius: 1rem;
