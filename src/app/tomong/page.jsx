@@ -36,7 +36,7 @@ function TomongSelect({ setProcess, setSelectedDream }) {
   const [dreams, setDreams] = useState([]);
   const [selectedDream, setSelectedDreamState] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const { userId } = useSelector((state) => state.auth.user);
+  const { userId, theme } = useSelector((state) => state.auth.user);
 
   useEffect(() => {
     const getDreams = async () => {
@@ -84,12 +84,12 @@ function TomongSelect({ setProcess, setSelectedDream }) {
 
                   {dream.dreamGenres.length > 0 && (
                     <ul className={styles["post-tag"]}>
-                      {postData.dreamGenres.map((tag, index) => (
+                      {dream.dreamGenres.map((tag, index) => (
                         <li
                           key={index}
                           style={
-                            user.theme === "light" ||
-                            (user.theme === "deviceMode" &&
+                            theme === "light" ||
+                            (theme === "deviceMode" &&
                               window.matchMedia("(prefers-color-scheme: light)")
                                 .matches)
                               ? {
