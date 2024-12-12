@@ -82,8 +82,6 @@ export async function GET(request, { params }) {
 
     // 반짝 했는지 여부
     const spark = postData.spark;
-    console.log("spark", spark);
-    console.log("userData", userData.uid);
     let hasUserSparked = false;
     if (spark && userData) {
       hasUserSparked = spark.includes(userData.uid);
