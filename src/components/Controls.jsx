@@ -11,6 +11,7 @@ export function Button({
   float,
   className,
   disabled,
+  style,
 }) {
   let buttonClass;
 
@@ -30,6 +31,7 @@ export function Button({
       disabled={disabled}
       className={buttonClass}
       onClick={onClick}
+      style={style}
     >
       {children}
     </button>
