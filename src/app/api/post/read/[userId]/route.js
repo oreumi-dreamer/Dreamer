@@ -79,20 +79,23 @@ export async function GET(request, { params }) {
   }
 
   const cursor = searchParams.get("cursor");
-  const pageSize = Number(searchParams.get("limit")) || 10;
+  const pageSize = Number(searchParams.get("limit"));
 
   try {
     let postsQuery;
 
     // 기본 쿼리 조건에 visibilityCondition 추가
-    const baseQuery = [
+    let baseQuery = [
       collection(db, "posts"),
       where("authorUid", "==", authorUid),
       where("isDeleted", "==", false),
       visibilityCondition, // 비공개/공개 게시글 필터링 조건 추가
       orderBy("createdAt", "desc"),
-      limit(pageSize),
     ];
+
+    if (pageSize) {
+      baseQuery.push(limit(pageSize));
+    }
 
     if (cursor) {
       const cursorDoc = await getDocs(doc(db, "posts", cursor));
@@ -131,6 +134,10 @@ export async function GET(request, { params }) {
               : false,
           commentsCount: postData.commentsCount || 0,
           createdAt: postData.createdAt?.toDate().toISOString(),
+          updatedAt: postData.updatedAt?.toDate().toISOString(),
+          isTomong: postData.tomong
+            ? !!postData.tomong[postData.tomongSelected]
+            : false,
         });
       } else {
         // 기존 상세 정보 응답
@@ -151,6 +158,14 @@ export async function GET(request, { params }) {
           dreamGenres: postData.dreamGenres,
           dreamMoods: postData.dreamMoods,
           dreamRating: postData.dreamRating,
+          isTomong: postData.tomong
+            ? !!postData.tomong[postData.tomongSelected]
+            : false,
+          tomong: postData.tomong
+            ? postData.tomong[postData.tomongSelected]
+            : null,
+          tomongs: userData === authorId ? postData.tomong : null,
+          tomongSelected: postData.tomongSelected,
         });
       }
     });

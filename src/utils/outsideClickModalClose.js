@@ -2,7 +2,6 @@
 // callback => 모달 닫기 함수(ref가 참조하는 요소 외부를 클릭했을 때 호출됨)
 export const outsideClickModalClose = (ref, buttonRef, callback) => {
   const handleClickOutside = (e) => {
-    console.log("Clicked element:", e.target);
     if (
       ref.current &&
       !ref.current.contains(e.target) &&

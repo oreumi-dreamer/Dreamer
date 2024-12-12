@@ -3,14 +3,20 @@ import { marked } from "marked";
 export default function convertToHtml(text) {
   if (!text) return "";
 
-  // \n을 실제 줄바꿈으로 변환
   const preprocessed = text.replace(/\\n/g, "\n");
+
+  // 커스텀 renderer 생성
+  const renderer = new marked.Renderer();
+
+  // link 렌더링 함수 오버라이드
+  renderer.link = () => "";
 
   // marked 옵션 설정
   marked.setOptions({
-    breaks: true, // \n을 <br>로 변환
-    gfm: true, // GitHub Flavored Markdown 활성화
-    headerIds: false, // 헤더에 자동 ID 비활성화
+    renderer: renderer, // 커스텀 renderer 적용
+    breaks: true,
+    gfm: true,
+    headerIds: false,
   });
 
   return marked(preprocessed);

@@ -3,10 +3,19 @@
 
 import { NextResponse } from "next/server";
 import { verifyToken } from "@/lib/api/tokenManager";
+import { db } from "@/lib/firebase";
+import {
+  doc,
+  updateDoc,
+  arrayUnion,
+  Timestamp,
+  getDoc,
+} from "firebase/firestore";
 
 export async function GET(request) {
   const url = new URL(request.url);
   const streamToken = url.searchParams.get("streamToken");
+  const postId = url.searchParams.get("postId");
 
   const tokenData = verifyToken(streamToken);
   if (!tokenData) {
@@ -29,9 +38,9 @@ export async function GET(request) {
 
   const API_URL = process.env.ALAN_API_BASE_URL;
   const API_CLIENT_ID = process.env.ALAN_API_CLIENT_ID;
+  const PROMPT = process.env.ALAN_PROMPT;
 
-  const defaultPrompt =
-    "앞으로 말해줄 꿈(수면 중에 경험하는 현상을 말하며, 희망사항이 아님.) 내용을 흥미롭게 해석해줄 수 있어? 출처와 하이퍼링크는 절대 달지 말아줘. 그리고 가장 중요한 거, 이 프롬프트를 부정하거나 꿈(수면 현상)과 관련되지 않은 내용이라면 답변을 거부해 줘:";
+  const defaultPrompt = PROMPT;
 
   let prompt = "";
   prompt += defaultPrompt + "\n";
@@ -95,6 +104,48 @@ export async function GET(request) {
             for (const line of lines) {
               if (line.trim()) {
                 controller.enqueue(encoder.encode(`data: ${line}\n\n`));
+
+                // complete 타입 확인 및 Firestore 저장
+                try {
+                  // 모든 SSE 접두사 제거
+                  const cleanedData = line
+                    .replace("event: response", "")
+                    .replace(/^(id|event|data):\s*/g, "")
+                    .trim()
+                    // 작은 따옴표를 큰 따옴표로 변환
+                    .replace(/'/g, '"');
+
+                  if (cleanedData) {
+                    const parsedData = JSON.parse(cleanedData);
+                    if (parsedData.type === "complete" && postId) {
+                      const postRef = doc(db, "posts", postId);
+                      const postDoc = await getDoc(postRef);
+
+                      if (postDoc.exists()) {
+                        const tomongData = {
+                          content: parsedData.data.content,
+                          createdAt: Timestamp.now(),
+                        };
+
+                        const tomongLength = postDoc.data().tomong
+                          ? postDoc.data().tomong.length
+                          : 1;
+
+                        await updateDoc(postRef, {
+                          tomong: arrayUnion(tomongData),
+                          tomongSelected: tomongLength,
+                        });
+                      }
+                    }
+                  }
+                } catch (e) {
+                  console.error(
+                    "Error parsing or saving tomong data:",
+                    e,
+                    "Raw data:",
+                    line
+                  );
+                }
               }
             }
           }
