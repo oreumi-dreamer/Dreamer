@@ -408,10 +408,22 @@ function TomongRead({ setProcess, tomongDream }) {
     <>
       <h2 className={styles["title"]}>해몽된 꿈 보기</h2>
       <div className={styles["tomong-results-chevrons"]}>
-        <button onClick={() => scrollTo(selectedIndex - 1)}>
+        <button
+          onClick={() => scrollTo(selectedIndex - 1)}
+          style={selectedIndex === 0 ? { opacity: 0 } : { opacity: 1 }}
+          disabled={selectedIndex === 0}
+        >
           <img src="images/arrow-left.svg" alt="왼쪽으로 이동" />
         </button>
-        <button onClick={() => scrollTo(selectedIndex + 1)}>
+        <button
+          onClick={() => scrollTo(selectedIndex + 1)}
+          style={
+            selectedIndex === tomongDream.tomongs.length - 1
+              ? { opacity: 0 }
+              : { opacity: 1 }
+          }
+          disabled={selectedIndex === tomongDream.tomongs.length - 1}
+        >
           <img src="images/arrow-right.svg" alt="오른쪽으로 이동" />
         </button>
       </div>
