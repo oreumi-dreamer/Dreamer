@@ -163,6 +163,7 @@ html:has(.post-modal) {
   border-radius: 0.5rem;
   text-align: center;
   background-color: var(--background-dimmed);
+  color: #000;
 }
 
 .dream-felt {
