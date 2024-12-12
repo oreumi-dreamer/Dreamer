@@ -49,6 +49,8 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
     setSelectedMoods(items);
     setIsContentChanged(true);
   };
+  const genresId = selectedGenres.map((item) => item.id);
+  const moodsId = selectedMoods.map((item) => item.id);
   const handleTitleChange = (e) => {
     setInputValue(e.target.value);
     setIsContentChanged(true);
@@ -87,6 +89,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("전송 시도");
+    console.log(genresId);
 
     if (contentValue === "") {
       alert("작성된 내용이 없습니다");
@@ -99,8 +102,8 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
       inputValue === "" ? `${year}년 ${month}월 ${date}일 꿈 일기` : inputValue
     );
     formData.append("content", contentValue);
-    formData.append("genres", JSON.stringify(selectedGenres));
-    formData.append("moods", JSON.stringify(selectedMoods));
+    formData.append("genres", JSON.stringify(genresId));
+    formData.append("moods", JSON.stringify(moodsId));
     formData.append("rating", rating === null ? "0" : rating);
     formData.append("isPrivate", isPrivate ? "true" : "false");
 
