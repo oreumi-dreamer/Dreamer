@@ -6,6 +6,7 @@ const initialState = {
   error: null,
   isRegistrationComplete: false,
   isRegistering: false, // 추가
+  theme: localStorage.getItem("theme") || "device",
 };
 
 const authSlice = createSlice({
