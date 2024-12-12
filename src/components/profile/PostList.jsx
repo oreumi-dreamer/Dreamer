@@ -71,7 +71,7 @@ export default function PostList({
               />
               <span>{post.sparkCount}</span>
             </button>
-            <button onClick={() => handleModalOpen(post.objectID)}>
+            <button onClick={() => setSelectedPostId(post.id)}>
               <img src="/images/message.svg" alt="댓글" />
               <span>{post.commentsCount}</span>
             </button>
