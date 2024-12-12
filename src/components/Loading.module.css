@@ -50,3 +50,21 @@
   height: 4.8rem;
   background-size: contain;
 }
+
+.loading-container {
+  width: 100vw;
+  height: 100dvh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  transition: background-color ease 0.5s;
+}
+
+.dark-loading-container {
+  background-color: var(--background-dark);
+}
+
+.loading-container[data-theme="dark"] {
+  background-color: var(--background-dark);
+}
