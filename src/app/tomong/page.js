@@ -19,7 +19,16 @@ function TomongIntro({ setProcess }) {
         <p className={styles["headings"]}>
           반가워요! 드리머 여러분의 꿈 해몽가 <strong>토몽</strong>이에요!{" "}
         </p>
-        <p>앨런 AI의 도움으로 드리머님이 작성하신 꿈의 해몽을 들려드릴게요!</p>
+        <p className={styles["intro"]}>
+          앨런 AI의 도움으로 드리머님이 작성하신 꿈의 해몽을 들려드릴게요!
+        </p>
+        <Button
+          highlight={true}
+          onClick={() => setProcess(1)}
+          style={{ marginLeft: "auto", marginRight: "auto" }}
+        >
+          시작하기
+        </Button>
       </div>
       <div className={styles["btn-row"]}>
         <Button onClick={() => history.back()}>뒤로</Button>
