@@ -14,6 +14,12 @@
   z-index: 100;
 }
 
+[data-theme="dark"] .logo img {
+  /* #e0e0e0 */
+  filter: brightness(0) saturate(100%) invert(100%) sepia(2%) saturate(1040%)
+    hue-rotate(175deg) brightness(116%) contrast(76%);
+}
+
 .mode-toggle-btn {
   width: 5.6rem;
   height: 5.6rem;
@@ -22,6 +28,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: all 0.4s ease-in-out;
 }
 
 .mode-toggle-btn img {
@@ -30,6 +37,15 @@
 
 .mode-toggle-btn.light-mode {
   background-color: var(--black-font-color);
+}
+
+.mode-toggle-btn.dark-mode {
+  background-color: var(--black-font-color);
+}
+
+.hidden-btn {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .header-btn-container {
