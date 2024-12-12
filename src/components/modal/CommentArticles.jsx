@@ -9,7 +9,6 @@ import Loading from "../Loading";
 export default function CommentArticles({ postId, isCommentSubmitting }) {
   const [commentData, setCommentData] = useState(null);
   const { user } = useSelector((state) => state.auth);
-
   useEffect(() => {
     const viewComments = async () => {
       try {
@@ -27,6 +26,25 @@ export default function CommentArticles({ postId, isCommentSubmitting }) {
   function handleCommentClick(e) {
     if (e.currentTarget.querySelector("p").textContent.length >= 127) {
       e.currentTarget.classList.toggle(styles["comment-open"]);
+    }
+  }
+
+  async function handleDeleteComment(commentId) {
+    try {
+      const commentDeleteRes = await fetchWithAuth(
+        `/api/comment/delete/${postId}`,
+        {
+          method: "DELETE",
+          body: JSON.stringify({ commentId: commentId }),
+        }
+      );
+      if (commentDeleteRes.ok) {
+        setCommentData((prev) =>
+          prev.filter((comment) => comment.commentId !== commentId)
+        );
+      }
+    } catch (error) {
+      console.error("댓글 삭제 오류 :", error);
     }
   }
 
@@ -77,7 +95,9 @@ export default function CommentArticles({ postId, isCommentSubmitting }) {
               <button>수정</button>
             </li>
             <li>
-              <button>삭제</button>
+              <button onClick={() => handleDeleteComment(comment.commentId)}>
+                삭제
+              </button>
             </li>
           </ul>
         )}
