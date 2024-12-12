@@ -16,6 +16,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  width: 100%;
   max-width: 155.4rem;
   height: 90vh;
   min-height: 50rem;
@@ -28,6 +29,8 @@
 }
 
 .post-section {
+  width: 100%;
+  max-width: 70rem;
   margin-right: 3.2rem;
   padding-right: 3.2rem;
   background: url(/images/vertical-line.svg) no-repeat right;
@@ -88,7 +91,7 @@
 }
 
 .post-text {
-  min-width: 50rem;
+  min-width: 43.8rem;
   max-width: 66.5rem;
   height: 82.3%;
   max-height: 80.3rem;
@@ -176,6 +179,10 @@
   right: 1.7rem;
 }
 
+.comment-section {
+  width: 100%;
+}
+
 .comment-form {
   position: relative;
   border-radius: 1rem;
@@ -187,6 +194,7 @@
 
 .comment-input {
   width: 100%;
+  min-width: 19rem;
   height: 60%;
   background-color: unset;
   border: none;
@@ -220,7 +228,6 @@
 }
 
 .comment-articles-section {
-  min-width: 50rem;
   max-height: 79%;
   overflow-y: scroll;
   border-radius: 1rem;
