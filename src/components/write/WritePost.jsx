@@ -78,7 +78,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
   const closeMoodModal = () => setIsMoodModalOpen(false);
   const closeStopModal = () => setIsStopModalOpen(false);
   const handleStopWriting = () => {
-    if (isContentChanged) {
+    if (isContentChanged && contentValue !== "") {
       setIsStopModalOpen(true);
     } else {
       setIsWritingModalOpen(false);
