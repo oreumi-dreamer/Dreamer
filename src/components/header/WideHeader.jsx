@@ -16,6 +16,7 @@ export default function WideHeader({
   buttonRef,
   isActive,
   handleActiveBtn,
+  handleWriteBtnClick,
 }) {
   const { isOpen } = useSelector((state) => state.modal);
   const { user } = useSelector((state) => state.auth);
@@ -107,7 +108,10 @@ export default function WideHeader({
                 className={`${styles["nav-item"]} ${styles["writing-btn"]} ${
                   isActive === "글쓰기" ? styles.active : ""
                 }`}
-                onClick={() => handleActiveBtn("글쓰기")}
+                onClick={() => {
+                  handleActiveBtn("글쓰기");
+                  handleWriteBtnClick();
+                }}
               >
                 글쓰기
               </button>

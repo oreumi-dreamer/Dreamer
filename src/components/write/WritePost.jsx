@@ -10,8 +10,8 @@ import Error404 from "../error404/Error404";
 
 import { DREAM_GENRES, DREAM_MOODS } from "@/utils/constants";
 
-export default function WritePost(/*isModalOpen*/) {
-  const [isWritingModalOpen, setIsWritingModalOpen] = useState(true);
+export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
+  const [isWritingModalOpen, setIsWritingModalOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [isContentChanged, setIsContentChanged] = useState(false);
   const { user } = useSelector((state) => state.auth);
@@ -22,14 +22,14 @@ export default function WritePost(/*isModalOpen*/) {
   const userId = user.userId;
   const userName = user.userName;
   // 모달 오픈 상태
-  //   const modalRef = useRef(null);
-  //   useEffect(() => {
-  //     if (isModalOpen && modalRef.current) {
-  //       modalRef.current.showModal();
-  //     } else if (modalRef.current) {
-  //       modalRef.current.close();
-  //     }
-  //   }, [isModalOpen]);
+  const modalRef = useRef(null);
+  useEffect(() => {
+    if (isWriteModalOpen && modalRef.current) {
+      modalRef.current.showModal();
+    } else if (modalRef.current) {
+      modalRef.current.close();
+    }
+  }, [isWriteModalOpen]);
 
   // 해시태그/기분 클릭 목록
   const [selectedGenres, setSelectedGenres] = useState([]);
@@ -65,9 +65,10 @@ export default function WritePost(/*isModalOpen*/) {
       setIsStopModalOpen(true);
     } else {
       setIsWritingModalOpen(false);
+      closeWriteModal();
     }
   };
-  const stopWriting = () => setIsWritingModalOpen(false);
+  const stopWriting = () => closeWriteModal();
 
   // 날짜
   const today = new Date();
@@ -76,7 +77,11 @@ export default function WritePost(/*isModalOpen*/) {
   const date = today.getDate().toString().padStart(2, "0");
 
   return (
-    <dialog className={styles["new-post"]} open={isWritingModalOpen}>
+    <dialog
+      className={styles["new-post"]}
+      ref={modalRef}
+      open={isWritingModalOpen}
+    >
       <h2 className="sr-only">새로운 글 작성</h2>
       <div className={styles["user-prof"]}>
         <Image src={profileImageUrl} width={52} height={52} />
@@ -229,7 +234,7 @@ export default function WritePost(/*isModalOpen*/) {
           isStopModalOpen={isStopModalOpen}
           closeModal={closeStopModal}
           onConfirm={() => {
-            stopWriting();
+            closeWriteModal();
             setInputValue("");
             setSelectedGenres([]);
             setSelectedMoods([]);
