@@ -71,7 +71,7 @@ export async function GET(request, { params }) {
         }
 
         // 비공개 댓글인 경우 내용 숨김 처리
-        if (comment.isPrivate) {
+        if (comment.isPrivate && comment.authorUid !== userDoc.id) {
           return {
             ...baseComment,
             content: "비공개 댓글입니다.",
