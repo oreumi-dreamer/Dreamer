@@ -11,6 +11,7 @@ import {
 import { useRouter } from "next/navigation";
 import { loginSuccess } from "@/store/authSlice";
 import { useDispatch } from "react-redux";
+import useTheme from "@/hooks/styling/useTheme";
 
 export default function ProfileEdit({
   profile,
@@ -170,7 +171,6 @@ export default function ProfileEdit({
               type="text"
               value={userName}
               onChange={(e) => setUserName(e.target.value)}
-              background="white"
             />
           </label>
           <label>
@@ -179,7 +179,6 @@ export default function ProfileEdit({
               type="text"
               value={userId}
               onChange={(e) => setUserId(e.target.value)}
-              background="white"
             />
           </label>
           <label className={styles["relative"]}>
@@ -188,7 +187,6 @@ export default function ProfileEdit({
               value={bio}
               maxLength={40}
               onChange={(e) => setBio(e.target.value)}
-              background="white"
             />
             <span className={styles["char-limits"]}>{bio.length}/40</span>
           </label>
@@ -202,7 +200,6 @@ export default function ProfileEdit({
                   name="year"
                   onChange={(e) => setYear(e.target.value)}
                   value={year}
-                  background="white"
                   options={Array.from({ length: 120 }, (_, i) => ({
                     value: todayYear - i,
                     label: `${todayYear - i}년`,
@@ -214,7 +211,6 @@ export default function ProfileEdit({
                   name="month"
                   onChange={(e) => setMonth(e.target.value)}
                   value={month}
-                  background="white"
                   options={Array.from({ length: 12 }, (_, i) => ({
                     value: i + 1,
                     label: `${i + 1}월`,
@@ -226,7 +222,6 @@ export default function ProfileEdit({
                   name="day"
                   onChange={(e) => setDay(e.target.value)}
                   value={day}
-                  background="white"
                   options={Array.from({ length: lastDay }, (_, i) => ({
                     value: i + 1,
                     label: `${i + 1}일`,
