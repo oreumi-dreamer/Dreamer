@@ -86,8 +86,9 @@
 }
 .button-list span {
   position: relative;
-  top: -0.3rem;
+  top: -0.6rem;
   left: 0.565rem;
+  color: var(--black-font-color);
 }
 
 .post-text {
