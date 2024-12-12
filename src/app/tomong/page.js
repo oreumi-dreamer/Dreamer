@@ -16,11 +16,10 @@ function TomongIntro({ setProcess }) {
     <>
       <h2 className={styles["title"]}>토몽 AI</h2>
       <div className={styles["tomong-body"]}>
-        <p>
+        <p className={styles["headings"]}>
           반가워요! 드리머 여러분의 꿈 해몽가 <strong>토몽</strong>이에요!{" "}
-          <br />
-          앨런 AI의 도움으로 드리머님이 작성하신 꿈의 해몽을 들어보실래요?
         </p>
+        <p>앨런 AI의 도움으로 드리머님이 작성하신 꿈의 해몽을 들려드릴게요!</p>
       </div>
       <div className={styles["btn-row"]}>
         <Button onClick={() => history.back()}>뒤로 가기</Button>
@@ -61,7 +60,7 @@ function TomongSelect({ setProcess, setSelectedDream }) {
 
   return (
     <>
-      <h2 className={styles["title"]}>꿈 해몽을 시작해볼까요?</h2>
+      <h2 className={styles["title"]}>꿈을 골라주세요!</h2>
       <div className={styles["tomong-body"]}>
         {isLoading ? (
           <Loading type="small" />
@@ -111,10 +110,10 @@ function TomongSelect({ setProcess, setSelectedDream }) {
       </div>
       <div className={styles["btn-row"]}>
         <Button onClick={() => setProcess(0)}>뒤로 가기</Button>
-        {!selectedDream && <Button disabled>다음</Button>}
+        {!selectedDream && <Button disabled>해몽하기</Button>}
         {selectedDream && (
           <Button highlight={true} onClick={() => setProcess(2)}>
-            다음
+            해몽하기
           </Button>
         )}
       </div>
@@ -253,14 +252,17 @@ function TomongResult({ setProcess, selectedDream }) {
       {isLoading ? (
         <Loading type="small" />
       ) : (
-        <div
-          className={markdownStyles["markdown"]}
-          dangerouslySetInnerHTML={{ __html: convertToHtml(result) }}
-        />
+        <>
+          <div
+            className={markdownStyles["markdown"]}
+            dangerouslySetInnerHTML={{ __html: convertToHtml(result) }}
+          />
+
+          <Button highlight={true}>공유하기</Button>
+        </>
       )}
       <div className={styles["btn-row"]}>
         <Button onClick={() => setProcess(1)}>뒤로 가기</Button>
-        <Button highlight={true}>공유하기</Button>
         <Button highlight={true} onClick={() => setProcess(3)}>
           다음
         </Button>
