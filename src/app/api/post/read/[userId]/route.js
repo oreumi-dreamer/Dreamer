@@ -134,6 +134,10 @@ export async function GET(request, { params }) {
               : false,
           commentsCount: postData.commentsCount || 0,
           createdAt: postData.createdAt?.toDate().toISOString(),
+          updatedAt: postData.updatedAt?.toDate().toISOString(),
+          isTomong: postData.tomong
+            ? !!postData.tomong[postData.tomongSelected]
+            : false,
         });
       } else {
         // 기존 상세 정보 응답
@@ -154,6 +158,12 @@ export async function GET(request, { params }) {
           dreamGenres: postData.dreamGenres,
           dreamMoods: postData.dreamMoods,
           dreamRating: postData.dreamRating,
+          isTomong: postData.tomong
+            ? !!postData.tomong[postData.tomongSelected]
+            : false,
+          tomong: postData.tomong
+            ? postData.tomong[postData.tomongSelected]
+            : null,
         });
       }
     });
