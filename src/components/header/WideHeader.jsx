@@ -16,6 +16,7 @@ export default function WideHeader({
   buttonRef,
   isActive,
   handleActiveBtn,
+  handleToggleBtn,
 }) {
   const { isOpen } = useSelector((state) => state.modal);
   const { user } = useSelector((state) => state.auth);
@@ -24,6 +25,14 @@ export default function WideHeader({
   const modalRef = useRef(null);
   const dispatch = useDispatch();
   const { theme, changeTheme } = useTheme();
+
+  const isLightMode =
+    theme === "light" || localStorage.getItem("theme") === "light";
+  const isDarkMode =
+    theme === "dark" || localStorage.getItem("theme") === "dark";
+
+  const isHidden =
+    theme === "device" || localStorage.getItem("theme") === "device";
 
   const navItems = [
     { label: "홈", className: "home-btn", href: "/" },
@@ -54,19 +63,7 @@ export default function WideHeader({
     }
   }, [dispatch, modalRef, buttonRef, isOpen]);
 
-  const handleModeToggle = () => {
-    const modeToggleBtn = document.querySelector(
-      `.${styles["mode-toggle-btn"]}`
-    );
-
-    if (modeToggleBtn.classList.contains(styles["light-mode"])) {
-      modeToggleBtn.classList.remove(styles["light-mode"]);
-      modeToggleBtn.classList.add(styles["dark-mode"]);
-    } else if (modeToggleBtn.classList.contains(styles["dark-mode"])) {
-      modeToggleBtn.classList.remove(styles["dark-mode"]);
-      modeToggleBtn.classList.add(styles["light-mode"]);
-    }
-  };
+  useEffect(() => {});
 
   return (
     <header className={styles.header}>
@@ -81,8 +78,8 @@ export default function WideHeader({
         </Link>
       </h1>
       <button
-        className={`${styles["mode-toggle-btn"]} ${styles["light-mode"]} ${theme === "device" ? styles["hidden-btn"] : ""}`}
-        onClick={handleModeToggle}
+        className={`${styles["mode-toggle-btn"]} ${isLightMode ? styles["light-mode"] : isDarkMode ? styles["dark-mode"] : null} ${isHidden ? styles["hidden-btn"] : ""}`}
+        onClick={handleToggleBtn}
       >
         <div className={`${styles["toggle-switch"]}`}></div>
       </button>

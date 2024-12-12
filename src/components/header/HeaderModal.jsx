@@ -19,6 +19,11 @@ const HeaderBaseModal = forwardRef(({ style }, ref) => {
 });
 
 function MoreModal() {
+  const { theme } = useTheme();
+  const isLightMode =
+    theme === "light" || localStorage.getItem("theme") === "light";
+  const isDarkMode =
+    theme === "dark" || localStorage.getItem("theme") === "dark";
   const dispatch = useDispatch();
   return (
     <ul className={styles["more-modal"]}>
@@ -32,7 +37,7 @@ function MoreModal() {
       </li>
       <li className={styles["modal-items"]}>
         <button
-          className={`${styles["change-mode-btn"]} ${styles["header-modal-btn"]} ${styles["light-mode"]}`}
+          className={`${styles["change-mode-btn"]} ${styles["header-modal-btn"]} ${isLightMode ? styles["light-mode"] : isDarkMode ? styles["dark-mode"] : styles["device-mode"]}`}
           onClick={() => dispatch(setModalType("changeMode"))}
         >
           모드 전환
@@ -58,13 +63,17 @@ function MoreModal() {
 }
 
 function ChangeModeModal() {
+  const { theme, changeTheme } = useTheme();
+  const isLightMode =
+    theme === "light" || localStorage.getItem("theme") === "light";
+  const isDarkMode =
+    theme === "dark" || localStorage.getItem("theme") === "dark";
   const dispatch = useDispatch();
-  const { changeTheme } = useTheme();
   return (
     <ul className={styles["change-mode-modal"]}>
       <li className={styles["modal-items"]}>
         <button
-          className={`${styles["back-more-modal-btn"]} ${styles["header-modal-btn"]}`}
+          className={`${styles["back-more-modal-btn"]} ${styles["header-modal-btn"]} ${isLightMode ? styles["light-mode"] : isDarkMode ? styles["dark-mode"] : styles["device-mode"]}`}
           onClick={() => dispatch(setModalType("moreModal"))}
         >
           모드 전환

@@ -7,12 +7,18 @@ import { setActiveState } from "@/store/activeStateSlice";
 import { useDispatch, useSelector } from "react-redux";
 import useMediaQuery from "@/hooks/styling/useMediaQuery";
 import NarrowHeader from "./NarrowHeader";
+import useTheme from "@/hooks/styling/useTheme";
 export default function Header() {
   const buttonRef = useRef(null);
   const { isOpen, modalType } = useSelector((state) => state.modal);
   const { isActive } = useSelector((state) => state.activeState);
+  const { theme, changeTheme } = useTheme();
   const isNarrowHeader = useMediaQuery("(max-width: 1152px)");
   const dispatch = useDispatch();
+  const isLightMode =
+    theme === "light" || localStorage.getItem("theme") === "light";
+  const isDarkMode =
+    theme === "dark" || localStorage.getItem("theme") === "dark";
 
   const getActiveStateFromURL = (path) => {
     switch (path) {
@@ -57,6 +63,14 @@ export default function Header() {
     dispatch(setActiveState(btn));
   };
 
+  const handleToggleBtn = () => {
+    if (isLightMode) {
+      changeTheme("dark");
+    } else if (isDarkMode) {
+      changeTheme("light");
+    }
+  };
+
   return (
     <>
       {isNarrowHeader ? (
@@ -65,6 +79,7 @@ export default function Header() {
           buttonRef={buttonRef}
           isActive={isActive}
           handleActiveBtn={handleActiveBtn}
+          handleToggleBtn={handleToggleBtn}
         />
       ) : (
         <WideHeader
@@ -72,6 +87,7 @@ export default function Header() {
           buttonRef={buttonRef}
           isActive={isActive}
           handleActiveBtn={handleActiveBtn}
+          handleToggleBtn={handleToggleBtn}
         />
       )}
     </>

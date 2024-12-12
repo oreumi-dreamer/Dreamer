@@ -19,10 +19,6 @@
   max-width: 31.4rem;
 }
 
-[data-theme="dark"] .logo img {
-  filter: invert(1);
-}
-
 .mode-toggle-btn {
   margin-top: 2rem;
   width: 10rem;
@@ -51,11 +47,12 @@
 
 .mode-toggle-btn.light-mode .toggle-switch {
   background-color: var(--black-font-color);
-  background-image: url(/images/toggle-sun.svg);
+  background-image: url(/images/toggle-sun2.svg);
   background-size: 2rem;
   background-repeat: no-repeat;
   background-position: center;
 }
+
 
 .mode-toggle-btn.dark-mode .toggle-switch {
   background-color: var(--dark-mode-text);
@@ -96,26 +93,22 @@
 
 .header-btn-container .nav-item.active {
   padding-bottom: 0.3rem;
-  color: var(--black-font-color);
+  color: var(--active-header-color);
 }
 
 .header-btn-container .nav-item.active:not(.more-btn) {
-  border-bottom: 3px solid var(--black-font-color);
+  border-bottom: 3px solid var(--active-header-color);
 }
 
 .header-btn-container .nav-item:not(.more-btn).active::after {
-  content: url(/images/active-star.svg);
+  content: "";
+  background-image: url(/images/active-star.svg);
+  background-size: contain;
   width: 3rem;
   height: 3rem;
   display: inline-block;
   position: absolute;
   right: 0;
-}
-
-[data-theme="dark"]
-  .header-btn-container
-  .nav-item:not(.more-btn).active::after {
-  filter: invert(1);
 }
 
 .nav-items .nav-item::before,
@@ -127,7 +120,8 @@
   display: inline-block;
   margin-right: 3rem;
   /* #959595  */
-  filter: brightness(0) saturate(100%) invert(59%) sepia(9%) saturate(16%) hue-rotate(346deg) brightness(98%) contrast(89%);
+  filter: brightness(0) saturate(100%) invert(59%) sepia(9%) saturate(16%)
+    hue-rotate(346deg) brightness(98%) contrast(89%);
 }
 
 .nav-items .home-btn::before {
@@ -212,4 +206,30 @@
 
 .more-btn {
   bottom: 5rem;
+}
+
+/* dark mode */
+
+@media (prefers-color-scheme: dark) {
+  [data-theme="device"] .logo img,
+  [data-theme="device"]
+    .header-btn-container
+    .nav-item:not(.more-btn).active::after,
+  [data-theme="device"] .nav-items .nav-item.active::before,
+  [data-theme="device"] .more-btn.active::before {
+    /* #EEF0DE */
+    filter: brightness(0) saturate(100%) invert(89%) sepia(27%) saturate(93%)
+      hue-rotate(28deg) brightness(105%) contrast(88%);
+  }
+}
+
+[data-theme="dark"] .logo img,
+[data-theme="dark"]
+  .header-btn-container
+  .nav-item:not(.more-btn).active::after,
+[data-theme="dark"] .nav-items .nav-item.active::before,
+[data-theme="dark"] .more-btn.active::before {
+  /* #EEF0DE */
+  filter: brightness(0) saturate(100%) invert(89%) sepia(27%) saturate(93%)
+    hue-rotate(28deg) brightness(105%) contrast(88%);
 }

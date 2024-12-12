@@ -1,5 +1,6 @@
 .main {
   padding: 10rem 10rem;
+  color: var(--black-font-color); 
 }
 
 .main h2 {

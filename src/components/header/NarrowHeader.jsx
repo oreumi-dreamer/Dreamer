@@ -9,12 +9,14 @@ import Image from "next/image";
 import { closeModal } from "@/store/modalSlice";
 import { outsideClickModalClose } from "@/utils/outsideClickModalClose";
 import { calculateModalPosition } from "@/utils/calculateModalPosition";
+import useTheme from "@/hooks/styling/useTheme";
 
 export default function NarrowHeader({
   onMoreBtnClick,
   buttonRef,
   isActive,
   handleActiveBtn,
+  handleToggleBtn,
 }) {
   const { isOpen } = useSelector((state) => state.modal);
   const { user } = useSelector((state) => state.auth);
@@ -22,6 +24,13 @@ export default function NarrowHeader({
   const [modalStyle, setModalStyle] = useState({});
   const modalRef = useRef(null);
   const dispatch = useDispatch();
+  const { theme } = useTheme();
+  const isLightMode =
+    theme === "light" || localStorage.getItem("theme") === "light";
+  const isDarkMode =
+    theme === "dark" || localStorage.getItem("theme") === "dark";
+  const isHidden =
+    theme === "device" || localStorage.getItem("theme") === "device";
 
   const navItems = [
     { label: "홈", className: "home-btn", href: "/", img: "/images/home.svg" },
@@ -80,15 +89,32 @@ export default function NarrowHeader({
         </Link>
       </h1>
       <button
-        className={`${styles["mode-toggle-btn"]} ${styles["light-mode"]}`}
+        className={`${styles["mode-toggle-btn"]} ${isLightMode ? styles["light-mode"] : isDarkMode ? styles["dark-mode"] : null} ${isHidden ? styles["hidden-btn"] : ""}`}
+        onClick={handleToggleBtn}
       >
-        <span className="sr-only">다크모드로 변경</span>
-        <Image
-          src="/images/toggle-sun.svg"
-          alt="DREAMER"
-          width={35}
-          height={35}
-        />
+        {isLightMode ? (
+          <>
+            <span className="sr-only">다크모드로 변경</span>
+            <Image
+              src="/images/toggle-sun.svg"
+              alt="라이트모드"
+              width={35}
+              height={35}
+            />
+          </>
+        ) : isDarkMode ? (
+          <>
+            <span className="sr-only">라이트모드로 변경</span>
+            <Image
+              src="/images/toggle-moon.svg"
+              alt="다크모드"
+              width={35}
+              height={35}
+            />
+          </>
+        ) : (
+          ""
+        )}
       </button>
       <div className={styles["header-btn-container"]}>
         <nav>

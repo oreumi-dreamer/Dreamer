@@ -14,14 +14,15 @@ export default function useTheme() {
 
     // 로컬 스토리지를 통해 저장된 테마 또는 사용자 정보의 테마 적용
     if (storedTheme) {
-      document.documentElement.setAttribute(
-        "data-theme",
-        storedTheme === "device" ? getSystemTheme() : storedTheme
-      );
-    } else if (theme) {
-      const appliedTheme = theme === "device" ? getSystemTheme() : theme;
+      const appliedTheme =
+        storedTheme === "device" ? getSystemTheme() : storedTheme;
       document.documentElement.setAttribute("data-theme", appliedTheme);
-      localStorage.setItem("userTheme", theme);
+      dispatch(setUserTheme({ theme: storedTheme }));
+    } else if (theme) {
+      const appliedTheme =
+        storedTheme === "device" ? getSystemTheme() : storedTheme;
+      document.documentElement.setAttribute("data-theme", appliedTheme);
+      localStorage.setItem("userTheme", appliedTheme);
       dispatch(setUserTheme({ theme }));
     } else {
       const systemTheme = getSystemTheme();
@@ -32,11 +33,16 @@ export default function useTheme() {
   }, [theme, dispatch]);
 
   const changeTheme = (newTheme) => {
-    if (["light", "dark", "device"].includes(newTheme)) {
-      const appliedTheme = newTheme === "device" ? getSystemTheme() : newTheme;
-      localStorage.setItem("userTheme", newTheme);
-      document.documentElement.setAttribute("data-theme", appliedTheme);
-      dispatch(setUserTheme({ theme: newTheme }));
+    try {
+      if (["light", "dark", "device"].includes(newTheme)) {
+        const appliedTheme =
+          newTheme === "device" ? getSystemTheme() : newTheme;
+        localStorage.setItem("userTheme", newTheme);
+        document.documentElement.setAttribute("data-theme", appliedTheme);
+        dispatch(setUserTheme({ theme: newTheme }));
+      }
+    } catch (error) {
+      console.error("Error changing theme:", error);
     }
   };
 
