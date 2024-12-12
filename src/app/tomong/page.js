@@ -81,23 +81,37 @@ function TomongSelect({ setProcess, setSelectedDream }) {
                   <p>{dream.title}</p>
                   <p>{new Date(dream.createdAt).toLocaleString("ko-KR")}</p>
                   <p>{dream.content}</p>
+
                   {dream.dreamGenres.length > 0 && (
                     <ul className={styles["post-tag"]}>
-                      {dream.dreamGenres.map((tag, index) => (
+                      {postData.dreamGenres.map((tag, index) => (
                         <li
                           key={index}
-                          style={{
-                            backgroundColor: `${DREAM_GENRES.find((genre) => genre.id === tag).color.hex}`,
-                            color:
-                              `${DREAM_GENRES.find((genre) => genre.id === tag).color.textColor}` &&
-                              `${DREAM_GENRES.find((genre) => genre.id === tag).color.textColor}`,
-                          }}
+                          style={
+                            user.theme === "light" ||
+                            (user.theme === "deviceMode" &&
+                              window.matchMedia("(prefers-color-scheme: light)")
+                                .matches)
+                              ? {
+                                  backgroundColor: `${DREAM_GENRES.find((genre) => genre.id === tag).lightColor.hex}`,
+                                  color:
+                                    `${DREAM_GENRES.find((genre) => genre.id === tag).lightColor.textColor}` &&
+                                    `${DREAM_GENRES.find((genre) => genre.id === tag).lightColor.textColor}`,
+                                }
+                              : {
+                                  backgroundColor: `${DREAM_GENRES.find((genre) => genre.id === tag).darkColor.hex}`,
+                                  color:
+                                    `${DREAM_GENRES.find((genre) => genre.id === tag).darkColor.textColor}` &&
+                                    `${DREAM_GENRES.find((genre) => genre.id === tag).darkColor.textColor}`,
+                                }
+                          }
                         >
                           {`${DREAM_GENRES.find((genre) => genre.id === tag).text}`}
                         </li>
                       ))}
                     </ul>
                   )}
+
                   {dream.dreamMoods.length > 0 && (
                     <span className={styles["dream-felt"]}>
                       {`(${dream.dreamMoods.map((mood1) => `${DREAM_MOODS.find((mood) => mood.id === mood1).text}`).join(", ")})`}
