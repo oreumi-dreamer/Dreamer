@@ -22,13 +22,14 @@ export default function PostModal({ postId, isShow, onClose }) {
   useEffect(() => {
     const viewPost = async () => {
       try {
-        const response = await fetchWithAuth(`/api/post/search/${postId}`);
-        const data = await response.json();
-        setPostData(data.post);
+        if (!!postId) {
+          const response = await fetchWithAuth(`/api/post/search/${postId}`);
+          const data = await response.json();
+          setPostData(data.post);
+        }
         setIsModalOpen(true);
       } catch (error) {
         console.error("게시글을 불러올 수 없습니다.:", error);
-      } finally {
       }
     };
     viewPost();
