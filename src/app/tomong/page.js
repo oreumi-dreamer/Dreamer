@@ -386,6 +386,7 @@ function TomongLists({ setProcess, setTomongDream }) {
 }
 
 function TomongRead({ setProcess, tomongDream }) {
+  const [showTomong, setShowTomong] = useState(tomongDream.tomongSelected);
   const [emblaRef, emblaApi] = useEmblaCarousel({
     watchDrag: false,
   });
@@ -403,6 +404,23 @@ function TomongRead({ setProcess, tomongDream }) {
     (index) => emblaApi && emblaApi.scrollTo(index),
     [emblaApi]
   );
+
+  const handleSetTomong = async (num) => {
+    console.log(num);
+    const res = await fetchWithAuth(`/api/tomong/set/${tomongDream.id}`, {
+      method: "POST",
+      body: {
+        selectedIndex: num,
+      },
+    });
+
+    if (res.ok) {
+      setShowTomong(num);
+      return true;
+    } else {
+      return false;
+    }
+  };
 
   return (
     <>
@@ -437,6 +455,16 @@ function TomongRead({ setProcess, tomongDream }) {
             />
           ))}
         </div>
+      </div>
+      <div>
+        <Button
+          disabled={showTomong === selectedIndex}
+          onClick={() => handleSetTomong(selectedIndex)}
+        >
+          {showTomong === selectedIndex
+            ? "대표 해몽 설정됨"
+            : "대표 해몽으로 설정"}
+        </Button>
       </div>
       <div className={styles["carousel-row"]}>
         {tomongDream.tomongs.map((_, index) => (
