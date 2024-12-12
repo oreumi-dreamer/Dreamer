@@ -101,18 +101,29 @@ export default function PostModal({ postId, isShow, onClose }) {
   }
 
   async function handleStarButtonClick(e) {
+    const hasSparked = postData.hasUserSparked;
+    const sparkCount = postData.sparkCount;
+
+    setPostData((prev) => ({
+      ...prev,
+      hasUserSparked: !hasSparked,
+      sparkCount: hasSparked ? sparkCount - 1 : sparkCount + 1,
+    }));
+
     if (e.currentTarget.className === "star") {
       try {
         const starRes = await fetchWithAuth(`/api/post/spark/${postId}`);
-        const starData = await starRes.json();
 
-        setPostData((prev) => ({
-          ...prev,
-          hasUserSparked: starData.hasSparked,
-          sparkCount: starData.sparkCount,
-        }));
+        if (!starRes.ok || starRes.status !== 200) {
+          throw new Error("반짝을 실행하지 못했어요.");
+        }
       } catch (error) {
         console.error("반짝을 실행하지 못했어요 :", error);
+        setPostData((prev) => ({
+          ...prev,
+          hasUserSparked: !hasSparked,
+          sparkCount: hasSparked ? sparkCount - 1 : sparkCount + 1,
+        }));
       }
     }
   }
