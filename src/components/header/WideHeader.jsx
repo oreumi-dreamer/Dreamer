@@ -25,19 +25,12 @@ export default function WideHeader({
   const modalRef = useRef(null);
   const dispatch = useDispatch();
   const { theme, changeTheme } = useTheme();
-  const isDeviceMode =
-    theme === "device" || localStorage.getItem("theme") === "device";
+
   const isLightMode =
     theme === "light" || localStorage.getItem("theme") === "light";
   const isDarkMode =
     theme === "dark" || localStorage.getItem("theme") === "dark";
-  const modeClass = isDeviceMode
-    ? isLightMode
-      ? styles["light-mode"]
-      : styles["dark-mode"]
-    : isLightMode
-      ? styles["light-mode"]
-      : styles["dark-mode"];
+
   const isHidden =
     theme === "device" || localStorage.getItem("theme") === "device";
 
