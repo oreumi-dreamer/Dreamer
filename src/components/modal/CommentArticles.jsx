@@ -56,8 +56,7 @@ export default function CommentArticles({ postId, isCommentSubmitting }) {
       </>
     );
   }
-
-  return commentData.map((comment) => {
+  return [...commentData].reverse().map((comment) => {
     return (
       <article
         key={comment.commentId}
