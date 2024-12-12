@@ -12,7 +12,7 @@ export default function postTime(createdAt, updatedAt) {
         ? `${Math.trunc(calHour)}시간 전`
         : calHour / 24 < 7
           ? `${Math.trunc(calHour / 24)}일 전`
-          : createdAt.toString().slice(0, -14);
+          : new Date(createdAt).toISOString().split("T")[0];
   } else {
     const updateCalHour = (nowDate - updateDate) / (1000 * 60 * 60);
     return updateCalHour < 1
@@ -21,6 +21,6 @@ export default function postTime(createdAt, updatedAt) {
         ? `${Math.trunc(updateCalHour)}시간 전(수정됨)`
         : updateCalHour / 24 < 7
           ? `${Math.trunc(updateCalHour / 24)}일 전(수정됨)`
-          : `${updatedAt.toString().slice(0, -14)}(수정됨)`;
+          : `${new Date(updatedAt).toISOString().split("T")[0]}(수정됨)`;
   }
 }
