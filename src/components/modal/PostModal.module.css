@@ -85,14 +85,21 @@ html:has(.post-modal) {
   gap: 1.5rem;
 }
 
+.button-list li {
+  display: flex;
+  align-items: center;
+}
+
+.button-list button {
+  display: flex;
+  align-items: center;
+}
+
 .button-list li:first-of-type {
-  position: absolute;
-  left: 11.8rem;
+  margin-right: auto;
 }
 .button-list span {
-  position: relative;
-  top: -0.6rem;
-  left: 0.565rem;
+  margin-left: 0.5rem;
   color: var(--black-font-color);
 }
 
