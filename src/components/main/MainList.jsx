@@ -77,6 +77,7 @@ export default function MainList() {
   }, [handleScroll]);
 
   const handleLoadMore = () => {
+    if (isLoading || !hasMore) return;
     const nextPage = currentPage + 1;
     setCurrentPage(nextPage);
     fetchPosts(nextPage);
