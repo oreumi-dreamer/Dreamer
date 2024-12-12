@@ -36,6 +36,7 @@
   --active-btn-color: #903434;
   --hover-text-color: #5f6368;
   --active-header-color: #000;
+  --post-text-blur: linear-gradient(#fcfcfc00, #fcfcfc);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -68,6 +69,11 @@
     --active-btn-color: #903434;
     --active-header-color: #eef0de;
     --dark-main-modal-color: #353535;
+    --post-text-blur: linear-gradient(
+      0deg,
+      rgba(17, 17, 17, 1) 17%,
+      rgba(17, 17, 17, 0) 100%
+    );
   }
 }
 
@@ -91,7 +97,6 @@
   --dark-white-color: #e0e0e0;
   --placeholder-color: #959595;
   --comment-input-color: #95959530;
-  --comment-button-color: #838383;
   --dotted-color: #7e7e7e;
   --scroll-bar-color: #8a8a8a;
   --dark-mode-text: #eef0de;
@@ -99,6 +104,11 @@
   --active-btn-color: #903434;
   --active-header-color: #eef0de;
   --dark-main-modal-color: #353535;
+  --post-text-blur: linear-gradient(
+    0deg,
+    rgba(17, 17, 17, 1) 17%,
+    rgba(17, 17, 17, 0) 100%
+  );
 }
 
 html {

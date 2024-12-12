@@ -46,13 +46,14 @@
 .profile-name {
   font-size: var(--h2-font-size);
   grid-area: name;
+  color: var(--black-font-color);
 }
 
 .profile-btn {
   width: fit-content;
   height: fit-content;
   background-color: var(--deep-pink-color);
-  color: var(--background-white);
+  color: var(--white-color);
   border-radius: 0.5rem;
   padding: 0.5rem 1rem;
   grid-area: follow-btn;
@@ -71,6 +72,7 @@
   display: flex;
   margin-bottom: 0.8rem;
   white-space: nowrap;
+  color: var(--black-font-color);
 }
 
 .profile-stat li {
@@ -79,6 +81,7 @@
 
 .profile-bio {
   width: 21rem;
+  color: var(--black-font-color);
 }
 
 /* profile form */
@@ -215,6 +218,7 @@
 .post-title {
   font-size: var(--body-font-size);
   font-weight: 700;
+  color: var(--black-font-color);
 }
 
 .post-title.include-img::after {
@@ -239,6 +243,7 @@
   white-space: pre-wrap;
   word-break: break-word;
   position: relative;
+  color: var(--black-font-color);
 }
 
 .post-text::after {
@@ -248,7 +253,7 @@
   height: 20%;
   bottom: 0;
   display: block;
-  background: linear-gradient(#fcfcfc00, #fcfcfc);
+  background: var(--post-text-blur);
   pointer-events: none;
 }
 
@@ -262,6 +267,7 @@
   align-items: center;
   font-size: var(--small-text-font-size);
   column-gap: 0.4rem;
+  color: var(--black-font-color);
 }
 
 .post-btn-container button:last-child {
