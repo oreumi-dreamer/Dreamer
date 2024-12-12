@@ -11,6 +11,7 @@
   padding: 0.5rem 0;
   margin: 0;
   text-align: center;
+  color: var(--black-font-color);
 }
 
 .drop-down-items .drop-down-item:hover {
@@ -32,4 +33,15 @@
 
 .drop-down-items .drop-down-item.report-btn:hover {
   border-radius: 0.8rem;
+}
+
+/* dark mode */
+@media (prefers-color-scheme: dark) {
+  [data-theme="device"] .drop-down {
+    background-color: var(--dark-main-modal-color);
+  }
+}
+
+[data-theme="dark"] .drop-down {
+  background-color: var(--dark-main-modal-color);
 }

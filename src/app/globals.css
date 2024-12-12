@@ -67,6 +67,7 @@
     --hover-btn-color: #cd6969;
     --active-btn-color: #903434;
     --active-header-color: #eef0de;
+    --dark-main-modal-color: #353535;
   }
 }
 
@@ -96,6 +97,7 @@
   --hover-btn-color: #cd6969;
   --active-btn-color: #903434;
   --active-header-color: #eef0de;
+  --dark-main-modal-color: #353535;
 }
 
 html {
