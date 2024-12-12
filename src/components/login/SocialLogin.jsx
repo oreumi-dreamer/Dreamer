@@ -126,17 +126,16 @@ export default function SocialLogin() {
   };
 
   return (
-    <section className="loginContainer">
-      {error && (
-        <p role="alert" className="errorMessage">
-          {error}
-        </p>
-      )}
-
+    <section className={styles["login-container"]}>
       {showEmailForm && !showSignupForm ? (
         <>
-          <h2 className="sr-only">이메일로 로그인</h2>
+          <h2>이메일로 로그인</h2>
           <LoginForm onSubmit={handleEmailLogin}>
+            {error && (
+              <p role="alert" className={styles["error-message"]}>
+                {error}
+              </p>
+            )}
             <label>
               이메일
               <Input
@@ -177,13 +176,14 @@ export default function SocialLogin() {
         </>
       ) : showSignupForm ? (
         <>
-          <h2 className="sr-only">회원가입</h2>
+          <h2>회원가입</h2>
           <EmailSignup
             email={email}
             setEmail={setEmail}
             password={password}
             setPassword={setPassword}
             setShowSignupForm={setShowSignupForm}
+            error={error}
             setError={setError}
             checkUserExists={checkUserExists}
           />

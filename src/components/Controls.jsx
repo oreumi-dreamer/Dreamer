@@ -10,6 +10,7 @@ export function Button({
   onClick,
   float,
   className,
+  disabled,
 }) {
   let buttonClass;
 
@@ -24,7 +25,12 @@ export function Button({
   buttonClass = className ? `${buttonClass} ${className}` : buttonClass;
 
   return (
-    <button type={type} className={buttonClass} onClick={onClick}>
+    <button
+      type={type}
+      disabled={disabled}
+      className={buttonClass}
+      onClick={onClick}
+    >
       {children}
     </button>
   );
@@ -54,7 +60,7 @@ export function ButtonLink({ highlight, children, href }) {
   );
 }
 
-export function Input({ type, value, onChange, background }) {
+export function Input({ type, value, onChange, background, disabled }) {
   let inputClass = styles["input"];
   if (type === "text" || type === "password" || type === "email") {
     inputClass = styles["input-text"];
@@ -66,6 +72,7 @@ export function Input({ type, value, onChange, background }) {
       value={value}
       onChange={onChange}
       className={inputClass}
+      disabled={disabled}
       style={background === "white" ? { backgroundColor: "white" } : {}}
     />
   );
@@ -300,9 +307,13 @@ export function Checkbox({ type, background, value, onChange, children }) {
   }
 }
 
-export function LoginForm({ onSubmit, children }) {
+export function LoginForm({ onSubmit, className, children }) {
+  let formClass = styles["login-form"];
+  if (className) {
+    formClass = `${formClass} ${className}`;
+  }
   return (
-    <form onSubmit={onSubmit} className={styles["login-form"]}>
+    <form onSubmit={onSubmit} className={formClass}>
       {children}
     </form>
   );

@@ -39,3 +39,36 @@
   align-items: center;
   column-gap: 1.6rem;
 }
+
+.login-container h2 {
+  text-align: center;
+}
+
+.error-message {
+  text-align: center;
+  word-break: keep-all;
+}
+
+.email-input {
+  position: relative;
+}
+
+/* .email-verify-btn {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+} */
+
+.btn-row {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  row-gap: 2.4rem;
+}
+
+.back-btn {
+  margin-right: auto;
+}

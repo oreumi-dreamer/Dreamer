@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
-import PostModal from "../modal/PostModal";
 
-export default function PostList({ posts: initialPosts, styles, isLoggedIn }) {
+export default function PostList({
+  posts: initialPosts,
+  styles,
+  isLoggedIn,
+  setSelectedPostId,
+}) {
   const [posts, setPosts] = useState(initialPosts);
-  const [selectedPostId, setSelectedPostId] = useState(null);
 
   const changeSpark = (postId) => {
     setPosts((currentPosts) =>
@@ -35,23 +38,13 @@ export default function PostList({ posts: initialPosts, styles, isLoggedIn }) {
     }
   };
 
-  const handleModalOpen = (postId) => {
-    setSelectedPostId(postId);
-  };
-
   return (
     <>
-      {selectedPostId && (
-        <PostModal
-          postId={selectedPostId}
-          onClose={() => setSelectedPostId(null)}
-        />
-      )}
       {posts.map((post) => (
         <article
           className={styles["post-wrap"]}
           key={post.id}
-          onClick={() => handleModalOpen(post.id)}
+          onClick={() => setSelectedPostId(post.id)}
         >
           {post.hasImages ? (
             <h3 className={`${styles["post-title"]} ${styles["include-img"]}`}>

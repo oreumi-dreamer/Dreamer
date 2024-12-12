@@ -10,12 +10,15 @@ import { outsideClickModalClose } from "@/utils/outsideClickModalClose";
 import { Divider } from "../Controls";
 import PostModal from "../modal/PostModal";
 
-export default function Post({ styles, post: initialPosts }) {
+export default function Post({
+  styles,
+  post: initialPosts,
+  setSelectedPostId,
+}) {
   const [post, setPost] = useState(initialPosts);
   const [isOpen, setIsOpen] = useState(false);
   const [modalType, setModalType] = useState(null);
   const [modalStyle, setModalStyle] = useState({});
-  const [selectedPostId, setSelectedPostId] = useState(null);
   const modalRef = useRef(null);
   const buttonRef = useRef(null);
 
@@ -81,12 +84,6 @@ export default function Post({ styles, post: initialPosts }) {
 
   return (
     <>
-      {selectedPostId && (
-        <PostModal
-          postId={selectedPostId}
-          onClose={() => setSelectedPostId(null)}
-        />
-      )}
       <article className={styles["main-post-wrap"]}>
         <section className={styles["post-user-info"]}>
           <Link href={`/${post.authorId}`}>

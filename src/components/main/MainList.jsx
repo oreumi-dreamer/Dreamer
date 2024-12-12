@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 import Loading from "../Loading";
 import { Button, CustomScrollbar } from "../Controls";
+import PostModal from "../modal/PostModal";
 
 export default function MainList() {
   const [posts, setPosts] = useState([]);
@@ -12,6 +13,8 @@ export default function MainList() {
   const [currentPage, setCurrentPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [showButton, setShowButton] = useState(true);
+  const [isShowModal, setIsShowModal] = useState(false);
+  const [selectedPostId, setSelectedPostId] = useState(null);
   const mainRef = useRef(null);
   const LIMIT = 5;
 
@@ -71,24 +74,48 @@ export default function MainList() {
     setShowButton(false); // 버튼 클릭 후 무한 스크롤 활성화
   };
 
+  const handleModalOpen = (post) => {
+    setSelectedPostId(post.objectID);
+  };
+
+  const handleModalClose = () => {
+    setSelectedPostId(null);
+  };
+
+  useEffect(() => {
+    setIsShowModal(!!selectedPostId);
+  }, [selectedPostId]);
+
   return (
-    <main className={styles["main-container"]} ref={mainRef}>
-      <h2 className="sr-only">게시글 목록</h2>
-      {posts.map((post) => (
-        <Post styles={styles} key={post.objectID} post={post} />
-      ))}
+    <>
+      <main className={styles["main-container"]} ref={mainRef}>
+        <h2 className="sr-only">게시글 목록</h2>
+        {posts.map((post) => (
+          <Post
+            styles={styles}
+            key={post.objectID}
+            post={post}
+            setSelectedPostId={() => handleModalOpen(post)}
+          />
+        ))}
 
-      {isLoading && <Loading type="small" />}
+        {isLoading && <Loading type="small" />}
 
-      {!isLoading && hasMore && showButton && (
-        <Button
-          className={styles["load-more-button"]}
-          highlight={true}
-          onClick={handleLoadMore}
-        >
-          더 보기
-        </Button>
-      )}
-    </main>
+        {!isLoading && hasMore && showButton && (
+          <Button
+            className={styles["load-more-button"]}
+            highlight={true}
+            onClick={handleLoadMore}
+          >
+            더 보기
+          </Button>
+        )}
+      </main>
+      <PostModal
+        postId={selectedPostId}
+        isShow={isShowModal}
+        onClose={handleModalClose}
+      />
+    </>
   );
 }

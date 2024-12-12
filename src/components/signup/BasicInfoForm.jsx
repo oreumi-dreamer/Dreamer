@@ -7,6 +7,7 @@ import { auth, googleProvider } from "@/lib/firebase";
 import { signInWithPopup } from "firebase/auth";
 import { checkUserExists } from "@/utils/auth/checkUser";
 import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from "next/navigation";
 
 export default function BasicInfoForm({ onSubmit, formData, setters }) {
   const { userId, userName, year, month, day } = formData;
@@ -18,6 +19,8 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
   const [error, setError] = useState("");
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
+
+  const router = useRouter();
 
   // year나 month가 변경될 때마다 해당 월의 마지막 날짜를 계산
   useEffect(() => {
@@ -269,7 +272,7 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
               </button>
             </li>
             <li>
-              <button type="button">
+              <button type="button" onClick={() => router.push("/logout")}>
                 <Image
                   src="/images/mail.svg"
                   width={20}
