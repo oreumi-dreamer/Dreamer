@@ -164,6 +164,7 @@ export async function GET(request, { params }) {
           tomong: postData.tomong
             ? postData.tomong[postData.tomongSelected]
             : null,
+          tomongs: userData === authorId ? postData.tomong : null,
         });
       }
     });
