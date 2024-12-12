@@ -43,6 +43,12 @@
   overflow-y: hidden;
 }
 
+.headings {
+  font-size: var(--h2-font-size);
+  line-height: 1.5;
+  margin-bottom: 1.6rem;
+}
+
 .btn-row {
   width: 100%;
   display: flex;
