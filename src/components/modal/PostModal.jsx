@@ -6,6 +6,7 @@ import postTime from "@/utils/postTime";
 import CommentArticles from "./CommentArticles";
 import { DREAM_GENRES, DREAM_MOODS } from "@/utils/constants";
 import Loading from "../Loading";
+import { useSelector } from "react-redux";
 
 export default function PostModal({ postId, isShow, onClose }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -16,6 +17,7 @@ export default function PostModal({ postId, isShow, onClose }) {
   const [isPrivate, setIsPrivate] = useState(false);
   const [oneiromancy, setOneiromancy] = useState(false);
   const [isCommentSubmitting, setIsCommentSubmitting] = useState(false);
+  const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
     const viewPost = async () => {
@@ -232,12 +234,25 @@ export default function PostModal({ postId, isShow, onClose }) {
                           {postData.dreamGenres.map((tag, index) => (
                             <li
                               key={index}
-                              style={{
-                                backgroundColor: `${DREAM_GENRES.find((genre) => genre.id === tag).color.hex}`,
-                                color:
-                                  `${DREAM_GENRES.find((genre) => genre.id === tag).color.textColor}` &&
-                                  `${DREAM_GENRES.find((genre) => genre.id === tag).color.textColor}`,
-                              }}
+                              style={
+                                user.theme === "light" ||
+                                (user.theme === "deviceMode" &&
+                                  window.matchMedia(
+                                    "(prefers-color-scheme: light)"
+                                  ).matches)
+                                  ? {
+                                      backgroundColor: `${DREAM_GENRES.find((genre) => genre.id === tag).lightColor.hex}`,
+                                      color:
+                                        `${DREAM_GENRES.find((genre) => genre.id === tag).lightColor.textColor}` &&
+                                        `${DREAM_GENRES.find((genre) => genre.id === tag).lightColor.textColor}`,
+                                    }
+                                  : {
+                                      backgroundColor: `${DREAM_GENRES.find((genre) => genre.id === tag).darkColor.hex}`,
+                                      color:
+                                        `${DREAM_GENRES.find((genre) => genre.id === tag).darkColor.textColor}` &&
+                                        `${DREAM_GENRES.find((genre) => genre.id === tag).darkColor.textColor}`,
+                                    }
+                              }
                             >
                               {`${DREAM_GENRES.find((genre) => genre.id === tag).text}`}
                             </li>
