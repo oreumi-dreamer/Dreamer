@@ -72,20 +72,6 @@ export default function WideHeader({
 
   useEffect(() => {});
 
-  // const handleModeToggle = () => {
-  //   const modeToggleBtn = document.querySelector(
-  //     `.${styles["mode-toggle-btn"]}`
-  //   );
-
-  //   if (modeToggleBtn.classList.contains(styles["light-mode"])) {
-  //     modeToggleBtn.classList.remove(styles["light-mode"]);
-  //     modeToggleBtn.classList.add(styles["dark-mode"]);
-  //   } else if (modeToggleBtn.classList.contains(styles["dark-mode"])) {
-  //     modeToggleBtn.classList.remove(styles["dark-mode"]);
-  //     modeToggleBtn.classList.add(styles["light-mode"]);
-  //   }
-  // };
-
   return (
     <header className={styles.header}>
       <h1 className={styles.logo}>
