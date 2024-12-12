@@ -10,7 +10,7 @@
   width: 30rem;
   font-size: var(--h2-font-size);
   line-height: 2.4rem;
-  color: var(--black-font-color);
+  color: var(--active-header-color);
   padding: 2rem 0 2rem 3rem;
   margin: 0;
   display: flex;
@@ -36,8 +36,6 @@
   content: "";
   width: 3.5rem;
   height: 3.5rem;
-  mask-size: contain;
-  background-color: var(--black-font-color);
   display: inline-block;
   margin-top: -0.5rem;
   margin-right: 0.5rem;
@@ -48,8 +46,6 @@
   content: "";
   width: 3.5rem;
   height: 3.5rem;
-  mask-size: contain;
-  background-color: var(--black-font-color);
   display: inline-block;
   margin-top: -0.5rem;
   margin-right: 0.5rem;
@@ -58,35 +54,52 @@
 }
 
 .modal-items .setting-btn::before {
-  mask: url(/images/settings.svg) no-repeat center;
+  content: "";
+  display: block;
+  background: url(/images/settings.svg) no-repeat center;
 }
 
 .modal-items .change-mode-btn.light-mode::before,
 .modal-items .light-mode-btn::before,
 .modal-items .back-more-modal-btn::after {
-  mask: url(/images/toggle-sun.svg) no-repeat center;
+  content: "";
+  display: block;
+  background: url(/images/toggle-sun.svg) no-repeat center;
 }
 
 .modal-items .change-mode-btn.dark-mode::before,
-.modal-items .dark-mode-btn::before {
-  mask: url(/images/toggle-moon.svg) no-repeat center;
+.modal-items .dark-mode-btn::before,
+.modal-items .back-more-modal-btn.dark-mode::after {
+  content: "";
+  display: block;
+  background: url(/images/toggle-moon.svg) no-repeat center;
 }
 
 .modal-items .change-mode-btn.device-mode::before,
-.modal-items .device-setting-btn::before {
-  mask: url(/images/device.svg) no-repeat center;
+.modal-items .device-setting-btn::before,
+.modal-items .back-more-modal-btn.device-mode::after {
+  content: "";
+  display: block;
+  background: url(/images/device.svg) no-repeat center;
 }
 
 .modal-items .inquiry-btn::before {
-  mask: url(/images/inquiry.svg) no-repeat center;
+  content: "";
+  display: block;
+  background: url(/images/inquiry.svg) no-repeat center;
 }
 
 .modal-items .change-mode-btn::after {
-  mask: url(/images/arrow-right.svg) no-repeat center;
+  content: "";
+  display: block;
+  background: url(/images/arrow-left.svg) no-repeat center;
+  transform: rotate(180deg);
 }
 
 .modal-items .back-more-modal-btn::before {
-  mask: url(/images/arrow-left.svg) no-repeat center;
+  content: "";
+  display: block;
+  background: url(/images/arrow-left.svg) no-repeat center;
 }
 .modal-items .logout-btn {
   border-top: 1px solid var(--dotted-color);
@@ -106,4 +119,26 @@
 .more-modal li:last-child .more-modal-btn,
 .change-mode-modal li:last-child .more-modal-btn {
   border-radius: 0 0 2rem 2rem;
+}
+
+/* dark mode */
+
+@media (prefers-color-scheme: dark) {
+  [data-theme="device"] .modal-items .header-modal-btn:not(.logout-btn)::before,
+  [data-theme="device"] .modal-items .change-mode-btn::after,
+  [data-theme="device"] .change-mode-btn.device-mode::before,
+  [data-theme="device"] .back-more-modal-btn::after {
+    /* #EEF0DE */
+    filter: brightness(0) saturate(100%) invert(89%) sepia(27%) saturate(93%)
+      hue-rotate(28deg) brightness(105%) contrast(88%);
+  }
+}
+
+[data-theme="dark"] .modal-items .header-modal-btn:not(.logout-btn)::before,
+[data-theme="dark"] .modal-items .change-mode-btn::after,
+[data-theme="dark"] .change-mode-btn.device-mode::before,
+[data-theme="dark"] .back-more-modal-btn::after {
+  /* #EEF0DE */
+  filter: brightness(0) saturate(100%) invert(89%) sepia(27%) saturate(93%)
+    hue-rotate(28deg) brightness(105%) contrast(88%);
 }
