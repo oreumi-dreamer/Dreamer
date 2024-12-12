@@ -73,7 +73,7 @@ export async function POST(request) {
     }
 
     // 별점 유효성 검사
-    if (isNaN(rating) || rating < 1 || rating > 5) {
+    if (isNaN(rating) || rating < 0 || rating > 5) {
       return new Response(
         JSON.stringify({ error: "유효하지 않은 별점입니다." }),
         { status: 400 }
