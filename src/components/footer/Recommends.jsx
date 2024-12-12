@@ -15,7 +15,6 @@ export default function Recommends({ className, styles }) {
       const response = await fetchWithAuth("/api/recommends?limit=4");
       const data = await response.json();
 
-      console.log(data);
       setUsersList(data.users);
       setLoading(false);
     };

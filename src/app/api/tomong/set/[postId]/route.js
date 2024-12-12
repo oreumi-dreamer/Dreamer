@@ -57,8 +57,6 @@ export async function POST(request, { params }) {
     // 요청 body에서 선택된 tomong 인덱스 가져오기
     const { selectedIndex } = await request.json();
 
-    console.log({ selectedIndex });
-
     if (typeof selectedIndex !== "number") {
       return NextResponse.json(
         { error: "잘못된 요청입니다." },

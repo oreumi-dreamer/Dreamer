@@ -432,7 +432,6 @@ function TomongRead({ setProcess, tomongDream }) {
   );
 
   const handleSetTomong = async (num) => {
-    console.log(num);
     const res = await fetchWithAuth(`/api/tomong/set/${tomongDream.id}`, {
       method: "POST",
       body: {
