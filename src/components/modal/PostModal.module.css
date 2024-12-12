@@ -7,7 +7,6 @@
   z-index: 100;
   opacity: 0.5;
   background-color: var(--background-dimmed);
-
   padding: 4rem 0;
 }
 
@@ -221,6 +220,7 @@
 }
 
 .comment-articles-section {
+  min-width: 50rem;
   max-height: 79%;
   overflow-y: scroll;
   border-radius: 1rem;
