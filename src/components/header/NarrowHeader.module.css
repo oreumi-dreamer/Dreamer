@@ -14,12 +14,6 @@
   z-index: 100;
 }
 
-[data-theme="dark"] .logo img {
-  /* #e0e0e0 */
-  filter: brightness(0) saturate(100%) invert(100%) sepia(2%) saturate(1040%)
-    hue-rotate(175deg) brightness(116%) contrast(76%);
-}
-
 .mode-toggle-btn {
   width: 5.6rem;
   height: 5.6rem;
@@ -37,6 +31,12 @@
 
 .mode-toggle-btn.light-mode {
   background-color: var(--black-font-color);
+}
+
+.mode-toggle-btn.light-mode img {
+  /* #fff */
+  filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(7499%)
+    hue-rotate(53deg) brightness(109%) contrast(101%);
 }
 
 .mode-toggle-btn.dark-mode {
@@ -116,4 +116,24 @@
 
 .more-btn {
   bottom: 5rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-theme="device"] .logo img {
+    /* #e0e0e0 */
+    filter: brightness(0) saturate(100%) invert(100%) sepia(2%) saturate(1040%)
+      hue-rotate(175deg) brightness(116%) contrast(76%);
+  }
+  [data-theme="device"] .mode-toggle-btn.light-mode img {
+    filter: none;
+  }
+}
+
+[data-theme="dark"] .logo img {
+  /* #e0e0e0 */
+  filter: brightness(0) saturate(100%) invert(100%) sepia(2%) saturate(1040%)
+    hue-rotate(175deg) brightness(116%) contrast(76%);
+}
+[data-theme="dark"] .mode-toggle-btn.light-mode img {
+  filter: none;
 }
