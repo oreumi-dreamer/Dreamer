@@ -62,7 +62,12 @@ export default function Header() {
   const handleWriteBtnClick = () => {
     setIsWriteModalOpen(true);
   };
-  const closeWriteModal = () => setIsWriteModalOpen(false);
+  const closeWriteModal = () => {
+    if (isWriteModalOpen === true) {
+      setIsWriteModalOpen(false);
+    }
+    window.location.pathname = "/";
+  };
 
   return (
     <>
