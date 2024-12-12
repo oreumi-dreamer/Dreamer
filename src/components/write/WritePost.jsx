@@ -30,6 +30,12 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
       modalRef.current.close();
     }
   }, [isWriteModalOpen]);
+  // 외부 클릭
+  const handleBackgroundClick = (e) => {
+    if (e.target === e.currentTarget) {
+      closeWriteModal();
+    }
+  };
 
   // 해시태그/기분 클릭 목록
   const [selectedGenres, setSelectedGenres] = useState([]);
@@ -136,6 +142,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
       className={styles["new-post"]}
       ref={modalRef}
       open={isWritingModalOpen}
+      onClick={handleBackgroundClick}
     >
       <h2 className="sr-only">새로운 글 작성</h2>
       <div className={styles["user-prof"]}>
