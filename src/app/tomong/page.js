@@ -22,7 +22,7 @@ function TomongIntro({ setProcess }) {
         <p>앨런 AI의 도움으로 드리머님이 작성하신 꿈의 해몽을 들려드릴게요!</p>
       </div>
       <div className={styles["btn-row"]}>
-        <Button onClick={() => history.back()}>뒤로 가기</Button>
+        <Button onClick={() => history.back()}>뒤로</Button>
         <Button highlight={true} onClick={() => setProcess(1)}>
           시작하기
         </Button>
@@ -109,7 +109,7 @@ function TomongSelect({ setProcess, setSelectedDream }) {
         )}
       </div>
       <div className={styles["btn-row"]}>
-        <Button onClick={() => setProcess(0)}>뒤로 가기</Button>
+        <Button onClick={() => setProcess(0)}>뒤로</Button>
         {!selectedDream && <Button disabled>해몽하기</Button>}
         {selectedDream && (
           <Button highlight={true} onClick={() => setProcess(2)}>
@@ -262,7 +262,7 @@ function TomongResult({ setProcess, selectedDream }) {
         </>
       )}
       <div className={styles["btn-row"]}>
-        <Button onClick={() => setProcess(1)}>뒤로 가기</Button>
+        <Button onClick={() => setProcess(1)}>뒤로</Button>
         <Button highlight={true} onClick={() => setProcess(3)}>
           다음
         </Button>
