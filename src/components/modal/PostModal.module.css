@@ -30,6 +30,7 @@ html:has(.post-modal) {
   border: none;
   display: flex;
   padding: 3.7rem 0 3.5rem 3.2rem;
+  box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.2);
 }
 
 .post-section {
