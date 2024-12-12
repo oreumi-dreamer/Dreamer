@@ -7,6 +7,7 @@
 .container div {
   font-size: var(--big-text-font-size);
   color: var(--black-font-color);
+  text-wrap: nowrap;
 }
 
 .container > div::after {
