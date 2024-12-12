@@ -124,9 +124,12 @@ function TomongSelect({ setProcess, setSelectedDream }) {
 function TomongResult({ setProcess, selectedDream }) {
   const [isLoading, setIsLoading] = useState(true);
   const [result, setResult] = useState("");
+  const [retry, setRetry] = useState(0);
   const eventSourceRef = useRef(null);
   const retryCountRef = useRef(0);
   const isComponentMounted = useRef(true);
+
+  const RETRY_LIMIT = 3;
 
   useEffect(() => {
     // 컴포넌트 마운트 상태 추적
@@ -244,7 +247,15 @@ function TomongResult({ setProcess, selectedDream }) {
         eventSourceRef.current = null;
       }
     };
-  }, [selectedDream]);
+  }, [selectedDream, retry]);
+
+  const handleRetry = () => {
+    if (retryCountRef.current >= RETRY_LIMIT) {
+      return;
+    }
+    setRetry((prev) => prev + 1);
+    setIsLoading(true);
+  };
 
   return (
     <>
@@ -257,14 +268,15 @@ function TomongResult({ setProcess, selectedDream }) {
             className={markdownStyles["markdown"]}
             dangerouslySetInnerHTML={{ __html: convertToHtml(result) }}
           />
-
-          <Button highlight={true}>공유하기</Button>
+          <Button onClick={handleRetry} disabled={retry === RETRY_LIMIT}>
+            해몽 다시 듣기 ({retry} / {RETRY_LIMIT})
+          </Button>
         </>
       )}
       <div className={styles["btn-row"]}>
         <Button onClick={() => setProcess(1)}>뒤로</Button>
         <Button highlight={true} onClick={() => setProcess(3)}>
-          다음
+          저장하기
         </Button>
       </div>
     </>
