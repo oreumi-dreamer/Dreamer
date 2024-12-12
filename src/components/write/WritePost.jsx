@@ -6,13 +6,13 @@ import StopModal from "./StopModal";
 import HashtagModal from "./HashtagModal";
 import MoodModal from "./MoodModal";
 import { useSelector } from "react-redux";
+import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 import Error404 from "../error404/Error404";
-
-import { DREAM_GENRES, DREAM_MOODS } from "@/utils/constants";
 
 export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
   const [isWritingModalOpen, setIsWritingModalOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");
+  const [contentValue, setContentValue] = useState("");
   const [isContentChanged, setIsContentChanged] = useState(false);
   const { user } = useSelector((state) => state.auth);
   if (!user) {
@@ -34,6 +34,8 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
   // 해시태그/기분 클릭 목록
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [selectedMoods, setSelectedMoods] = useState([]);
+  const [rating, setRating] = useState(null); // 별점
+  const [isPrivate, setIsPrivate] = useState(false); // 비공개
   // 모달 열림 확인
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isMoodModalOpen, setIsMoodModalOpen] = useState(false);
@@ -47,9 +49,16 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
     setSelectedMoods(items);
     setIsContentChanged(true);
   };
-  const handleInputChange = (e) => {
+  const handleTitleChange = (e) => {
     setInputValue(e.target.value);
     setIsContentChanged(true);
+  };
+  const handleContentChange = (e) => {
+    setContentValue(e.target.value);
+    setIsContentChanged(true);
+  };
+  const handleRatingChange = (e) => {
+    setRating(e.target.value);
   };
   const openModal = () => {
     setIsModalOpen(true);
@@ -68,13 +77,56 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
       closeWriteModal();
     }
   };
-  const stopWriting = () => closeWriteModal();
 
   // 날짜
   const today = new Date();
   const year = ("0" + today.getFullYear()).slice(-2);
   const month = (today.getMonth() + 1).toString().padStart(2, "0");
   const date = today.getDate().toString().padStart(2, "0");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log("전송 시도");
+
+    if (contentValue === "") {
+      alert("작성된 내용이 없습니다");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append(
+      "title",
+      inputValue === "" ? `${year}년 ${month}월 ${date}일 꿈 일기` : inputValue
+    );
+    formData.append("content", contentValue);
+    formData.append("genres", JSON.stringify(selectedGenres));
+    formData.append("moods", JSON.stringify(selectedMoods));
+    formData.append("rating", rating === null ? "0" : rating);
+    formData.append("isPrivate", isPrivate ? "true" : "false");
+
+    for (let [key, value] of formData.entries()) {
+      console.log(key, value);
+    }
+    const idToken = user?.idToken;
+
+    try {
+      const response = await fetchWithAuth("/api/post/create", {
+        method: "POST",
+        body: formData,
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        // alert("작성 완료");
+        closeWriteModal();
+      } else {
+        alert("게시글 작성 실패");
+      }
+    } catch (error) {
+      console.error("에러", error);
+    }
+  };
 
   return (
     <dialog
@@ -96,7 +148,12 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
         <span className="sr-only">닫기</span>
       </button>
 
-      <form id={styles["new-post-form"]} onChange={handleInputChange}>
+      <form
+        id="new-post-form"
+        className={styles["new-post-form"]}
+        // onChange={handleInputChange}
+        onSubmit={handleSubmit}
+      >
         <div id={styles["title"]}>
           <label id={styles["title-input"]}>
             Title
@@ -104,10 +161,16 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
               type="text"
               for="title"
               placeholder={`${year}년 ${month}월 ${date}일 꿈 일기`}
+              onChange={handleTitleChange}
             />
           </label>
           <label id={styles["hidden"]}>
-            <input type="checkbox" for="hidden" />
+            <input
+              type="checkbox"
+              for="hidden"
+              checked={isPrivate}
+              onChange={() => setIsPrivate((prev) => !prev)}
+            />
             비공개
           </label>
         </div>
@@ -170,30 +233,40 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
                 className={styles["rate-star"]}
                 name="rate-star"
                 value={1}
+                onChange={handleRatingChange}
+                checked={rating === "1"}
               />
               <input
                 type="radio"
                 className={styles["rate-star"]}
                 name="rate-star"
                 value={2}
+                onChange={handleRatingChange}
+                checked={rating === "2"}
               />
               <input
                 type="radio"
                 className={styles["rate-star"]}
                 name="rate-star"
                 value={3}
+                onChange={handleRatingChange}
+                checked={rating === "3"}
               />
               <input
                 type="radio"
                 className={styles["rate-star"]}
                 name="rate-star"
                 value={4}
+                onChange={handleRatingChange}
+                checked={rating === "4"}
               />
               <input
                 type="radio"
                 className={styles["rate-star"]}
                 name="rate-star"
                 value={5}
+                onChange={handleRatingChange}
+                checked={rating === "5"}
               />
             </div>
           </div>
@@ -205,6 +278,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
             <textarea
               placeholder="오늘은 어떤 꿈을 꾸셨나요?"
               className={styles["text-field-area"]}
+              onChange={handleContentChange}
             />
           </p>
         </div>
@@ -236,6 +310,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
           onConfirm={() => {
             closeWriteModal();
             setInputValue("");
+            setContentValue("");
             setSelectedGenres([]);
             setSelectedMoods([]);
             setIsContentChanged(false);
