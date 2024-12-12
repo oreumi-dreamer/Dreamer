@@ -6,7 +6,7 @@ import postTime from "@/utils/postTime";
 import { useSelector } from "react-redux";
 import Loading from "../Loading";
 
-export default function CommentArticles({ postId }) {
+export default function CommentArticles({ postId, isCommentSubmitting }) {
   const [commentData, setCommentData] = useState(null);
   const { user } = useSelector((state) => state.auth);
 
@@ -22,7 +22,7 @@ export default function CommentArticles({ postId }) {
     };
 
     viewComments();
-  }, [postId]);
+  }, [postId, isCommentSubmitting]);
 
   function handleCommentClick(e) {
     if (e.currentTarget.querySelector("p").textContent.length >= 127) {
