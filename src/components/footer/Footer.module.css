@@ -23,6 +23,8 @@
   padding: 3rem 0 2rem 0;
   white-space: nowrap;
   color: var(--black-font-color);
+  display: inline-flex;
+  align-items: center;
 }
 
 .recommend-wrap .recommend-title::before {
@@ -30,9 +32,6 @@
   width: 4rem;
   height: 4rem;
   display: inline-block;
-  position: relative;
-  top: 0.8rem;
-  margin-right: 0.5rem;
 }
 
 [data-theme="dark"] .recommend-wrap .recommend-title::before {
@@ -41,10 +40,48 @@
 
 .recommend-wrap .recommend-list {
   max-width: 26rem;
-  height: 36rem;
   background-color: var(--background-white);
   border-radius: 1.5rem;
   filter: drop-shadow(6px 6px 9.4px rgba(0, 0, 0, 0.15));
+}
+
+.recommend-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  padding: 2rem;
+}
+
+.recommend-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.8rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.recommend-list li a {
+  color: var(--black-font-color);
+  font-size: var(--small-text-font-size);
+  grid-area: name;
+  display: flex;
+  flex-direction: column;
+}
+
+.recommend-list li img {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  grid-area: img;
+  object-fit: cover;
+}
+
+.recommend-follow {
+  padding: 0.8rem 1.2rem;
+  font-size: var(--small-text-font-size);
+  grid-area: follow;
+  margin-left: auto;
+  height: fit-content;
 }
 
 .footer-policy {

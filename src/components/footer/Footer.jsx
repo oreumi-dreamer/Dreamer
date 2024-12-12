@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import styles from "./Footer.module.css";
+import Recommends from "./Recommends";
 
 export default function Footer() {
   return (
@@ -12,7 +13,7 @@ export default function Footer() {
       /> */}
       <article className={styles["recommend-wrap"]}>
         <h2 className={styles["recommend-title"]}>추천 DREAMER</h2>
-        <div className={styles["recommend-list"]}></div>
+        <Recommends className={styles["recommend-list"]} styles={styles} />
       </article>
       <section className={styles["footer-policy"]}>
         <ul>
