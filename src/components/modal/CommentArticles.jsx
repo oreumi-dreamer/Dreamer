@@ -8,6 +8,7 @@ import Loading from "../Loading";
 
 export default function CommentArticles({ postId, isCommentSubmitting }) {
   const [commentData, setCommentData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   const { user } = useSelector((state) => state.auth);
   useEffect(() => {
     const viewComments = async () => {
@@ -15,6 +16,7 @@ export default function CommentArticles({ postId, isCommentSubmitting }) {
         const response = await fetchWithAuth(`/api/comment/read/${postId}`);
         const data = await response.json();
         setCommentData(data.comments);
+        setIsLoading(false);
       } catch (error) {
         console.error("댓글을 불러올 수 없습니다. :", error);
       }
@@ -48,11 +50,13 @@ export default function CommentArticles({ postId, isCommentSubmitting }) {
     }
   }
 
+  if (isLoading) {
+    return <Loading type="small" />;
+  }
   if (!commentData) {
     return (
       <>
         <p className={styles["no-comment"]}>댓글이 없습니다.</p>
-        <Loading />
       </>
     );
   }
