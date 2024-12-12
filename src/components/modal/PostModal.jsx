@@ -272,7 +272,7 @@ export default function PostModal({ postId, isShow, onClose }) {
                       ))}
                   </section>
                 </section>
-                <section>
+                <section className={styles["comment-section"]}>
                   <h2 className="sr-only">댓글 작성 및 확인</h2>
                   <button
                     className={styles["close-btn"]}
