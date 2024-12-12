@@ -76,169 +76,167 @@ export default function WritePost(/*isModalOpen*/) {
   const date = today.getDate().toString().padStart(2, "0");
 
   return (
-    <div>
-      <dialog className={styles["new-post"]} open={isWritingModalOpen}>
-        <h2 className="sr-only">새로운 글 작성</h2>
-        <div className={styles["user-prof"]}>
-          <Image src={profileImageUrl} width={52} height={52} />
-          <p className={styles["user-name"]}>
-            {userName}
-            <p className={styles["user-id"]}>@{userId}</p>
-          </p>
+    <dialog className={styles["new-post"]} open={isWritingModalOpen}>
+      <h2 className="sr-only">새로운 글 작성</h2>
+      <div className={styles["user-prof"]}>
+        <Image src={profileImageUrl} width={52} height={52} />
+        <p className={styles["user-name"]}>
+          {userName}
+          <p className={styles["user-id"]}>@{userId}</p>
+        </p>
+      </div>
+
+      <button onClick={handleStopWriting} className={styles["btn-close"]}>
+        <Image src="/images/close.svg" width={40} height={40}></Image>
+        <span className="sr-only">닫기</span>
+      </button>
+
+      <form id={styles["new-post-form"]} onChange={handleInputChange}>
+        <div id={styles["title"]}>
+          <label id={styles["title-input"]}>
+            Title
+            <input
+              type="text"
+              for="title"
+              placeholder={`${year}년 ${month}월 ${date}일 꿈 일기`}
+            />
+          </label>
+          <label id={styles["hidden"]}>
+            <input type="checkbox" for="hidden" />
+            비공개
+          </label>
         </div>
 
-        <button onClick={handleStopWriting} className={styles["btn-close"]}>
-          <Image src="/images/close.svg" width={40} height={40}></Image>
-          <span className="sr-only">닫기</span>
-        </button>
-
-        <form id={styles["new-post-form"]} onChange={handleInputChange}>
-          <div id={styles["title"]}>
-            <label id={styles["title-input"]}>
-              Title
-              <input
-                type="text"
-                for="title"
-                placeholder={`${year}년 ${month}월 ${date}일 꿈 일기`}
-              />
-            </label>
-            <label id={styles["hidden"]}>
-              <input type="checkbox" for="hidden" />
-              비공개
-            </label>
-          </div>
-
-          <div className={styles["write-field"]}>
-            <div className={styles["write-field-opt"]}>
-              {/* 버튼 누르면 해시태그 입력용 모달 나타나기? */}
-              <div className={styles["genre-picker"]}>
-                <button type="button" onClick={openModal}>
-                  <Image src="/images/plus-circle.svg" width={28} height={28} />
-                  <span className="sr-only">태그 추가하기</span>
-                </button>
-                <ul>
-                  {selectedGenres.map((item) => (
-                    <li
-                      key={item.text}
-                      style={{
-                        backgroundColor: `${item.color.hex}`,
-                        color: `${item.color.textColor}`,
-                      }}
-                    >
-                      {item.text}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              {/* 기분 추가 */}
-              <div className={styles["user-feeling"]}>
-                <p>지금 상태</p>
-                {selectedMoods.length === 0 && (
-                  <button
-                    type="button"
-                    className={styles["btn-feeling"]}
-                    onClick={openMoodModal}
+        <div className={styles["write-field"]}>
+          <div className={styles["write-field-opt"]}>
+            {/* 버튼 누르면 해시태그 입력용 모달 나타나기? */}
+            <div className={styles["genre-picker"]}>
+              <button type="button" onClick={openModal}>
+                <Image src="/images/plus-circle.svg" width={28} height={28} />
+                <span className="sr-only">태그 추가하기</span>
+              </button>
+              <ul>
+                {selectedGenres.map((item) => (
+                  <li
+                    key={item.text}
+                    style={{
+                      backgroundColor: `${item.color.hex}`,
+                      color: `${item.color.textColor}`,
+                    }}
                   >
-                    {/* {selectedMoods.map((item) => (
+                    {item.text}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            {/* 기분 추가 */}
+            <div className={styles["user-feeling"]}>
+              <p>지금 상태</p>
+              {selectedMoods.length === 0 && (
+                <button
+                  type="button"
+                  className={styles["btn-feeling"]}
+                  onClick={openMoodModal}
+                >
+                  {/* {selectedMoods.map((item) => (
                     <li key={item.text}>{item.text}</li>
                   ))} */}
-                  </button>
-                )}
-                {selectedMoods.length !== 0 && (
-                  <button
-                    type="button"
-                    className={styles["btn-feeling-selected"]}
-                    onClick={openMoodModal}
-                  >
-                    <ul>
-                      {selectedMoods.map((item) => (
-                        <li key={item.text}>{item.text}</li>
-                      ))}
-                    </ul>
-                  </button>
-                )}
-              </div>
-
-              <div className={styles["rate-star-container"]}>
-                <p>오늘의 꿈 별점: </p>
-                <input
-                  type="radio"
-                  className={styles["rate-star"]}
-                  name="rate-star"
-                  value={1}
-                />
-                <input
-                  type="radio"
-                  className={styles["rate-star"]}
-                  name="rate-star"
-                  value={2}
-                />
-                <input
-                  type="radio"
-                  className={styles["rate-star"]}
-                  name="rate-star"
-                  value={3}
-                />
-                <input
-                  type="radio"
-                  className={styles["rate-star"]}
-                  name="rate-star"
-                  value={4}
-                />
-                <input
-                  type="radio"
-                  className={styles["rate-star"]}
-                  name="rate-star"
-                  value={5}
-                />
-              </div>
+                </button>
+              )}
+              {selectedMoods.length !== 0 && (
+                <button
+                  type="button"
+                  className={styles["btn-feeling-selected"]}
+                  onClick={openMoodModal}
+                >
+                  <ul>
+                    {selectedMoods.map((item) => (
+                      <li key={item.text}>{item.text}</li>
+                    ))}
+                  </ul>
+                </button>
+              )}
             </div>
 
-            {/* 구분선 */}
-            <span className={styles["break-line"]}></span>
-            <p className={styles["text-field-area"]}>
-              <span className="sr-only">글 작성</span>
-              <textarea
-                placeholder="오늘은 어떤 꿈을 꾸셨나요?"
-                className={styles["text-field-area"]}
+            <div className={styles["rate-star-container"]}>
+              <p>오늘의 꿈 별점: </p>
+              <input
+                type="radio"
+                className={styles["rate-star"]}
+                name="rate-star"
+                value={1}
               />
-            </p>
+              <input
+                type="radio"
+                className={styles["rate-star"]}
+                name="rate-star"
+                value={2}
+              />
+              <input
+                type="radio"
+                className={styles["rate-star"]}
+                name="rate-star"
+                value={3}
+              />
+              <input
+                type="radio"
+                className={styles["rate-star"]}
+                name="rate-star"
+                value={4}
+              />
+              <input
+                type="radio"
+                className={styles["rate-star"]}
+                name="rate-star"
+                value={5}
+              />
+            </div>
           </div>
-          <div className={styles["btn-submit-area"]}>
-            <button
-              type="submit"
-              form="new-post-form"
-              className={styles["btn-submit"]}
-            >
-              전송
-            </button>
-          </div>
-        </form>
 
-        <HashtagModal
-          isModalOpen={isModalOpen}
-          closeModal={closeModal}
-          onConfirm={handleSelectGenres}
+          {/* 구분선 */}
+          <span className={styles["break-line"]}></span>
+          <p className={styles["text-field-area"]}>
+            <span className="sr-only">글 작성</span>
+            <textarea
+              placeholder="오늘은 어떤 꿈을 꾸셨나요?"
+              className={styles["text-field-area"]}
+            />
+          </p>
+        </div>
+        <div className={styles["btn-submit-area"]}>
+          <button
+            type="submit"
+            form="new-post-form"
+            className={styles["btn-submit"]}
+          >
+            전송
+          </button>
+        </div>
+      </form>
+
+      <HashtagModal
+        isModalOpen={isModalOpen}
+        closeModal={closeModal}
+        onConfirm={handleSelectGenres}
+      />
+      <MoodModal
+        isModalOpen={isMoodModalOpen}
+        closeModal={closeMoodModal}
+        onConfirm={handleSelectMoods}
+      />
+      {isStopModalOpen && (
+        <StopModal
+          isStopModalOpen={isStopModalOpen}
+          closeModal={closeStopModal}
+          onConfirm={() => {
+            stopWriting();
+            setInputValue("");
+            setSelectedGenres([]);
+            setSelectedMoods([]);
+            setIsContentChanged(false);
+          }}
         />
-        <MoodModal
-          isModalOpen={isMoodModalOpen}
-          closeModal={closeMoodModal}
-          onConfirm={handleSelectMoods}
-        />
-        {isStopModalOpen && (
-          <StopModal
-            isStopModalOpen={isStopModalOpen}
-            closeModal={closeStopModal}
-            onConfirm={() => {
-              stopWriting();
-              setInputValue("");
-              setSelectedGenres([]);
-              setSelectedMoods([]);
-              setIsContentChanged(false);
-            }}
-          />
-        )}
-      </dialog>
-    </div>
+      )}
+    </dialog>
   );
 }
