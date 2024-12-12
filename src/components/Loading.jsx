@@ -1,7 +1,11 @@
-import Image from "next/image";
+"use client";
+
 import styles from "./Loading.module.css";
+import useTheme from "@/hooks/styling/useTheme";
 
 export default function Loading({ type }) {
+  const { theme } = useTheme();
+
   if (type === "small") {
     return (
       <div className={styles["loading-small"]}>
