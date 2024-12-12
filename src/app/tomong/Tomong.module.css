@@ -41,11 +41,17 @@
   flex-direction: column;
   justify-content: center;
   overflow-y: hidden;
+  row-gap: 3.2rem;
 }
 
 .headings {
   font-size: var(--h2-font-size);
   line-height: 1.5;
+  margin-bottom: 1.6rem;
+}
+
+.intro {
+  text-align: center;
   margin-bottom: 1.6rem;
 }
 
