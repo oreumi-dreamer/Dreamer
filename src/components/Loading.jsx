@@ -10,9 +10,9 @@ export default function Loading({ type }) {
     );
   } else {
     return (
-      <main className={styles.loading}>
+      <div className={styles.loading}>
         <div></div>
-      </main>
+      </div>
     );
   }
 }
