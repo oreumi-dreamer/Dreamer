@@ -197,6 +197,7 @@
   min-width: 19rem;
   height: 60%;
   background-color: unset;
+  color: var(--black-font-color);
   border: none;
   padding: 1.4rem 1.2rem;
   resize: none;

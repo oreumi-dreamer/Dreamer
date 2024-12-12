@@ -59,15 +59,15 @@
 }
 
 .comment-info a {
-  color: rgba(0, 0, 0, 0.4);
+  color: var(--gray-font-color);
   margin-right: 0.4rem;
 }
 .comment-info a span {
   font-size: var(--body-font-size);
-  color: rgb(0, 0, 0);
+  color: var(--black-font-color);
 }
 .comment-info time {
-  color: rgba(0, 0, 0, 0.2);
+  color: var(--time-font-color);
 }
 .comment-info img {
   position: absolute;
@@ -87,11 +87,11 @@
   display: inline-block;
   position: relative;
   top: -0.2rem;
-  color: rgba(0, 0, 0, 0.4);
+  color: var(--comment-button-color);
 }
 
 .edit-delete-button button {
-  color: rgba(0, 0, 0, 0.4);
+  color: var(--comment-button-color);
   font-size: var(--small-text-font-size);
 }
 
