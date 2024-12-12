@@ -3,10 +3,19 @@
 
 import { NextResponse } from "next/server";
 import { verifyToken } from "@/lib/api/tokenManager";
+import { db } from "@/lib/firebase";
+import {
+  doc,
+  updateDoc,
+  arrayUnion,
+  Timestamp,
+  getDoc,
+} from "firebase/firestore";
 
 export async function GET(request) {
   const url = new URL(request.url);
   const streamToken = url.searchParams.get("streamToken");
+  const postId = url.searchParams.get("postId");
 
   const tokenData = verifyToken(streamToken);
   if (!tokenData) {
@@ -95,6 +104,48 @@ export async function GET(request) {
             for (const line of lines) {
               if (line.trim()) {
                 controller.enqueue(encoder.encode(`data: ${line}\n\n`));
+
+                // complete 타입 확인 및 Firestore 저장
+                try {
+                  // 모든 SSE 접두사 제거
+                  const cleanedData = line
+                    .replace("event: response", "")
+                    .replace(/^(id|event|data):\s*/g, "")
+                    .trim()
+                    // 작은 따옴표를 큰 따옴표로 변환
+                    .replace(/'/g, '"');
+
+                  if (cleanedData) {
+                    const parsedData = JSON.parse(cleanedData);
+                    if (parsedData.type === "complete" && postId) {
+                      const postRef = doc(db, "posts", postId);
+                      const postDoc = await getDoc(postRef);
+
+                      if (postDoc.exists()) {
+                        const tomongData = {
+                          content: parsedData.data.content,
+                          createdAt: Timestamp.now(),
+                        };
+
+                        const tomongLength = postDoc.data().tomong
+                          ? postDoc.data().tomong.length
+                          : 1;
+
+                        await updateDoc(postRef, {
+                          tomong: arrayUnion(tomongData),
+                          tomongSelected: tomongLength,
+                        });
+                      }
+                    }
+                  }
+                } catch (e) {
+                  console.error(
+                    "Error parsing or saving tomong data:",
+                    e,
+                    "Raw data:",
+                    line
+                  );
+                }
               }
             }
           }
