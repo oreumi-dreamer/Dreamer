@@ -52,7 +52,7 @@
     --black-font-color: #e0e0e0;
     --gray-font-color: #eef0de40;
     --time-font-color: #e0e0e080;
-    --black-transparent-color: rgba(0, 0, 0, 40%);
+    --black-transparent-color: rgba(255, 255, 255, 40%);
     --modal-pink-color: #f3e7e9;
     --deep-pink-color: #f89b9b;
     --white-color: #e8e8e8;
@@ -84,7 +84,7 @@
   --black-font-color: #e0e0e0;
   --gray-font-color: #eef0de40;
   --time-font-color: #e0e0e080;
-  --black-transparent-color: rgba(0, 0, 0, 40%);
+  --black-transparent-color: rgba(255, 255, 255, 40%);
   --modal-pink-color: #f3e7e9;
   --deep-pink-color: #f89b9b;
   --white-color: #e8e8e8;
