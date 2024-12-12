@@ -12,6 +12,7 @@ export default function MainList() {
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
+  const [totalPages, setTotalPages] = useState(1);
   const [showButton, setShowButton] = useState(true);
   const [isShowModal, setIsShowModal] = useState(false);
   const [selectedPostId, setSelectedPostId] = useState(null);
@@ -21,6 +22,12 @@ export default function MainList() {
   const fetchPosts = async (page) => {
     try {
       setIsLoading(true);
+
+      if (page > totalPages) {
+        setIsLoading(false);
+        return;
+      }
+
       const res = await fetchWithAuth(
         `/api/post/feeds?page=${page}&limit=${LIMIT}`
       );
@@ -33,6 +40,7 @@ export default function MainList() {
       }
 
       setHasMore(data.pagination.currentPage < data.pagination.totalPages);
+      setTotalPages(data.pagination.totalPages);
       setIsLoading(false);
     } catch (error) {
       console.error("Error fetching posts:", error);
@@ -57,8 +65,9 @@ export default function MainList() {
 
     // 스크롤이 하단에서 100px 정도 위에 있을 때 다음 데이터 로드
     if (scrollHeight - scrollTop <= clientHeight + 100) {
-      setCurrentPage((prev) => prev + 1);
-      fetchPosts(currentPage + 1);
+      const nextPage = currentPage + 1;
+      setCurrentPage(nextPage);
+      fetchPosts(nextPage);
     }
   }, [isLoading, hasMore, showButton, currentPage]);
 
