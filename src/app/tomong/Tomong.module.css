@@ -134,6 +134,63 @@ ul.post-tag li {
   overflow: hidden;
 }
 
+.tomong-results-wrapper {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  padding: 4rem;
+}
+
+.main:has(.tomong-results-wrapper) {
+  position: relative;
+}
+
+.tomong-results-chevrons {
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: space-between;
+  padding: 0 2rem;
+}
+
+.tomong-results {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  gap: 5.4rem;
+}
+
+/* 캐러셀 아이템 (markdown 클래스) */
+.tomong-results > div {
+  flex: 0 0 100%;
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+}
+
+.carousel-row {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.carousel-indicator {
+  width: 1rem;
+  height: 1rem;
+  border: none;
+  border-radius: 50%;
+  background-color: #ddd;
+  cursor: pointer;
+  padding: 0;
+}
+
+.carousel-indicator.active {
+  background-color: #666;
+}
+
 @media (max-width: 1280px) {
   .dreams-list li {
     width: 45%;

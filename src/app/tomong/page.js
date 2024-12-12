@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Button } from "@/components/Controls";
 import styles from "./Tomong.module.css";
 import markdownStyles from "./Result.module.css";
@@ -10,6 +10,7 @@ import { DREAM_MOODS, DREAM_GENRES } from "@/utils/constants";
 import { auth } from "@/lib/firebase";
 import convertToHtml from "@/utils/markdownToHtml";
 import Link from "next/link";
+import useEmblaCarousel from "embla-carousel-react";
 
 function TomongIntro({ setProcess }) {
   return (
@@ -32,9 +33,7 @@ function TomongIntro({ setProcess }) {
       </div>
       <div className={styles["btn-row"]}>
         <Button onClick={() => history.back()}>뒤로</Button>
-        <Button highlight={true} onClick={() => setProcess(1)}>
-          시작하기
-        </Button>
+        <Button onClick={() => setProcess(101)}>해몽된 꿈 보러 가기</Button>
       </div>
     </>
   );
@@ -173,6 +172,7 @@ function TomongResult({ setProcess, selectedDream }) {
 
         const params = new URLSearchParams({
           streamToken,
+          postId: selectedDream.id,
           title: selectedDream.title || "",
           content: selectedDream.content || "",
           genre: selectedDream.dreamGenres || "",
@@ -278,7 +278,7 @@ function TomongResult({ setProcess, selectedDream }) {
             dangerouslySetInnerHTML={{ __html: convertToHtml(result) }}
           />
           <Button onClick={handleRetry} disabled={retry === RETRY_LIMIT}>
-            해몽 다시 듣기 ({retry} / {RETRY_LIMIT})
+            해몽 다시 듣기 ({RETRY_LIMIT - retry} / {RETRY_LIMIT})
           </Button>
         </>
       )}
@@ -292,9 +292,163 @@ function TomongResult({ setProcess, selectedDream }) {
   );
 }
 
+function TomongLists({ setProcess, setTomongDream }) {
+  const [dreams, setDreams] = useState([]);
+  const [selectedDream, setSelectedDreamState] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const { userId } = useSelector((state) => state.auth.user);
+
+  useEffect(() => {
+    const getDreams = async () => {
+      const res = await fetchWithAuth(`/api/post/read/${userId}`);
+
+      let data = null;
+      if (res.ok) {
+        data = await res.json();
+
+        const filteredDream = data.posts.filter((post) => post.isTomong);
+
+        setDreams(filteredDream);
+      }
+
+      setIsLoading(false);
+    };
+
+    getDreams();
+  }, []);
+
+  const handleRadioChange = (dream) => {
+    setSelectedDreamState(dream);
+    setTomongDream(dream);
+  };
+
+  return (
+    <>
+      <h2 className={styles["title"]}>해몽된 꿈 목록</h2>
+      <div className={styles["tomong-body"]}>
+        {isLoading ? (
+          <Loading type="small" />
+        ) : (
+          <ul className={styles["dreams-list"]}>
+            {dreams.map((dream) => (
+              <li key={dream.id}>
+                <label>
+                  <input
+                    type="radio"
+                    name="dream"
+                    value={dream.id}
+                    checked={selectedDream?.id === dream.id}
+                    onChange={() => handleRadioChange(dream)}
+                    tabIndex={0}
+                  />
+                  <p>{dream.title}</p>
+                  <p>{new Date(dream.createdAt).toLocaleString("ko-KR")}</p>
+                  <p>{dream.content}</p>
+                  {dream.dreamGenres.length > 0 && (
+                    <ul className={styles["post-tag"]}>
+                      {dream.dreamGenres.map((tag, index) => (
+                        <li
+                          key={index}
+                          style={{
+                            backgroundColor: `${DREAM_GENRES.find((genre) => genre.id === tag).color.hex}`,
+                            color:
+                              `${DREAM_GENRES.find((genre) => genre.id === tag).color.textColor}` &&
+                              `${DREAM_GENRES.find((genre) => genre.id === tag).color.textColor}`,
+                          }}
+                        >
+                          {`${DREAM_GENRES.find((genre) => genre.id === tag).text}`}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  {dream.dreamMoods.length > 0 && (
+                    <span className={styles["dream-felt"]}>
+                      {`(${dream.dreamMoods.map((mood1) => `${DREAM_MOODS.find((mood) => mood.id === mood1).text}`).join(", ")})`}
+                    </span>
+                  )}
+                </label>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+      <div className={styles["btn-row"]}>
+        <Button onClick={() => setProcess(0)}>뒤로</Button>
+        {!selectedDream && <Button disabled>해몽 보기</Button>}
+        {selectedDream && (
+          <Button highlight={true} onClick={() => setProcess(102)}>
+            해몽 보기
+          </Button>
+        )}
+      </div>
+    </>
+  );
+}
+
+function TomongRead({ setProcess, tomongDream }) {
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    watchDrag: false,
+  });
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+  useEffect(() => {
+    if (emblaApi) {
+      emblaApi.on("select", () => {
+        setSelectedIndex(emblaApi.selectedScrollSnap());
+      });
+    }
+  }, [emblaApi]);
+
+  const scrollTo = useCallback(
+    (index) => emblaApi && emblaApi.scrollTo(index),
+    [emblaApi]
+  );
+
+  return (
+    <>
+      <h2 className={styles["title"]}>해몽된 꿈 보기</h2>
+      <div className={styles["tomong-results-chevrons"]}>
+        <button onClick={() => scrollTo(selectedIndex - 1)}>
+          <img src="images/arrow-left.svg" alt="왼쪽으로 이동" />
+        </button>
+        <button onClick={() => scrollTo(selectedIndex + 1)}>
+          <img src="images/arrow-right.svg" alt="오른쪽으로 이동" />
+        </button>
+      </div>
+      <div className={styles["tomong-results-wrapper"]} ref={emblaRef}>
+        <div className={styles["tomong-results"]}>
+          {tomongDream.tomongs.map((dream, index) => (
+            <div
+              key={index}
+              className={markdownStyles["markdown"]}
+              dangerouslySetInnerHTML={{ __html: convertToHtml(dream.content) }}
+            />
+          ))}
+        </div>
+      </div>
+      <div className={styles["carousel-row"]}>
+        {tomongDream.tomongs.map((_, index) => (
+          <button
+            key={index}
+            className={`${styles["carousel-indicator"]} ${
+              selectedIndex === index ? styles["active"] : ""
+            }`}
+            onClick={() => scrollTo(index)}
+            aria-label={`슬라이드 ${index + 1}`}
+          />
+        ))}
+      </div>
+      <div className={styles["btn-row"]}>
+        <Button onClick={() => setProcess(101)}>뒤로</Button>
+      </div>
+    </>
+  );
+}
+
 export default function Tomong() {
   const [process, setProcess] = useState(0);
   const [selectedDream, setSelectedDream] = useState(null);
+  const [tomongDream, setTomongDream] = useState(null);
 
   return (
     <div className={styles["container"]}>
@@ -311,6 +465,15 @@ export default function Tomong() {
         )}
         {process === 2 && (
           <TomongResult setProcess={setProcess} selectedDream={selectedDream} />
+        )}
+        {process === 101 && (
+          <TomongLists
+            setProcess={setProcess}
+            setTomongDream={setTomongDream}
+          />
+        )}
+        {process === 102 && (
+          <TomongRead setProcess={setProcess} tomongDream={tomongDream} />
         )}
       </main>
     </div>
