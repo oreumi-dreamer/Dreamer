@@ -93,7 +93,7 @@ export default function MainList() {
         {posts.map((post) => (
           <Post
             styles={styles}
-            key={post.objectID}
+            key={post.objectID + Math.random()}
             post={post}
             setSelectedPostId={() => handleModalOpen(post)}
           />
