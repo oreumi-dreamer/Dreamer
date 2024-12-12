@@ -99,7 +99,8 @@ export default function MainList() {
           />
         ))}
 
-        {isLoading && <Loading type="small" />}
+        {isLoading && showButton && <Loading />}
+        {isLoading && !showButton && <Loading type="small" />}
 
         {!isLoading && hasMore && showButton && (
           <Button
