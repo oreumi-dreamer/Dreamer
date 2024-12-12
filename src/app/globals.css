@@ -13,7 +13,7 @@
   --none-active-color: #959595;
   --black-font-color: #141420;
   --gray-font-color: #5f5f5f;
-  --time-font-color: #00000020;
+  --time-font-color: rgba(0, 0, 0, 0.2);
   --black-transparent-color: rgba(0, 0, 0, 40%);
   --modal-pink-color: #f3e7e9;
   --deep-pink-color: #f89b9b;
