@@ -79,20 +79,23 @@ export async function GET(request, { params }) {
   }
 
   const cursor = searchParams.get("cursor");
-  const pageSize = Number(searchParams.get("limit")) || 10;
+  const pageSize = Number(searchParams.get("limit"));
 
   try {
     let postsQuery;
 
     // 기본 쿼리 조건에 visibilityCondition 추가
-    const baseQuery = [
+    let baseQuery = [
       collection(db, "posts"),
       where("authorUid", "==", authorUid),
       where("isDeleted", "==", false),
       visibilityCondition, // 비공개/공개 게시글 필터링 조건 추가
       orderBy("createdAt", "desc"),
-      limit(pageSize),
     ];
+
+    if (pageSize) {
+      baseQuery.push(limit(pageSize));
+    }
 
     if (cursor) {
       const cursorDoc = await getDocs(doc(db, "posts", cursor));
