@@ -284,3 +284,41 @@ html:has(.post-modal) {
 input[type="checkbox"]:checked + label.checkbox::before {
   background-image: url(/images/checkbox-checked.svg);
 }
+
+@media (max-width: 720px) {
+  .post-modal {
+    padding: 2rem 0 2rem 2rem;
+    flex-direction: column;
+    min-width: 35.8rem;
+  }
+
+  .post-section {
+    padding-right: 2rem;
+    padding-bottom: 9rem;
+    margin-bottom: 1rem;
+    height: 50%;
+    background: url(/images/dash.svg) repeat-x bottom;
+    background-size: 12px 2px;
+  }
+  .button-list {
+    justify-content: flex-start;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .button-list li:first-of-type {
+    position: relative;
+    left: 0;
+  }
+
+  .comment-section {
+    height: 48%;
+  }
+
+  .comment-form {
+    max-height: 5rem;
+  }
+  .comment-input {
+    height: 5rem;
+  }
+}
