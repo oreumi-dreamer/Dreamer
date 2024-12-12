@@ -26,7 +26,8 @@ export default function CommentArticles({ postId, isCommentSubmitting }) {
   }, [postId, isCommentSubmitting]);
 
   function handleCommentClick(e) {
-    if (e.currentTarget.querySelector("p").textContent.length >= 127) {
+    const commentContent = e.currentTarget.querySelector("p").textContent;
+    if (commentContent.length >= 127 || commentContent.split("\n").length > 2) {
       e.currentTarget.classList.toggle(styles["comment-open"]);
     }
   }
@@ -64,7 +65,7 @@ export default function CommentArticles({ postId, isCommentSubmitting }) {
     return (
       <article
         key={comment.commentId}
-        className={`${styles["comment-article"]} ${comment.content.length >= 127 ? styles["text-long"] : ""}`}
+        className={`${styles["comment-article"]} ${comment.content.length >= 127 || comment.content.split("\n").length > 2 ? styles["text-long"] : ""}`}
         onClick={handleCommentClick}
       >
         <ul className={styles["comment-info"]}>
