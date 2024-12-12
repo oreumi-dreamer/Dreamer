@@ -45,14 +45,21 @@ export async function GET(request, { params }) {
 
     let comments = postData.comments || [];
 
-    // 비공개 댓글 필터링
-    comments = comments
-      .filter((comment) => !comment.isDeleted) // isDeleted가 true인 댓글 제외
-      .map((comment) => {
+    // 각 댓글 작성자의 정보를 가져오기 위한 Promise 배열 생성
+    const commentPromises = comments
+      .filter((comment) => !comment.isDeleted)
+      .map(async (comment) => {
+        // 사용자 정보 가져오기
+        const userRef = doc(db, "users", comment.authorUid);
+        const userDoc = await getDoc(userRef);
+        const userData = userDoc.exists() ? userDoc.data() : null;
+
         // 기본 댓글 객체에 isModifiable 추가
         const baseComment = {
           ...comment,
-          isModifiable: comment.authorUid === userData.uid, // 자신의 댓글인 경우 true
+          isModifiable: comment.authorUid === userData.uid,
+          authorName: userData?.userName || "알 수 없음", // 사용자 이름 추가
+          authorId: userData?.userId || "unknown", // 사용자 ID 추가
         };
 
         // 자신의 댓글이거나 게시글 작성자인 경우 모든 정보 표시
@@ -75,10 +82,13 @@ export async function GET(request, { params }) {
         return baseComment;
       });
 
+    // 모든 Promise 완료 대기
+    const processedComments = await Promise.all(commentPromises);
+
     return new Response(
       JSON.stringify({
         success: true,
-        comments,
+        comments: processedComments,
       }),
       {
         status: 200,
