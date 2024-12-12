@@ -93,6 +93,11 @@
   column-gap: 3.8rem;
 }
 
+.profile-form input,
+.profile-form textarea {
+  background-color: var(--background-white);
+}
+
 .profile-form-pic {
   display: flex;
   flex-direction: column;
@@ -115,6 +120,7 @@
   flex-direction: column;
   grid-area: private;
   font-size: var(--small-text-font-size);
+  color: var(--black-font-color);
 }
 
 .profile-form-birthdates {
@@ -145,6 +151,11 @@
   grid-area: day;
 }
 
+.profile-form-birthdate button {
+  background-color: var(--background-white);
+  color: var(--black-font-color);
+}
+
 .profile-form-private {
   display: flex;
   flex-direction: column;
@@ -169,6 +180,10 @@
   justify-content: flex-end;
   align-items: center;
   column-gap: 0.8rem;
+}
+
+.form-btn-row button:nth-child(1) {
+  color: var(--always-black-font);
 }
 
 /* post */
