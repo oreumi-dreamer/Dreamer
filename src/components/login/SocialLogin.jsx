@@ -113,7 +113,6 @@ export default function SocialLogin() {
       // 이메일 회원가입 중인 경우는 리다이렉션하지 않음
       if (exists === false && !showSignupForm) {
         router.push("/signup");
-        console.log("signup");
       } else if (!reduxUser.emailVerified && !showSignupForm) {
         setError("이메일 인증이 필요합니다. 이메일을 확인하세요.");
       } else if (exists && reduxUser.emailVerified && !showSignupForm) {

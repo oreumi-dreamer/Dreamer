@@ -36,7 +36,6 @@ export default function Post({
     try {
       const data = await isMyPost(postId, userId);
       const modalType = data ? "isMyPost" : "isNotMyPost";
-      console.log(modalType, userId);
 
       if (!isOpen) {
         setModalType(modalType);
