@@ -13,6 +13,9 @@ export default function PostModal({ postId, isShow, onClose }) {
   const [comment, setComment] = useState(undefined);
   const [postData, setPostData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isPrivate, setIsPrivate] = useState(false);
+  const [oneiromancy, setOneiromancy] = useState(false);
+  const [isCommentSubmitting, setIsCommentSubmitting] = useState(false);
 
   useEffect(() => {
     const viewPost = async () => {
@@ -49,8 +52,39 @@ export default function PostModal({ postId, isShow, onClose }) {
     return null;
   }
 
-  function handleCommentSubmit(e) {
+  async function handleCommentSubmit(e) {
     e.preventDefault();
+
+    if (!comment || comment.trim().length <= 0) {
+      alert("입력한 댓글의 내용이 없습니다.");
+    }
+    if (comment && comment.trim().length > 0) {
+      try {
+        setIsCommentSubmitting(true);
+        const formData = new FormData();
+        formData.append("content", comment.trim());
+        formData.append("isPrivate", isPrivate);
+        formData.append("isDreamInterpretation", oneiromancy);
+
+        const commentRes = await fetchWithAuth(
+          `/api/comment/create/${postId}`,
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+        if (commentRes.ok) {
+          setComment("");
+          setIsPrivate(false);
+          setOneiromancy(false);
+        } else {
+          alert("댓글 작성 중 오류가 발생했습니다.");
+        }
+      } catch (error) {
+        console.error("댓글 작성 중 오류가 발생했습니다. :", error);
+      }
+    }
+    setIsCommentSubmitting(false);
   }
 
   function handleCheckboxClick(e) {
@@ -313,7 +347,10 @@ export default function PostModal({ postId, isShow, onClose }) {
 
                   <section className={styles["comment-articles-section"]}>
                     <h3 className="sr-only">댓글 모음 확인</h3>
-                    <CommentArticles postId={postId} />
+                    <CommentArticles
+                      postId={postId}
+                      isCommentSubmitting={isCommentSubmitting}
+                    />
                   </section>
                 </section>
               </>
