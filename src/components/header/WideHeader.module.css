@@ -47,11 +47,12 @@
 
 .mode-toggle-btn.light-mode .toggle-switch {
   background-color: var(--black-font-color);
-  background-image: url(/images/toggle-sun.svg);
+  background-image: url(/images/toggle-sun2.svg);
   background-size: 2rem;
   background-repeat: no-repeat;
   background-position: center;
 }
+
 
 .mode-toggle-btn.dark-mode .toggle-switch {
   background-color: var(--dark-mode-text);
