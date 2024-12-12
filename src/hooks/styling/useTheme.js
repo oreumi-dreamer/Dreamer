@@ -32,11 +32,16 @@ export default function useTheme() {
   }, [theme, dispatch]);
 
   const changeTheme = (newTheme) => {
-    if (["light", "dark", "device"].includes(newTheme)) {
-      const appliedTheme = newTheme === "device" ? getSystemTheme() : newTheme;
-      localStorage.setItem("userTheme", newTheme);
-      document.documentElement.setAttribute("data-theme", appliedTheme);
-      dispatch(setUserTheme({ theme: newTheme }));
+    try {
+      if (["light", "dark", "device"].includes(newTheme)) {
+        const appliedTheme =
+          newTheme === "device" ? getSystemTheme() : newTheme;
+        localStorage.setItem("userTheme", newTheme);
+        document.documentElement.setAttribute("data-theme", appliedTheme);
+        dispatch(setUserTheme({ theme: newTheme }));
+      }
+    } catch (error) {
+      console.error("Error changing theme:", error);
     }
   };
 
