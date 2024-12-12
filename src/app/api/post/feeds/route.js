@@ -118,15 +118,30 @@ export async function GET(request, { params }) {
       const now = new Date();
       const postDate = new Date(createdAt);
       const hoursElapsed = (now - postDate) / (1000 * 60 * 60);
+      const threeDaysInHours = 72; // 3일
 
-      // 기본 감쇠율 계산 (로그 함수 사용)
-      const baseDecay = Math.max(
-        0,
-        15 * (1 - Math.log(hoursElapsed + 1) / Math.log(720))
-      ); // 30일 기준
+      let baseDecay;
 
-      // 상호작용 보정
-      const interactionBonus = Math.min(5, (sparkCount + commentsCount) / 10);
+      if (hoursElapsed <= 24) {
+        // 24시간 이내: 높은 점수
+        baseDecay = Math.max(
+          0,
+          15 * (1 - Math.log(hoursElapsed + 1) / Math.log(48))
+        );
+      } else if (hoursElapsed <= threeDaysInHours) {
+        // 1일~3일: 급격한 감소
+        baseDecay = Math.max(
+          0,
+          10 * (1 - Math.log(hoursElapsed + 1) / Math.log(96))
+        );
+      } else {
+        // 3일 이후: 마이너스 점수
+        const daysElapsed = hoursElapsed / 24;
+        baseDecay = -Math.min(5, (daysElapsed - 3) * 0.5); // 하루당 0.5점씩 감소, 최대 -5점
+      }
+
+      // 상호작용 보정 (마이너스 점수도 상호작용으로 만회 가능)
+      const interactionBonus = Math.min(8, (sparkCount + commentsCount) / 8);
 
       return Math.min(15, baseDecay + interactionBonus);
     };
