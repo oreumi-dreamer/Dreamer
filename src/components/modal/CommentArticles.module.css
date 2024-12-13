@@ -12,12 +12,10 @@
   margin: 3rem 0;
   position: relative;
   padding: 1.6rem 4.2rem 2rem 4rem;
-  font-size: var(--small-text-font-size);
 }
 
 .comment-article p {
   width: 100%;
-  line-height: 1.5rem;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
