@@ -32,7 +32,7 @@ export default function CommentArticles({
 
   function handleCommentClick(e) {
     const commentContent = e.currentTarget.querySelector("p").textContent;
-    if (commentContent.length >= 76) {
+    if (commentContent.length >= 75) {
       e.currentTarget.classList.toggle(styles["comment-open"]);
     }
   }
@@ -70,7 +70,7 @@ export default function CommentArticles({
     return (
       <article
         key={comment.commentId}
-        className={`${styles["comment-article"]} ${comment.content.length >= 76 ? styles["text-long"] : ""}`}
+        className={`${styles["comment-article"]} ${comment.content.length >= 75 ? styles["text-long"] : ""}`}
         onClick={handleCommentClick}
       >
         <ul className={styles["comment-info"]}>
