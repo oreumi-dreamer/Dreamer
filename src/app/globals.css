@@ -39,6 +39,7 @@
   --active-header-color: #000;
   --post-text-blur: linear-gradient(#fcfcfc00, #fcfcfc);
   --option-hover-color: #ccc;
+  --focus-border-color: #a54cb4;
 }
 
 @media (prefers-color-scheme: dark) {
