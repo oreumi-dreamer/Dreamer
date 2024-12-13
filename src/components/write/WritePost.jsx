@@ -121,10 +121,10 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
     console.log(tagButtonRef.current.getBoundingClientRect());
   }, [tagButtonRef, tagModalRef, isModalOpen]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (moodButtonRef.current && moodModalRef.current) {
       const updatePosition = () => {
-        const position = calculateModalPosition(moodButtonRef, 400, 400);
+        const position = calculateModalPosition(moodButtonRef, -5, 12);
         if (position) {
           setMoodModalStyle(position);
         }
@@ -136,7 +136,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
         window.removeEventListener("resize", updatePosition);
       };
     }
-  }, [moodButtonRef, moodModalRef, isModalOpen]);
+  }, [moodButtonRef, moodModalRef, isMoodModalOpen]);
 
   // 날짜
   const today = new Date();
