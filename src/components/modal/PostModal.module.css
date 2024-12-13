@@ -318,9 +318,6 @@ input[type="checkbox"]:checked + label.checkbox::before {
     gap: 1rem;
     flex-wrap: wrap;
   }
-  .button-list span {
-    font-size: var(--small-text-font-size);
-  }
 
   .button-list li:first-of-type {
     position: relative;
