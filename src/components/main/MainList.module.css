@@ -64,6 +64,27 @@ div.divider {
   padding: 2.4rem 4rem;
   margin-top: 0.8rem;
   cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.tomong-stamp {
+  position: absolute;
+  top: -3.15rem;
+  right: -3rem;
+  width: 13.5rem;
+  opacity: var(--tomong-stamp-one-fifth-opacity);
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
+  opacity: var(--tomong-stamp-one-fifth-opacity);
 }
 
 .post-content .post-text {
@@ -74,6 +95,11 @@ div.divider {
   -webkit-box-orient: vertical;
   white-space: pre-wrap;
   color: var(--black-font-color);
+}
+
+.post-text {
+  position: relative;
+  z-index: 10;
 }
 
 .post-content .post-img-wrap {
