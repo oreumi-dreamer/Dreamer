@@ -47,6 +47,10 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
   useEffect(() => {
     const handleEscKey = (e) => {
       if (isWriteModalOpen && e.key === "Escape") {
+        console.log("esc키 누름!");
+
+        e.preventDefault();
+        e.stopPropagation();
         handleStopWriting();
       }
     };
