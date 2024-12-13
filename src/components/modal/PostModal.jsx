@@ -377,6 +377,7 @@ export default function PostModal({ postId, isShow, onClose }) {
                     <CommentArticles
                       postId={postId}
                       isCommentSubmitting={isCommentSubmitting}
+                      isMyself={postData.isMyself}
                     />
                   </section>
                 </section>

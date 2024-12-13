@@ -6,10 +6,15 @@ import postTime from "@/utils/postTime";
 import { useSelector } from "react-redux";
 import Loading from "../Loading";
 
-export default function CommentArticles({ postId, isCommentSubmitting }) {
+export default function CommentArticles({
+  postId,
+  isCommentSubmitting,
+  isMyself,
+}) {
   const [commentData, setCommentData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const { user } = useSelector((state) => state.auth);
+
   useEffect(() => {
     const viewComments = async () => {
       try {
@@ -117,7 +122,7 @@ export default function CommentArticles({ postId, isCommentSubmitting }) {
         <p>
           {!comment.isPrivate
             ? comment.content
-            : comment.authorId === user.userId
+            : isMyself
               ? comment.content
               : "비공개 댓글입니다 :)"}
         </p>
