@@ -140,13 +140,14 @@ export default function PostModal({ postId, isShow, onClose }) {
   }
 
   let tomongStampUrl = "/images/tomong-stamp.png";
-
+  let tomongIconUrl = "/images/tomong.svg";
   if (
     theme === "dark" ||
     (theme === "device" &&
       window.matchMedia("(prefers-color-scheme: dark)").matches)
   ) {
     tomongStampUrl = "/images/tomong-stamp-dark.png";
+    tomongIconUrl = "/images/tomong-dark.svg";
   }
 
   return (
@@ -323,6 +324,12 @@ export default function PostModal({ postId, isShow, onClose }) {
                       <>
                         <Divider />
                         <h3 className={styles["tomong-result-heading"]}>
+                          <img
+                            className={styles["tomong-icon"]}
+                            src={tomongIconUrl}
+                            alt=""
+                            width={16}
+                          />
                           토몽이의 해몽 결과:
                         </h3>
                         <div

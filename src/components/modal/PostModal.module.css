@@ -202,7 +202,16 @@ html:has(.post-modal) {
 }
 
 .tomong-result-heading {
+  display: inline-flex;
+  align-items: center;
+  column-gap: 0.5rem;
   margin-bottom: 1.6rem;
+}
+
+img.tomong-icon {
+  width: 3.2rem;
+  height: 3.2rem;
+  margin: 0;
 }
 
 .close-btn {
