@@ -319,9 +319,9 @@ export default function PostModal({ postId, isShow, onClose }) {
                           alt={`이미지${index}`}
                         />
                       ))}
-                    <Divider />
                     {postData.tomong && (
                       <>
+                        <Divider />
                         <h3 className={styles["tomong-result-heading"]}>
                           토몽이의 해몽 결과:
                         </h3>
