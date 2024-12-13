@@ -30,8 +30,6 @@ export async function GET(request) {
 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
-  console.log("baseUrl: ", baseUrl); // 디버그 용 콘솔 로그
-
   const idToken = authorization.split("Bearer ")[1];
   const userData = await verifyUser(baseUrl, idToken);
 
