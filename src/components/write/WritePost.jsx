@@ -33,7 +33,12 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
   // 외부 클릭
   const handleBackgroundClick = (e) => {
     if (e.target === e.currentTarget) {
-      closeWriteModal();
+      if (isContentChanged) {
+        setIsStopModalOpen(true);
+        // closeWriteModal();
+      } else {
+        closeWriteModal();
+      }
     }
   };
 
