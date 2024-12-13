@@ -134,7 +134,7 @@ export async function GET(request) {
                         await updateDoc(postRef, {
                           tomong: arrayUnion(tomongData),
                           tomongLength: tomongLength,
-                          tomongSelected: tomongLength,
+                          // tomongSelected: tomongLength,
                         });
                       }
                     }
