@@ -1,3 +1,6 @@
+// 사용자가 존재 여부와 존재 시 사용자 정보를 반환하는 API
+// /api/auth/verify/route.js
+
 import { headers } from "next/headers";
 import { auth, db } from "@/lib/firebaseAdmin";
 import { NextResponse } from "next/server";
@@ -25,10 +28,13 @@ export async function GET() {
 
     return NextResponse.json({
       exists: userDoc.exists,
+      userId: userDoc.data()?.userId,
       userName: userDoc.data()?.userName,
+      profileImageUrl: userDoc.data()?.profileImageUrl,
       email: email,
       via: via,
       uid: uid,
+      theme: userDoc.data()?.theme,
     });
   } catch (error) {
     console.error("Verification error:", error);

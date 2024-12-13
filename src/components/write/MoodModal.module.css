@@ -1,0 +1,85 @@
+.modal-on-writepost {
+  width: 20rem;
+  height: 20rem;
+  border: 2px solid rgba(0, 0, 0, 0.6);
+  border-radius: 1rem;
+  padding: 0.8rem 1.2rem;
+  background-color: var(--background-white);
+  font-size: var(--small-text-font-size);
+  word-break: keep-all;
+}
+.modal-on-writepost::backdrop {
+  opacity: 0;
+}
+.modal-on-writepost .btn-reset-select {
+  background-color: var(--none-active-color);
+  font-size: 1.2rem;
+  padding: 0.4rem 1.2rem;
+  margin: 0;
+  margin-bottom: 1rem;
+}
+.hashtag-picker-container {
+  width: 100%;
+  height: 66%;
+  overflow-y: scroll;
+}
+.hashtag-picker-container::-webkit-scrollbar {
+  background-color: inherit;
+  width: 0.8rem;
+}
+.hashtag-picker-container::-webkit-scrollbar-thumb {
+  background-color: var(--none-active-color);
+  width: 100%;
+  background-clip: padding-box;
+  /* border: 0.6rem solid transparent; */
+  border-radius: 1rem;
+}
+.hashtag-picker-container::-webkit-scrollbar-track {
+  border-radius: 1rem;
+}
+.hashtag-picker-container label {
+  position: relative;
+  top: -0.3rem;
+}
+.hashtag-picker-container ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+.hashtag-picker-container li {
+  width: fit-content;
+}
+.hashtag-picker {
+  margin: 0.4rem;
+  appearance: none;
+}
+.hashtag-picker::after {
+  background-image: url("/images/checkbox.svg");
+  content: "";
+  background-position: bottom;
+  background-size: contain;
+  display: inline-block;
+  width: 1.6rem;
+  height: 1.6rem;
+}
+.hashtag-picker:checked::after {
+  background-image: url("/images/checkbox-checked.svg");
+  content: "";
+  background-position: bottom;
+  background-size: contain;
+}
+.sub-text-container {
+  position: absolute;
+  right: 1.2rem;
+  bottom: 0.6rem;
+}
+.sub-text {
+  opacity: 0.6;
+}
+.modal-on-writepost button {
+  padding: 0.4rem 1.6rem;
+  border-radius: 0.5rem;
+  color: white;
+  background-color: var(--deep-pink-color);
+  margin-left: 0.8rem;
+}

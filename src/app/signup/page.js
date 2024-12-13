@@ -3,30 +3,30 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
-import { useSignupSubmit } from "@/hooks/signup/useSignupSubmit"; // 추가
+import { useSignupSubmit } from "@/hooks/signup/useSignupSubmit";
 import BasicInfoForm from "@/components/signup/BasicInfoForm";
 import ProfileForm from "@/components/signup/ProfileForm";
 import { validateFirstForm, validateSecondForm } from "@/utils/validation";
 import Loading from "@/components/Loading";
 import { useDispatch, useSelector } from "react-redux";
 import { checkUserExists } from "@/utils/auth/checkUser";
+import SignupHeader from "@/components/signup/SignupHeader";
 
 export default function Signup() {
   const router = useRouter();
   const dispatch = useDispatch();
-
   const [process, setProcess] = useState(0);
   const [isJoined, setIsJoined] = useState(false);
 
-  const { idToken } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth);
 
-  // 이미 가입한 사용자는 홈으로 이동
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const exists = await checkUserExists(idToken, dispatch);
+        if (!user) return;
 
-        // exists가 명확하게 true일 때만 리다이렉트
+        const exists = await checkUserExists(dispatch);
+
         if (exists === true) {
           router.push("/");
         }
@@ -35,10 +35,8 @@ export default function Signup() {
       }
     };
 
-    if (idToken) {
-      checkAuth();
-    }
-  }, [idToken, router, dispatch]);
+    checkAuth();
+  }, [user, router, dispatch]);
 
   // 회원가입 완료 시 홈으로 이동
   useEffect(() => {
@@ -52,7 +50,7 @@ export default function Signup() {
   const [userName, setUserName] = useState("");
   const [year, setYear] = useState(0);
   const [month, setMonth] = useState(0);
-  const [day, setDay] = useState(1);
+  const [day, setDay] = useState(0);
   const [profileImage, setProfileImage] = useState("");
   const [bio, setBio] = useState("");
   const [theme, setTheme] = useState("deviceMode");
@@ -81,7 +79,7 @@ export default function Signup() {
 
   async function handleFirstFormSubmit(e) {
     e.preventDefault();
-    const isValid = await validateFirstForm(e, styles);
+    const isValid = await validateFirstForm(e);
     if (isValid) {
       setProcess(1);
     }
@@ -153,39 +151,35 @@ export default function Signup() {
   });
 
   return (
-    <>
-      <header>
-        <h1>Dreamer</h1>
-      </header>
-      <main>
-        <h2 className="sr-only">회원 가입</h2>
-        {isLoading && <div>처리중...</div>}
-        {error && <div className={styles.error}>{error}</div>}
-        {isJoined ? (
-          <Loading />
-        ) : (
-          <>
-            {process === 0 && (
-              <BasicInfoForm
-                onSubmit={handleFirstFormSubmit}
-                formData={formData}
-                setters={setters}
-                styles={styles}
-              />
-            )}
-            {process === 1 && (
-              <ProfileForm
-                onSubmit={handleSecondFormSubmit}
-                onSkip={handleSkipForm}
-                onPrevious={() => setProcess(0)}
-                formData={formData}
-                setters={setters}
-                styles={styles}
-              />
-            )}
-          </>
-        )}
-      </main>
-    </>
+    <main className={styles["signup-main"]}>
+      <SignupHeader />
+      <h2 className="sr-only">회원 가입</h2>
+      {isLoading && <Loading type="small" />}
+      {error && <div className={styles.error}>{error}</div>}
+      {isJoined ? (
+        <Loading type="small" />
+      ) : (
+        <>
+          {process === 0 && (
+            <BasicInfoForm
+              onSubmit={handleFirstFormSubmit}
+              formData={formData}
+              setters={setters}
+            />
+          )}
+          {process === 1 && (
+            <ProfileForm
+              onSubmit={handleSecondFormSubmit}
+              onSkip={handleSkipForm}
+              onPrevious={() => {
+                setProcess(0);
+              }}
+              formData={formData}
+              setters={setters}
+            />
+          )}
+        </>
+      )}
+    </main>
   );
 }

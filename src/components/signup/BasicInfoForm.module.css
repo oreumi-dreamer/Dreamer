@@ -1,0 +1,133 @@
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2.4rem;
+  width: 100%;
+  position: relative;
+}
+.signup-form p:first-of-type {
+  font-size: var(--big-text-font-size);
+  font-weight: bold;
+  margin-bottom: 1.6rem;
+}
+
+.signup-form p:nth-of-type(2) {
+  font-size: var(--h3-font-size);
+  margin-bottom: 2.4rem;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.invalid-text {
+  color: #a12525;
+}
+
+.form-field input {
+  width: 44rem;
+  padding: 1.2rem 0.2rem;
+  background-color: #e8e8e8;
+  border: none;
+  border-radius: 1rem;
+  font-size: var(--body-font-size);
+  text-indent: 2rem;
+}
+.form-field input:focus,
+.form-field select:focus {
+  outline: none;
+  border: 0.2rem solid #a54cb4;
+}
+
+.form-field .invalid {
+  border: 0.2rem solid #f41e1e;
+}
+
+.form-field label {
+  font-size: var(--h2-font-size);
+  font-weight: bold;
+  width: 13.6rem;
+  position: relative;
+  margin-top: 1.6rem;
+}
+
+.form-field label img {
+  position: absolute;
+  top: 3.5rem;
+  right: -36rem;
+}
+
+.signup-form .user-login-field p {
+  font-size: var(--body-font-size);
+  margin: 4rem 0 0.8rem 0;
+  text-align: center;
+}
+
+.input-wrapper {
+  display: flex;
+  gap: 0.8rem;
+}
+
+.input-wrapper select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: #e8e8e8;
+  border: none;
+  border-radius: 1rem;
+  padding: 1.2rem 2rem;
+  font-size: var(--body-font-size);
+  width: 12.6rem;
+  cursor: pointer;
+
+  background-image: url("/images/comment-close.svg");
+  background-repeat: no-repeat;
+  background-size: 2.4rem 2.4rem;
+  object-position: 2rem 2rem;
+  background-position: right 0.8rem center;
+}
+
+.input-wrapper .selected {
+  background-image: url("/images/comment-open.svg");
+}
+
+.input-wrapper select:first-of-type {
+  width: 16rem;
+  margin-right: 1.6rem;
+}
+
+.login-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.login-buttons li:last-of-type {
+  position: relative;
+  top: 1rem;
+}
+
+.next-btn {
+  padding: 0.8rem 2.4rem;
+  background-color: #f89b9b;
+  border-radius: 1rem;
+  font-size: var(--body-font-size);
+  color: #ffffff;
+  position: absolute;
+  right: 4rem;
+  bottom: -2.1rem;
+}
+
+.next-btn:hover {
+  background-color: #cd6969;
+}
+
+.next-btn:active {
+  background-color: #903434;
+}
+
+.next-btn:disabled {
+  background-color: #77777b;
+}

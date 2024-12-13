@@ -1,0 +1,223 @@
+.new-post {
+  max-width: 74rem;
+  width: calc(100% - 12rem);
+  height: calc(100% - 8rem);
+  max-height: 100rem;
+  min-height: 40rem;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border: 0;
+  background-color: var(--background-lightgray);
+  border-radius: 1rem;
+  padding: 3.5rem 2.5rem;
+  box-shadow: 0 0 1.5rem 0 rgba(0, 0, 0, 0.2);
+}
+.new-post::backdrop {
+  background-color: var(--background-dimmed);
+}
+.user-prof {
+  display: flex;
+  gap: 1.6rem;
+  align-items: center;
+  margin-bottom: 3rem;
+}
+.user-name {
+  display: flex;
+  font-size: 3.2rem;
+  font-weight: 700;
+}
+.user-id {
+  font-weight: normal;
+  color: var(--gray-font-color);
+}
+.btn-close {
+  width: 3rem;
+  height: 3rem;
+  position: absolute;
+  right: 2.5rem;
+  top: 2rem;
+  background-color: inherit;
+}
+.new-post-form {
+  height: 90%;
+  min-height: auto;
+  display: flex;
+  flex-direction: column;
+}
+#title {
+  background-color: var(--background-white);
+  display: flex;
+  gap: 1rem;
+  width: 88%;
+  padding: 2rem;
+  border-radius: 1rem;
+  margin-right: 1rem;
+  position: relative;
+}
+#title input[type="text"] {
+  background-color: inherit;
+  border: 0;
+
+  margin-left: 1rem;
+  width: 52rem;
+}
+#title input[type="checkbox"] {
+  appearance: none;
+}
+#title input[type="checkbox"]::after {
+  background-image: url("/images/checkbox.svg");
+  content: "";
+  background-position: center;
+  background-size: contain;
+  display: inline-block;
+  width: 2rem;
+  height: 2rem;
+}
+#title input[type="checkbox"]:checked::after {
+  background-image: url("/images/checkbox-checked.svg");
+  content: "";
+  background-position: center;
+  background-size: contain;
+}
+#hidden {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
+  position: absolute;
+  right: -12%;
+}
+.write-field {
+  background-color: var(--background-white);
+  border-radius: 1rem;
+  height: 100%;
+  margin-top: 1rem;
+
+  margin-bottom: 2rem;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+.write-field-opt {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-around;
+  gap: 0.4rem;
+  margin: 0 1.6rem;
+
+  background-image: url("/images/line-vertical.svg");
+}
+.genre-picker {
+  display: flex;
+}
+.genre-picker ul {
+  display: flex;
+  flex-direction: row;
+  gap: 0.4rem;
+  align-items: center;
+  margin-left: 1rem;
+}
+.genre-picker li {
+  padding: 0.2rem 1rem;
+  border-radius: 3rem;
+}
+.user-feeling {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.btn-feeling {
+  background-color: var(--background-lightgray);
+  width: 14rem;
+  height: 2rem;
+  border: 0;
+  border-radius: 1rem;
+}
+.btn-feeling-selected {
+  height: 2rem;
+  padding: 0 2rem;
+  background-color: var(--background-lightgray);
+  border-radius: 1rem;
+}
+.btn-feeling-selected ul {
+  display: flex;
+  gap: 1rem;
+}
+.btn-feeling-selected li {
+  list-style: none;
+}
+/* 별점 */
+.rate-star-container {
+  display: flex;
+  align-items: center;
+}
+.rate-star-container p {
+  margin-right: 0.2rem;
+}
+.rate-star {
+  appearance: none;
+}
+.rate-star::after {
+  background-image: url("/images/star.svg");
+  content: "";
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: block;
+  width: 2.4rem;
+  height: 2.4rem;
+}
+.rate-star:hover::after,
+.rate-star:has(~ .rate-star:hover)::after,
+.rate-star:checked::after,
+.rate-star:has(~ .rate-star:checked)::after {
+  background-image: url("/images/star-fill.svg");
+  display: block;
+  width: 2.4rem;
+  height: 2.4rem;
+}
+.rate-star:hover ~ .rate-star::after {
+  background-image: url("/images/star.svg");
+}
+.break-line {
+  display: inline-block;
+  width: 100%;
+  height: 1rem;
+  background-image: url("/images/dash.svg");
+  background-repeat: repeat-x;
+  background-position: center;
+}
+.text-field-area {
+  width: 100%;
+  height: calc(100% - 5rem);
+  padding: 1rem;
+
+  resize: none;
+  border: 0;
+}
+.text-field-area::-webkit-scrollbar {
+  background-color: inherit;
+  width: 2rem;
+}
+.text-field-area::-webkit-scrollbar-thumb {
+  background-color: var(--none-active-color);
+  width: 100%;
+  background-clip: padding-box;
+  border: 0.6rem solid transparent;
+  border-radius: 1rem;
+}
+.text-field-area::-webkit-scrollbar-track {
+  border-radius: 1rem;
+}
+.btn-submit-area {
+  margin-top: 2rem;
+  position: absolute;
+  right: 2.5rem;
+  bottom: 2rem;
+}
+.btn-submit {
+  background-color: var(--deep-pink-color);
+  padding: 0.8rem 4rem;
+  border-radius: 0.4rem;
+}

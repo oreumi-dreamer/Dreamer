@@ -1,46 +1,120 @@
-import React from "react";
-import styles from "./Header.module.css";
-import Link from "next/link";
-import {MoreModal, ChangeModeModal} from "./HeaderModal";
+"use client";
 
+import React, { useRef, useEffect, useState } from "react";
+import WideHeader from "@/components/header/WideHeader";
+import { openModal, closeModal } from "@/store/modalSlice";
+import { setActiveState } from "@/store/activeStateSlice";
+import { useDispatch, useSelector } from "react-redux";
+import useMediaQuery from "@/hooks/styling/useMediaQuery";
+import NarrowHeader from "./NarrowHeader";
+import useTheme from "@/hooks/styling/useTheme";
+import WritePost from "../write/WritePost";
 export default function Header() {
+  const buttonRef = useRef(null);
+  const { isOpen, modalType } = useSelector((state) => state.modal);
+  const { isActive } = useSelector((state) => state.activeState);
+  const { theme, changeTheme } = useTheme();
+  const isNarrowHeader = useMediaQuery("(max-width: 1152px)");
+  const dispatch = useDispatch();
+  const isLightMode =
+    theme === "light" || localStorage.getItem("theme") === "light";
+  const isDarkMode =
+    theme === "dark" || localStorage.getItem("theme") === "dark";
+
+  const getActiveStateFromURL = (path) => {
+    switch (path) {
+      case "/":
+        return "홈";
+      case "/search":
+        return "검색";
+      case "/alarm":
+        return "알람";
+      default:
+        return "";
+    }
+  };
+
+  const handleURLChange = () => {
+    const currentPath = window.location.pathname;
+    const newActiveState = getActiveStateFromURL(currentPath);
+    dispatch(setActiveState(newActiveState));
+  };
+
+  // URL 변경 감지 및 상태 업데이트
+  useEffect(() => {
+    handleURLChange(); // 초기 URL 상태 설정
+
+    window.addEventListener("popstate", handleURLChange);
+    return () => {
+      window.removeEventListener("popstate", handleURLChange);
+    };
+  }, []);
+
+  const handleMoreBtnClick = () => {
+    if (!isOpen) {
+      dispatch(openModal("moreModal"));
+    } else {
+      if (modalType === "moreModal" || modalType === "changeMode") {
+        dispatch(closeModal());
+      }
+    }
+  };
+
+  const handleActiveBtn = (btn) => {
+    dispatch(setActiveState(btn));
+  };
+
+  const handleToggleBtn = () => {
+    if (isLightMode) {
+      changeTheme("dark");
+    } else if (isDarkMode) {
+      changeTheme("light");
+    }
+  };
+  const [isWriteModalOpen, setIsWriteModalOpen] = useState(false);
+  const handleWriteBtnClick = () => {
+    setIsWriteModalOpen(true);
+  };
+  const closeWriteModal = () => {
+    if (isWriteModalOpen === true) {
+      setIsWriteModalOpen(false);
+    }
+    window.location.pathname = "/";
+  };
+
   return (
-    <header className={styles.header}>
-      <h1 className={styles.logo}>
-        <Link href={"#"}>
-          <img src="/images/logo-full.svg" alt="logo" />
-        </Link>
-      </h1>
-      <button className={styles["mode-toggle-btn"]}>
-        <div className={styles["toggle-switch"]}></div>
-      </button>
-      <div className={styles["header-btn-container"]}>
-        <nav>
-          <ul className={styles.nav}>
-            <li className={styles["nav-item"]}>
-              <button className={`${styles.home} ${styles.active}`}>홈</button>
-            </li>
-            <li className={styles["nav-item"]}>
-              <button className={styles.search}>검색</button>
-            </li>
-            <li className={styles["nav-item"]}>
-              <button className={styles.message}>메시지</button>
-            </li>
-            <li className={styles["nav-item"]}>
-              <button className={styles.alarm}>알림</button>
-            </li>
-            <li className={styles["nav-item"]}>
-              <button className={styles.wright}>글쓰기</button>
-            </li>
-          </ul>
-        </nav>
-        <button href={"#"} className={styles["profile-btn"]}>
-          <img src="/images/basic-profile.svg" alt="프로필사진" />
-          <p>JINI</p>
-        </button>
-        <button className={styles.more}>더보기</button>
-        <MoreModal/>
-      </div>
-    </header>
+    <>
+      {isNarrowHeader ? (
+        <>
+          <NarrowHeader
+            onMoreBtnClick={() => handleMoreBtnClick("moreModal")}
+            buttonRef={buttonRef}
+            isActive={isActive}
+            handleActiveBtn={handleActiveBtn}
+            handleWriteBtnClick={handleWriteBtnClick}
+            handleToggleBtn={handleToggleBtn}
+          />
+          <WritePost
+            isWriteModalOpen={isWriteModalOpen}
+            closeWriteModal={closeWriteModal}
+          />
+        </>
+      ) : (
+        <>
+          <WideHeader
+            onMoreBtnClick={() => handleMoreBtnClick("moreModal")}
+            buttonRef={buttonRef}
+            isActive={isActive}
+            handleActiveBtn={handleActiveBtn}
+            handleWriteBtnClick={handleWriteBtnClick}
+            handleToggleBtn={handleToggleBtn}
+          />
+          <WritePost
+            isWriteModalOpen={isWriteModalOpen}
+            closeWriteModal={closeWriteModal}
+          />
+        </>
+      )}
+    </>
   );
 }

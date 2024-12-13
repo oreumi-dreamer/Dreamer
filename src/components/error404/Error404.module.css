@@ -6,21 +6,26 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding-bottom: 4rem;
 }
 
 .logo {
-  width: 80rem;
+  width: 60rem;
+}
+
+.logo img {
+  width: 60rem;
 }
 
 .page-not-found {
-  font-size: 4rem;
-  padding: 4rem 0;
+  font-size: var(--h2-font-size);
+  padding: 2rem 0 4rem;
 }
 
 .go-back-btn {
-  font-size: 4rem;
+  font-size: var(--body-font-size);
   background-color: var(--background-dark);
-  color: var(--background-color);
-  padding: 1.5rem 9rem;
-  border-radius: 2rem;
+  color: var(--background-white);
+  padding: 1.5rem 7rem;
+  border-radius: 1rem;
 }

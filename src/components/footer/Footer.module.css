@@ -1,0 +1,111 @@
+.footer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 19.1rem 0 0 0;
+  max-width: 100%;
+}
+
+.footer-search-inp {
+  max-width: 26rem;
+  height: 6rem;
+  border: none;
+  border-radius: 5rem;
+  filter: drop-shadow(6px 6px 9.4px rgba(0, 0, 0, 0.15));
+  padding: 0 6rem;
+  background-image: url(/images/search.svg);
+  background-repeat: no-repeat;
+  background-position: left 2rem bottom 1rem;
+}
+
+.recommend-wrap .recommend-title {
+  font-size: var(--h2-font-size);
+  padding: 3rem 0 2rem 0;
+  white-space: nowrap;
+  color: var(--black-font-color);
+  display: inline-flex;
+  align-items: center;
+}
+
+.recommend-wrap .recommend-title::before {
+  content: url(/images/recommend-icon.svg);
+  width: 4rem;
+  height: 4rem;
+  display: inline-block;
+}
+
+[data-theme="dark"] .recommend-wrap .recommend-title::before {
+  filter: invert(1);
+}
+
+.recommend-wrap .recommend-list {
+  max-width: 26rem;
+  background-color: var(--background-white);
+  border-radius: 1.5rem;
+  filter: drop-shadow(6px 6px 9.4px rgba(0, 0, 0, 0.15));
+}
+
+.recommend-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  padding: 2rem;
+}
+
+.recommend-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.8rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.recommend-list li a {
+  color: var(--black-font-color);
+  font-size: var(--small-text-font-size);
+  grid-area: name;
+  display: flex;
+  flex-direction: column;
+}
+
+.recommend-list li img {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  grid-area: img;
+  object-fit: cover;
+}
+
+.recommend-follow {
+  padding: 0.8rem 1.2rem;
+  font-size: var(--small-text-font-size);
+  grid-area: follow;
+  margin-left: auto;
+  height: fit-content;
+}
+
+.footer-policy {
+  max-width: 26rem;
+  height: fit-content;
+  font-size: var(--small-text-font-size);
+  margin-top: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: var(--black-font-color);
+}
+
+.footer-policy ul {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 1.6rem;
+  margin-bottom: 1.6rem;
+}
+
+.footer-policy ul li a {
+  color: var(--black-font-color);
+}
+
+.footer-policy ul li a strong {
+  font-weight: 700;
+}

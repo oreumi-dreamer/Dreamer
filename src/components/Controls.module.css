@@ -1,0 +1,242 @@
+.button {
+  background-color: var(--dark-white-color);
+  color: var(--black-font-color);
+  width: fit-content;
+  border-radius: 0.5rem;
+  padding: 0.8rem 2.4rem;
+  font-size: var(--h3-font-size);
+  cursor: pointer;
+}
+
+.button-highlight {
+  background-color: var(--deep-pink-color);
+  color: var(--background-white);
+}
+
+.button input[type="file"] {
+  display: none;
+}
+
+.button:hover {
+  background-color: var(--hover-btn-color);
+}
+
+.button.active {
+  background-color: var(--active-btn-color);
+}
+
+.button:disabled {
+  background-color: var(--none-active-color);
+  cursor: not-allowed;
+}
+
+.input-text,
+.textarea {
+  color: var(--black-font-color);
+  border-radius: 1rem;
+  padding: 1.2rem 2rem 1.3rem;
+  border: none;
+  font-size: var(--h3-font-size);
+}
+
+.textarea {
+  height: 8.8rem;
+  resize: none;
+}
+
+.selectContainer {
+  position: relative;
+  width: 100%;
+}
+
+.selectButton {
+  width: 100%;
+  padding: 1rem 2rem;
+  border-radius: 1rem;
+  background-color: #e8e8e8;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  white-space: nowrap;
+  font-size: var(--body-font-size);
+}
+
+.selectButton::after {
+  content: "";
+  background-image: url("/images/arrow-down.svg");
+  width: 2rem;
+  height: 2rem;
+  background-size: 16px 10px;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translate(0, -50%);
+  margin-right: 0.8rem;
+}
+
+.optionsList {
+  position: absolute;
+  top: calc(100% + 1rem);
+  left: 0;
+  right: 0;
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+  background-color: var(--background-white);
+  border-radius: 10px;
+  padding: 0.4rem;
+  list-style: none;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.8rem;
+  color: var(--black-font-color);
+}
+/* option 사이마다 optionsList의 구분 선 가상 요소 추가 */
+
+.option {
+  padding: 0.8rem 1.8rem;
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: center;
+  position: relative;
+  font-size: var(--body-font-size);
+}
+
+.option:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  bottom: -0.4rem;
+  left: 50%;
+  width: 10rem;
+  height: 1px;
+  transform: translate(-50%, 100%);
+  background-color: #ccc; /* 구분선 색상 */
+}
+
+.option:hover,
+.focused {
+  background-color: var(--option-hover-color);
+}
+
+.label {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.checkbox {
+  display: none;
+}
+
+.checkbox-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.checkbox-col::before {
+  content: "";
+  width: 4rem;
+  height: 4rem;
+  background-image: url("/images/checkbox.svg");
+  background-size: contain;
+  margin-bottom: 0.4rem;
+}
+
+.checkbox-col:has(input:checked)::before {
+  background-image: url("/images/checkbox-checked.svg");
+}
+
+.login-form {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  row-gap: 1.6rem;
+  align-items: center;
+  margin-top: 2.4rem;
+  width: 80vw;
+  position: relative;
+  background-color: #fff;
+  border-radius: 2rem;
+  padding: 4.4rem 7rem 5.3rem;
+  margin: 4rem;
+}
+
+.login-form label {
+  width: 100%;
+  font-size: var(--h3-font-size);
+  color: var(--black-font-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.login-form label input {
+  width: max-content;
+  margin-left: 1.6rem;
+}
+
+@media (max-width: 560px) {
+  .login-form label {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .login-form label input {
+    width: 100%;
+    margin-left: 0;
+  }
+}
+
+.button-left-bottom {
+  position: absolute;
+  bottom: 2.4rem;
+  left: 2.4rem;
+}
+
+.scrollbar-track {
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 8px;
+  height: 100%;
+  z-index: 50;
+  background-color: rgba(229, 231, 235, 0.2);
+}
+
+.scrollbar-thumb {
+  position: absolute;
+  width: 100%;
+  background-color: #888;
+  border-radius: 999px;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 150ms ease;
+}
+
+.scrollbar-thumb:hover {
+  opacity: 0.8;
+}
+
+/* dashed divider */
+.dashed-line {
+  width: 100%;
+  height: 2px;
+  background-image: url(/images/dash.svg);
+  background-size: 12px 2px;
+  background-repeat: repeat-x;
+  background-position: center;
+  padding: 4rem 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  /* // 다크 모드일 시 대시의 배경 이미지를 변경 */
+  .dashed-line {
+    background-image: url(/images/dash-bright.svg);
+  }
+}

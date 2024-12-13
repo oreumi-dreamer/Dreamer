@@ -2,13 +2,13 @@
 
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { loginSuccess } from "@/store/authSlice";
+import { loginSuccess, setRegistrationComplete } from "@/store/authSlice";
+import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 
 export function useSignupSubmit() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const dispatch = useDispatch();
-  const { idToken } = useSelector((state) => state.auth);
 
   const submitSignup = async (formData) => {
     if (isLoading) return;
@@ -17,15 +17,11 @@ export function useSignupSubmit() {
       setIsLoading(true);
       setError(null);
 
-      const response = await fetch("/api/join", {
+      const response = await fetchWithAuth("/api/join", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${idToken}`,
-        },
-        body: JSON.stringify({
+        body: {
           ...formData,
-        }),
+        },
       });
 
       const data = await response.json();
@@ -35,14 +31,19 @@ export function useSignupSubmit() {
         dispatch(
           loginSuccess({
             user: {
+              exists: true,
               uid: data.uid,
               email: data.email,
+              userId: formData.userId,
               userName: formData.userName,
+              profileImageUrl: data.profileImageUrl,
+              theme: formData.theme,
             },
-            token: idToken,
-            isRegistrationComplete: true,
           })
         );
+
+        dispatch(setRegistrationComplete());
+
         return true;
       } else {
         throw new Error(data.message);

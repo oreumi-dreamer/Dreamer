@@ -1,0 +1,47 @@
+.drop-down {
+  width: 15rem;
+  background-color: var(--background-white);
+  border-radius: 0.8rem;
+  filter: drop-shadow(6px 6px 9.4px rgba(0, 0, 0, 0.15));
+}
+
+.drop-down-items .drop-down-item {
+  width: 15rem;
+  font-size: var(--body-font-size);
+  padding: 0.5rem 0;
+  margin: 0;
+  text-align: center;
+  color: var(--black-font-color);
+}
+
+.drop-down-items .drop-down-item:hover {
+  background-color: var(--background-color);
+}
+
+.drop-down-items .drop-down-item:active {
+  background-color: var(--active-btn-color);
+  color: var(--background-white);
+}
+
+.drop-down-items .drop-down-item.edit-btn:hover {
+  border-radius: 0.8rem 0.8rem 0 0;
+}
+
+.drop-down-items .drop-down-item.secret-btn:hover {
+  border-radius: 0 0 0.8rem 0.8rem;
+}
+
+.drop-down-items .drop-down-item.report-btn:hover {
+  border-radius: 0.8rem;
+}
+
+/* dark mode */
+@media (prefers-color-scheme: dark) {
+  [data-theme="device"] .drop-down {
+    background-color: var(--dark-main-modal-color);
+  }
+}
+
+[data-theme="dark"] .drop-down {
+  background-color: var(--dark-main-modal-color);
+}

@@ -1,0 +1,208 @@
+.container {
+  width: 100vw;
+  height: 100dvh;
+  background: var(--background-blue-top);
+  display: flex;
+  flex-direction: column;
+  row-gap: 1.6rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.main {
+  width: 80vw;
+  height: 80vh;
+  background-color: #fff;
+  border-radius: 1.5rem;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  row-gap: 1.6rem;
+  padding: 3rem;
+  align-items: center;
+  justify-items: center;
+}
+
+.main-result {
+  width: 80vw;
+  height: 80vh;
+  background-color: #fff;
+  border-radius: 1.5rem;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  padding: 3rem;
+  align-items: center;
+  justify-items: center;
+  overflow-y: auto;
+}
+
+.tomong-body {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow-y: hidden;
+  row-gap: 3.2rem;
+}
+
+.headings {
+  font-size: var(--h2-font-size);
+  line-height: 1.5;
+  margin-bottom: 1.6rem;
+}
+
+.intro {
+  text-align: center;
+  margin-bottom: 1.6rem;
+}
+
+.btn-row {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.dreams-list {
+  display: inline-flex;
+  flex-wrap: wrap;
+  width: fit-content;
+  height: 100%;
+  overflow-y: scroll;
+}
+
+.dreams-list li {
+  width: 30%;
+  height: fit-content;
+  white-space: pre-wrap;
+  padding: 1rem;
+  border-radius: 1.5rem;
+  box-shadow: 0 0rem 0.2rem 0.1rem #00000030;
+  margin: 1rem;
+  display: flex;
+  flex-direction: column;
+  border: 0.2rem solid #00000000;
+}
+
+.dreams-list li input {
+  display: none;
+}
+
+.dreams-list li label {
+  cursor: pointer;
+}
+
+.dreams-list li:has(input:checked) {
+  border: 0.2rem solid var(--deep-pink-color);
+}
+
+.dreams-list li p {
+  text-align: left;
+}
+
+.dreams-list li p:not(:last-of-type) {
+  margin-bottom: 1rem;
+}
+
+.dreams-list li p:nth-of-type(1) {
+  font-size: var(--h3-font-size);
+  font-weight: bold;
+}
+
+.dreams-list li p:nth-of-type(2) {
+  font-size: var(--small-text-font-size);
+}
+
+ul.post-tag {
+  display: flex;
+  margin-top: 1.6rem;
+}
+
+ul.post-tag li {
+  width: fit-content;
+  font-size: var(--small-text-font-size);
+  margin: 0.3rem;
+  padding: 0.2rem 1rem;
+  border-radius: 1rem;
+}
+
+.dream-felt {
+  font-size: var(--small-text-font-size);
+}
+
+.main .whitespace-pre-wrap {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.tomong-results-wrapper {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  padding: 4rem 4rem 0;
+}
+
+.main:has(.tomong-results-wrapper) {
+  position: relative;
+}
+
+.tomong-results-chevrons {
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: space-between;
+  padding: 0 2rem;
+}
+
+.tomong-results-chevrons button:disabled {
+  cursor: default;
+}
+
+.tomong-results {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  gap: 5.4rem;
+}
+
+/* 캐러셀 아이템 (markdown 클래스) */
+.tomong-results > div {
+  flex: 0 0 100%;
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+}
+
+.carousel-row {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.carousel-indicator {
+  width: 1rem;
+  height: 1rem;
+  border: none;
+  border-radius: 50%;
+  background-color: #ddd;
+  cursor: pointer;
+  padding: 0;
+}
+
+.carousel-indicator.active {
+  background-color: #666;
+}
+
+@media (max-width: 1280px) {
+  .dreams-list li {
+    width: 45%;
+  }
+}
+
+@media (max-width: 768px) {
+  .dreams-list li {
+    width: 90%;
+  }
+}

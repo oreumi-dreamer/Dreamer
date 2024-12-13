@@ -1,14 +1,144 @@
-.modal-wrap {
-  position: relative;
-  bottom: 0;
+.more-modal,
+.change-mode-modal {
   width: 30rem;
-  height: 25.5rem;
   background-color: var(--background-white);
   border-radius: 2rem;
-  padding: 2rem 3.5rem;
+  z-index: 100;
 }
 
-.modal-wrap button {
-  font-size: 2.4rem;
-  color: var(--black-font-color);
+.modal-items .header-modal-btn {
+  width: 30rem;
+  font-size: var(--h2-font-size);
+  line-height: 2.4rem;
+  color: var(--active-header-color);
+  padding: 2rem 0 2rem 3rem;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  text-align: left;
+}
+
+.modal-items .header-modal-btn:hover {
+  background-color: var(--background-color);
+}
+
+.modal-items .header-modal-btn.setting-btn:hover,
+.modal-items .header-modal-btn.back-more-modal-btn:hover {
+  border-radius: 2rem 2rem 0 0;
+}
+
+.modal-items .header-modal-btn.logout-btn:hover,
+.modal-items .header-modal-btn.device-setting-btn:hover {
+  border-radius: 0 0 2rem 2rem;
+}
+
+.modal-items .header-modal-btn:not(.logout-btn)::before {
+  content: "";
+  width: 3.5rem;
+  height: 3.5rem;
+  display: inline-block;
+  margin-top: -0.5rem;
+  margin-right: 0.5rem;
+}
+
+.modal-items .change-mode-btn::after,
+.modal-items .back-more-modal-btn::after {
+  content: "";
+  width: 3.5rem;
+  height: 3.5rem;
+  display: inline-block;
+  margin-top: -0.5rem;
+  margin-right: 0.5rem;
+  position: relative;
+  left: 5rem;
+}
+
+.modal-items .setting-btn::before {
+  content: "";
+  display: block;
+  background: url(/images/settings.svg) no-repeat center;
+}
+
+.modal-items .change-mode-btn.light-mode::before,
+.modal-items .light-mode-btn::before,
+.modal-items .back-more-modal-btn::after {
+  content: "";
+  display: block;
+  background: url(/images/toggle-sun.svg) no-repeat center;
+}
+
+.modal-items .change-mode-btn.dark-mode::before,
+.modal-items .dark-mode-btn::before,
+.modal-items .back-more-modal-btn.dark-mode::after {
+  content: "";
+  display: block;
+  background: url(/images/toggle-moon.svg) no-repeat center;
+}
+
+.modal-items .change-mode-btn.device-mode::before,
+.modal-items .device-setting-btn::before,
+.modal-items .back-more-modal-btn.device-mode::after {
+  content: "";
+  display: block;
+  background: url(/images/device.svg) no-repeat center;
+}
+
+.modal-items .inquiry-btn::before {
+  content: "";
+  display: block;
+  background: url(/images/inquiry.svg) no-repeat center;
+}
+
+.modal-items .change-mode-btn::after {
+  content: "";
+  display: block;
+  background: url(/images/arrow-left.svg) no-repeat center;
+  transform: rotate(180deg);
+}
+
+.modal-items .back-more-modal-btn::before {
+  content: "";
+  display: block;
+  background: url(/images/arrow-left.svg) no-repeat center;
+}
+.modal-items .logout-btn {
+  border-top: 1px solid var(--dotted-color);
+  padding: 2rem 0 2rem 3rem;
+}
+
+.modal-items .back-more-modal-btn {
+  border-bottom: 1px solid var(--dotted-color);
+  padding: 2rem 0 1.5rem 3rem;
+}
+
+.more-modal li:first-child .more-modal-btn,
+.change-mode-modal li:first-child .more-modal-btn {
+  border-radius: 2rem 2rem 0 0;
+}
+
+.more-modal li:last-child .more-modal-btn,
+.change-mode-modal li:last-child .more-modal-btn {
+  border-radius: 0 0 2rem 2rem;
+}
+
+/* dark mode */
+
+@media (prefers-color-scheme: dark) {
+  [data-theme="device"] .modal-items .header-modal-btn:not(.logout-btn)::before,
+  [data-theme="device"] .modal-items .change-mode-btn::after,
+  [data-theme="device"] .change-mode-btn.device-mode::before,
+  [data-theme="device"] .back-more-modal-btn::after {
+    /* #EEF0DE */
+    filter: brightness(0) saturate(100%) invert(89%) sepia(27%) saturate(93%)
+      hue-rotate(28deg) brightness(105%) contrast(88%);
+  }
+}
+
+[data-theme="dark"] .modal-items .header-modal-btn:not(.logout-btn)::before,
+[data-theme="dark"] .modal-items .change-mode-btn::after,
+[data-theme="dark"] .change-mode-btn.device-mode::before,
+[data-theme="dark"] .back-more-modal-btn::after {
+  /* #EEF0DE */
+  filter: brightness(0) saturate(100%) invert(89%) sepia(27%) saturate(93%)
+    hue-rotate(28deg) brightness(105%) contrast(88%);
 }

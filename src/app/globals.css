@@ -1,6 +1,14 @@
 @import url(./reset.css);
 
 :root {
+  --font-family: "NanumBarunPen", sans-serif;
+  --h2-font-size: 2.4rem;
+  --h3-font-size: 1.6rem;
+  --body-font-size: 1.6rem;
+  --other-font-size: 2.8rem;
+  --big-text-font-size: 3.2rem;
+  --small-text-font-size: 1.2rem;
+  --tiny-text-font-size: 1rem;
   --background-blue-top: linear-gradient(180deg, #e3eeff 0%, #f3e7e9 100%);
   --background-pink-top: linear-gradient(180deg, #f3e7e9 50%, #e3eeff 100%);
   --background-color: #eee4e6;
@@ -11,32 +19,144 @@
   --background-dark: #242424;
   --none-active-color: #959595;
   --black-font-color: #141420;
+  --always-black-font: #141420;
   --gray-font-color: #5f5f5f;
-  --purple-font-color: #b79fca;
+  --time-font-color: rgba(0, 0, 0, 0.2);
+  --black-transparent-color: rgba(0, 0, 0, 40%);
   --modal-pink-color: #f3e7e9;
   --deep-pink-color: #f89b9b;
+  --white-color: #e8e8e8;
+  --dark-white-color: #e0e0e0;
   --placeholder-color: #959595;
+  --comment-input-color: #95959530;
+  --comment-button-color: rgba(0, 0, 0, 40%);
+  --dotted-color: #7e7e7e;
+  --scroll-bar-color: #8a8a8a;
+  --dark-mode-text: #eef0de;
+  --hover-btn-color: #cd6969;
+  --active-btn-color: #903434;
+  --hover-text-color: #5f6368;
+  --active-header-color: #000;
+  --post-text-blur: linear-gradient(#fcfcfc00, #fcfcfc);
+  --option-hover-color: #ccc;
 }
 
-/* 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  [data-theme="device"] {
+    --background-blue-top: #242424;
+    --background-pink-top: #242424;
+    --background-color: #242424;
+    --background-lightgray: #242424;
+    --background-white: #111111;
+    --background-gray: rgba(149, 149, 149, 0.5);
+    --background-dimmed: rgba(17, 17, 17, 0.4);
+    --background-dark: #242424;
+    --none-active-color: #959595;
+    --black-font-color: #e0e0e0;
+    --gray-font-color: #eef0de40;
+    --time-font-color: #e0e0e080;
+    --black-transparent-color: rgba(255, 255, 255, 40%);
+    --modal-pink-color: #f3e7e9;
+    --deep-pink-color: #f89b9b;
+    --white-color: #e8e8e8;
+    --dark-white-color: #e0e0e0;
+    --placeholder-color: #959595;
+    --comment-input-color: #95959530;
+    --comment-button-color: #838383;
+    --comment-button-color: #838383;
+    --dotted-color: #7e7e7e;
+    --scroll-bar-color: #8a8a8a;
+    --dark-mode-text: #eef0de;
+    --hover-btn-color: #cd6969;
+    --active-btn-color: #903434;
+    --active-header-color: #eef0de;
+    --dark-main-modal-color: #353535;
+    --post-text-blur: linear-gradient(
+      0deg,
+      rgba(17, 17, 17, 1) 17%,
+      rgba(17, 17, 17, 0) 100%
+    );
+    --option-hover-color: #95959530;
   }
-} */
+}
+
+[data-theme="dark"] {
+  --background-blue-top: #242424;
+  --background-pink-top: #242424;
+  --background-color: #242424;
+  --background-lightgray: #242424;
+  --background-white: #111111;
+  --background-gray: rgba(149, 149, 149, 0.5);
+  --background-dimmed: rgba(17, 17, 17, 0.4);
+  --background-dark: #242424;
+  --none-active-color: #959595;
+  --black-font-color: #e0e0e0;
+  --gray-font-color: #eef0de40;
+  --time-font-color: #e0e0e080;
+  --black-transparent-color: rgba(255, 255, 255, 40%);
+  --modal-pink-color: #f3e7e9;
+  --deep-pink-color: #f89b9b;
+  --white-color: #e8e8e8;
+  --dark-white-color: #e0e0e0;
+  --placeholder-color: #959595;
+  --comment-input-color: #95959530;
+  --dotted-color: #7e7e7e;
+  --scroll-bar-color: #8a8a8a;
+  --dark-mode-text: #eef0de;
+  --hover-btn-color: #cd6969;
+  --active-btn-color: #903434;
+  --active-header-color: #eef0de;
+  --dark-main-modal-color: #353535;
+  --post-text-blur: linear-gradient(
+    0deg,
+    rgba(17, 17, 17, 1) 17%,
+    rgba(17, 17, 17, 0) 100%
+  );
+  --option-hover-color: #95959530;
+}
+
+html {
+  font-size: 62.5%;
+  font-family: var(--font-family);
+  /* overflow: hidden; */
+  scrollbar-width: none;
+  height: 100%;
+  overflow-y: auto;
+}
+
+html::-webkit-scrollbar {
+  display: none;
+}
 
 html,
 body {
-  font-size: 62.5%;
   max-width: 100vw;
   overflow-x: hidden;
+  background-color: var(--background-color);
+  overscroll-behavior: none;
+}
+
+body {
+  font-family: inherit;
+  font-size: var(--body-font-size);
+  line-height: 1.44;
+  letter-spacing: 0.03em;
+}
+
+main {
+  padding: 16.6rem 0 16.6rem 6.4rem;
 }
 
 * {
+  font-family: inherit;
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+}
+
+:root input::placeholder,
+:root textarea::placeholder {
+  font-family: "NanumBarunPen", sans-serif;
 }
 
 .sr-only {
@@ -49,4 +169,10 @@ body {
   clip-path: inset(50%);
   border: 0;
   clip: rect(0 0 0 0);
+}
+
+@media (max-width: 860px) {
+  main {
+    padding: 16.6rem 0 16.6rem 0;
+  }
 }

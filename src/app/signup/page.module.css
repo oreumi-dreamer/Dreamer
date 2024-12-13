@@ -1,5 +1,13 @@
-/* 개발 테스트 */
+body:has(.signup-main) {
+  width: 100vw;
+  background: var(--background-blue-top);
+}
 
-.invalid {
-  border: 1px solid red;
+.signup-main {
+  max-width: 86rem;
+  max-height: 92rem;
+  margin: 8rem auto;
+  padding: 4.4rem 0rem 5.3rem 0rem;
+  border-radius: 2rem;
+  background: var(--background-white);
 }

@@ -1,4 +1,3 @@
-/* 따로 container 사용 시 사용 예정 */
 .dimmed {
   position: fixed;
   top: 0px;
@@ -8,21 +7,38 @@
   z-index: 100;
   opacity: 0.5;
   background-color: var(--background-dimmed);
-
   padding: 4rem 0;
 }
+
+html:has(.post-modal) {
+  overflow: hidden;
+}
+
 .post-modal {
   z-index: 1000;
-  position: relative;
-  margin: 4rem auto;
-  width: 155.4rem;
-  height: 100rem;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 95vw;
+  max-width: 155.4rem;
+  height: 90vh;
+  min-height: 50rem;
+  max-height: 100rem;
   border-radius: 1rem;
-  background-color: var(--background-white);
+  background-color: var(--background-lightgray);
   border: none;
-
   display: flex;
-  padding: 3.7rem 3.2rem 3.5rem 3.2rem;
+  padding: 3.7rem 0 3.5rem 3.2rem;
+  box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.2);
+}
+
+.post-section {
+  width: 100%;
+  max-width: 70rem;
+  margin-right: 3.2rem;
+  padding-right: 3.2rem;
+  background: url(/images/vertical-line.svg) no-repeat right;
 }
 
 .bookmark {
@@ -34,12 +50,19 @@
   padding-left: 8.6rem;
 }
 
-.profile {
-  display: flex;
-  gap: 1.7rem;
+.post-info-section a img {
+  border-radius: 50%;
+  object-fit: cover;
 }
 
-.profile a {
+.profile {
+  display: flex;
+  width: fit-content;
+  gap: 1.7rem;
+  color: var(--black-font-color);
+}
+
+.profile span {
   color: var(--gray-font-color);
 }
 
@@ -47,50 +70,67 @@
   display: flex;
   flex-wrap: wrap;
   max-width: 12.7rem;
-  font-size: 3.2rem;
+  font-size: var(--h2-font-size);
   margin-bottom: 1.6rem;
 }
 
 .uploaded-time {
-  font-size: 1.5rem;
-  color: var(--purple-font-color);
+  font-size: var(--body-font-size);
+  color: var(--time-font-color);
 }
 
 .button-list {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   gap: 1.5rem;
 }
 
-.button-list li:first-of-type {
-  position: absolute;
-  left: 11.8rem;
-}
-.button-list span {
-  position: relative;
-  top: -0.3rem;
-  left: 0.565rem;
+.button-list li {
+  display: flex;
+  align-items: center;
 }
 
 .button-list button {
-  background: none;
+  display: flex;
+  align-items: center;
+}
+
+.button-list li:first-of-type {
+  margin-right: auto;
+}
+.button-list span {
+  margin-left: 0.5rem;
+  color: var(--black-font-color);
 }
 
 .post-text {
-  max-width: 63.3rem;
+  min-width: 43.8rem;
+  max-width: 66.5rem;
+  height: 82.3%;
   max-height: 80.3rem;
-  background-color: #fcfcfc;
+  background-color: var(--background-white);
   border-radius: 1rem;
   padding: 1.6rem 1rem 4rem 4.3rem;
   margin-top: 2.067rem;
-  font-size: 2.4rem;
-
   overflow-y: scroll;
+  color: var(--black-font-color);
 }
 .post-text img {
-  background-color: #d3b7b7;
-  border-radius: 1.5rem;
+  max-width: 100%;
   margin: 1rem 0;
+  border-radius: 1.5rem;
+  object-fit: contain;
+}
+
+.post-text strong {
+  display: inline-block;
+  width: 100%;
+  margin: 2.5rem 0;
+  font-size: var(--h2-font-size);
+}
+
+.post-text p {
+  white-space: pre-wrap;
 }
 
 .post-text a {
@@ -103,52 +143,47 @@
 }
 
 .post-text::-webkit-scrollbar-thumb {
-  background: #8a8a8a;
+  background: var(--scroll-bar-color);
   height: 18.3rem;
-  border: 1.2rem solid #fcfcfc;
+  border: 1.2rem solid var(--background-white);
   border-radius: 2.6rem;
 }
 
 .post-text::-webkit-scrollbar-track {
-  background-color: #fcfcfc;
+  background-color: var(--background-white);
   border-radius: 1.3rem;
 }
 
 .post-text-header {
   display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
   justify-content: space-between;
-  font-size: 1rem;
-  margin-bottom: 1.4rem;
 }
 
 .post-tag {
   display: flex;
-  gap: 0.526rem;
+  gap: 0.82rem;
 }
 .post-tag li {
-  width: 3.894rem;
-  height: 2rem;
-  padding: 0.4rem 0;
+  width: fit-content;
+  padding: 0.4rem 1rem;
   border-radius: 0.5rem;
   text-align: center;
   background-color: var(--background-dimmed);
-  /* 내용에 따라 색상 background-color 변경 */
+  color: #000;
 }
 
 .dream-felt {
+  width: fit-content;
+  padding: 0.4rem 2.3rem;
+  text-align: center;
+  border-radius: 2rem;
+  background-color: var(--background-lightgray);
 }
 
 .dream-score {
-  font-size: 1.6rem;
-}
-
-.dash {
-  width: 0;
-  height: 92.9rem;
-  display: flex;
-  border: none;
-  border-left: dotted #7e7e7e 0.2rem;
-  margin: 0 3.2rem;
+  font-size: var(--h3-font-size);
 }
 
 .close-btn {
@@ -158,16 +193,140 @@
   right: 1.7rem;
 }
 
+.comment-section {
+  width: 100%;
+}
+
 .comment-form {
   position: relative;
+  border-radius: 1rem;
+  background-color: var(--comment-input-color);
+  max-width: 76.1rem;
+  max-height: 9.4rem;
+  margin: 1.5rem 3.2rem 4.5rem 0;
 }
 
 .comment-input {
-  width: 76.1rem;
-  height: 9.4rem;
-  border-radius: 1rem;
+  width: 100%;
+  min-width: 19rem;
+  height: 60%;
+  background-color: unset;
+  color: var(--black-font-color);
   border: none;
-  background-color: var(--none-active-color);
-  color: var(--gray-font-color);
   padding: 1.4rem 1.2rem;
+  resize: none;
+  scrollbar-width: none;
+}
+
+.comment-input::placeholder {
+  font-family: initial;
+  color: var(--gray-font-color);
+}
+
+.comment-setting {
+  color: var(--black-font-color);
+  display: flex;
+  gap: 0.8rem;
+
+  position: absolute;
+  bottom: -3rem;
+  right: 3rem;
+  font-size: var(--small-text-font-size);
+}
+.comment-setting input {
+  margin-right: 0.4rem;
+}
+
+.comment-setting button {
+  position: absolute;
+  bottom: -1.2rem;
+}
+
+.comment-articles-section {
+  max-height: 79%;
+  overflow-y: scroll;
+  border-radius: 1rem;
+  color: var(--black-font-color);
+}
+
+.comment-articles-section::-webkit-scrollbar {
+  width: 3.2rem;
+}
+
+.comment-articles-section::-webkit-scrollbar-thumb {
+  background: var(--scroll-bar-color);
+  border: 1.2rem solid var(--background-lightgray);
+  border-radius: 2.6rem;
+}
+.comment-articles-section::-webkit-scrollbar-corner {
+  background-color: unset;
+}
+
+.checkbox-hide {
+  position: absolute;
+  clip: rect(0 0 0 0);
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+}
+.checkbox {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  padding-left: 2rem;
+}
+
+.checkbox::before {
+  content: "";
+  display: inline-block;
+  width: 1.4rem;
+  height: 1.4rem;
+  position: absolute;
+  left: 0rem;
+  top: 0rem;
+  background-image: url(/images/checkbox.svg);
+  background-size: contain;
+}
+
+input[type="checkbox"]:checked + label.checkbox::before {
+  background-image: url(/images/checkbox-checked.svg);
+}
+
+@media (max-width: 720px) {
+  .post-modal {
+    padding: 2rem 0 2rem 2rem;
+    flex-direction: column;
+    min-width: 35.8rem;
+  }
+
+  .post-section {
+    padding-right: 2rem;
+    padding-bottom: 9rem;
+    margin-bottom: 1rem;
+    height: 50%;
+    background: url(/images/dash.svg) repeat-x bottom;
+    background-size: 12px 2px;
+  }
+  .button-list {
+    justify-content: flex-start;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .button-list li:first-of-type {
+    position: relative;
+    left: 0;
+  }
+
+  .comment-section {
+    height: 48%;
+  }
+
+  .comment-form {
+    max-height: 5rem;
+  }
+  .comment-input {
+    height: 5rem;
+  }
 }

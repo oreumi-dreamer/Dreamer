@@ -1,0 +1,139 @@
+.header {
+  width: 10.4rem;
+  height: 100vh;
+  background: var(--background-pink-top);
+  box-shadow: 4px 0px 75.5px -20px rgba(0, 0, 0, 0.16);
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  padding-top: 12.8rem;
+  flex-direction: column;
+  min-height: 92rem;
+  z-index: 100;
+}
+
+.mode-toggle-btn {
+  width: 5.6rem;
+  height: 5.6rem;
+  border-radius: 50%;
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.4s ease-in-out;
+}
+
+.mode-toggle-btn img {
+  object-fit: cover;
+}
+
+.mode-toggle-btn.light-mode {
+  background-color: var(--black-font-color);
+}
+
+.mode-toggle-btn.light-mode img {
+  /* #fff */
+  filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(7499%)
+    hue-rotate(53deg) brightness(109%) contrast(101%);
+}
+
+.mode-toggle-btn.dark-mode {
+  background-color: var(--black-font-color);
+}
+
+.hidden-btn {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.header-btn-container {
+  position: relative;
+  padding: 5rem 0 0 0;
+}
+
+.header-btn-container .nav-item {
+  background-color: var(--background-white);
+  width: 4.4rem;
+  height: 4.4rem;
+  border-radius: 50%;
+  margin-bottom: 3.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.header-btn-container .nav-item:not(.profile-btn) img {
+  /* #959595  */
+  filter: brightness(0) saturate(100%) invert(59%) sepia(9%) saturate(16%)
+    hue-rotate(346deg) brightness(98%) contrast(89%);
+}
+
+.header-btn-container .nav-item:hover:not(.profile-btn) {
+  background-color: var(--none-active-color);
+}
+
+.header-btn-container .nav-item:hover:not(.profile-btn) img {
+  /* #5F6368  */
+  filter: invert(59%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(58%)
+    contrast(91%);
+}
+
+.header-btn-container .nav-item.active:not(.profile-btn) {
+  background-color: var(--deep-pink-color);
+}
+
+.header-btn-container .nav-item.active:not(.profile-btn) img {
+  /* #fff */
+  filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(7499%)
+    hue-rotate(53deg) brightness(109%) contrast(101%);
+}
+
+/* 하단 프로필/더보기버튼 */
+.profile-btn,
+.more-btn {
+  display: flex;
+  align-items: center;
+  position: fixed;
+}
+
+@media (max-height: 850px) {
+  .profile-btn,
+  .more-btn {
+    position: static;
+    margin-top: 2rem;
+  }
+}
+
+.profile-btn {
+  bottom: 12rem;
+}
+
+.profile-btn img {
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.more-btn {
+  bottom: 5rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-theme="device"] .logo img {
+    /* #e0e0e0 */
+    filter: brightness(0) saturate(100%) invert(100%) sepia(2%) saturate(1040%)
+      hue-rotate(175deg) brightness(116%) contrast(76%);
+  }
+  [data-theme="device"] .mode-toggle-btn.light-mode img {
+    filter: none;
+  }
+}
+
+[data-theme="dark"] .logo img {
+  /* #e0e0e0 */
+  filter: brightness(0) saturate(100%) invert(100%) sepia(2%) saturate(1040%)
+    hue-rotate(175deg) brightness(116%) contrast(76%);
+}
+[data-theme="dark"] .mode-toggle-btn.light-mode img {
+  filter: none;
+}

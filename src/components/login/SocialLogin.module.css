@@ -1,0 +1,74 @@
+.login-buttons button {
+  width: 24rem;
+  height: 5rem;
+  margin-bottom: 2.5rem;
+  border-radius: 1rem;
+  background-color: var(--background-white);
+  font-size: 1.6rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-buttons li:first-of-type button img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 3.2rem;
+  height: 3.2rem;
+  margin-right: 1rem;
+}
+
+.login-buttons li:last-of-type button img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 3.2rem;
+  height: 3.2rem;
+  margin-right: 1rem;
+}
+
+.login-buttons li:first-of-type button {
+  background-color: #4285f4;
+  color: var(--background-white);
+}
+
+.join-button {
+  display: flex;
+  align-items: center;
+  column-gap: 1.6rem;
+}
+
+.login-container h2 {
+  text-align: center;
+}
+
+.error-message {
+  text-align: center;
+  word-break: keep-all;
+}
+
+.email-input {
+  position: relative;
+}
+
+/* .email-verify-btn {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+} */
+
+.btn-row {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  row-gap: 2.4rem;
+}
+
+.back-btn {
+  margin-right: auto;
+}
