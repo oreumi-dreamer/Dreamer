@@ -10,8 +10,10 @@ export async function GET(request, { params }) {
     const authorization = headersList.get("Authorization");
     const idToken = authorization.split("Bearer ")[1];
 
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+
     // 사용자 인증 확인
-    const userData = await verifyUser(idToken);
+    const userData = await verifyUser(baseUrl, idToken);
 
     // 게시글 존재 여부 확인 및 데이터 가져오기
     const postRef = doc(db, "posts", postId);

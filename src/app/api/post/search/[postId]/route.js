@@ -23,9 +23,11 @@ export async function GET(request, { params }) {
   const authorization = headersList.get("Authorization");
   let userData = null;
 
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+
   if (authorization?.startsWith("Bearer ")) {
     const idToken = authorization.split("Bearer ")[1];
-    userData = await verifyUser(idToken);
+    userData = await verifyUser(baseUrl, idToken);
   }
 
   try {

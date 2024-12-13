@@ -28,8 +28,10 @@ export async function GET(request) {
     return NextResponse.json({ error: "인증이 필요합니다." }, { status: 401 });
   }
 
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+
   const idToken = authorization.split("Bearer ")[1];
-  const userData = await verifyUser(idToken);
+  const userData = await verifyUser(baseUrl, idToken);
 
   if (!userData.exists) {
     return NextResponse.json(

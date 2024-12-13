@@ -1,6 +1,8 @@
 // 사용자가 존재 여부와 존재 시 사용자 정보를 반환하는 API
 // /api/auth/verify/route.js
 
+export const dynamic = "force-dynamic";
+
 import { headers } from "next/headers";
 import { auth, db } from "@/lib/firebaseAdmin";
 import { NextResponse } from "next/server";

@@ -25,7 +25,9 @@ export async function GET(request, { params }) {
   const page = parseInt(searchParams.get("page")) || 1;
   const limit = parseInt(searchParams.get("limit")) || 20; // 페이지당 기본 20개
 
-  const userData = await verifyUser(idToken);
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+
+  const userData = await verifyUser(baseUrl, idToken);
   if (!userData.exists) {
     return NextResponse.json(
       { error: "인증되지 않은 사용자입니다." },

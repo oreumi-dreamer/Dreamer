@@ -8,7 +8,9 @@ export async function POST(request) {
   const authorization = headersList.get("Authorization");
   const idToken = authorization.split("Bearer ")[1];
 
-  const userData = await verifyUser(idToken);
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+
+  const userData = await verifyUser(baseUrl, idToken);
   if (!userData.exists) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }

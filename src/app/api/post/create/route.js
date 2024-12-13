@@ -50,7 +50,9 @@ export async function POST(request) {
     const isPrivate = formData.get("isPrivate");
     const imageFiles = formData.getAll("images");
 
-    const userData = await verifyUser(idToken);
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+
+    const userData = await verifyUser(baseUrl, idToken);
     if (!userData.exists) {
       return new Response(
         JSON.stringify({ error: "인증되지 않은 사용자입니다." }),

@@ -1,7 +1,7 @@
 // src/lib/api/auth.js
 
-export const verifyUser = async (idToken) => {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+export const verifyUser = async (baseUrl, idToken) => {
+  console.log("baseUrl", baseUrl);
 
   try {
     const response = await fetch(`${baseUrl}/api/auth/verify`, {
