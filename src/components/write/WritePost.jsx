@@ -163,7 +163,12 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
       >
         <h2 className="sr-only">새로운 글 작성</h2>
         <div className={styles["user-prof"]}>
-          <img src={profileImageUrl} width={52} height={52} />
+          <img
+            src={profileImageUrl}
+            width={52}
+            height={52}
+            className={styles["user-profile-img"]}
+          />
           <p className={styles["user-name"]}>
             {userName}
             <p className={styles["user-id"]}>@{userId}</p>

@@ -29,6 +29,9 @@
   align-items: center;
   margin-bottom: 3rem;
 }
+.user-profile-img {
+  border-radius: 50%;
+}
 .user-name {
   display: flex;
   font-size: 3.2rem;
