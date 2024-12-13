@@ -1,8 +1,9 @@
 name: git push into another repo to deploy to vercel
-
 on:
   push:
-    branches: [main]
+    branches: 
+      - main
+      - dev
 
 jobs:
   build:
@@ -14,6 +15,9 @@ jobs:
         run: apk add ruby && gem install mustache
       - name: creates output
         run: sh ./build.sh
+      - name: Get branch name
+        id: branch-name
+        run: echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"
       - name: Pushes to another repository
         id: push_directory
         uses: cpina/github-action-push-to-another-repository@main
@@ -25,6 +29,6 @@ jobs:
           destination-repository-name: Dreamer
           user-email: ${{ secrets.EMAIL }}
           commit-message: ${{ github.event.commits[0].message }}
-          target-branch: main
+          target-branch: ${{ steps.branch-name.outputs.branch }}
       - name: Test get variable exported by push-to-another-repository
         run: echo $DESTINATION_CLONED_DIRECTORY
