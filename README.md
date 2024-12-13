@@ -23,8 +23,9 @@
 ![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=GitHub&logoColor=white)
 ### 2. IDE
 ![](https://img.shields.io/badge/Visual%20Studio%20Code-007ACC?style=flat-square&logo=Visual%20Studio%20Code&logoColor=white)
-### 3. 사용 언어
-![리액트]( https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=black ) ![다음.js]( https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=Nextdotjs&logoColor=white ) ![CSS 모듈]( https://img.shields.io/badge/CSS%20Modules-000000?style=for-the-badge&logo=CSSModules&logoColor=white ) ![Firebase](https://img.shields.io/badge/Firebase-DD2C00?style=for-the-badge&logo=Firebase&logoColor=white)
+### 3. 사용 기술
+![리액트]( https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=black ) ![다음.js]( https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=Nextdotjs&logoColor=white ) ![CSS 모듈]( https://img.shields.io/badge/CSS%20Modules-000000?style=for-the-badge&logo=CSSModules&logoColor=white ) ![Firebase](https://img.shields.io/badge/Firebase-DD2C00?style=for-the-badge&logo=Firebase&logoColor=white)![Redux](https://img.shields.io/badge/Redux-764ABC?style=for-the-badge&logo=Redux&logoColor=white)
+![Algolia](https://img.shields.io/badge/Algolia-003DFF?style=for-the-badge&logo=Algolia&logoColor=white)
 
 ## Ⅱ. 프로젝트의 목표와 기능
 
