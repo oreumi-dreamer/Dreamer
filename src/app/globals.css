@@ -39,8 +39,8 @@
   --active-header-color: #000;
   --post-text-blur: linear-gradient(#fcfcfc00, #fcfcfc);
   --option-hover-color: #ccc;
-  --tomong-stamp-half-opacity: 0.2;
-  --tomong-stamp-one-fifth-opacity: 0.5;
+  --tomong-stamp-half-opacity: 0.5;
+  --tomong-stamp-one-fifth-opacity: 0.2;
 }
 
 @media (prefers-color-scheme: dark) {
