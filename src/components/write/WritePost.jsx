@@ -102,8 +102,6 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("전송 시도");
-    console.log(genresId);
 
     if (contentValue === "") {
       alert("작성된 내용이 없습니다");
@@ -121,9 +119,6 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
     formData.append("rating", rating === null ? "0" : rating);
     formData.append("isPrivate", isPrivate ? "true" : "false");
 
-    for (let [key, value] of formData.entries()) {
-      console.log(key, value);
-    }
     const idToken = user?.idToken;
 
     try {
