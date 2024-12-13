@@ -9,7 +9,15 @@ import sharp from "sharp";
 import { v4 as uuidv4 } from "uuid";
 import { NextResponse } from "next/server";
 
+export const maxDuration = 60; // 타임아웃 설정 (초 단위)
+
 export async function POST(request) {
+  const contentLength = request.headers.get("content-length");
+  if (contentLength && parseInt(contentLength) > 10 * 1024 * 1024) {
+    // 10MB
+    return NextResponse.json({ error: "File too large" }, { status: 413 });
+  }
+
   try {
     const headersList = headers();
     const authorization = headersList.get("Authorization");
@@ -64,11 +72,3 @@ export async function POST(request) {
     return NextResponse.json({ error: "Upload failed" }, { status: 500 });
   }
 }
-
-export const config = {
-  api: {
-    bodyParser: {
-      sizeLimit: "10mb",
-    },
-  },
-};
