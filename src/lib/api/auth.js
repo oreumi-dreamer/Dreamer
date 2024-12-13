@@ -1,8 +1,6 @@
 // src/lib/api/auth.js
 
 export const verifyUser = async (baseUrl, idToken) => {
-  console.log("baseUrl", baseUrl);
-
   try {
     const response = await fetch(`${baseUrl}/api/auth/verify`, {
       headers: {
