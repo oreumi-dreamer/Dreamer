@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import WideHeader from "@/components/header/WideHeader";
 import { openModal, closeModal } from "@/store/modalSlice";
 import { setActiveState } from "@/store/activeStateSlice";
@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import useMediaQuery from "@/hooks/styling/useMediaQuery";
 import NarrowHeader from "./NarrowHeader";
 import useTheme from "@/hooks/styling/useTheme";
+import WritePost from "../write/WritePost";
 export default function Header() {
   const buttonRef = useRef(null);
   const { isOpen, modalType } = useSelector((state) => state.modal);
@@ -70,25 +71,49 @@ export default function Header() {
       changeTheme("light");
     }
   };
+  const [isWriteModalOpen, setIsWriteModalOpen] = useState(false);
+  const handleWriteBtnClick = () => {
+    setIsWriteModalOpen(true);
+  };
+  const closeWriteModal = () => {
+    if (isWriteModalOpen === true) {
+      setIsWriteModalOpen(false);
+    }
+    window.location.pathname = "/";
+  };
 
   return (
     <>
       {isNarrowHeader ? (
-        <NarrowHeader
-          onMoreBtnClick={() => handleMoreBtnClick("moreModal")}
-          buttonRef={buttonRef}
-          isActive={isActive}
-          handleActiveBtn={handleActiveBtn}
-          handleToggleBtn={handleToggleBtn}
-        />
+        <>
+          <NarrowHeader
+            onMoreBtnClick={() => handleMoreBtnClick("moreModal")}
+            buttonRef={buttonRef}
+            isActive={isActive}
+            handleActiveBtn={handleActiveBtn}
+            handleWriteBtnClick={handleWriteBtnClick}
+            handleToggleBtn={handleToggleBtn}
+          />
+          <WritePost
+            isWriteModalOpen={isWriteModalOpen}
+            closeWriteModal={closeWriteModal}
+          />
+        </>
       ) : (
-        <WideHeader
-          onMoreBtnClick={() => handleMoreBtnClick("moreModal")}
-          buttonRef={buttonRef}
-          isActive={isActive}
-          handleActiveBtn={handleActiveBtn}
-          handleToggleBtn={handleToggleBtn}
-        />
+        <>
+          <WideHeader
+            onMoreBtnClick={() => handleMoreBtnClick("moreModal")}
+            buttonRef={buttonRef}
+            isActive={isActive}
+            handleActiveBtn={handleActiveBtn}
+            handleWriteBtnClick={handleWriteBtnClick}
+            handleToggleBtn={handleToggleBtn}
+          />
+          <WritePost
+            isWriteModalOpen={isWriteModalOpen}
+            closeWriteModal={closeWriteModal}
+          />
+        </>
       )}
     </>
   );

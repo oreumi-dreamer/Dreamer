@@ -17,6 +17,7 @@ export default function NarrowHeader({
   isActive,
   handleActiveBtn,
   handleToggleBtn,
+  handleWriteBtnClick,
 }) {
   const { isOpen } = useSelector((state) => state.modal);
   const { user } = useSelector((state) => state.auth);
@@ -142,7 +143,10 @@ export default function NarrowHeader({
                 className={`${styles["nav-item"]} ${styles["writing-btn"]} ${
                   isActive === "글쓰기" ? styles.active : ""
                 }`}
-                onClick={() => handleActiveBtn("글쓰기")}
+                onClick={() => {
+                  handleActiveBtn("글쓰기");
+                  handleWriteBtnClick();
+                }}
               >
                 <Image
                   src="/images/writing.svg"
