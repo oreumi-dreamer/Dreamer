@@ -46,3 +46,6 @@ export const OtherPost = forwardRef(({ style }, ref) => {
     </div>
   );
 });
+
+MyPost.displayName = "MyPost";
+OtherPost.displayName = "OtherPost";

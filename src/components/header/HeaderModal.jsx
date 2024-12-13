@@ -108,3 +108,5 @@ function ChangeModeModal() {
 }
 
 export { HeaderBaseModal };
+
+HeaderBaseModal.displayName = "HeaderBaseModal";
