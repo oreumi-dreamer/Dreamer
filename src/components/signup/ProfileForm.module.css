@@ -147,11 +147,13 @@
 .dark-mode label {
   font-size: var(--h3-font-size);
   font-weight: unset;
-  padding: 0.8rem 3.9rem;
-  text-align: center;
+  padding: 0.8rem 0;
   background-color: #d9d9d9;
   border-radius: 1rem;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  flex-grow: 1;
 }
 
 .buttons button {
@@ -176,4 +178,16 @@
 
 .buttons button:last-of-type {
   right: 4rem;
+}
+
+@media (max-width: 480px) {
+  .profile-form p:first-of-type {
+    font-size: var(--h2-font-size);
+  }
+  .form-field:nth-of-type(2) textarea {
+    width: 100%;
+  }
+  .form-field:first-of-type span {
+    font-size: var(--small-text-font-size);
+  }
 }
