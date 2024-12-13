@@ -150,7 +150,7 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
         <div className={styles["form-field"]}>
           <label htmlFor="userId">
             <Image
-              src={isIdValid ? "/Images/valid.svg" : "/Images/invalid.svg"}
+              src={isIdValid ? "/images/valid.svg" : "/images/invalid.svg"}
               width={40}
               height={40}
               alt="유효하지 않은 아이디"
@@ -173,7 +173,7 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
         <div className={styles["form-field"]}>
           <label htmlFor="userName">
             <Image
-              src={isNameValid ? "/Images/valid.svg" : "/Images/invalid.svg"}
+              src={isNameValid ? "/images/valid.svg" : "/images/invalid.svg"}
               width={40}
               height={40}
               alt="유효하지 않은 이름"
@@ -196,7 +196,7 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
         <div className={styles["form-field"]}>
           <label htmlFor="birthDate">
             <Image
-              src={isBirthValid ? "/Images/valid.svg" : "/Images/invalid.svg"}
+              src={isBirthValid ? "/images/valid.svg" : "/images/invalid.svg"}
               width={40}
               height={40}
               alt="유효하지 않은 생일"
