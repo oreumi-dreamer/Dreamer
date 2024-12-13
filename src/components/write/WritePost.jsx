@@ -2,7 +2,6 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import styles from "./WritePost.module.css";
 import StopModal from "./StopModal";
 import HashtagModal from "./HashtagModal";
@@ -37,7 +36,6 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
     if (e.target === e.currentTarget) {
       if (isContentChanged && contentValue !== "") {
         setIsStopModalOpen(true);
-        // closeWriteModal();
       } else {
         closeWriteModal();
       }
@@ -47,8 +45,6 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
   useEffect(() => {
     const handleEscKey = (e) => {
       if (isWriteModalOpen && e.key === "Escape") {
-        console.log("esc키 누름!");
-
         e.preventDefault();
         e.stopPropagation();
         handleStopWriting();
@@ -134,18 +130,13 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
     formData.append("rating", rating === null ? "0" : rating);
     formData.append("isPrivate", isPrivate ? "true" : "false");
 
-    const idToken = user?.idToken;
-
     try {
       const response = await fetchWithAuth("/api/post/create", {
         method: "POST",
         body: formData,
       });
 
-      const result = await response.json();
-
       if (response.ok) {
-        // alert("작성 완료");
         closeWriteModal();
       } else {
         alert("게시글 작성 실패");
@@ -183,7 +174,6 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
       <form
         id="new-post-form"
         className={styles["new-post-form"]}
-        // onChange={handleInputChange}
         onSubmit={handleSubmit}
       >
         <div id={styles["title"]}>
@@ -209,7 +199,6 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
 
         <div className={styles["write-field"]}>
           <div className={styles["write-field-opt"]}>
-            {/* 버튼 누르면 해시태그 입력용 모달 나타나기? */}
             <div className={styles["genre-picker"]}>
               <button type="button" onClick={openModal}>
                 <Image src="/images/plus-circle.svg" width={28} height={28} />
@@ -243,7 +232,6 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
                 ))}
               </ul>
             </div>
-            {/* 기분 추가 */}
             <div className={styles["user-feeling"]}>
               <p>지금 상태</p>
               {selectedMoods.length === 0 && (
@@ -251,11 +239,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
                   type="button"
                   className={styles["btn-feeling"]}
                   onClick={openMoodModal}
-                >
-                  {/* {selectedMoods.map((item) => (
-                    <li key={item.text}>{item.text}</li>
-                  ))} */}
-                </button>
+                ></button>
               )}
               {selectedMoods.length !== 0 && (
                 <button
@@ -316,8 +300,6 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
               />
             </div>
           </div>
-
-          {/* 구분선 */}
           <span className={styles["break-line"]}></span>
           <p className={styles["text-field-area"]}>
             <span className="sr-only">글 작성</span>
