@@ -76,10 +76,8 @@ export default function Header() {
     setIsWriteModalOpen(true);
   };
   const closeWriteModal = () => {
-    if (isWriteModalOpen === true) {
-      setIsWriteModalOpen(false);
-    }
-    window.location.pathname = "/";
+    setIsWriteModalOpen(false);
+    handleActiveBtn("홈");
   };
 
   return (
