@@ -96,6 +96,15 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
   const closeModal = () => setIsModalOpen(false);
   const closeMoodModal = () => setIsMoodModalOpen(false);
   const closeStopModal = () => setIsStopModalOpen(false);
+  const handleStopModalConfirm = () => {
+    setIsStopModalOpen(false);
+    closeWriteModal();
+    setInputValue("");
+    setContentValue("");
+    setSelectedGenres([]);
+    setSelectedMoods([]);
+    setIsContentChanged(false);
+  };
   const handleStopWriting = () => {
     if (isContentChanged && contentValue !== "") {
       setIsStopModalOpen(true);
@@ -344,14 +353,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
           <StopModal
             isStopModalOpen={isStopModalOpen}
             closeModal={closeStopModal}
-            onConfirm={() => {
-              closeWriteModal();
-              setInputValue("");
-              setContentValue("");
-              setSelectedGenres([]);
-              setSelectedMoods([]);
-              setIsContentChanged(false);
-            }}
+            onConfirm={handleStopModalConfirm}
           />
         )}
       </div>
