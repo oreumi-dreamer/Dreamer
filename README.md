@@ -1,12 +1,13 @@
+# ![DreamerLogo](https://github.com/user-attachments/assets/96c445fd-727c-4a60-a93f-ca1bc00b6178)
 
-# ![logo-full](https://github.com/user-attachments/assets/50180f88-9899-494b-850a-6e989343f76d)
+>  [<img src = "https://github.com/user-attachments/assets/c26addd5-86c6-4bcb-8633-d2cdeb9a2ba4" width= "250px"/>](https://dreamer-omega.vercel.app/)
 
-> 배포주소 :
+
  ##  👩‍💻팀원 소개👨‍💻
-|[팀장/FE] 황초희|[CTO/FE] 김지훈|[FE] 한지현|[FE] 하진희|[FE] 문정환|
-|:---:|:---:|:---:|:---:|:---:|
-|<img  src = "https://github.com/user-attachments/assets/e3bd02b4-6603-4793-aae1-d36b41880a5e"  width="120px"  height="120px"  />|<img  src = "https://github.com/user-attachments/assets/4cd763d9-43c9-46e5-8f0d-c30a02f53c79"  width="120px"  height="120px"  />|<img  src = "https://github.com/user-attachments/assets/4b0c408f-ba1b-418b-b2e4-1c3eb1f1a1f7"  width="120px"  height="120px"  />|<img  src = "https://github.com/user-attachments/assets/8cacdbbb-aee4-43cf-9c3c-cb905e557f33"  width="120px"  height="120px"  />|<img  src = "https://github.com/user-attachments/assets/7064a6e8-dcee-4122-8abe-0ae854f5417f"  width="120px"  height="120px"  />|
-|[chochohee](https://github.com/chochohee)|[김지훈](https://github.com/jihun-io)|[hanj33](https://github.com/hanj33)|[jini0012](https://github.com/jini0012)|[BusyCranis](https://github.com/BusyCranis)|
+|[팀장/FE] 황초희|[CTO/FE] 김지훈|[FE] 한지현|[FE] 하진희|
+|:---:|:---:|:---:|:---:|
+|<img  src = "https://github.com/user-attachments/assets/e3bd02b4-6603-4793-aae1-d36b41880a5e"  width="120px"  height="120px"  />|<img  src = "https://github.com/user-attachments/assets/4cd763d9-43c9-46e5-8f0d-c30a02f53c79"  width="120px"  height="120px"  />|<img  src = "https://github.com/user-attachments/assets/4b0c408f-ba1b-418b-b2e4-1c3eb1f1a1f7"  width="120px"  height="120px"  />|<img  src = "https://github.com/user-attachments/assets/8cacdbbb-aee4-43cf-9c3c-cb905e557f33"  width="120px"  height="120px"  />|
+|[chochohee](https://github.com/chochohee)|[김지훈](https://github.com/jihun-io)|[hanj33](https://github.com/hanj33)|[jini0012](https://github.com/jini0012)|
 
 ## 📑 목차
 
@@ -70,7 +71,4 @@
 ``` 3차프로젝트 진행하면서 느낀점 ```
 
 ### [FE]하진희
-``` 3차프로젝트 진행하면서 느낀점 ```
-
-### [FE]문정환
 ``` 3차프로젝트 진행하면서 느낀점 ```
