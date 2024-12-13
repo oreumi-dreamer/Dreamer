@@ -134,6 +134,7 @@ export default function Post({
                   className={styles["post-img"]}
                   src={url}
                   alt={`게시글 이미지 ${index}`}
+                  loading="lazy"
                 />
               ))}
             </div>

@@ -3,6 +3,7 @@
 .profile-main {
   width: 100%;
   background-color: var(--background-color);
+  flex-basis: 100%;
 }
 
 .profile-container {

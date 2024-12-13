@@ -45,7 +45,7 @@ export default function AuthStateHandler({ children }) {
   }, [dispatch, router, isRegistering]);
 
   if (!isAuthChecked) {
-    return <Loading />;
+    return <Loading type="full" />;
   }
 
   return children;

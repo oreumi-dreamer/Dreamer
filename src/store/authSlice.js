@@ -1,3 +1,5 @@
+"use client";
+
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
@@ -6,7 +8,7 @@ const initialState = {
   error: null,
   isRegistrationComplete: false,
   isRegistering: false, // 추가
-  theme: localStorage.getItem("theme") || "device",
+  theme: "device",
 };
 
 const authSlice = createSlice({

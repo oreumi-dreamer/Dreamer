@@ -93,7 +93,11 @@ export default function Profile({ userName }) {
   }, [selectedPostId]);
 
   if (loading) {
-    return <Loading type="small" />;
+    return (
+      <main className={styles["profile-main"]}>
+        <Loading />
+      </main>
+    );
   }
 
   if (!posts) {
