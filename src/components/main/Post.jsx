@@ -9,6 +9,7 @@ import { calculateModalPosition } from "@/utils/calculateModalPosition";
 import { outsideClickModalClose } from "@/utils/outsideClickModalClose";
 import { Divider } from "../Controls";
 import PostModal from "../modal/PostModal";
+import useTheme from "@/hooks/styling/useTheme";
 
 export default function Post({
   styles,
@@ -21,6 +22,8 @@ export default function Post({
   const [modalStyle, setModalStyle] = useState({});
   const modalRef = useRef(null);
   const buttonRef = useRef(null);
+
+  const { theme } = useTheme();
 
   useEffect(() => {
     if (modalRef.current && buttonRef.current) {
@@ -81,6 +84,16 @@ export default function Post({
     setSelectedPostId(postId);
   };
 
+  let tomongStampUrl = "/images/tomong-stamp.png";
+
+  if (
+    theme === "dark" ||
+    (theme === "device" &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches)
+  ) {
+    tomongStampUrl = "/images/tomong-stamp-dark.png";
+  }
+
   return (
     <>
       <article className={styles["main-post-wrap"]}>
@@ -125,6 +138,13 @@ export default function Post({
           className={styles["post-content"]}
           onClick={() => handleModalOpen(post.objectID)}
         >
+          {post.isTomong && (
+            <img
+              src={tomongStampUrl}
+              className={styles["tomong-stamp"]}
+              alt="해몽이 존재함"
+            />
+          )}
           <p className={styles["post-text"]}>{post.content}</p>
           {post.imageUrls && (
             <div className={styles["post-img-wrap"]}>

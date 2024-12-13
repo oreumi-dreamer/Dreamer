@@ -20,6 +20,7 @@
 
 .profile-wrap img {
   width: 15rem;
+  height: 15rem;
   margin-right: 4.5rem;
   object-fit: cover;
 }
@@ -229,12 +230,33 @@
   display: grid;
   grid-template-rows: auto 1fr auto;
   cursor: pointer;
+  overflow: hidden;
+}
+
+.tomong-stamp {
+  position: absolute;
+  top: -6.1rem;
+  right: -4.8rem;
+  width: 22rem;
+  height: 16rem;
+  opacity: var(--tomong-stamp-one-fifth-opacity);
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
 }
 
 .post-title {
   font-size: var(--body-font-size);
   font-weight: 700;
   color: var(--black-font-color);
+  z-index: 10;
 }
 
 .post-title.include-img::after {
@@ -260,6 +282,7 @@
   word-break: break-word;
   position: relative;
   color: var(--black-font-color);
+  z-index: 10;
 }
 
 .post-text::after {

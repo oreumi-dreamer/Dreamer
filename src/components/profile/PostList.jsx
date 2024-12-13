@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
+import useTheme from "@/hooks/styling/useTheme";
 
 export default function PostList({
   posts: initialPosts,
@@ -8,6 +9,7 @@ export default function PostList({
   setSelectedPostId,
 }) {
   const [posts, setPosts] = useState(initialPosts);
+  const { theme } = useTheme();
 
   const changeSpark = (postId) => {
     setPosts((currentPosts) =>
@@ -38,6 +40,16 @@ export default function PostList({
     }
   };
 
+  let tomongStampUrl = "/images/tomong-stamp.png";
+
+  if (
+    theme === "dark" ||
+    (theme === "device" &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches)
+  ) {
+    tomongStampUrl = "/images/tomong-stamp-dark.png";
+  }
+
   return (
     <>
       {posts.map((post) => (
@@ -46,6 +58,13 @@ export default function PostList({
           key={post.id}
           onClick={() => setSelectedPostId(post.id)}
         >
+          {post.isTomong && (
+            <img
+              src={tomongStampUrl}
+              className={styles["tomong-stamp"]}
+              alt="해몽이 존재함"
+            />
+          )}
           {post.hasImages ? (
             <h3 className={`${styles["post-title"]} ${styles["include-img"]}`}>
               {post.title}

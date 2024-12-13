@@ -114,7 +114,18 @@ html:has(.post-modal) {
   margin-top: 2.067rem;
   overflow-y: scroll;
   color: var(--black-font-color);
+  position: relative;
 }
+
+.tomong-stamp {
+  position: absolute;
+  width: 16.5rem;
+  height: 12rem;
+  top: 0rem;
+  right: 0rem;
+  opacity: var(--tomong-stamp-half-opacity);
+}
+
 .post-text img {
   max-width: 100%;
   margin: 1rem 0;
@@ -161,6 +172,10 @@ html:has(.post-modal) {
   justify-content: space-between;
 }
 
+.post-text-header * {
+  z-index: 10;
+}
+
 .post-tag {
   display: flex;
   gap: 0.82rem;
@@ -184,6 +199,10 @@ html:has(.post-modal) {
 
 .dream-score {
   font-size: var(--h3-font-size);
+}
+
+.tomong-result-heading {
+  margin-bottom: 1.6rem;
 }
 
 .close-btn {

@@ -88,6 +88,7 @@ export async function GET(request, { params }) {
         "dreamGenres",
         "dreamMoods",
         "imageUrls",
+        "tomongSelected",
       ],
     });
 
@@ -178,6 +179,8 @@ export async function GET(request, { params }) {
           profileImageUrl:
             userMap[hit.authorUid]?.profileImageUrl || "/images/rabbit.svg",
           hasUserSparked: hit.spark?.includes(userData.uid),
+          isTomong: hit.tomongSelected > 0,
+          tomongSelected: hit.tomongSelected,
         };
       })
       .sort((a, b) => b.score - a.score);

@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
 import styles from "./PostModal.module.css";
+import markdownStyles from "@/app/tomong/Result.module.css";
 import Link from "next/link";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 import postTime from "@/utils/postTime";
 import CommentArticles from "./CommentArticles";
 import { DREAM_GENRES, DREAM_MOODS } from "@/utils/constants";
 import Loading from "../Loading";
+import { useSelector } from "react-redux";
+import convertToHtml from "@/utils/markdownToHtml";
+import { Divider } from "../Controls";
 import useTheme from "@/hooks/styling/useTheme";
 
 export default function PostModal({ postId, isShow, onClose }) {
@@ -17,6 +21,7 @@ export default function PostModal({ postId, isShow, onClose }) {
   const [isPrivate, setIsPrivate] = useState(false);
   const [oneiromancy, setOneiromancy] = useState(false);
   const [isCommentSubmitting, setIsCommentSubmitting] = useState(false);
+  const { user } = useSelector((state) => state.auth);
   const { theme } = useTheme();
 
   useEffect(() => {
@@ -134,6 +139,16 @@ export default function PostModal({ postId, isShow, onClose }) {
     }
   }
 
+  let tomongStampUrl = "/images/tomong-stamp.png";
+
+  if (
+    theme === "dark" ||
+    (theme === "device" &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches)
+  ) {
+    tomongStampUrl = "/images/tomong-stamp-dark.png";
+  }
+
   return (
     <>
       {isShow ? (
@@ -240,6 +255,13 @@ export default function PostModal({ postId, isShow, onClose }) {
                   </section>
                   <section className={styles["post-text"]}>
                     <h3 className="sr-only">본문 내용</h3>
+                    {postData.isTomong && (
+                      <img
+                        src={tomongStampUrl}
+                        className={styles["tomong-stamp"]}
+                        alt="해몽이 존재함"
+                      />
+                    )}
                     <div className={styles["post-text-header"]}>
                       {postData.dreamGenres.length > 0 && (
                         <ul className={styles["post-tag"]}>
@@ -297,6 +319,20 @@ export default function PostModal({ postId, isShow, onClose }) {
                           alt={`이미지${index}`}
                         />
                       ))}
+                    <Divider />
+                    {postData.tomong && (
+                      <>
+                        <h3 className={styles["tomong-result-heading"]}>
+                          토몽이의 해몽 결과:
+                        </h3>
+                        <div
+                          className={`${markdownStyles["markdown"]} ${markdownStyles["markdown-in-modal"]}`}
+                          dangerouslySetInnerHTML={{
+                            __html: convertToHtml(postData.tomong.content),
+                          }}
+                        />
+                      </>
+                    )}
                   </section>
                 </section>
                 <section className={styles["comment-section"]}>
