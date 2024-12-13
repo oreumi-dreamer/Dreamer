@@ -8,6 +8,7 @@ import MoodModal from "./MoodModal";
 import { useSelector } from "react-redux";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 import Error404 from "../error404/Error404";
+import useTheme from "@/hooks/styling/useTheme";
 
 export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
   const [isWritingModalOpen, setIsWritingModalOpen] = useState(false);
@@ -15,6 +16,8 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
   const [contentValue, setContentValue] = useState("");
   const [isContentChanged, setIsContentChanged] = useState(false);
   const { user } = useSelector((state) => state.auth);
+  const { theme } = useTheme();
+
   if (!user) {
     return <Error404 />;
   }
@@ -151,7 +154,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
     >
       <h2 className="sr-only">새로운 글 작성</h2>
       <div className={styles["user-prof"]}>
-        <Image src={profileImageUrl} width={52} height={52} />
+        <img src={profileImageUrl} width={52} height={52} />
         <p className={styles["user-name"]}>
           {userName}
           <p className={styles["user-id"]}>@{userId}</p>
@@ -202,10 +205,24 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
                 {selectedGenres.map((item) => (
                   <li
                     key={item.text}
-                    style={{
-                      backgroundColor: `${item.color.hex}`,
-                      color: `${item.color.textColor}`,
-                    }}
+                    style={
+                      theme === "light" ||
+                      (theme === "device" &&
+                        window.matchMedia("(prefers-color-scheme: light)")
+                          .matches)
+                        ? {
+                            backgroundColor: `${item.lightColor.hex}`,
+                            color:
+                              `${item.lightColor.textColor}` &&
+                              `${item.lightColor.textColor}`,
+                          }
+                        : {
+                            backgroundColor: `${item.darkColor.hex}`,
+                            color:
+                              `${item.darkColor.textColor}` &&
+                              `${item.darkColor.textColor}`,
+                          }
+                    }
                   >
                     {item.text}
                   </li>
