@@ -7,6 +7,7 @@
   font-size: var(--small-text-font-size);
   word-break: keep-all;
   box-sizing: border-box;
+  color: var(--black-font-color);
 }
 .modal-on-writepost::backdrop {
   opacity: 0;

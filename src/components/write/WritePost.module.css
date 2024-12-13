@@ -33,6 +33,7 @@
   display: flex;
   font-size: 3.2rem;
   font-weight: 700;
+  color: var(--black-font-color);
 }
 .user-id {
   font-weight: normal;
@@ -52,6 +53,7 @@
   display: flex;
   flex-direction: column;
   margin-bottom: 2rem;
+  color: var(--black-font-color);
 }
 #title {
   background-color: var(--background-white);
@@ -63,7 +65,7 @@
   margin-right: 1rem;
   position: relative;
 }
-.title-input {
+#title-input {
   width: 100%;
 }
 #title input[type="text"] {
@@ -72,6 +74,7 @@
 
   margin-left: 1rem;
   width: 80%;
+  color: var(--black-font-color);
 }
 #title input[type="checkbox"] {
   appearance: none;
@@ -157,6 +160,7 @@
 }
 .btn-feeling-selected li {
   list-style: none;
+  color: var(--black-font-color);
 }
 /* 별점 */
 .rate-star-container {
@@ -208,6 +212,7 @@
 }
 .text-field-area textarea {
   background-color: inherit;
+  color: var(--black-font-color);
 }
 .text-field-area::-webkit-scrollbar {
   background-color: inherit;
