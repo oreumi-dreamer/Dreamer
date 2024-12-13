@@ -11,8 +11,12 @@
   border: 0;
   background-color: var(--background-lightgray);
   border-radius: 1rem;
-  padding: 3.5rem 2.5rem;
   box-shadow: 0 0 1.5rem 0 rgba(0, 0, 0, 0.2);
+}
+.modal-contents {
+  width: 100%;
+  height: 100%;
+  padding: 3.5rem 2.5rem;
 }
 .new-post::backdrop {
   background-color: var(--background-dimmed);
