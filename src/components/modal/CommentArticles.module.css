@@ -23,18 +23,8 @@
   -webkit-box-orient: vertical;
 }
 
-.comment-article.text-long p::after {
-  content: url(/images/comment-close.svg);
-  position: absolute;
-  display: inline-block;
-  width: 1.2rem;
-  height: 1.2rem;
-  right: 1.6rem;
-  bottom: 1.2rem;
-}
-
-.comment-article.text-long.comment-open p::after {
-  content: url(/images/comment-open.svg);
+.comment-article:has(.comment-close):not(.comment-open) {
+  cursor: pointer;
 }
 
 .comment-open p {
@@ -43,6 +33,11 @@
   display: block;
   -webkit-line-clamp: unset;
   -webkit-box-orient: unset;
+}
+.comment-close {
+  position: absolute;
+  bottom: 0.4rem;
+  right: 1.6rem;
 }
 
 .comment-info {
