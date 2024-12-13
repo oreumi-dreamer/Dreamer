@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -18,9 +20,6 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
   const { user } = useSelector((state) => state.auth);
   const { theme } = useTheme();
 
-  if (!user) {
-    return <Error404 />;
-  }
   const profileImageUrl = user.profileImageUrl || "/images/rabbit.svg";
   const userId = user.userId;
   const userName = user.userName;
@@ -139,6 +138,10 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
       console.error("에러", error);
     }
   };
+
+  if (!user) {
+    return <Error404 />;
+  }
 
   return (
     <dialog
