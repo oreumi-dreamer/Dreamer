@@ -1,3 +1,13 @@
 .signup-header {
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 20rem;
+}
+
+@media (max-width: 480px) {
+  .signup-header img {
+    width: 38rem;
+    height: 15rem;
+  }
 }
