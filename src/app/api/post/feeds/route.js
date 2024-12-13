@@ -90,6 +90,7 @@ export async function GET(request, { params }) {
         "dreamGenres",
         "dreamMoods",
         "imageUrls",
+        "tomong",
         "tomongSelected",
       ],
     });
@@ -175,14 +176,15 @@ export async function GET(request, { params }) {
 
         return {
           ...hit,
+          tomong: [],
           score: totalScore,
           authorId: userMap[hit.authorUid]?.userId || "알 수 없음",
           authorName: userMap[hit.authorUid]?.userName || "알 수 없음",
           profileImageUrl:
             userMap[hit.authorUid]?.profileImageUrl || "/images/rabbit.svg",
           hasUserSparked: hit.spark?.includes(userData.uid),
-          isTomong: hit.tomongSelected > 0,
-          tomongSelected: hit.tomongSelected,
+          isTomong: hit.tomong ? !!hit.tomong[hit.tomongSelected] : false,
+          tomongSelected: hit.tomongSelected > -1 ? hit.tomongSelected : -1,
         };
       })
       .sort((a, b) => b.score - a.score);
