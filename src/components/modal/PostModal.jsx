@@ -6,7 +6,7 @@ import postTime from "@/utils/postTime";
 import CommentArticles from "./CommentArticles";
 import { DREAM_GENRES, DREAM_MOODS } from "@/utils/constants";
 import Loading from "../Loading";
-import { useSelector } from "react-redux";
+import useTheme from "@/hooks/styling/useTheme";
 
 export default function PostModal({ postId, isShow, onClose }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -17,7 +17,7 @@ export default function PostModal({ postId, isShow, onClose }) {
   const [isPrivate, setIsPrivate] = useState(false);
   const [oneiromancy, setOneiromancy] = useState(false);
   const [isCommentSubmitting, setIsCommentSubmitting] = useState(false);
-  const { user } = useSelector((state) => state.auth);
+  const { theme } = useTheme();
 
   useEffect(() => {
     const viewPost = async () => {
@@ -247,8 +247,8 @@ export default function PostModal({ postId, isShow, onClose }) {
                             <li
                               key={index}
                               style={
-                                user.theme === "light" ||
-                                (user.theme === "deviceMode" &&
+                                theme === "light" ||
+                                (theme === "device" &&
                                   window.matchMedia(
                                     "(prefers-color-scheme: light)"
                                   ).matches)
