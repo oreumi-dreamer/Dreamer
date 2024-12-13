@@ -44,6 +44,18 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
     }
   };
 
+  useEffect(() => {
+    const handleEscKey = (e) => {
+      if (isWriteModalOpen && e.key === "Escape") {
+        handleStopWriting();
+      }
+    };
+    window.addEventListener("keydown", handleEscKey);
+    return () => {
+      window.removeEventListener("keydown", handleEscKey);
+    };
+  }, [isWriteModalOpen, contentValue, isContentChanged]);
+
   // 해시태그/기분 클릭 목록
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [selectedMoods, setSelectedMoods] = useState([]);
