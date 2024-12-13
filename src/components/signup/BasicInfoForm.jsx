@@ -144,7 +144,7 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
       <p>안녕하세요! 드리머가 되신것을 환영합니다.</p>
       <p>시작하기에 앞서, 궁금한게 있어요. 당신에 대해 알려주세요!</p>
 
-      <fieldset>
+      <fieldset className={styles["signup-fieldset"]}>
         <legend className="sr-only">기본 정보</legend>
 
         <div className={styles["form-field"]}>
