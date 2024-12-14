@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styles from "./PostModal.module.css";
 import Link from "next/link";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
@@ -7,6 +7,8 @@ import CommentArticles from "./CommentArticles";
 import { DREAM_GENRES, DREAM_MOODS } from "@/utils/constants";
 import Loading from "../Loading";
 import useTheme from "@/hooks/styling/useTheme";
+import { MyPost, OtherPost } from "../dropDown/DropDown";
+import { outsideClickModalClose } from "@/utils/outsideClickModalClose";
 
 export default function PostModal({ postId, isShow, onClose }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -18,6 +20,11 @@ export default function PostModal({ postId, isShow, onClose }) {
   const [oneiromancy, setOneiromancy] = useState(false);
   const [isCommentSubmitting, setIsCommentSubmitting] = useState(false);
   const { theme } = useTheme();
+  const [isOpen, setIsOpen] = useState(false); // 더보기 버튼 클릭 상태 관리
+  const [modalType, setModalType] = useState(null);
+  const [modalStyle, setModalStyle] = useState({});
+  const modalRef = useRef(null);
+  const buttonRef = useRef(null);
 
   useEffect(() => {
     const viewPost = async () => {
@@ -40,6 +47,17 @@ export default function PostModal({ postId, isShow, onClose }) {
       setIsLoading(false);
     }
   }, [postData]);
+
+  useEffect(() => {
+    if (modalRef.current && buttonRef.current) {
+      const cleanup = outsideClickModalClose(modalRef, buttonRef, () => {
+        setIsOpen(false);
+      });
+      return () => {
+        cleanup();
+      };
+    }
+  }, [modalRef, buttonRef, isOpen]);
 
   function handleModalClose() {
     if (comment) {
@@ -90,16 +108,6 @@ export default function PostModal({ postId, isShow, onClose }) {
     setIsCommentSubmitting(false);
   }
 
-  function handleCheckboxClick(e) {
-    const checkboxName = e.target.parentElement.innerText;
-    const isCheckboxChecked = e.target.checked;
-    if (checkboxName === "꿈해몽") {
-      setOneiromancy(isCheckboxChecked);
-    } else if (checkboxName === "비공개") {
-      setIsPrivate(isCheckboxChecked);
-    }
-  }
-
   async function handleStarButtonClick(e) {
     const hasSparked = postData.hasUserSparked;
     const sparkCount = postData.sparkCount;
@@ -131,6 +139,36 @@ export default function PostModal({ postId, isShow, onClose }) {
   function handleScrapButtonClick(e) {
     if (e.currentTarget.className === "scrap") {
       setIsScrap((prev) => !prev);
+    }
+  }
+
+  function handleCheckboxClick(e) {
+    const checkboxName = e.target.parentElement.innerText;
+    const isCheckboxChecked = e.target.checked;
+    if (checkboxName === "꿈해몽") {
+      setOneiromancy(isCheckboxChecked);
+    } else if (checkboxName === "비공개") {
+      setIsPrivate(isCheckboxChecked);
+    }
+  }
+
+  function handlePostMoreBtnClick() {
+    const modalType = postData.isMyself ? "isMyPost" : "isNotMyPost";
+
+    if (!isOpen) {
+      setModalType(modalType);
+      setIsOpen(true);
+      if (buttonRef.current) {
+        const position = {
+          position: "absolute",
+          top: "40px",
+          right: "0px",
+        };
+        setModalStyle(position);
+      }
+    } else {
+      setModalType(null);
+      setIsOpen(false);
     }
   }
 
@@ -226,15 +264,33 @@ export default function PostModal({ postId, isShow, onClose }) {
                           />
                         </button>
                       </li>
-                      <li>
-                        <button>
+                      <li className={styles["more-btn"]}>
+                        <button
+                          type="button"
+                          onClick={() => handlePostMoreBtnClick()}
+                        >
                           <img
                             src="/images/more.svg"
                             alt="더보기"
                             width={30}
                             height={30}
+                            ref={buttonRef}
                           />
                         </button>
+                        {isOpen && modalType === "isMyPost" && (
+                          <MyPost
+                            ref={modalRef}
+                            style={modalStyle}
+                            className={styles["more-modal"]}
+                          />
+                        )}
+                        {isOpen && modalType === "isNotMyPost" && (
+                          <OtherPost
+                            ref={modalRef}
+                            style={modalStyle}
+                            className={styles["more-modal"]}
+                          />
+                        )}
                       </li>
                     </ul>
                   </section>
