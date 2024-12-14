@@ -11,6 +11,7 @@ import {
 } from "@/store/authSlice";
 import { checkUserExists } from "@/utils/auth/checkUser";
 import Loading from "@/components/Loading";
+import NavProvider from "../NavProvider";
 
 export default function AuthStateHandler({ children }) {
   const dispatch = useDispatch();
@@ -48,5 +49,5 @@ export default function AuthStateHandler({ children }) {
     return <Loading type="full" />;
   }
 
-  return children;
+  return <NavProvider>{children}</NavProvider>;
 }
