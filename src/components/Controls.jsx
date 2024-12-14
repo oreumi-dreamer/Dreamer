@@ -371,7 +371,7 @@ export const CustomScrollbar = () => {
   }, [container, isDragging, thumbHeight]);
 
   useEffect(() => {
-    const htmlElement = document.querySelector("div#container");
+    const htmlElement = document.querySelector("body");
     if (!htmlElement) return;
 
     setContainer(htmlElement);
