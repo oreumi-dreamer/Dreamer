@@ -24,8 +24,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 3.2rem;
-  height: 3.2rem;
+  width: 2.5rem;
+  height: 2.5rem;
   margin-right: 1rem;
 }
 
@@ -34,14 +34,38 @@
   color: var(--background-white);
 }
 
+/* 이메일로 로그인 화면 style */
 .join-button {
   display: flex;
   align-items: center;
   column-gap: 1.6rem;
 }
 
+.login-form,
+.email-signup {
+  max-width: 66rem;
+}
+
+.login-container label {
+  font-weight: bold;
+  justify-content: center;
+  gap: 1.2rem;
+}
+.login-container label:last-of-type {
+  margin-right: 1.2rem;
+}
 .login-container h2 {
   text-align: center;
+}
+.login-container label input {
+  background-color: #e8e8e8;
+  width: 100%;
+  max-width: 30rem;
+}
+
+.login-container input:focus {
+  outline: none;
+  border: 0.2rem solid #a54cb4;
 }
 
 .error-message {
@@ -71,4 +95,9 @@
 
 .back-btn {
   margin-right: auto;
+}
+@media (max-width: 560px) {
+  .login-container label:last-of-type {
+    margin-right: 0;
+  }
 }
