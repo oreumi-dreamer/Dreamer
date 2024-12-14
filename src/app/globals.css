@@ -149,6 +149,18 @@ body {
   letter-spacing: 0.03em;
 }
 
+body:has(header):has(main):has(footer) {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: nowrap;
+  width: 100vw;
+  height: auto;
+  background-color: var(--background-color);
+  column-gap: 6.4rem;
+  padding-left: calc(32rem);
+  padding-right: 6.4rem;
+}
+
 main {
   padding: 16.6rem 0 16.6rem 6.4rem;
 }
