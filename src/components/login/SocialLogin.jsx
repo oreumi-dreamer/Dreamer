@@ -170,7 +170,7 @@ export default function SocialLogin() {
             <Button
               type="button"
               onClick={() => setShowEmailForm(false)}
-              float="left-bottom"
+              className={styles["back-btn"]}
             >
               돌아가기
             </Button>

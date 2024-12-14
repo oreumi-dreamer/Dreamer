@@ -95,6 +95,9 @@
 
 .back-btn {
   margin-right: auto;
+  position: absolute;
+  bottom: 1.5rem;
+  left: 2rem;
 }
 @media (max-width: 560px) {
   .login-container label:last-of-type {
