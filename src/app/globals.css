@@ -189,8 +189,24 @@ main {
   clip: rect(0 0 0 0);
 }
 
+@media (max-width: 1152px) {
+  body:has(header):has(main):has(footer) {
+    padding-left: 10.4rem;
+  }
+}
+
 @media (max-width: 860px) {
   main {
     padding: 16.6rem 0 16.6rem 0;
+  }
+}
+
+@media (max-width: 860px) {
+  body:has(header):has(main):has(footer) {
+    flex-direction: column;
+  }
+
+  body:has(header):has(main):has(footer) main {
+    padding: 16.6rem 0 0 6.4rem;
   }
 }
