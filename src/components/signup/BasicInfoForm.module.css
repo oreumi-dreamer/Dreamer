@@ -9,17 +9,17 @@
 .signup-form p:first-of-type {
   font-size: var(--big-text-font-size);
   font-weight: bold;
-  margin: 0 0 1.6rem 0;
+  margin: 0 0 1.6rem 1rem;
 }
 
 .signup-form p:nth-of-type(2) {
   font-size: var(--h3-font-size);
-  margin: 0 0 2.4rem 0;
+  margin: 0 0 2.4rem 1rem;
 }
 .signup-fieldset {
   width: 100%;
-  max-width: 60rem;
-  padding: 0 4rem;
+  max-width: 55rem;
+  padding: 0 6rem 0 3rem;
 }
 .form-field {
   display: flex;
@@ -33,7 +33,7 @@
 .form-field input {
   width: 100%;
   max-width: 44rem;
-  padding: 1.2rem 0.2rem;
+  padding: 1.2rem 0 1.2rem 0;
   background-color: #e8e8e8;
   border: none;
   border-radius: 1rem;
@@ -53,15 +53,15 @@
 .form-field label {
   font-size: var(--h2-font-size);
   font-weight: bold;
-  max-width: 13.6rem;
+  max-width: 49.6rem;
   position: relative;
   margin-top: 1.6rem;
 }
 
 .form-field label img {
   position: absolute;
-  top: 4rem;
-  right: -36rem;
+  top: 4.2rem;
+  right: -4rem;
 }
 
 .signup-form .user-login-field p {
@@ -142,30 +142,20 @@
   .signup-form p:first-of-type {
     font-size: var(--h2-font-size);
   }
-  .signup-fieldset {
-    text-align: center;
-  }
   .form-field input {
-    max-width: 30rem;
     font-size: var(--small-text-font-size);
   }
   .form-field label,
   .invalid-text {
     font-size: var(--h3-font-size);
-    text-align: start;
   }
   .form-field label img {
     position: absolute;
-    top: 2.5rem;
-    right: -21.5rem;
+    top: 2.8rem;
+    right: -4.6rem;
   }
   .input-wrapper select {
-    max-width: 8rem;
     font-size: var(--small-text-font-size);
-  }
-  .input-wrapper select:first-of-type {
-    max-width: 12rem;
-    margin-right: 0.3rem;
   }
   .signup-form .user-login-field p {
     font-size: var(--body-font-size);
