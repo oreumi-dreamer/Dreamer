@@ -46,6 +46,10 @@ html:has(.post-modal) {
   top: 0;
 }
 
+.more-btn {
+  position: relative;
+}
+
 .post-info-section {
   padding-left: 8.6rem;
 }
