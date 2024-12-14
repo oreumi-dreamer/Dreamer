@@ -76,6 +76,13 @@
   object-fit: cover;
 }
 
+.recommend-list li span {
+  white-space: nowrap;
+  max-width: 8em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .recommend-follow {
   padding: 0.8rem 1.2rem;
   font-size: var(--small-text-font-size);
