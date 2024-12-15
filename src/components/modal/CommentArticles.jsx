@@ -137,7 +137,7 @@ export default function CommentArticles({
         <p>
           {!comment.isPrivate
             ? comment.content
-            : isMyself
+            : isMyself || comment.authorId === user.userId
               ? comment.content
               : "비공개 댓글입니다 :)"}
         </p>
