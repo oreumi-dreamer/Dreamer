@@ -4,10 +4,7 @@
   align-items: center;
   height: 20rem;
 }
-
-@media (max-width: 480px) {
-  .signup-header img {
-    width: 38rem;
-    height: 15rem;
-  }
+.signup-header img {
+  width: 100%;
+  max-width: 86rem;
 }
