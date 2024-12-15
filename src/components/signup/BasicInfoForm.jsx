@@ -8,6 +8,7 @@ import { signInWithPopup } from "firebase/auth";
 import { checkUserExists } from "@/utils/auth/checkUser";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
+import { Checkbox } from "../Controls";
 
 export default function BasicInfoForm({ onSubmit, formData, setters }) {
   const { userId, userName, year, month, day } = formData;
@@ -16,6 +17,7 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
   const [isIdValid, setIsIdValid] = useState(false);
   const [isNameValid, setIsNameValid] = useState(false);
   const [isBirthValid, setIsBirthValid] = useState(false);
+  const [isAgree, setIsAgree] = useState(false);
   const [error, setError] = useState("");
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
@@ -133,6 +135,10 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
   };
 
   const todayYear = new Date().getFullYear();
+
+  const handleAgree = () => {
+    setIsAgree(!isAgree);
+  };
 
   return (
     <form
@@ -258,6 +264,21 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
           </span>
         </div>
 
+        <div className={styles["form-field"]}>
+          <Checkbox onChange={handleAgree}>
+            <span>
+              <a href="/terms" target="_blank">
+                이용 약관{" "}
+              </a>
+              및{" "}
+              <a href="/privacy" target="_blank">
+                개인정보 처리방침
+              </a>
+              에 동의합니다.
+            </span>
+          </Checkbox>
+        </div>
+
         <div className={styles["user-login-field"]}>
           <p>이미 회원이신가요? 로그인하여 꿈을 공유해보세요!</p>
           <ul className={styles["login-buttons"]}>
@@ -288,7 +309,7 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
       <button
         type="submit"
         className={styles["next-btn"]}
-        disabled={!isIdValid || !isNameValid || !isBirthValid}
+        disabled={!isIdValid || !isNameValid || !isBirthValid || !isAgree}
       >
         다음
       </button>
