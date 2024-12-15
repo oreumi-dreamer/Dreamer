@@ -419,6 +419,7 @@ export default function PostModal({ postId, isShow, onClose }) {
                     <h3 className="sr-only">댓글 모음 확인</h3>
                     <CommentArticles
                       postId={postId}
+                      user={user}
                       isCommentSubmitting={isCommentSubmitting}
                     />
                   </section>

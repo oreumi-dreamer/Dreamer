@@ -3,13 +3,11 @@ import styles from "./CommentArticles.module.css";
 import Link from "next/link";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 import postTime from "@/utils/postTime";
-import { useSelector } from "react-redux";
 import Loading from "../Loading";
 
-export default function CommentArticles({ postId, isCommentSubmitting }) {
+export default function CommentArticles({ postId, user, isCommentSubmitting }) {
   const [commentData, setCommentData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const { user } = useSelector((state) => state.auth);
   useEffect(() => {
     const viewComments = async () => {
       try {
@@ -93,7 +91,7 @@ export default function CommentArticles({ postId, isCommentSubmitting }) {
             </li>
           )}
         </ul>
-        {user.userId === comment.authorId && (
+        {user?.userId === comment.authorId && (
           <ul className={styles["edit-delete-button"]}>
             <li>
               <button>수정</button>
