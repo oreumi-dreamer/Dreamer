@@ -350,12 +350,8 @@ function TomongLists({ setProcess, setTomongDream }) {
       let data = null;
       if (res.ok) {
         data = await res.json();
-
-        console.log(data.posts.filter((post) => !!post.tomongs));
         const filteredDream = data.posts.filter((post) => !!post.tomongs);
-
         setDreams(filteredDream);
-        console.log(filteredDream);
       }
 
       setIsLoading(false);

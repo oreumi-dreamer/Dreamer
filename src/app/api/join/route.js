@@ -81,7 +81,6 @@ export async function POST(request) {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
     const verifyData = await verifyUser(baseUrl, idToken);
-    console.log(verifyData);
 
     if (verifyData.exists) {
       return new Response(
