@@ -172,6 +172,10 @@ main {
   margin: 0;
 }
 
+*:disabled {
+  cursor: not-allowed;
+}
+
 :root input::placeholder,
 :root textarea::placeholder {
   font-family: "NanumBarunPen", sans-serif;
