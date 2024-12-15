@@ -14,8 +14,6 @@ export default function NavProvider({ children }) {
 
   const pathname = usePathname();
 
-  console.log("pathname", pathname);
-
   if (
     !isLogin ||
     !isComplete ||
