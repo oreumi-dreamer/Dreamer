@@ -217,26 +217,40 @@ export default function PostModal({ postId, isShow, onClose }) {
                       </p>
                     </Link>
                     <ul className={styles["button-list"]}>
-                      <li>
-                        <button
-                          onClick={handleStarButtonClick}
-                          className="star"
-                        >
+                      {postData.isPrivate ? (
+                        <li>
                           <img
-                            src={
-                              postData.hasUserSparked
-                                ? "/images/star-fill.svg"
-                                : "/images/star.svg"
-                            }
-                            alt="좋아요반짝"
+                            src="/images/lock.svg"
+                            alt="비공개"
                             width={30}
                             height={30}
                           />
-                        </button>
-                        <span>
-                          {postData.sparkCount} 명의 관심을 받고 있는 꿈이에요.
-                        </span>
-                      </li>
+                          <span>당신의 비공개 꿈이에요 :)</span>
+                        </li>
+                      ) : (
+                        <li>
+                          <button
+                            onClick={handleStarButtonClick}
+                            className="star"
+                          >
+                            <img
+                              src={
+                                postData.hasUserSparked
+                                  ? "/images/star-fill.svg"
+                                  : "/images/star.svg"
+                              }
+                              alt="좋아요반짝"
+                              width={30}
+                              height={30}
+                            />
+                          </button>
+                          <span>
+                            {postData.sparkCount} 명의 관심을 받고 있는 꿈이에요
+                            :)
+                          </span>
+                        </li>
+                      )}
+
                       <li>
                         <button>
                           <img
