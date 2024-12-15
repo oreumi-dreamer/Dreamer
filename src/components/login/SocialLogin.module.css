@@ -41,26 +41,32 @@
   column-gap: 1.6rem;
 }
 
+.join-button p {
+  font-size: var(--h3-font-size);
+}
+
 .login-form,
 .email-signup {
-  max-width: 66rem;
+  max-width: 60rem;
+  padding: 4.4rem 8rem 10rem 8rem;
 }
 
 .login-container label {
+  font-size: var(--h2-font-size);
   font-weight: bold;
-  justify-content: center;
-  gap: 1.2rem;
+  flex-direction: column;
+  align-items: flex-start;
 }
-.login-container label:last-of-type {
-  margin-right: 1.2rem;
-}
+
 .login-container h2 {
   text-align: center;
 }
 .login-container label input {
   background-color: #e8e8e8;
   width: 100%;
-  max-width: 30rem;
+  max-width: 44rem;
+  margin: 0;
+  align-items: center;
 }
 
 .login-container input:focus {
@@ -77,13 +83,6 @@
   position: relative;
 }
 
-/* .email-verify-btn {
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-} */
-
 .btn-row {
   display: flex;
   flex-direction: column;
@@ -96,11 +95,13 @@
 .back-btn {
   margin-right: auto;
   position: absolute;
-  bottom: 1.5rem;
-  left: 2rem;
+  bottom: 4.3rem;
+  left: 4rem;
 }
-@media (max-width: 560px) {
-  .login-container label:last-of-type {
-    margin-right: 0;
-  }
+
+.email-verify-btn {
+  position: absolute;
+  right: 0;
+  bottom: 4.3rem;
+  right: 5.2rem;
 }
