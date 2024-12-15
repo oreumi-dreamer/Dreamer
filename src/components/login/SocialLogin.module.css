@@ -9,6 +9,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  color: var(--black-font-color);
 }
 
 .login-buttons li:first-of-type button img {
@@ -27,6 +28,7 @@
   width: 2.5rem;
   height: 2.5rem;
   margin-right: 1rem;
+  filter: var(--filter-color);
 }
 
 .login-buttons li:first-of-type button {
@@ -43,12 +45,14 @@
 
 .join-button p {
   font-size: var(--h3-font-size);
+  color: var(--black-font-color);
 }
 
 .login-form,
 .email-signup {
   max-width: 60rem;
   padding: 4.4rem 8rem 10rem 8rem;
+  background-color: var(--background-white);
 }
 
 .login-container label {
@@ -60,6 +64,7 @@
 
 .login-container h2 {
   text-align: center;
+  color: var(--black-font-color);
 }
 .login-container label input {
   background-color: #e8e8e8;
@@ -77,6 +82,7 @@
 .error-message {
   text-align: center;
   word-break: keep-all;
+  color: var(--black-font-color);
 }
 
 .email-input {

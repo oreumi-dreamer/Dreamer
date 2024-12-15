@@ -40,6 +40,8 @@
   --post-text-blur: linear-gradient(#fcfcfc00, #fcfcfc);
   --option-hover-color: #ccc;
   --focus-border-color: #a54cb4;
+  --filter-color: brightness(0) saturate(100%) invert(89%) sepia(27%)
+    saturate(93%) hue-rotate(28deg) brightness(105%) contrast(88%);
 }
 
 @media (prefers-color-scheme: dark) {

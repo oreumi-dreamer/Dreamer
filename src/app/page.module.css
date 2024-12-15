@@ -14,9 +14,10 @@
   margin-right: 5rem;
 }
 
-.main img {
+.main h1 img {
   width: 80vw;
   max-width: 60rem;
+  filter: var(--filter-color);
 }
 
 .login {
