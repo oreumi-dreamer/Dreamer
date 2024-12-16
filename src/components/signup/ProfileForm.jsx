@@ -34,7 +34,7 @@ export default function ProfileForm({
       <p>WELCOME DREAMER!</p>
       <p>마지막 단계예요!</p>
 
-      <fieldset>
+      <fieldset className={styles["signup-fieldset"]}>
         <legend className="sr-only">프로필 정보</legend>
 
         <div className={styles["form-field"]}>

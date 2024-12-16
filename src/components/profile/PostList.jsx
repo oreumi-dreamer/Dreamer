@@ -1,15 +1,59 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 import useTheme from "@/hooks/styling/useTheme";
+import { MyPost, OtherPost } from "../dropDown/DropDown";
+import { outsideClickModalClose } from "@/utils/outsideClickModalClose";
 
 export default function PostList({
   posts: initialPosts,
   styles,
   isLoggedIn,
   setSelectedPostId,
+  isMyself,
 }) {
   const [posts, setPosts] = useState(initialPosts);
   const { theme } = useTheme();
+  const [isOpen, setIsOpen] = useState(false);
+  const [modalType, setModalType] = useState(null);
+  const [modalStyle, setModalStyle] = useState({});
+  const [activePostId, setActivePostId] = useState(null);
+  const modalRef = useRef(null);
+  const buttonRef = useRef(null);
+
+  useEffect(() => {
+    if (modalRef.current && buttonRef.current) {
+      const cleanup = outsideClickModalClose(modalRef, buttonRef, () => {
+        setIsOpen(false);
+      });
+      return () => {
+        cleanup();
+      };
+    }
+  }, [modalRef, buttonRef, isOpen]);
+
+  function handlePostMoreBtnClick(postId) {
+    const modalType = isMyself ? "isMyPost" : "isNotMyPost";
+
+    if (!isOpen) {
+      setModalType(modalType);
+      setIsOpen(true);
+      setActivePostId(postId);
+
+      if (buttonRef.current) {
+        const position = {
+          position: "absolute",
+          bottom: "20px",
+          right: "0px",
+          zIndex: "1000",
+        };
+        setModalStyle(position);
+      }
+    } else {
+      setModalType(null);
+      setIsOpen(false);
+      setActivePostId(null);
+    }
+  }
 
   const changeSpark = (postId) => {
     setPosts((currentPosts) =>
@@ -56,7 +100,17 @@ export default function PostList({
         <article
           className={styles["post-wrap"]}
           key={post.id}
-          onClick={() => setSelectedPostId(post.id)}
+          onClick={(e) => {
+            const target = e.target.textContent;
+            if (
+              target !== "수정하기" &&
+              target !== "삭제하기" &&
+              target !== "비밀글로 변경하기" &&
+              target !== "신고하기"
+            ) {
+              setSelectedPostId(post.id);
+            }
+          }}
         >
           {post.isTomong && (
             <img
@@ -94,8 +148,32 @@ export default function PostList({
               <img src="/images/message.svg" alt="댓글" />
               <span>{post.commentsCount}</span>
             </button>
+            {isOpen && modalType === "isMyPost" && activePostId === post.id && (
+              <MyPost
+                ref={modalRef}
+                style={modalStyle}
+                className={styles["more-modal"]}
+              />
+            )}
+            {isOpen &&
+              modalType === "isNotMyPost" &&
+              activePostId === post.id && (
+                <OtherPost
+                  ref={modalRef}
+                  style={modalStyle}
+                  className={styles["more-modal"]}
+                />
+              )}
             <button>
-              <img src="/images/more.svg" alt="더보기" />
+              <img
+                src="/images/more.svg"
+                alt="더보기"
+                ref={buttonRef}
+                onClick={(e) => {
+                  e.stopPropagation(); // article 클릭 이벤트 방지
+                  handlePostMoreBtnClick(post.id);
+                }}
+              />
             </button>
           </div>
         </article>

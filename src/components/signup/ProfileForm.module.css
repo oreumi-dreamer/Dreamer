@@ -43,11 +43,11 @@
   grid-area: fileUpload;
   font-size: 1.4rem;
   font-weight: unset;
-  color: #000;
+  color: var(--active-header-color);
   padding: 1.1rem 2.65rem;
   width: fit-content;
   border-radius: 1rem;
-  background-color: #9f9f9f;
+  background-color: var(--placeholder-color);
   cursor: pointer;
 }
 
@@ -58,7 +58,7 @@
 .form-field:first-of-type span {
   grid-area: span;
   font-size: var(--h3-font-size);
-  color: rgba(0, 0, 0, 0.6);
+  color: var(--black-transparent-color);
   align-self: flex-start;
 }
 .form-field:first-of-type img {
@@ -85,7 +85,7 @@
 .form-field:nth-of-type(2) textarea {
   width: 49.6rem;
   height: 8.8rem;
-  background-color: #e8e8e8;
+  background-color: var(--white-color);
   border: none;
   border-radius: 1rem;
   padding: 1.2rem 2rem;
@@ -95,12 +95,12 @@
 
 .form-field:nth-of-type(2) textarea:focus {
   outline: none;
-  border: 0.2rem solid #a54cb4;
+  border: 0.2rem solid var(--focus-border-color);
 }
 
 .form-field:nth-of-type(2) input:focus {
   outline: none;
-  border: 0.2rem solid #a54cb4;
+  border: 0.2rem solid var(--focus-border-color);
 }
 
 .form-field:nth-of-type(2) {
@@ -124,34 +124,36 @@
 }
 
 .buttons button:hover {
-  background-color: #cd6969;
+  background-color: var(--hover-btn-color);
   color: #ffffff;
 }
 .dark-mode input:hover + label,
 .buttons button:nth-of-type(2):hover {
-  background-color: #959595;
+  background-color: var(--none-active-color);
   color: #fff;
 }
 
 .dark-mode input:active + label,
 .buttons button:active {
-  background-color: #903434;
+  background-color: var(--active-btn-color);
   color: #ffffff;
 }
 
 .dark-mode input:checked + label {
-  background-color: #f89b9b;
+  background-color: var(--deep-pink-color);
   color: #ffffff;
 }
 
 .dark-mode label {
   font-size: var(--h3-font-size);
   font-weight: unset;
-  padding: 0.8rem 3.9rem;
-  text-align: center;
-  background-color: #d9d9d9;
+  padding: 0.8rem 0;
+  background-color: var(--background-lightgray);
   border-radius: 1rem;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  flex-grow: 1;
 }
 
 .buttons button {
@@ -159,7 +161,7 @@
   width: fit-content;
   padding: 0.8rem 2.4rem;
   border-radius: 1rem;
-  background-color: #f89b9b;
+  background-color: var(--deep-pink-color);
   color: #ffffff;
   position: absolute;
   bottom: -2.1rem;
@@ -169,11 +171,23 @@
 }
 
 .buttons button:nth-of-type(2) {
-  background-color: #d9d9d9;
+  background-color: var(--background-lightgray);
   color: unset;
   right: 13.4rem;
 }
 
 .buttons button:last-of-type {
   right: 4rem;
+}
+
+@media (max-width: 480px) {
+  .profile-form p:first-of-type {
+    font-size: var(--h2-font-size);
+  }
+  .form-field:nth-of-type(2) textarea {
+    width: 100%;
+  }
+  .form-field:first-of-type span {
+    font-size: var(--small-text-font-size);
+  }
 }

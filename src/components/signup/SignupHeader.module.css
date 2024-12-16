@@ -1,3 +1,11 @@
 .signup-header {
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 20rem;
+}
+.signup-header img {
+  width: 100%;
+  max-width: 86rem;
+  filter: var(--filter-color);
 }

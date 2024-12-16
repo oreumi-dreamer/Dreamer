@@ -139,6 +139,7 @@ export default function Profile({ userName }) {
             styles={styles}
             isLoggedIn={isLoggedIn}
             setSelectedPostId={setSelectedPostId}
+            isMyself={profile.isMyself}
           />
         </section>
       );
