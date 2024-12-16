@@ -39,6 +39,16 @@
   --active-header-color: #000;
   --post-text-blur: linear-gradient(#fcfcfc00, #fcfcfc);
   --option-hover-color: #ccc;
+  --focus-border-color: #a54cb4;
+  --filter-color: none;
+  --tomong-stamp-half-opacity: 0.5;
+  --tomong-stamp-one-fifth-opacity: 0.2;
+  --filter-5f6368: invert(59%) sepia(0%) saturate(0%) hue-rotate(0deg)
+    brightness(58%) contrast(91%);
+  --filter-959595: brightness(0) saturate(100%) invert(59%) sepia(9%)
+    saturate(16%) hue-rotate(346deg) brightness(98%) contrast(89%);
+  --filter-fff: brightness(0) saturate(100%) invert(100%) sepia(0%)
+    saturate(7499%) hue-rotate(53deg) brightness(109%) contrast(101%);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -77,6 +87,10 @@
       rgba(17, 17, 17, 0) 100%
     );
     --option-hover-color: #95959530;
+    --filter-EEF0DE: brightness(0) saturate(100%) invert(89%) sepia(27%)
+      saturate(93%) hue-rotate(28deg) brightness(105%) contrast(88%);
+    --tomong-stamp-half-opacity: 1;
+    --tomong-stamp-one-fifth-opacity: 1;
   }
 }
 
@@ -113,6 +127,10 @@
     rgba(17, 17, 17, 0) 100%
   );
   --option-hover-color: #95959530;
+  --filter-EEF0DE: brightness(0) saturate(100%) invert(89%) sepia(27%)
+    saturate(93%) hue-rotate(28deg) brightness(105%) contrast(88%);
+  --tomong-stamp-half-opacity: 1;
+  --tomong-stamp-one-fifth-opacity: 1;
 }
 
 html {
@@ -143,6 +161,18 @@ body {
   letter-spacing: 0.03em;
 }
 
+body:has(header):has(main):has(footer) {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: nowrap;
+  width: 100vw;
+  height: auto;
+  background-color: var(--background-color);
+  column-gap: 6.4rem;
+  padding-left: calc(32rem);
+  padding-right: 6.4rem;
+}
+
 main {
   padding: 16.6rem 0 16.6rem 6.4rem;
 }
@@ -152,6 +182,10 @@ main {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+}
+
+*:disabled {
+  cursor: not-allowed;
 }
 
 :root input::placeholder,
@@ -171,8 +205,24 @@ main {
   clip: rect(0 0 0 0);
 }
 
+@media (max-width: 1152px) {
+  body:has(header):has(main):has(footer) {
+    padding-left: 10.4rem;
+  }
+}
+
 @media (max-width: 860px) {
   main {
     padding: 16.6rem 0 16.6rem 0;
+  }
+}
+
+@media (max-width: 860px) {
+  body:has(header):has(main):has(footer) {
+    flex-direction: column;
+  }
+
+  body:has(header):has(main):has(footer) main {
+    padding: 16.6rem 0 0 6.4rem;
   }
 }

@@ -10,8 +10,10 @@
   font-size: var(--body-font-size);
   padding: 0.5rem 0;
   margin: 0;
-  text-align: center;
   color: var(--black-font-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .drop-down-items .drop-down-item:hover {

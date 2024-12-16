@@ -2,21 +2,25 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 2.4rem;
   width: 100%;
   position: relative;
+  margin-top: 1rem;
 }
 .signup-form p:first-of-type {
   font-size: var(--big-text-font-size);
   font-weight: bold;
-  margin-bottom: 1.6rem;
+  margin: 0 0 1.6rem 1rem;
 }
 
 .signup-form p:nth-of-type(2) {
   font-size: var(--h3-font-size);
-  margin-bottom: 2.4rem;
+  margin: 0 0 2.4rem 1rem;
 }
-
+.signup-fieldset {
+  width: 100%;
+  max-width: 55rem;
+  padding: 0 6rem 0 3rem;
+}
 .form-field {
   display: flex;
   flex-direction: column;
@@ -27,8 +31,9 @@
 }
 
 .form-field input {
-  width: 44rem;
-  padding: 1.2rem 0.2rem;
+  width: 100%;
+  max-width: 44rem;
+  padding: 1.2rem 0 1.2rem 0;
   background-color: #e8e8e8;
   border: none;
   border-radius: 1rem;
@@ -48,15 +53,15 @@
 .form-field label {
   font-size: var(--h2-font-size);
   font-weight: bold;
-  width: 13.6rem;
+  max-width: 49.6rem;
   position: relative;
   margin-top: 1.6rem;
 }
 
 .form-field label img {
   position: absolute;
-  top: 3.5rem;
-  right: -36rem;
+  top: 4.2rem;
+  right: -4rem;
 }
 
 .signup-form .user-login-field p {
@@ -74,12 +79,13 @@
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  background-color: #e8e8e8;
+  background-color: var(--white-color);
   border: none;
   border-radius: 1rem;
   padding: 1.2rem 2rem;
   font-size: var(--body-font-size);
-  width: 12.6rem;
+  width: 100%;
+  max-width: 12.6rem;
   cursor: pointer;
 
   background-image: url("/images/comment-close.svg");
@@ -94,8 +100,14 @@
 }
 
 .input-wrapper select:first-of-type {
-  width: 16rem;
+  max-width: 16rem;
   margin-right: 1.6rem;
+}
+
+.agree label {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 3.6rem;
 }
 
 .login-buttons {
@@ -111,23 +123,47 @@
 
 .next-btn {
   padding: 0.8rem 2.4rem;
-  background-color: #f89b9b;
+  background-color: var(--deep-pink-color);
   border-radius: 1rem;
   font-size: var(--body-font-size);
   color: #ffffff;
   position: absolute;
-  right: 4rem;
-  bottom: -2.1rem;
+  right: 5.2rem;
+  bottom: 0rem;
 }
 
 .next-btn:hover {
-  background-color: #cd6969;
+  background-color: var(--hover-btn-color);
 }
 
 .next-btn:active {
-  background-color: #903434;
+  background-color: var(--active-btn-color);
 }
 
 .next-btn:disabled {
   background-color: #77777b;
+}
+
+@media (max-width: 480px) {
+  .signup-form p:first-of-type {
+    font-size: var(--h2-font-size);
+  }
+  .form-field input {
+    font-size: var(--small-text-font-size);
+  }
+  .form-field label,
+  .invalid-text {
+    font-size: var(--h3-font-size);
+  }
+  .form-field label img {
+    position: absolute;
+    top: 2.8rem;
+    right: -4.6rem;
+  }
+  .input-wrapper select {
+    font-size: var(--small-text-font-size);
+  }
+  .signup-form .user-login-field p {
+    font-size: var(--body-font-size);
+  }
 }

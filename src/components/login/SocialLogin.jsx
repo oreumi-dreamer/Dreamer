@@ -11,8 +11,8 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { loginSuccess } from "@/store/authSlice";
 import { checkUserExists } from "@/utils/auth/checkUser";
-import styles from "./SocialLogin.module.css";
 import { Button, Form, Input, LoginForm } from "../Controls";
+import styles from "./SocialLogin.module.css";
 import EmailSignup from "./EmailSignup";
 
 export default function SocialLogin() {
@@ -129,7 +129,10 @@ export default function SocialLogin() {
       {showEmailForm && !showSignupForm ? (
         <>
           <h2>이메일로 로그인</h2>
-          <LoginForm onSubmit={handleEmailLogin}>
+          <LoginForm
+            onSubmit={handleEmailLogin}
+            className={styles["login-form"]}
+          >
             {error && (
               <p role="alert" className={styles["error-message"]}>
                 {error}
@@ -167,7 +170,7 @@ export default function SocialLogin() {
             <Button
               type="button"
               onClick={() => setShowEmailForm(false)}
-              float="left-bottom"
+              className={styles["back-btn"]}
             >
               돌아가기
             </Button>

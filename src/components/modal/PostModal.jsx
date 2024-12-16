@@ -1,12 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styles from "./PostModal.module.css";
+import markdownStyles from "@/app/tomong/Result.module.css";
 import Link from "next/link";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 import postTime from "@/utils/postTime";
 import CommentArticles from "./CommentArticles";
 import { DREAM_GENRES, DREAM_MOODS } from "@/utils/constants";
 import Loading from "../Loading";
+import { useSelector } from "react-redux";
+import convertToHtml from "@/utils/markdownToHtml";
+import { Divider } from "../Controls";
 import useTheme from "@/hooks/styling/useTheme";
+import { MyPost, OtherPost } from "../dropDown/DropDown";
+import { outsideClickModalClose } from "@/utils/outsideClickModalClose";
 
 export default function PostModal({ postId, isShow, onClose }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -17,7 +23,13 @@ export default function PostModal({ postId, isShow, onClose }) {
   const [isPrivate, setIsPrivate] = useState(false);
   const [oneiromancy, setOneiromancy] = useState(false);
   const [isCommentSubmitting, setIsCommentSubmitting] = useState(false);
+  const { user } = useSelector((state) => state.auth);
   const { theme } = useTheme();
+  const [isOpen, setIsOpen] = useState(false); // 더보기 버튼 클릭 상태 관리
+  const [modalType, setModalType] = useState(null);
+  const [modalStyle, setModalStyle] = useState({});
+  const modalRef = useRef(null);
+  const buttonRef = useRef(null);
 
   useEffect(() => {
     const viewPost = async () => {
@@ -40,6 +52,17 @@ export default function PostModal({ postId, isShow, onClose }) {
       setIsLoading(false);
     }
   }, [postData]);
+
+  useEffect(() => {
+    if (modalRef.current && buttonRef.current) {
+      const cleanup = outsideClickModalClose(modalRef, buttonRef, () => {
+        setIsOpen(false);
+      });
+      return () => {
+        cleanup();
+      };
+    }
+  }, [modalRef, buttonRef, isOpen]);
 
   function handleModalClose() {
     if (comment) {
@@ -90,16 +113,6 @@ export default function PostModal({ postId, isShow, onClose }) {
     setIsCommentSubmitting(false);
   }
 
-  function handleCheckboxClick(e) {
-    const checkboxName = e.target.parentElement.innerText;
-    const isCheckboxChecked = e.target.checked;
-    if (checkboxName === "꿈해몽") {
-      setOneiromancy(isCheckboxChecked);
-    } else if (checkboxName === "비공개") {
-      setIsPrivate(isCheckboxChecked);
-    }
-  }
-
   async function handleStarButtonClick(e) {
     const hasSparked = postData.hasUserSparked;
     const sparkCount = postData.sparkCount;
@@ -131,6 +144,48 @@ export default function PostModal({ postId, isShow, onClose }) {
   function handleScrapButtonClick(e) {
     if (e.currentTarget.className === "scrap") {
       setIsScrap((prev) => !prev);
+    }
+  }
+
+  let tomongStampUrl = "/images/tomong-stamp.png";
+  let tomongIconUrl = "/images/tomong.svg";
+  if (
+    theme === "dark" ||
+    (theme === "device" &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches)
+  ) {
+    tomongStampUrl = "/images/tomong-stamp-dark.png";
+    tomongIconUrl = "/images/tomong-dark.svg";
+  }
+
+  function handleCheckboxClick(e) {
+    const checkboxName = e.target.parentElement.innerText;
+    const isCheckboxChecked = e.target.checked;
+    if (checkboxName === "꿈해몽") {
+      setOneiromancy(isCheckboxChecked);
+    } else if (checkboxName === "비공개") {
+      setIsPrivate(isCheckboxChecked);
+    }
+  }
+
+  function handlePostMoreBtnClick() {
+    const modalType = postData.isMyself ? "isMyPost" : "isNotMyPost";
+
+    if (!isOpen) {
+      setModalType(modalType);
+      setIsOpen(true);
+      if (buttonRef.current) {
+        const position = {
+          position: "absolute",
+          top: "40px",
+          right: "0px",
+          zIndex: "10",
+        };
+        setModalStyle(position);
+      }
+    } else {
+      setModalType(null);
+      setIsOpen(false);
     }
   }
 
@@ -179,26 +234,40 @@ export default function PostModal({ postId, isShow, onClose }) {
                       </p>
                     </Link>
                     <ul className={styles["button-list"]}>
-                      <li>
-                        <button
-                          onClick={handleStarButtonClick}
-                          className="star"
-                        >
+                      {postData.isPrivate ? (
+                        <li>
                           <img
-                            src={
-                              postData.hasUserSparked
-                                ? "/images/star-fill.svg"
-                                : "/images/star.svg"
-                            }
-                            alt="좋아요반짝"
+                            src="/images/lock.svg"
+                            alt="비공개"
                             width={30}
                             height={30}
                           />
-                        </button>
-                        <span>
-                          {postData.sparkCount} 명의 관심을 받고 있는 꿈이에요.
-                        </span>
-                      </li>
+                          <span>당신의 비공개 꿈이에요 :)</span>
+                        </li>
+                      ) : (
+                        <li>
+                          <button
+                            onClick={handleStarButtonClick}
+                            className="star"
+                          >
+                            <img
+                              src={
+                                postData.hasUserSparked
+                                  ? "/images/star-fill.svg"
+                                  : "/images/star.svg"
+                              }
+                              alt="좋아요반짝"
+                              width={30}
+                              height={30}
+                            />
+                          </button>
+                          <span>
+                            {postData.sparkCount} 명의 관심을 받고 있는 꿈이에요
+                            :)
+                          </span>
+                        </li>
+                      )}
+
                       <li>
                         <button>
                           <img
@@ -226,20 +295,45 @@ export default function PostModal({ postId, isShow, onClose }) {
                           />
                         </button>
                       </li>
-                      <li>
-                        <button>
+                      <li className={styles["more-btn"]}>
+                        <button
+                          type="button"
+                          onClick={() => handlePostMoreBtnClick()}
+                        >
                           <img
                             src="/images/more.svg"
                             alt="더보기"
                             width={30}
                             height={30}
+                            ref={buttonRef}
                           />
                         </button>
+                        {isOpen && modalType === "isMyPost" && (
+                          <MyPost
+                            ref={modalRef}
+                            style={modalStyle}
+                            className={styles["more-modal"]}
+                          />
+                        )}
+                        {isOpen && modalType === "isNotMyPost" && (
+                          <OtherPost
+                            ref={modalRef}
+                            style={modalStyle}
+                            className={styles["more-modal"]}
+                          />
+                        )}
                       </li>
                     </ul>
                   </section>
                   <section className={styles["post-text"]}>
                     <h3 className="sr-only">본문 내용</h3>
+                    {postData.isTomong && (
+                      <img
+                        src={tomongStampUrl}
+                        className={styles["tomong-stamp"]}
+                        alt="해몽이 존재함"
+                      />
+                    )}
                     <div className={styles["post-text-header"]}>
                       {postData.dreamGenres.length > 0 && (
                         <ul className={styles["post-tag"]}>
@@ -247,22 +341,18 @@ export default function PostModal({ postId, isShow, onClose }) {
                             <li
                               key={index}
                               style={
-                                theme === "light" ||
+                                theme === "dark" ||
                                 (theme === "device" &&
                                   window.matchMedia(
-                                    "(prefers-color-scheme: light)"
+                                    "(prefers-color-scheme: dark)"
                                   ).matches)
                                   ? {
-                                      backgroundColor: `${DREAM_GENRES.find((genre) => genre.id === tag).lightColor.hex}`,
-                                      color:
-                                        `${DREAM_GENRES.find((genre) => genre.id === tag).lightColor.textColor}` &&
-                                        `${DREAM_GENRES.find((genre) => genre.id === tag).lightColor.textColor}`,
+                                      backgroundColor: `${DREAM_GENRES.find((genre) => genre.id === tag).darkColor.hex}`,
+                                      color: `${DREAM_GENRES.find((genre) => genre.id === tag).darkColor.textColor}`,
                                     }
                                   : {
-                                      backgroundColor: `${DREAM_GENRES.find((genre) => genre.id === tag).darkColor.hex}`,
-                                      color:
-                                        `${DREAM_GENRES.find((genre) => genre.id === tag).darkColor.textColor}` &&
-                                        `${DREAM_GENRES.find((genre) => genre.id === tag).darkColor.textColor}`,
+                                      backgroundColor: `${DREAM_GENRES.find((genre) => genre.id === tag).lightColor.hex}`,
+                                      color: `${DREAM_GENRES.find((genre) => genre.id === tag).lightColor.textColor}`,
                                     }
                               }
                             >
@@ -297,6 +387,26 @@ export default function PostModal({ postId, isShow, onClose }) {
                           alt={`이미지${index}`}
                         />
                       ))}
+                    {postData.tomong && (
+                      <>
+                        <Divider />
+                        <h3 className={styles["tomong-result-heading"]}>
+                          <img
+                            className={styles["tomong-icon"]}
+                            src={tomongIconUrl}
+                            alt=""
+                            width={16}
+                          />
+                          토몽이의 해몽 결과:
+                        </h3>
+                        <div
+                          className={`${markdownStyles["markdown"]} ${markdownStyles["markdown-in-modal"]}`}
+                          dangerouslySetInnerHTML={{
+                            __html: convertToHtml(postData.tomong.content),
+                          }}
+                        />
+                      </>
+                    )}
                   </section>
                 </section>
                 <section className={styles["comment-section"]}>
@@ -376,7 +486,9 @@ export default function PostModal({ postId, isShow, onClose }) {
                     <h3 className="sr-only">댓글 모음 확인</h3>
                     <CommentArticles
                       postId={postId}
+                      user={user}
                       isCommentSubmitting={isCommentSubmitting}
+                      isMyself={postData.isMyself}
                     />
                   </section>
                 </section>

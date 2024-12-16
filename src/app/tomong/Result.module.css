@@ -4,12 +4,24 @@
   overflow-y: auto;
 }
 
+.markdown-in-modal {
+  width: 100%;
+  height: fit-content;
+}
+
 .markdown * {
   color: var(--black-font-color);
 }
 
 .markdown p {
   margin-bottom: 1.6rem;
+  font-size: var(--body-font-size);
+}
+
+.markdown p *,
+.markdown li * {
+  font-size: var(--body-font-size);
+  display: inline;
 }
 
 .markdown h2,

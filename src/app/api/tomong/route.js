@@ -101,22 +101,22 @@ export async function GET(request) {
             const lines = buffer.split("\n");
             buffer = lines.pop() || ""; // 마지막 불완전한 라인은 버퍼에 보관
 
+            // 버퍼의 라인을 처리하는 부분
             for (const line of lines) {
-              if (line.trim()) {
+              // data: 로 시작하는 라인만 처리
+              if (line.trim().startsWith("data:")) {
                 controller.enqueue(encoder.encode(`data: ${line}\n\n`));
 
-                // complete 타입 확인 및 Firestore 저장
                 try {
-                  // 모든 SSE 접두사 제거
-                  const cleanedData = line
-                    .replace("event: response", "")
-                    .replace(/^(id|event|data):\s*/g, "")
-                    .trim()
-                    // 작은 따옴표를 큰 따옴표로 변환
-                    .replace(/'/g, '"');
+                  // data: 접두사를 제거하고 JSON 처리
+                  const jsonStr = line.replace(/^data:\s*/, "").trim();
 
-                  if (cleanedData) {
-                    const parsedData = JSON.parse(cleanedData);
+                  if (jsonStr) {
+                    // 작은따옴표를 큰따옴표로 변환
+                    const cleanedJson = jsonStr.replace(/'/g, '"');
+                    const parsedData = JSON.parse(cleanedJson);
+
+                    // complete 타입일 때만 저장
                     if (parsedData.type === "complete" && postId) {
                       const postRef = doc(db, "posts", postId);
                       const postDoc = await getDoc(postRef);
@@ -133,7 +133,8 @@ export async function GET(request) {
 
                         await updateDoc(postRef, {
                           tomong: arrayUnion(tomongData),
-                          tomongSelected: tomongLength,
+                          tomongLength: tomongLength,
+                          // tomongSelected: tomongLength,
                         });
                       }
                     }

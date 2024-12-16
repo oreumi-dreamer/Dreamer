@@ -11,6 +11,7 @@ import ProfileInfo from "./ProfileInfo";
 import { Button, Divider } from "../Controls";
 import Loading from "../Loading";
 import PostModal from "../modal/PostModal";
+import WritePost from "../write/WritePost";
 
 export default function Profile({ userName }) {
   const router = useRouter();
@@ -92,6 +93,17 @@ export default function Profile({ userName }) {
     setIsShowModal(!!selectedPostId);
   }, [selectedPostId]);
 
+  const [isWriteModalOpen, setIsWriteModalOpen] = useState(false);
+  const handleWriteBtnClick = () => {
+    setIsWriteModalOpen(true);
+  };
+  const closeWriteModal = () => {
+    if (isWriteModalOpen === true) {
+      setIsWriteModalOpen(false);
+    }
+    window.location.pathname = "/";
+  };
+
   if (loading) {
     return (
       <main className={styles["profile-main"]}>
@@ -117,8 +129,8 @@ export default function Profile({ userName }) {
           <p>당신의 꿈을 들려주세요!</p>
           <Button
             className={styles["write-post-btn"]}
-            onClick={() => router.push("/write")}
             highlight={true}
+            onClick={handleWriteBtnClick}
           >
             글 쓰러 가기
           </Button>
@@ -139,6 +151,7 @@ export default function Profile({ userName }) {
             styles={styles}
             isLoggedIn={isLoggedIn}
             setSelectedPostId={setSelectedPostId}
+            isMyself={profile.isMyself}
           />
         </section>
       );
@@ -172,6 +185,10 @@ export default function Profile({ userName }) {
         postId={selectedPostId}
         isShow={isShowModal}
         onClose={handleModalClose}
+      />
+      <WritePost
+        isWriteModalOpen={isWriteModalOpen}
+        closeWriteModal={closeWriteModal}
       />
     </>
   );

@@ -14,6 +14,12 @@
   margin-right: 5rem;
 }
 
+.main h1 img {
+  width: 80vw;
+  max-width: 60rem;
+  filter: var(--filter-color);
+}
+
 .login {
   margin: 0 auto;
 }
@@ -71,4 +77,20 @@
     content: " ";
     padding: 0 2px;
   }
+}
+
+/* darkmode */
+
+@media (prefers-color-scheme: dark) {
+  [data-theme="device"] .main h1 img {
+    /* #EEF0DE */
+    filter: brightness(0) saturate(100%) invert(89%) sepia(27%) saturate(93%)
+      hue-rotate(28deg) brightness(105%) contrast(88%);
+  }
+}
+
+[data-theme="dark"] .main h1 img {
+    /* #EEF0DE */
+  filter: brightness(0) saturate(100%) invert(89%) sepia(27%) saturate(93%)
+    hue-rotate(28deg) brightness(105%) contrast(88%);
 }

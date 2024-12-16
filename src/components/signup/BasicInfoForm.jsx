@@ -8,6 +8,7 @@ import { signInWithPopup } from "firebase/auth";
 import { checkUserExists } from "@/utils/auth/checkUser";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
+import { Checkbox } from "../Controls";
 
 export default function BasicInfoForm({ onSubmit, formData, setters }) {
   const { userId, userName, year, month, day } = formData;
@@ -16,6 +17,7 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
   const [isIdValid, setIsIdValid] = useState(false);
   const [isNameValid, setIsNameValid] = useState(false);
   const [isBirthValid, setIsBirthValid] = useState(false);
+  const [isAgree, setIsAgree] = useState(false);
   const [error, setError] = useState("");
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
@@ -134,6 +136,10 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
 
   const todayYear = new Date().getFullYear();
 
+  const handleAgree = () => {
+    setIsAgree(!isAgree);
+  };
+
   return (
     <form
       id="signupFormFirst"
@@ -144,13 +150,13 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
       <p>안녕하세요! 드리머가 되신것을 환영합니다.</p>
       <p>시작하기에 앞서, 궁금한게 있어요. 당신에 대해 알려주세요!</p>
 
-      <fieldset>
+      <fieldset className={styles["signup-fieldset"]}>
         <legend className="sr-only">기본 정보</legend>
 
         <div className={styles["form-field"]}>
           <label htmlFor="userId">
             <Image
-              src={isIdValid ? "/Images/valid.svg" : "/Images/invalid.svg"}
+              src={isIdValid ? "/images/valid.svg" : "/images/invalid.svg"}
               width={40}
               height={40}
               alt="유효하지 않은 아이디"
@@ -173,7 +179,7 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
         <div className={styles["form-field"]}>
           <label htmlFor="userName">
             <Image
-              src={isNameValid ? "/Images/valid.svg" : "/Images/invalid.svg"}
+              src={isNameValid ? "/images/valid.svg" : "/images/invalid.svg"}
               width={40}
               height={40}
               alt="유효하지 않은 이름"
@@ -196,7 +202,7 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
         <div className={styles["form-field"]}>
           <label htmlFor="birthDate">
             <Image
-              src={isBirthValid ? "/Images/valid.svg" : "/Images/invalid.svg"}
+              src={isBirthValid ? "/images/valid.svg" : "/images/invalid.svg"}
               width={40}
               height={40}
               alt="유효하지 않은 생일"
@@ -258,6 +264,21 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
           </span>
         </div>
 
+        <div className={`${styles["form-field"]} ${styles["agree"]}`}>
+          <Checkbox onChange={handleAgree}>
+            <span>
+              <a href="/terms" target="_blank">
+                이용 약관{" "}
+              </a>
+              및{" "}
+              <a href="/privacy" target="_blank">
+                개인정보 처리방침
+              </a>
+              에 동의합니다.
+            </span>
+          </Checkbox>
+        </div>
+
         <div className={styles["user-login-field"]}>
           <p>이미 회원이신가요? 로그인하여 꿈을 공유해보세요!</p>
           <ul className={styles["login-buttons"]}>
@@ -288,7 +309,7 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
       <button
         type="submit"
         className={styles["next-btn"]}
-        disabled={!isIdValid || !isNameValid || !isBirthValid}
+        disabled={!isIdValid || !isNameValid || !isBirthValid || !isAgree}
       >
         다음
       </button>

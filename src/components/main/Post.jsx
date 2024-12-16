@@ -9,6 +9,7 @@ import { calculateModalPosition } from "@/utils/calculateModalPosition";
 import { outsideClickModalClose } from "@/utils/outsideClickModalClose";
 import { Divider } from "../Controls";
 import PostModal from "../modal/PostModal";
+import useTheme from "@/hooks/styling/useTheme";
 
 export default function Post({
   styles,
@@ -22,6 +23,8 @@ export default function Post({
   const modalRef = useRef(null);
   const buttonRef = useRef(null);
 
+  const { theme } = useTheme();
+
   useEffect(() => {
     if (modalRef.current && buttonRef.current) {
       const cleanup = outsideClickModalClose(modalRef, buttonRef, () => {
@@ -32,27 +35,27 @@ export default function Post({
       };
     }
   }, [modalRef, buttonRef, isOpen]);
-  const handlePostMoreBtnClick = async (postId, userId) => {
-    try {
-      const data = await isMyPost(postId, userId);
-      const modalType = data ? "isMyPost" : "isNotMyPost";
 
-      if (!isOpen) {
-        setModalType(modalType);
-        setIsOpen(true);
+  function handlePostMoreBtnClick() {
+    const modalType = post.isMyself ? "isMyPost" : "isNotMyPost";
 
-        if (buttonRef.current) {
-          const position = calculateModalPosition(buttonRef, -110, 50);
-          setModalStyle(position);
-        }
-      } else {
-        setModalType(null);
-        setIsOpen(false);
+    if (!isOpen) {
+      setIsOpen(true);
+      setModalType(modalType);
+      if (buttonRef.current) {
+        const position = {
+          position: "absolute",
+          top: "40px",
+          right: "0px",
+          zIndex: "10",
+        };
+        setModalStyle(position);
       }
-    } catch (error) {
-      console.error("Error checking isMyPost:", error);
+    } else {
+      setIsOpen(false);
+      setModalType(null);
     }
-  };
+  }
   const changeSpark = () => {
     setPost((prevPost) => ({
       ...prevPost,
@@ -81,9 +84,19 @@ export default function Post({
     setSelectedPostId(postId);
   };
 
+  let tomongStampUrl = "/images/tomong-stamp.png";
+
+  if (
+    theme === "dark" ||
+    (theme === "device" &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches)
+  ) {
+    tomongStampUrl = "/images/tomong-stamp-dark.png";
+  }
+
   return (
     <>
-      <article className={styles["main-post-wrap"]}>
+      <article className={styles["article"]}>
         <section className={styles["post-user-info"]}>
           <Link href={`/${post.authorId}`}>
             <img
@@ -101,10 +114,7 @@ export default function Post({
           >
             {postTime(post.createdAt, post.createdAt)}
           </time>
-          <button
-            ref={buttonRef}
-            onClick={() => handlePostMoreBtnClick(post.objectID, post.authorId)}
-          >
+          <button ref={buttonRef} onClick={() => handlePostMoreBtnClick()}>
             <Image
               src="/images/more.svg"
               alt="더보기"
@@ -125,6 +135,13 @@ export default function Post({
           className={styles["post-content"]}
           onClick={() => handleModalOpen(post.objectID)}
         >
+          {post.isTomong && (
+            <img
+              src={tomongStampUrl}
+              className={styles["tomong-stamp"]}
+              alt="해몽이 존재함"
+            />
+          )}
           <p className={styles["post-text"]}>{post.content}</p>
           {post.imageUrls && (
             <div className={styles["post-img-wrap"]}>

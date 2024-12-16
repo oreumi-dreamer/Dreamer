@@ -3,14 +3,21 @@
   height: 20rem;
   border: 2px solid rgba(0, 0, 0, 0.6);
   border-radius: 1rem;
-  padding: 0.8rem 1.2rem;
   background-color: var(--background-white);
   font-size: var(--small-text-font-size);
   word-break: keep-all;
+  color: var(--black-font-color);
 }
 .modal-on-writepost::backdrop {
   opacity: 0;
 }
+.modal-contents {
+  width: 100%;
+  height: 100%;
+  padding: 0.8rem 1.2rem;
+  box-sizing: border-box;
+}
+
 .modal-on-writepost .btn-reset-select {
   background-color: var(--none-active-color);
   font-size: 1.2rem;

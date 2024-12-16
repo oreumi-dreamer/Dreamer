@@ -3,11 +3,14 @@
   background-color: var(--background-color);
   display: flex;
   flex-direction: column;
+  align-items: center;
   flex-basis: 100%;
 }
 
-.main-container article {
+.article {
   margin-bottom: 4rem;
+  width: 100%;
+  max-width: 66rem;
 }
 
 .post-user-info {
@@ -16,6 +19,7 @@
   align-items: center;
   padding-bottom: 0.8rem;
   white-space: nowrap;
+  position: relative;
 }
 
 div.divider {
@@ -58,12 +62,32 @@ div.divider {
 }
 
 .post-content {
-  max-width: 66rem;
   background-color: var(--background-white);
   border-radius: 1.5rem;
   padding: 2.4rem 4rem;
   margin-top: 0.8rem;
   cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.tomong-stamp {
+  position: absolute;
+  top: -3.15rem;
+  right: -3rem;
+  width: 13.5rem;
+  opacity: var(--tomong-stamp-one-fifth-opacity);
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
+  opacity: var(--tomong-stamp-one-fifth-opacity);
 }
 
 .post-content .post-text {
@@ -74,6 +98,11 @@ div.divider {
   -webkit-box-orient: vertical;
   white-space: pre-wrap;
   color: var(--black-font-color);
+}
+
+.post-text {
+  position: relative;
+  z-index: 10;
 }
 
 .post-content .post-img-wrap {
@@ -106,6 +135,7 @@ div.divider {
 }
 
 .post-btn-content .btn-label {
+  color: var(--black-font-color);
   padding: 0 1.4rem 0 1rem;
 }
 

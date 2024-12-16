@@ -1,3 +1,4 @@
+// 토몽 선택 업데이트 API
 // /api/post/tomong/[postId]/route.js
 
 import { doc, getDoc, updateDoc } from "firebase/firestore";

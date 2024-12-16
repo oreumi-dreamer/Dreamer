@@ -46,6 +46,10 @@ html:has(.post-modal) {
   top: 0;
 }
 
+.more-btn {
+  position: relative;
+}
+
 .post-info-section {
   padding-left: 8.6rem;
 }
@@ -114,7 +118,18 @@ html:has(.post-modal) {
   margin-top: 2.067rem;
   overflow-y: scroll;
   color: var(--black-font-color);
+  position: relative;
 }
+
+.tomong-stamp {
+  position: absolute;
+  width: 16.5rem;
+  height: 12rem;
+  top: 0rem;
+  right: 0rem;
+  opacity: var(--tomong-stamp-half-opacity);
+}
+
 .post-text img {
   max-width: 100%;
   margin: 1rem 0;
@@ -161,6 +176,10 @@ html:has(.post-modal) {
   justify-content: space-between;
 }
 
+.post-text-header * {
+  z-index: 10;
+}
+
 .post-tag {
   display: flex;
   gap: 0.82rem;
@@ -184,6 +203,19 @@ html:has(.post-modal) {
 
 .dream-score {
   font-size: var(--h3-font-size);
+}
+
+.tomong-result-heading {
+  display: inline-flex;
+  align-items: center;
+  column-gap: 0.5rem;
+  margin-bottom: 1.6rem;
+}
+
+img.tomong-icon {
+  width: 3.2rem;
+  height: 3.2rem;
+  margin: 0;
 }
 
 .close-btn {
@@ -297,17 +329,22 @@ input[type="checkbox"]:checked + label.checkbox::before {
   .post-modal {
     padding: 2rem 0 2rem 2rem;
     flex-direction: column;
-    min-width: 35.8rem;
+    min-width: 34rem;
   }
 
   .post-section {
     padding-right: 2rem;
-    padding-bottom: 9rem;
+    padding-bottom: 8rem;
     margin-bottom: 1rem;
     height: 50%;
     background: url(/images/dash.svg) repeat-x bottom;
     background-size: 12px 2px;
   }
+  .post-text {
+    min-width: 30rem;
+    height: 80%;
+  }
+
   .button-list {
     justify-content: flex-start;
     gap: 1rem;
@@ -328,5 +365,20 @@ input[type="checkbox"]:checked + label.checkbox::before {
   }
   .comment-input {
     height: 5rem;
+  }
+}
+@media (max-width: 480px) {
+  .post-section {
+    height: 60%;
+  }
+  .post-text {
+    min-width: 30rem;
+    height: 76%;
+  }
+  .profile-info {
+    margin: 0;
+  }
+  .comment-section {
+    height: 35%;
   }
 }

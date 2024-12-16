@@ -34,7 +34,7 @@ export default function ProfileForm({
       <p>WELCOME DREAMER!</p>
       <p>마지막 단계예요!</p>
 
-      <fieldset>
+      <fieldset className={styles["signup-fieldset"]}>
         <legend className="sr-only">프로필 정보</legend>
 
         <div className={styles["form-field"]}>
@@ -48,7 +48,7 @@ export default function ProfileForm({
             onChange={handleImageChange}
           />
           <Image
-            src={profileImage ? profileImage : "/Images/rabbit.svg"}
+            src={profileImage ? profileImage : "/images/rabbit.svg"}
             width={140}
             height={140}
             alt="프로필 사진"

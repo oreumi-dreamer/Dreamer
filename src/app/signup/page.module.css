@@ -1,13 +1,14 @@
 body:has(.signup-main) {
   width: 100vw;
+  height: 100%;
   background: var(--background-blue-top);
 }
 
 .signup-main {
   max-width: 86rem;
-  max-height: 92rem;
   margin: 8rem auto;
   padding: 4.4rem 0rem 5.3rem 0rem;
   border-radius: 2rem;
   background: var(--background-white);
+  min-width: 39.1rem;
 }

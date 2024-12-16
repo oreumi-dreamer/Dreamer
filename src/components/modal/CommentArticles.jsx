@@ -3,13 +3,16 @@ import styles from "./CommentArticles.module.css";
 import Link from "next/link";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 import postTime from "@/utils/postTime";
-import { useSelector } from "react-redux";
 import Loading from "../Loading";
 
-export default function CommentArticles({ postId, isCommentSubmitting }) {
+export default function CommentArticles({
+  postId,
+  user,
+  isMyself,
+  isCommentSubmitting,
+}) {
   const [commentData, setCommentData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const { user } = useSelector((state) => state.auth);
   useEffect(() => {
     const viewComments = async () => {
       try {
@@ -27,8 +30,23 @@ export default function CommentArticles({ postId, isCommentSubmitting }) {
 
   function handleCommentClick(e) {
     const commentContent = e.currentTarget.querySelector("p").textContent;
-    if (commentContent.length >= 127 || commentContent.split("\n").length > 2) {
-      e.currentTarget.classList.toggle(styles["comment-open"]);
+    const commentClass = e.currentTarget.classList;
+    const clickElement = e.target.textContent;
+    const closeButton = e.currentTarget.querySelector("img");
+    if (
+      commentContent.length >= 127 &&
+      clickElement !== "수정" &&
+      clickElement !== "삭제" // 댓글 수정 및 삭제 버튼 클릭 시 comment-open 클래스 예외 처리
+    ) {
+      commentClass.add(styles["comment-open"]);
+      closeButton.src = "/images/comment-open.svg";
+    }
+
+    if (commentClass.contains(styles["comment-open"])) {
+      if (e.target.nodeName === "IMG") {
+        e.target.src = "/images/comment-close.svg"; // 버튼 클릭 시 close 구현
+        commentClass.remove(styles["comment-open"]);
+      }
     }
   }
 
@@ -65,7 +83,7 @@ export default function CommentArticles({ postId, isCommentSubmitting }) {
     return (
       <article
         key={comment.commentId}
-        className={`${styles["comment-article"]} ${comment.content.length >= 127 || comment.content.split("\n").length > 2 ? styles["text-long"] : ""}`}
+        className={styles["comment-article"]}
         onClick={handleCommentClick}
       >
         <ul className={styles["comment-info"]}>
@@ -93,7 +111,7 @@ export default function CommentArticles({ postId, isCommentSubmitting }) {
             </li>
           )}
         </ul>
-        {user.userId === comment.authorId && (
+        {user?.userId === comment.authorId && (
           <ul className={styles["edit-delete-button"]}>
             <li>
               <button>수정</button>
@@ -117,10 +135,16 @@ export default function CommentArticles({ postId, isCommentSubmitting }) {
         <p>
           {!comment.isPrivate
             ? comment.content
-            : comment.authorId === user.userId
+            : isMyself || comment.authorId === user?.userId
               ? comment.content
               : "비공개 댓글입니다 :)"}
         </p>
+
+        {comment.content.length > 127 && (
+          <button type="button" className={styles["comment-close"]}>
+            <img src="/images/comment-close.svg" width={12} height={12}></img>
+          </button>
+        )}
       </article>
     );
   });

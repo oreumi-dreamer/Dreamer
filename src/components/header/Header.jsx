@@ -9,6 +9,7 @@ import useMediaQuery from "@/hooks/styling/useMediaQuery";
 import NarrowHeader from "./NarrowHeader";
 import useTheme from "@/hooks/styling/useTheme";
 import WritePost from "../write/WritePost";
+import { useRouter } from "next/navigation";
 export default function Header() {
   const buttonRef = useRef(null);
   const { isOpen, modalType } = useSelector((state) => state.modal);
@@ -16,6 +17,7 @@ export default function Header() {
   const { theme, changeTheme } = useTheme();
   const isNarrowHeader = useMediaQuery("(max-width: 1152px)");
   const dispatch = useDispatch();
+  const router = useRouter();
   const isLightMode =
     theme === "light" || localStorage.getItem("theme") === "light";
   const isDarkMode =
@@ -50,6 +52,10 @@ export default function Header() {
     };
   }, []);
 
+  useEffect(() => {
+    dispatch(closeModal());
+  }, []);
+
   const handleMoreBtnClick = () => {
     if (!isOpen) {
       dispatch(openModal("moreModal"));
@@ -72,14 +78,19 @@ export default function Header() {
     }
   };
   const [isWriteModalOpen, setIsWriteModalOpen] = useState(false);
+  const [prevPage, setPrevPage] = useState("");
   const handleWriteBtnClick = () => {
+    setPrevPage(window.location.pathname);
     setIsWriteModalOpen(true);
   };
   const closeWriteModal = () => {
-    if (isWriteModalOpen === true) {
-      setIsWriteModalOpen(false);
+    setIsWriteModalOpen(false);
+    if (prevPage) {
+      router.push(prevPage);
+      handleActiveBtn(getActiveStateFromURL(prevPage));
+    } else {
+      handleActiveBtn("홈");
     }
-    window.location.pathname = "/";
   };
 
   return (

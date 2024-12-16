@@ -25,7 +25,9 @@ export async function GET(request, { params }) {
   const page = parseInt(searchParams.get("page")) || 1;
   const limit = parseInt(searchParams.get("limit")) || 20; // 페이지당 기본 20개
 
-  const userData = await verifyUser(idToken);
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+
+  const userData = await verifyUser(baseUrl, idToken);
   if (!userData.exists) {
     return NextResponse.json(
       { error: "인증되지 않은 사용자입니다." },
@@ -88,6 +90,8 @@ export async function GET(request, { params }) {
         "dreamGenres",
         "dreamMoods",
         "imageUrls",
+        "tomong",
+        "tomongSelected",
       ],
     });
 
@@ -172,12 +176,16 @@ export async function GET(request, { params }) {
 
         return {
           ...hit,
+          tomong: [],
           score: totalScore,
           authorId: userMap[hit.authorUid]?.userId || "알 수 없음",
           authorName: userMap[hit.authorUid]?.userName || "알 수 없음",
           profileImageUrl:
             userMap[hit.authorUid]?.profileImageUrl || "/images/rabbit.svg",
           hasUserSparked: hit.spark?.includes(userData.uid),
+          isTomong: hit.tomong ? !!hit.tomong[hit.tomongSelected] : false,
+          tomongSelected: hit.tomongSelected > -1 ? hit.tomongSelected : -1,
+          isMyself: hit.authorUid === userData.uid,
         };
       })
       .sort((a, b) => b.score - a.score);

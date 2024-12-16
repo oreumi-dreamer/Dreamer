@@ -76,7 +76,14 @@
   object-fit: cover;
 }
 
-.recommend-follow {
+.recommend-list li span {
+  white-space: nowrap;
+  max-width: 8em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+button.recommend-follow {
   padding: 0.8rem 1.2rem;
   font-size: var(--small-text-font-size);
   grid-area: follow;
@@ -108,4 +115,33 @@
 
 .footer-policy ul li a strong {
   font-weight: 700;
+}
+
+@media (max-width: 860px) {
+  .footer {
+    margin-top: 4rem;
+    margin-left: 6.4rem;
+    width: 100%;
+  }
+
+  .footer article {
+    display: none;
+  }
+
+  .footer section {
+    width: 100%;
+    max-width: 100%;
+    border: none;
+    padding: 0 0 3.2rem 0;
+  }
+
+  .footer section ul {
+    margin-bottom: 0.8rem;
+  }
+
+  .footer section p br {
+    display: inline-block;
+    content: " ";
+    padding: 0 2px;
+  }
 }

@@ -3,12 +3,13 @@
   height: 5rem;
   margin-bottom: 2.5rem;
   border-radius: 1rem;
-  background-color: var(--background-white);
+  background-color: var(--white-color);
   font-size: 1.6rem;
 
   display: flex;
   align-items: center;
   justify-content: center;
+  color: var(--black-font-color);
 }
 
 .login-buttons li:first-of-type button img {
@@ -24,41 +25,69 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 3.2rem;
-  height: 3.2rem;
+  width: 2.5rem;
+  height: 2.5rem;
   margin-right: 1rem;
+  filter: var(--filter-color);
 }
 
 .login-buttons li:first-of-type button {
   background-color: #4285f4;
-  color: var(--background-white);
+  color: var(--white-color);
 }
 
+/* 이메일로 로그인 화면 style */
 .join-button {
   display: flex;
   align-items: center;
   column-gap: 1.6rem;
 }
 
+.join-button p {
+  font-size: var(--h3-font-size);
+  color: var(--black-font-color);
+}
+
+.login-form,
+.email-signup {
+  max-width: 60rem;
+  padding: 4.4rem 8rem 10rem 8rem;
+  background-color: var(--background-white);
+}
+
+.login-container label {
+  font-size: var(--h2-font-size);
+  font-weight: bold;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
 .login-container h2 {
   text-align: center;
+  color: var(--black-font-color);
+}
+.login-container label input {
+  background-color: #e8e8e8;
+  width: 100%;
+  max-width: 44rem;
+  margin: 0;
+  align-items: center;
+}
+
+.login-container input:focus {
+  outline: none;
+  border: 0.2rem solid #a54cb4;
 }
 
 .error-message {
   text-align: center;
   word-break: keep-all;
+  color: var(--black-font-color);
 }
 
 .email-input {
   position: relative;
 }
-
-/* .email-verify-btn {
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-} */
 
 .btn-row {
   display: flex;
@@ -71,4 +100,14 @@
 
 .back-btn {
   margin-right: auto;
+  position: absolute;
+  bottom: 4.3rem;
+  left: 4rem;
+}
+
+.email-verify-btn {
+  position: absolute;
+  right: 0;
+  bottom: 4.3rem;
+  right: 5.2rem;
 }
