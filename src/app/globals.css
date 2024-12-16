@@ -40,9 +40,9 @@
   --post-text-blur: linear-gradient(#fcfcfc00, #fcfcfc);
   --option-hover-color: #ccc;
   --focus-border-color: #a54cb4;
-  --filter-color: none;
   --tomong-stamp-half-opacity: 0.5;
   --tomong-stamp-one-fifth-opacity: 0.2;
+  --filter-EEF0DE: none;
   --filter-5f6368: invert(59%) sepia(0%) saturate(0%) hue-rotate(0deg)
     brightness(58%) contrast(91%);
   --filter-959595: brightness(0) saturate(100%) invert(59%) sepia(9%)

@@ -142,7 +142,12 @@ export default function CommentArticles({
 
         {comment.content.length > 127 && (
           <button type="button" className={styles["comment-close"]}>
-            <img src="/images/comment-close.svg" width={12} height={12}></img>
+            <img
+              src="/images/comment-close.svg"
+              width={12}
+              height={12}
+              alt="닫기"
+            />
           </button>
         )}
       </article>

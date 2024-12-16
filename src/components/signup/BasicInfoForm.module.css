@@ -5,6 +5,7 @@
   width: 100%;
   position: relative;
   margin-top: 1rem;
+  color: var(--black-font-color);
 }
 .signup-form p:first-of-type {
   font-size: var(--big-text-font-size);
@@ -119,6 +120,7 @@
 .login-buttons li:last-of-type {
   position: relative;
   top: 1rem;
+  filter: var(--filter-EEF0DE);
 }
 
 .next-btn {
@@ -141,7 +143,7 @@
 }
 
 .next-btn:disabled {
-  background-color: #77777b;
+  background-color: var(--none-active-color);
 }
 
 @media (max-width: 480px) {

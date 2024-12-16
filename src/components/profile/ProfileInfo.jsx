@@ -48,17 +48,11 @@ export default function ProfileInfo({
         <ul className={styles["profile-stat"]}>
           <li>게시물 {profile.length}개</li>
           <li>
-            팔로우 {profile.followersCount ? profile.followersCount : 0}명
+            팔로우 {profile.followingCount ? profile.followingCount : 0}명
           </li>
           <li>
-            팔로워 {profile.followingCount ? profile.followingCount : 0}명
+            팔로워 {profile.followersCount ? profile.followersCount : 0}명
           </li>
-          {/* <dt>게시물</dt>
-          <dd>{profile.length}개</dd>
-          <dt>팔로우</dt>
-          <dd>{profile.followersCount ? profile.followersCount : 0}명</dd>
-          <dt>팔로워</dt>
-          <dd>{profile.followingCount ? profile.followingCount : 0}명</dd> */}
         </ul>
         <div className={styles["profile-bio"]}>{profile.bio}</div>
       </div>

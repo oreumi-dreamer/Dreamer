@@ -4,6 +4,7 @@
   align-items: center;
   margin-top: 2.4rem;
   position: relative;
+  color: var(--black-font-color);
 }
 
 .profile-form p:first-of-type {
