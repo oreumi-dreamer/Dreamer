@@ -45,7 +45,6 @@ export default function PostComponent({ postId }) {
           }
         }
       } catch (error) {
-        console.log(error);
         setNotFound(true);
       }
     };
