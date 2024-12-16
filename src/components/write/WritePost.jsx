@@ -257,19 +257,23 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
           onSubmit={handleSubmit}
         >
           <div id={styles["title"]}>
-            <label id={styles["title-input"]}>
+            <label
+              id="title-input"
+              className={styles["title-input"]}
+              for="title"
+            >
               Title
               <input
                 type="text"
-                for="title"
+                id="title"
                 placeholder={`${year}년 ${month}월 ${date}일 꿈 일기`}
                 onChange={handleTitleChange}
               />
             </label>
-            <label id={styles["hidden"]}>
+            <label id="hidden" className={styles["hidden"]} for="hidden">
               <input
                 type="checkbox"
-                for="hidden"
+                id="hidden"
                 checked={isPrivate}
                 onChange={() => setIsPrivate((prev) => !prev)}
               />
