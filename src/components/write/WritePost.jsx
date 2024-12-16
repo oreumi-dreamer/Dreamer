@@ -35,7 +35,13 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
   // 외부 클릭
   const handleBackgroundClick = (e) => {
     if (e.target === e.currentTarget) {
-      if (isContentChanged && contentValue !== "") {
+      if (
+        contentValue !== "" ||
+        inputValue !== "" ||
+        selectedGenres.length > 0 ||
+        selectedMoods.length > 0 ||
+        rating !== null
+      ) {
         setIsStopModalOpen(true);
       } else {
         closeWriteModal();
@@ -103,7 +109,13 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
     closeWriteModal();
   };
   const handleStopWriting = () => {
-    if (isContentChanged && contentValue !== "") {
+    if (
+      contentValue !== "" ||
+      inputValue !== "" ||
+      selectedGenres.length > 0 ||
+      selectedMoods.length > 0 ||
+      rating !== null
+    ) {
       setIsStopModalOpen(true);
     } else {
       resetForm();
