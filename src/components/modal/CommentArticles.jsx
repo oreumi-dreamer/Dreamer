@@ -5,7 +5,12 @@ import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 import postTime from "@/utils/postTime";
 import Loading from "../Loading";
 
-export default function CommentArticles({ postId, user, isCommentSubmitting }) {
+export default function CommentArticles({
+  postId,
+  user,
+  isMyself,
+  isCommentSubmitting,
+}) {
   const [commentData, setCommentData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
@@ -130,7 +135,7 @@ export default function CommentArticles({ postId, user, isCommentSubmitting }) {
         <p>
           {!comment.isPrivate
             ? comment.content
-            : isMyself || comment.authorId === user.userId
+            : isMyself || comment.authorId === user?.userId
               ? comment.content
               : "비공개 댓글입니다 :)"}
         </p>
