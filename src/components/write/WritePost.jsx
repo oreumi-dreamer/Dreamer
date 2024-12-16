@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./WritePost.module.css";
@@ -11,6 +11,7 @@ import { useSelector } from "react-redux";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 import Error404 from "../error404/Error404";
 import useTheme from "@/hooks/styling/useTheme";
+import { calculateModalPosition } from "@/utils/calculateModalPosition";
 
 export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
   const [isWritingModalOpen, setIsWritingModalOpen] = useState(false);
@@ -92,6 +93,50 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
       closeWriteModal();
     }
   };
+
+  // 버튼위치에 따른 모달위치고정
+  const [tagModalStyle, setTagModalStyle] = useState({});
+  const [moodModalStyle, setMoodModalStyle] = useState({});
+  const tagButtonRef = useRef(null);
+  const moodButtonRef = useRef(null);
+  const tagModalRef = useRef(null);
+  const moodModalRef = useRef(null);
+
+  useLayoutEffect(() => {
+    if (tagButtonRef.current && tagModalRef.current) {
+      const updatePosition = () => {
+        const position = calculateModalPosition(tagButtonRef, 0, 35);
+        if (position) {
+          setTagModalStyle(position);
+        }
+      };
+
+      updatePosition();
+      window.addEventListener("resize", updatePosition);
+
+      return () => {
+        window.removeEventListener("resize", updatePosition);
+      };
+    }
+    console.log(tagButtonRef.current.getBoundingClientRect());
+  }, [tagButtonRef, tagModalRef, isModalOpen]);
+
+  useLayoutEffect(() => {
+    if (moodButtonRef.current && moodModalRef.current) {
+      const updatePosition = () => {
+        const position = calculateModalPosition(moodButtonRef, -5, 12);
+        if (position) {
+          setMoodModalStyle(position);
+        }
+      };
+
+      updatePosition();
+      window.addEventListener("resize", updatePosition);
+      return () => {
+        window.removeEventListener("resize", updatePosition);
+      };
+    }
+  }, [moodButtonRef, moodModalRef, isMoodModalOpen]);
 
   // 날짜
   const today = new Date();
@@ -195,7 +240,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
           <div className={styles["write-field-opt"]}>
             {/* 버튼 누르면 해시태그 입력용 모달 나타나기? */}
             <div className={styles["genre-picker"]}>
-              <button type="button" onClick={openModal}>
+              <button type="button" onClick={openModal} ref={tagButtonRef}>
                 <Image src="/images/plus-circle.svg" width={28} height={28} />
                 <span className="sr-only">태그 추가하기</span>
               </button>
@@ -235,6 +280,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
                   type="button"
                   className={styles["btn-feeling"]}
                   onClick={openMoodModal}
+                  ref={moodButtonRef}
                 >
                   {/* {selectedMoods.map((item) => (
                     <li key={item.text}>{item.text}</li>
@@ -246,6 +292,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
                   type="button"
                   className={styles["btn-feeling-selected"]}
                   onClick={openMoodModal}
+                  ref={moodButtonRef}
                 >
                   <ul>
                     {selectedMoods.map((item) => (
@@ -327,11 +374,15 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
         isModalOpen={isModalOpen}
         closeModal={closeModal}
         onConfirm={handleSelectGenres}
+        ref={tagModalRef}
+        style={tagModalStyle}
       />
       <MoodModal
         isModalOpen={isMoodModalOpen}
         closeModal={closeMoodModal}
         onConfirm={handleSelectMoods}
+        ref={moodModalRef}
+        style={moodModalStyle}
       />
       {isStopModalOpen && (
         <StopModal

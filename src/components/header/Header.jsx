@@ -50,6 +50,10 @@ export default function Header() {
     };
   }, []);
 
+  useEffect(() => {
+    dispatch(closeModal());
+  }, []);
+
   const handleMoreBtnClick = () => {
     if (!isOpen) {
       dispatch(openModal("moreModal"));

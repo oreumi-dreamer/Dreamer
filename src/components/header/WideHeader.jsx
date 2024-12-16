@@ -64,8 +64,6 @@ export default function WideHeader({
     }
   }, [dispatch, modalRef, buttonRef, isOpen]);
 
-  useEffect(() => {});
-
   return (
     <header className={styles.header}>
       <h1 className={styles.logo}>
