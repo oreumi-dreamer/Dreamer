@@ -217,6 +217,12 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
     };
   }, [isWriteModalOpen]);
 
+  useEffect(() => {
+    if (isWritingModalOpen) {
+      resetForm();
+    }
+  }, [isWritingModalOpen]);
+
   if (!user) {
     return <Error404 />;
   }
@@ -268,6 +274,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
                 id="title"
                 placeholder={`${year}년 ${month}월 ${date}일 꿈 일기`}
                 onChange={handleTitleChange}
+                value={inputValue}
               />
             </label>
             <label id="hidden" className={styles["hidden"]} for="hidden">
@@ -391,6 +398,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
                 placeholder="오늘은 어떤 꿈을 꾸셨나요?"
                 className={styles["text-field-area"]}
                 onChange={handleContentChange}
+                value={contentValue}
               />
             </p>
           </div>
@@ -408,14 +416,18 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
         <HashtagModal
           isModalOpen={isModalOpen}
           closeModal={closeModal}
-          onConfirm={handleSelectGenres}
+          onConfirm={(selected) => setSelectedGenres(selected)}
+          selectedGenres={selectedGenres}
+          setSelectedGenres={setSelectedGenres}
           ref={tagModalRef}
           style={tagModalStyle}
         />
         <MoodModal
           isModalOpen={isMoodModalOpen}
           closeModal={closeMoodModal}
-          onConfirm={handleSelectMoods}
+          onConfirm={(selected) => setSelectedMoods(selected)}
+          selectedMoods={selectedMoods}
+          setSelectedMoods={setSelectedMoods}
           ref={moodModalRef}
           style={moodModalStyle}
         />
