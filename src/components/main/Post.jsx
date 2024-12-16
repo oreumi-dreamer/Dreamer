@@ -25,8 +25,6 @@ export default function Post({
 
   const { theme } = useTheme();
 
-  console.log(post.isMyself);
-
   useEffect(() => {
     if (modalRef.current && buttonRef.current) {
       const cleanup = outsideClickModalClose(modalRef, buttonRef, () => {
