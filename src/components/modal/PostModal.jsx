@@ -1,10 +1,5 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState } from "react";
 import styles from "./PostModal.module.css";
-
-import { fetchWithAuth } from "@/utils/auth/tokenUtils";
-
-import useTheme from "@/hooks/styling/useTheme";
-import { outsideClickModalClose } from "@/utils/outsideClickModalClose";
 import PostContent from "../post/PostContent";
 
 export default function PostModal({ postId, isShow, onClose }) {
