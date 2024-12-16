@@ -28,27 +28,29 @@
   gap: 0.4rem;
 }
 .invalid-text {
-  color: #a12525;
+  color: var(--invalid-text-color);
 }
 
 .form-field input {
   width: 100%;
   max-width: 44rem;
-  padding: 1.2rem 0 1.2rem 0;
-  background-color: #e8e8e8;
-  border: none;
+  padding: 1rem 0 1rem 0;
+  background-color: var(--input-color);
+  border: 0.2rem solid transparent;
   border-radius: 1rem;
   font-size: var(--body-font-size);
   text-indent: 2rem;
+  background-color: var(--input-color);
+  color: var(--black-font-color);
 }
 .form-field input:focus,
 .form-field select:focus {
   outline: none;
-  border: 0.2rem solid #a54cb4;
+  border: 0.2rem solid var(--focus-border-color);
 }
 
 .form-field .invalid {
-  border: 0.2rem solid #f41e1e;
+  border: 0.2rem solid var(--invalid-border-color);
 }
 
 .form-field label {
@@ -80,14 +82,15 @@
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  background-color: var(--white-color);
-  border: none;
+  background-color: var(--input-color);
+  border: 0.2rem solid transparent;
   border-radius: 1rem;
-  padding: 1.2rem 2rem;
+  padding: 1rem 2rem;
   font-size: var(--body-font-size);
   width: 100%;
   max-width: 12.6rem;
   cursor: pointer;
+  color: var(--black-font-color);
 
   background-image: url("/images/comment-close.svg");
   background-repeat: no-repeat;
