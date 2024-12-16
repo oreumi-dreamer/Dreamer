@@ -91,12 +91,14 @@
       rgba(17, 17, 17, 0) 100%
     );
     --option-hover-color: #95959530;
+    --focus-border-color: #a05dac;
     --filter-EEF0DE: brightness(0) saturate(100%) invert(89%) sepia(27%)
       saturate(93%) hue-rotate(28deg) brightness(105%) contrast(88%);
     --tomong-stamp-half-opacity: 1;
     --tomong-stamp-one-fifth-opacity: 1;
     --input-color: rgba(232, 232, 232, 0.2);
     --email-button-color: rgba(232, 232, 232, 0.2);
+    --invalid-border-color: #ba5b5b;
     --invalid-text-color: #ba5b5b;
   }
 }
@@ -134,12 +136,14 @@
     rgba(17, 17, 17, 0) 100%
   );
   --option-hover-color: #95959530;
+  --focus-border-color: #a05dac;
   --filter-EEF0DE: brightness(0) saturate(100%) invert(89%) sepia(27%)
     saturate(93%) hue-rotate(28deg) brightness(105%) contrast(88%);
   --tomong-stamp-half-opacity: 1;
   --tomong-stamp-one-fifth-opacity: 1;
   --input-color: rgba(232, 232, 232, 0.2);
   --email-button-color: rgba(232, 232, 232, 0.2);
+  --invalid-border-color: #ba5b5b;
   --invalid-text-color: #ba5b5b;
 }
 
