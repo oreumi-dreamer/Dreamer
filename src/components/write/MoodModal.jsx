@@ -8,7 +8,7 @@ import React, {
 import styles from "./MoodModal.module.css";
 import { DREAM_MOODS } from "@/utils/constants";
 
-export const MoodModal = forwardRef(
+const MoodModal = forwardRef(
   ({ isModalOpen, closeModal, onConfirm, style }, moodModalRef) => {
     const dialogRef = useRef(null);
     useEffect(() => {
@@ -91,3 +91,5 @@ export const MoodModal = forwardRef(
     );
   }
 );
+
+export default MoodModal;

@@ -8,7 +8,7 @@ import React, {
 import styles from "./HashtagModal.module.css";
 import { DREAM_GENRES, DREAM_MOODS } from "@/utils/constants";
 
-export const HashtagModal = forwardRef(
+const HashtagModal = forwardRef(
   ({ isModalOpen, closeModal, onConfirm, style }, tagModalRef) => {
     const dialogRef = useRef(null);
     useLayoutEffect(() => {
@@ -91,3 +91,5 @@ export const HashtagModal = forwardRef(
     );
   }
 );
+
+export default HashtagModal;
