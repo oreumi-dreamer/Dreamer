@@ -101,6 +101,8 @@ export function Select({
   background = "default",
   label,
   options = [],
+  placeholder = "Select option",
+  className,
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(value);
@@ -209,8 +211,7 @@ export function Select({
   };
 
   const selectedLabel =
-    options.find((opt) => opt.value === selectedOption)?.label ||
-    "Select option";
+    options.find((opt) => opt.value === selectedOption)?.label || placeholder;
 
   return (
     <div
@@ -220,7 +221,7 @@ export function Select({
     >
       <button
         type="button"
-        className={styles.selectButton}
+        className={`${styles.selectButton} ${className}`}
         aria-haspopup="listbox"
         aria-expanded={isOpen}
         aria-labelledby={label ? `${id}-label` : undefined}

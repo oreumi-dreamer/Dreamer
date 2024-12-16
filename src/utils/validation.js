@@ -4,9 +4,9 @@ export async function validateFirstForm(e) {
   const form = e.target;
   const userId = form.querySelector("#userId");
   const userName = form.querySelector("#userName");
-  const birthYear = form.querySelector("#birth-year");
-  const birthMonth = form.querySelector("#birth-month");
-  const birthDay = form.querySelector("#birth-day");
+  const birthYear = form.querySelector("#birth-year + select");
+  const birthMonth = form.querySelector("#birth-month + select");
+  const birthDay = form.querySelector("#birth-day + select");
 
   if (
     !userId.value ||
