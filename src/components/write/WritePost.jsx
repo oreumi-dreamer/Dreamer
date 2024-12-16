@@ -72,15 +72,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isMoodModalOpen, setIsMoodModalOpen] = useState(false);
   const [isStopModalOpen, setIsStopModalOpen] = useState(false);
-  // 선택지 여부 확인
-  //   const handleSelectGenres = (items) => {
-  //     setSelectedGenres(items);
-  //     setIsContentChanged(true);
-  //   };
-  //   const handleSelectMoods = (items) => {
-  //     setSelectedMoods(items);
-  //     setIsContentChanged(true);
-  //   };
+
   const genresId = selectedGenres.map((item) => item.id);
   const moodsId = selectedMoods.map((item) => item.id);
   const handleTitleChange = (e) => {

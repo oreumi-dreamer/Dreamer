@@ -1,10 +1,4 @@
-import React, {
-  forwardRef,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { forwardRef, useEffect, useLayoutEffect, useRef } from "react";
 import styles from "./HashtagModal.module.css";
 import { DREAM_GENRES, DREAM_MOODS } from "@/utils/constants";
 
@@ -34,18 +28,9 @@ const HashtagModal = forwardRef(
         closeModal();
       }
     };
-    //     const [selectedGenres, setSelectedGenres] = useState([]);
+
     const maxSelect = 5;
 
-    //     useEffect(() => {
-    //       if (isModalOpen) {
-    //         setSelectedGenres([]);
-    //       }
-    //     }, [isModalOpen]);
-
-    const handleResetSelected = () => {
-      setSelectedGenres([]);
-    };
     const handleCheckboxChange = (item) => {
       if (selectedGenres.includes(item)) {
         setSelectedGenres((prev) => prev.filter((i) => i !== item));

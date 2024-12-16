@@ -1,10 +1,4 @@
-import React, {
-  forwardRef,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { forwardRef, useEffect, useRef } from "react";
 import styles from "./MoodModal.module.css";
 import { DREAM_MOODS } from "@/utils/constants";
 
@@ -34,17 +28,9 @@ const MoodModal = forwardRef(
         closeModal();
       }
     };
-    //     useEffect(() => {
-    //       if (isModalOpen) {
-    //         setSelectedMoods([]);
-    //       }
-    //     }, [isModalOpen]);
-    //     const [selectedMoods, setselectedMoods] = useState([]);
+
     const maxSelect = 5;
 
-    const handleResetSelected = () => {
-      setSelectedMoods([]);
-    };
     const handleCheckboxChange = (item) => {
       if (selectedMoods.includes(item)) {
         setSelectedMoods((prev) => prev.filter((i) => i !== item));
