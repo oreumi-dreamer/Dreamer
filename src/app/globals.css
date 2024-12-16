@@ -200,6 +200,7 @@ body:has(header):has(main):has(footer) main {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  transition: background-color 0.1s ease-in-out;
 }
 
 *:disabled {
