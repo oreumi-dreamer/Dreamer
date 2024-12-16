@@ -36,9 +36,8 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
       }
     }
     // 아이디, 이름, 생일 값이 각각 유효한경우 state 값을 true로 지정
-    userId.length < 4 || userId.length > 20
-      ? setIsIdValid(false)
-      : setIsIdValid(true);
+    const idPattern = /^[a-z0-9]{4,20}$/;
+    !idPattern.test(userId) ? setIsIdValid(false) : setIsIdValid(true);
 
     userName.length < 2 || userName.length > 20
       ? setIsNameValid(false)
@@ -88,21 +87,22 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
   };
 
   const validationItem = (e, type) => {
-    const value = e.target.value;
+    const valid = e.target.validity.valid;
+    const inputClass = e.target.classList;
 
     if (type === "userId") {
-      if (value.length < 4 || value.length > 20) {
-        e.target.classList.add(`${styles.invalid}`);
+      if (!valid) {
+        inputClass.add(`${styles.invalid}`);
       } else {
-        e.target.classList.remove(`${styles.invalid}`);
+        inputClass.remove(`${styles.invalid}`);
       }
     }
 
     if (type === "userName") {
-      if (value.length < 2 || value.length > 20) {
-        e.target.classList.add(`${styles.invalid}`);
+      if (!valid) {
+        inputClass.add(`${styles.invalid}`);
       } else {
-        e.target.classList.remove(`${styles.invalid}`);
+        inputClass.remove(`${styles.invalid}`);
       }
     }
   };
@@ -169,10 +169,14 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
             onChange={(e) => preventBlank(e, setUserId)}
             onBlur={(e) => validationItem(e, "userId")}
             value={userId}
+            minLength={4}
+            maxLength={20}
+            pattern="^[a-z0-9]+$"
             required
           />
           <span className={styles["invalid-text"]}>
-            {!isIdValid && "아이디는 4~20자로 입력해주세요."}
+            {!isIdValid &&
+              "아이디는 4~20자의 영문 소문자와 숫자로 입력해주세요."}
           </span>
         </div>
 
@@ -192,6 +196,8 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
             onChange={(e) => setUserName(e.target.value)}
             onBlur={(e) => validationItem(e, "userName")}
             value={userName}
+            minLength={2}
+            maxLength={20}
             required
           />
           <span className={styles["invalid-text"]}>
