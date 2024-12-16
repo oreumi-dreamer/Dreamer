@@ -241,18 +241,23 @@ img.tomong-icon {
 .comment-input {
   width: 100%;
   min-width: 19rem;
-  height: 60%;
+  height: 9.4rem;
   background-color: unset;
   color: var(--black-font-color);
   border: none;
   padding: 1.4rem 1.2rem;
   resize: none;
   scrollbar-width: none;
+  border-radius: 1rem;
 }
 
 .comment-input::placeholder {
   font-family: initial;
   color: var(--gray-font-color);
+}
+.comment-input:focus {
+  outline: none;
+  border: 0.2rem solid var(--focus-border-color);
 }
 
 .comment-setting {
