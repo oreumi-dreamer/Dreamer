@@ -1,6 +1,6 @@
 .button {
   background-color: var(--dark-white-color);
-  color: var(--black-font-color);
+  color: var(--always-black-font);
   width: fit-content;
   border-radius: 0.5rem;
   padding: 0.8rem 2.4rem;
@@ -22,7 +22,7 @@
   background-color: var(--hover-btn-color);
 }
 
-.button.active {
+.button:active {
   background-color: var(--active-btn-color);
 }
 
@@ -33,7 +33,7 @@
 
 .input-text,
 .textarea {
-  color: var(--black-font-color);
+  color: var(--always-black-font);
   border-radius: 1rem;
   padding: 1.2rem 2rem 1.3rem;
   border: none;

@@ -9,7 +9,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--black-font-color);
+  color: var(--always-black-font);
 }
 
 .login-buttons li:first-of-type button img {
@@ -28,12 +28,24 @@
   width: 2.5rem;
   height: 2.5rem;
   margin-right: 1rem;
-  filter: var(--filter-color);
 }
 
 .login-buttons li:first-of-type button {
   background-color: #4285f4;
   color: var(--white-color);
+}
+
+.login-buttons button:hover {
+  background-color: var(--hover-btn-color);
+}
+
+.login-buttons button:active {
+  background-color: var(--active-btn-color);
+}
+
+.login-buttons button:disabled {
+  background-color: var(--none-active-color);
+  cursor: not-allowed;
 }
 
 /* 이메일로 로그인 화면 style */
