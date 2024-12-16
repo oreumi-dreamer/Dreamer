@@ -155,6 +155,9 @@ export default function PostModal({ postId, isShow, onClose }) {
       window.matchMedia("(prefers-color-scheme: dark)").matches)
   ) {
     tomongStampUrl = "/images/tomong-stamp-dark.png";
+    tomongIconUrl = "/images/tomong-dark.svg";
+  }
+
   function handleCheckboxClick(e) {
     const checkboxName = e.target.parentElement.innerText;
     const isCheckboxChecked = e.target.checked;
@@ -176,6 +179,7 @@ export default function PostModal({ postId, isShow, onClose }) {
           position: "absolute",
           top: "40px",
           right: "0px",
+          zIndex: "10",
         };
         setModalStyle(position);
       }
