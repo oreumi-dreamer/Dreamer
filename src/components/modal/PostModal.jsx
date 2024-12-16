@@ -341,22 +341,18 @@ export default function PostModal({ postId, isShow, onClose }) {
                             <li
                               key={index}
                               style={
-                                theme === "light" ||
+                                theme === "dark" ||
                                 (theme === "device" &&
                                   window.matchMedia(
-                                    "(prefers-color-scheme: light)"
+                                    "(prefers-color-scheme: dark)"
                                   ).matches)
                                   ? {
-                                      backgroundColor: `${DREAM_GENRES.find((genre) => genre.id === tag).lightColor.hex}`,
-                                      color:
-                                        `${DREAM_GENRES.find((genre) => genre.id === tag).lightColor.textColor}` &&
-                                        `${DREAM_GENRES.find((genre) => genre.id === tag).lightColor.textColor}`,
+                                      backgroundColor: `${DREAM_GENRES.find((genre) => genre.id === tag).darkColor.hex}`,
+                                      color: `${DREAM_GENRES.find((genre) => genre.id === tag).darkColor.textColor}`,
                                     }
                                   : {
-                                      backgroundColor: `${DREAM_GENRES.find((genre) => genre.id === tag).darkColor.hex}`,
-                                      color:
-                                        `${DREAM_GENRES.find((genre) => genre.id === tag).darkColor.textColor}` &&
-                                        `${DREAM_GENRES.find((genre) => genre.id === tag).darkColor.textColor}`,
+                                      backgroundColor: `${DREAM_GENRES.find((genre) => genre.id === tag).lightColor.hex}`,
+                                      color: `${DREAM_GENRES.find((genre) => genre.id === tag).lightColor.textColor}`,
                                     }
                               }
                             >
