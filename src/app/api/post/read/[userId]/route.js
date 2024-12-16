@@ -138,6 +138,7 @@ export async function GET(request, { params }) {
           isTomong: postData.tomong
             ? !!postData.tomong[postData.tomongSelected]
             : false,
+          isPrivate: postData.isPrivate,
         });
       } else {
         // 기존 상세 정보 응답
