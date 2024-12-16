@@ -94,7 +94,7 @@ const MoodModal = forwardRef(
           </form>
           <p className={styles["sub-text-container"]}>
             <span className={styles["sub-text"]}>(최대 5개 선택 가능)</span>
-            <button onClick={() => onConfirm(selectedMoods)}>확인</button>
+            <button onClick={handleConfirm}>확인</button>
           </p>
         </div>
       </dialog>
