@@ -87,7 +87,7 @@ const HashtagModal = forwardRef(
                     className={styles["hashtag-picker"]}
                     id={item.id}
                   />
-                  <label for={item.id}>{item.text}</label>
+                  <label htmlFor={item.id}>{item.text}</label>
                 </li>
               ))}
             </ul>
