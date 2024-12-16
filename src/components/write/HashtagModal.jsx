@@ -9,7 +9,17 @@ import styles from "./HashtagModal.module.css";
 import { DREAM_GENRES, DREAM_MOODS } from "@/utils/constants";
 
 const HashtagModal = forwardRef(
-  ({ isModalOpen, closeModal, onConfirm, style }, tagModalRef) => {
+  (
+    {
+      isModalOpen,
+      closeModal,
+      onConfirm,
+      selectedGenres,
+      setSelectedGenres,
+      style,
+    },
+    tagModalRef
+  ) => {
     const dialogRef = useRef(null);
     useLayoutEffect(() => {
       if (isModalOpen && dialogRef.current) {
@@ -24,7 +34,7 @@ const HashtagModal = forwardRef(
         closeModal();
       }
     };
-    const [selectedGenres, setSelectedGenres] = useState([]);
+    //     const [selectedGenres, setSelectedGenres] = useState([]);
     const maxSelect = 5;
 
     const handleResetSelected = () => {
@@ -61,7 +71,7 @@ const HashtagModal = forwardRef(
           onClick={(e) => e.stopPropagation()}
         >
           <button
-            onClick={handleResetSelected}
+            onClick={() => setSelectedGenres([])}
             className={styles["btn-reset-select"]}
           >
             다시 선택하기
@@ -84,7 +94,7 @@ const HashtagModal = forwardRef(
           </form>
           <p className={styles["sub-text-container"]}>
             <span className={styles["sub-text"]}>(최대 5개 선택 가능)</span>
-            <button onClick={handleConfirm}>확인</button>
+            <button onClick={() => onConfirm(selectedGenres)}>확인</button>
           </p>
         </div>
       </dialog>

@@ -206,6 +206,23 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
     }
   };
 
+  useEffect(() => {
+    if (isWriteModalOpen) {
+      document.documentElement.style.overflow = "hidden";
+    } else {
+      document.documentElement.style.overflow = "";
+    }
+    return () => {
+      document.documentElement.style.overflow = "";
+    };
+  }, [isWriteModalOpen]);
+
+  useEffect(() => {
+    if (isWritingModalOpen) {
+      resetForm();
+    }
+  }, [isWritingModalOpen]);
+
   if (!user) {
     return <Error404 />;
   }
@@ -247,19 +264,24 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
           onSubmit={handleSubmit}
         >
           <div id={styles["title"]}>
-            <label id={styles["title-input"]}>
+            <label
+              id="title-input"
+              className={styles["title-input"]}
+              for="title"
+            >
               Title
               <input
                 type="text"
-                for="title"
+                id="title"
                 placeholder={`${year}년 ${month}월 ${date}일 꿈 일기`}
                 onChange={handleTitleChange}
+                value={inputValue}
               />
             </label>
-            <label id={styles["hidden"]}>
+            <label id="hidden" className={styles["hidden"]} for="hidden">
               <input
                 type="checkbox"
-                for="hidden"
+                id="hidden"
                 checked={isPrivate}
                 onChange={() => setIsPrivate((prev) => !prev)}
               />
@@ -377,6 +399,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
                 placeholder="오늘은 어떤 꿈을 꾸셨나요?"
                 className={styles["text-field-area"]}
                 onChange={handleContentChange}
+                value={contentValue}
               />
             </p>
           </div>
@@ -394,14 +417,18 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
         <HashtagModal
           isModalOpen={isModalOpen}
           closeModal={closeModal}
-          onConfirm={handleSelectGenres}
+          onConfirm={(selected) => setSelectedGenres(selected)}
+          selectedGenres={selectedGenres}
+          setSelectedGenres={setSelectedGenres}
           ref={tagModalRef}
           style={tagModalStyle}
         />
         <MoodModal
           isModalOpen={isMoodModalOpen}
           closeModal={closeMoodModal}
-          onConfirm={handleSelectMoods}
+          onConfirm={(selected) => setSelectedMoods(selected)}
+          selectedMoods={selectedMoods}
+          setSelectedMoods={setSelectedMoods}
           ref={moodModalRef}
           style={moodModalStyle}
         />
