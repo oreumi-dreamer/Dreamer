@@ -53,7 +53,6 @@
   background-position: center;
 }
 
-
 .mode-toggle-btn.dark-mode .toggle-switch {
   background-color: var(--dark-mode-text);
   background-image: url(/images/toggle-moon.svg);
@@ -119,9 +118,7 @@
   background-color: var(--none-active-color);
   display: inline-block;
   margin-right: 3rem;
-  /* #959595  */
-  filter: brightness(0) saturate(100%) invert(59%) sepia(9%) saturate(16%)
-    hue-rotate(346deg) brightness(98%) contrast(89%);
+  filter: var(--filter-959595);
 }
 
 .nav-items .home-btn::before {
@@ -169,9 +166,7 @@
 
 .nav-items .nav-item:hover::before,
 .more-btn:hover::before {
-  /* #5F6368  */
-  filter: invert(59%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(58%)
-    contrast(91%);
+  filter: var(--filter-5f6368);
 }
 
 .nav-items .nav-item.active::before,
@@ -217,9 +212,7 @@
     .nav-item:not(.more-btn).active::after,
   [data-theme="device"] .nav-items .nav-item.active::before,
   [data-theme="device"] .more-btn.active::before {
-    /* #EEF0DE */
-    filter: brightness(0) saturate(100%) invert(89%) sepia(27%) saturate(93%)
-      hue-rotate(28deg) brightness(105%) contrast(88%);
+    filter: var(--filter-EEF0DE);
   }
 }
 
@@ -229,7 +222,5 @@
   .nav-item:not(.more-btn).active::after,
 [data-theme="dark"] .nav-items .nav-item.active::before,
 [data-theme="dark"] .more-btn.active::before {
-  /* #EEF0DE */
-  filter: brightness(0) saturate(100%) invert(89%) sepia(27%) saturate(93%)
-    hue-rotate(28deg) brightness(105%) contrast(88%);
+  filter: var(--filter-EEF0DE);
 }
