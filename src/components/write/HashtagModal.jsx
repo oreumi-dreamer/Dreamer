@@ -37,6 +37,12 @@ const HashtagModal = forwardRef(
     //     const [selectedGenres, setSelectedGenres] = useState([]);
     const maxSelect = 5;
 
+    //     useEffect(() => {
+    //       if (isModalOpen) {
+    //         setSelectedGenres([]);
+    //       }
+    //     }, [isModalOpen]);
+
     const handleResetSelected = () => {
       setSelectedGenres([]);
     };

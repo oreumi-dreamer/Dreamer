@@ -73,14 +73,14 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
   const [isMoodModalOpen, setIsMoodModalOpen] = useState(false);
   const [isStopModalOpen, setIsStopModalOpen] = useState(false);
   // 선택지 여부 확인
-  const handleSelectGenres = (items) => {
-    setSelectedGenres(items);
-    setIsContentChanged(true);
-  };
-  const handleSelectMoods = (items) => {
-    setSelectedMoods(items);
-    setIsContentChanged(true);
-  };
+  //   const handleSelectGenres = (items) => {
+  //     setSelectedGenres(items);
+  //     setIsContentChanged(true);
+  //   };
+  //   const handleSelectMoods = (items) => {
+  //     setSelectedMoods(items);
+  //     setIsContentChanged(true);
+  //   };
   const genresId = selectedGenres.map((item) => item.id);
   const moodsId = selectedMoods.map((item) => item.id);
   const handleTitleChange = (e) => {
@@ -108,6 +108,16 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
     resetForm();
     closeWriteModal();
   };
+
+  const [isFormCompleted, setIsFormCompleted] = useState(false);
+  useEffect(() => {
+    if (!isWritingModalOpen && isFormCompleted) {
+      setSelectedGenres([]);
+      setSelectedMoods([]);
+      setIsFormCompleted(false);
+    }
+  }, [isWritingModalOpen, isFormCompleted]);
+
   const handleStopWriting = () => {
     if (
       contentValue !== "" ||
@@ -121,6 +131,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
       resetForm();
       setIsWritingModalOpen(false);
       closeWriteModal();
+      setIsFormCompleted(true);
     }
   };
 

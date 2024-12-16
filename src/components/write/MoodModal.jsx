@@ -34,6 +34,11 @@ const MoodModal = forwardRef(
         closeModal();
       }
     };
+    //     useEffect(() => {
+    //       if (isModalOpen) {
+    //         setSelectedMoods([]);
+    //       }
+    //     }, [isModalOpen]);
     //     const [selectedMoods, setselectedMoods] = useState([]);
     const maxSelect = 5;
 
