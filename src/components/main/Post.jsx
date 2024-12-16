@@ -35,27 +35,27 @@ export default function Post({
       };
     }
   }, [modalRef, buttonRef, isOpen]);
-  const handlePostMoreBtnClick = async (postId, userId) => {
-    try {
-      const data = await isMyPost(postId, userId);
-      const modalType = data ? "isMyPost" : "isNotMyPost";
 
-      if (!isOpen) {
-        setModalType(modalType);
-        setIsOpen(true);
+  function handlePostMoreBtnClick() {
+    const modalType = post.isMyself ? "isMyPost" : "isNotMyPost";
 
-        if (buttonRef.current) {
-          const position = calculateModalPosition(buttonRef, -110, 50);
-          setModalStyle(position);
-        }
-      } else {
-        setModalType(null);
-        setIsOpen(false);
+    if (!isOpen) {
+      setIsOpen(true);
+      setModalType(modalType);
+      if (buttonRef.current) {
+        const position = {
+          position: "absolute",
+          top: "40px",
+          right: "0px",
+          zIndex: "10",
+        };
+        setModalStyle(position);
       }
-    } catch (error) {
-      console.error("Error checking isMyPost:", error);
+    } else {
+      setIsOpen(false);
+      setModalType(null);
     }
-  };
+  }
   const changeSpark = () => {
     setPost((prevPost) => ({
       ...prevPost,
@@ -114,10 +114,7 @@ export default function Post({
           >
             {postTime(post.createdAt, post.createdAt)}
           </time>
-          <button
-            ref={buttonRef}
-            onClick={() => handlePostMoreBtnClick(post.objectID, post.authorId)}
-          >
+          <button ref={buttonRef} onClick={() => handlePostMoreBtnClick()}>
             <Image
               src="/images/more.svg"
               alt="더보기"

@@ -135,6 +135,7 @@ div.divider {
 }
 
 .post-btn-content .btn-label {
+  color: var(--black-font-color);
   padding: 0 1.4rem 0 1rem;
 }
 
