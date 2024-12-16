@@ -3,10 +3,6 @@
   background-color: var(--background-white);
   border-radius: 0.8rem;
   filter: drop-shadow(6px 6px 9.4px rgba(0, 0, 0, 0.15));
-  position: absolute;
-  top: 0;
-  left: 0;
-  transform: translate(0, 0);
 }
 
 .drop-down-items .drop-down-item {
