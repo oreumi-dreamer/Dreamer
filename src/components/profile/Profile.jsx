@@ -8,7 +8,7 @@ import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 import ProfileEdit from "./ProfileEdit";
 import { useSelector } from "react-redux";
 import ProfileInfo from "./ProfileInfo";
-import { Button, Divider } from "../Controls";
+import { Button, ConfirmModal, Divider } from "../Controls";
 import Loading from "../Loading";
 import PostModal from "../modal/PostModal";
 import WritePost from "../write/WritePost";
@@ -22,6 +22,7 @@ export default function Profile({ userName }) {
   const [isShowModal, setIsShowModal] = useState(false);
   const [selectedPostId, setSelectedPostId] = useState(null);
   const mainRef = useRef(null);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
   const user = useSelector((state) => state.auth.user);
   const isLoggedIn = user?.exists ? true : false;
@@ -38,7 +39,7 @@ export default function Profile({ userName }) {
 
   const toggleFollow = async () => {
     if (!isLoggedIn) {
-      router.push("/"); // 로그인 페이지로 이동
+      setIsLoginModalOpen(true);
       return;
     }
 
@@ -106,6 +107,14 @@ export default function Profile({ userName }) {
     } else {
       handleActiveBtn("홈");
     }
+  };
+
+  const loginModalOpen = () => {
+    setIsLoginModalOpen(true);
+  };
+
+  const loginModalClose = () => {
+    setIsLoginModalOpen(false);
   };
 
   if (loading) {
@@ -194,6 +203,14 @@ export default function Profile({ userName }) {
         isWriteModalOpen={isWriteModalOpen}
         closeWriteModal={closeWriteModal}
       />
+      {isLoginModalOpen && (
+        <ConfirmModal
+          message="로그인이 필요합니다. 로그인 하시겠습니까?"
+          isOpen={loginModalOpen}
+          closeModal={loginModalClose}
+          onConfirm={() => router.push("/")}
+        />
+      )}
     </>
   );
 }

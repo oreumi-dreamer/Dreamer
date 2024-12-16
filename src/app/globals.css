@@ -184,6 +184,10 @@ body:has(header):has(main):has(footer) {
 }
 
 main {
+  padding: 8rem;
+}
+
+body:has(header):has(main):has(footer) main {
   padding: 16.6rem 0 16.6rem 6.4rem;
 }
 
@@ -222,7 +226,7 @@ main {
 }
 
 @media (max-width: 860px) {
-  main {
+  body:has(header):has(main):has(footer) main {
     padding: 16.6rem 0 16.6rem 0;
   }
 }
