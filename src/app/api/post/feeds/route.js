@@ -45,7 +45,7 @@ export async function GET(request, { params }) {
 
     // 1. 기본 필터
     const baseFilter = "NOT isDeleted:true";
-    const publicFilter = "NOT isPrivate:true";
+    const publicFilter = `NOT isPrivate:true OR authorUid:'${userData.uid}'`;
 
     // 2. 팔로우 가중치 필터
     const followBoost =
