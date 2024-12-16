@@ -107,33 +107,6 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
     }
   };
 
-  const handleSelectChange = (e) => {
-    const yearData = e.currentTarget.children[0];
-    const monthData = e.currentTarget.children[1];
-    const dayData = e.currentTarget.children[2];
-
-    if (dayData.value && !monthData.value && !yearData.value) {
-      yearData.classList.add(`${styles.invalid}`);
-      monthData.classList.add(`${styles.invalid}`);
-    } else if (dayData.value === "0" && monthData.value && !yearData.value) {
-      yearData.classList.add(`${styles.invalid}`);
-      dayData.classList.add(`${styles.invalid}`);
-    }
-
-    if (dayData.value !== "0") {
-      dayData.classList.remove(`${styles.invalid}`);
-      dayData.classList.add(`${styles.selected}`);
-    }
-    if (monthData.value) {
-      monthData.classList.remove(`${styles.invalid}`);
-      monthData.classList.add(`${styles.selected}`);
-    }
-    if (yearData.value) {
-      yearData.classList.remove(`${styles.invalid}`);
-      yearData.classList.add(`${styles.selected}`);
-    }
-  };
-
   const todayYear = new Date().getFullYear();
 
   const handleAgree = () => {
@@ -215,10 +188,7 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
             />
             생일
           </label>
-          <div
-            className={styles["input-wrapper"]}
-            onChange={handleSelectChange}
-          >
+          <div className={styles["input-wrapper"]}>
             <Select
               id="birth-year"
               name="birthYear"
@@ -230,6 +200,11 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
                 label: `${todayYear - i}년`,
               }))}
               placeholder="년"
+              className={
+                (year === 0 && month !== 0) || (year === 0 && day !== 0)
+                  ? styles.invalid
+                  : ""
+              }
             />
             <Select
               id="birth-month"
@@ -241,6 +216,7 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
                 label: `${i + 1}월`,
               }))}
               placeholder="월"
+              className={month === 0 && day !== 0 ? styles.invalid : ""}
             />
             <Select
               id="birth-day"
@@ -252,6 +228,9 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
                 label: `${i + 1}일`,
               }))}
               placeholder="일"
+              className={
+                day === 0 && month !== 0 && year === 0 ? styles.invalid : ""
+              }
             />
           </div>
           <span className={styles["invalid-text"]}>

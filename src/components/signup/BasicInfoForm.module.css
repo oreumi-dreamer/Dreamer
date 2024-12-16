@@ -44,7 +44,7 @@
   color: var(--black-font-color);
 }
 .form-field input:focus,
-.form-field select:focus {
+.input-wrapper div button:focus {
   outline: none;
   border: 0.2rem solid var(--focus-border-color);
 }
@@ -87,10 +87,6 @@
 .input-wrapper div:first-of-type {
   max-width: 16rem;
   margin-right: 1.6rem;
-}
-.input-wrapper div button:focus {
-  outline: none;
-  border: 0.2rem solid var(--focus-border-color);
 }
 
 .agree label {
