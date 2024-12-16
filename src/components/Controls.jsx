@@ -498,3 +498,31 @@ export function Divider({ className }) {
 
   return <div className={dividerClass}></div>;
 }
+
+export function ConfirmModal({ onConfirm, isOpen, closeModal, message }) {
+  const dialogRef = useRef(null);
+  useEffect(() => {
+    if (isOpen && dialogRef.current) {
+      dialogRef.current.showModal();
+    } else if (dialogRef.current) {
+      dialogRef.current.close();
+    }
+  }, [isOpen]);
+
+  return (
+    <dialog ref={dialogRef} className={styles["confirm-modal"]}>
+      <p>{message}</p>
+      <div>
+        <button onClick={onConfirm} className={styles["btn-yes"]}>
+          네
+        </button>
+        <button onClick={closeModal} className={styles["btn-no"]}>
+          아니오
+        </button>
+      </div>
+      <button onClick={closeModal} className={styles["btn-close"]}>
+        <span className="sr-only">닫기</span>
+      </button>
+    </dialog>
+  );
+}
