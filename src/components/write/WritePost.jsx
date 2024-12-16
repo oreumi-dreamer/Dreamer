@@ -20,9 +20,9 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
   const { user } = useSelector((state) => state.auth);
   const { theme } = useTheme();
 
-  const profileImageUrl = user.profileImageUrl || "/images/rabbit.svg";
-  const userId = user.userId;
-  const userName = user.userName;
+  const profileImageUrl = user?.profileImageUrl || "/images/rabbit.svg";
+  const userId = user?.userId;
+  const userName = user?.userName;
   // 모달 오픈 상태
   const modalRef = useRef(null);
   useEffect(() => {
@@ -207,7 +207,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
   };
 
   if (!user) {
-    return <Error404 />;
+    return null;
   }
 
   return (
