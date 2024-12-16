@@ -20,7 +20,6 @@ export default function PostList({
   const modalRef = useRef(null);
   const buttonRef = useRef(null);
 
-  console.log(posts);
   useEffect(() => {
     if (modalRef.current && buttonRef.current) {
       const cleanup = outsideClickModalClose(modalRef, buttonRef, () => {
@@ -31,6 +30,35 @@ export default function PostList({
       };
     }
   }, [modalRef, buttonRef, isOpen]);
+
+  const togglePostPrivacy = async (postId, postIsPrivate) => {
+    setIsOpen(false);
+    try {
+      const newPrivacyState = !postIsPrivate;
+
+      setPosts((currentPosts) =>
+        currentPosts.map((post) =>
+          post.id === postId
+            ? { ...post, isPrivate: newPrivacyState }
+            : { ...post }
+        )
+      );
+
+      const response = await fetchWithAuth(`/api/post/private/${postId}`, {
+        method: "GET",
+      });
+
+      const responseData = await response.json();
+
+      if (responseData.success) {
+        return responseData.isPrivate;
+      } else {
+        alert(`오류: ${responseData.error}`);
+      }
+    } catch (error) {
+      console.error("비밀글 토글 중 오류 발생:", error);
+    }
+  };
 
   function handlePostMoreBtnClick(postId) {
     const modalType = isMyself ? "isMyPost" : "isNotMyPost";
@@ -174,6 +202,10 @@ export default function PostList({
                 style={modalStyle}
                 className={styles["more-modal"]}
                 isPrivate={post.isPrivate}
+                togglePostPrivacy={() =>
+                  togglePostPrivacy(post.id, post.isPrivate)
+                }
+                post={post}
               />
             )}
             {isOpen &&
