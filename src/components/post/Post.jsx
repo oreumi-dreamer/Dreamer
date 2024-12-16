@@ -422,6 +422,7 @@ export default function PostComponent({ postId }) {
                   <CommentArticles
                     postId={postId}
                     user={user}
+                    isMyself={postData?.isMyself}
                     isCommentSubmitting={isCommentSubmitting}
                   />
                 </section>
