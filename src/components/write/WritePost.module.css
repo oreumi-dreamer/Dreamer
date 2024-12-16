@@ -242,3 +242,13 @@
   padding: 0.8rem 4rem;
   border-radius: 0.4rem;
 }
+@media (max-width: 720px) {
+  #hidden {
+    top: 110%;
+    left: 4%;
+    justify-content: flex-start;
+  }
+  .new-post-form {
+    gap: 3rem;
+  }
+}
