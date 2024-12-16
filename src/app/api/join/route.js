@@ -12,6 +12,8 @@ import {
   getDocs,
 } from "firebase/firestore";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
+import { verifyUser } from "@/lib/api/auth";
+import { uploadAvatar } from "@/lib/api/avatar";
 
 export async function POST(request) {
   const headersList = headers();
@@ -77,14 +79,8 @@ export async function POST(request) {
 
     // 사용자가 이미 등록되어 있는지 확인
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-    const verifyResponse = await fetch(`${baseUrl}/api/auth/verify`, {
-      headers: {
-        Authorization: `Bearer ${idToken}`,
-      },
-      method: "GET",
-    });
 
-    const verifyData = await verifyResponse.json();
+    const verifyData = await verifyUser(baseUrl, idToken);
 
     if (verifyData.exists) {
       return new Response(
@@ -101,21 +97,13 @@ export async function POST(request) {
     let profileImageFileName = null;
 
     if (profileImage) {
-      const uploadResponse = await fetch(`${baseUrl}/api/account/avatar`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${idToken}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          image: profileImage,
-          uid: verifyData.uid,
-        }),
-      });
-
-      const uploadData = await uploadResponse.json();
-      profileImageFileName = uploadData.fileName;
-      profileImageUrl = uploadData.url;
+      const { fileName, url } = await uploadAvatar(
+        idToken,
+        profileImage,
+        verifyData.uid
+      );
+      profileImageFileName = fileName;
+      profileImageUrl = url;
     }
 
     // setDoc을 사용하여 문서 추가

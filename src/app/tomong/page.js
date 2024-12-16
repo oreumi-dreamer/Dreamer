@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { Button } from "@/components/Controls";
+import { Button, ButtonLink } from "@/components/Controls";
 import styles from "./Tomong.module.css";
 import markdownStyles from "./Result.module.css";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
@@ -143,13 +143,20 @@ function TomongSelect({ setProcess, setSelectedDream }) {
   );
 }
 
-function TomongResult({ setProcess, selectedDream }) {
+function TomongResult({
+  setProcess,
+  selectedDream,
+  setTomongDream,
+  setBefore,
+}) {
   const [isLoading, setIsLoading] = useState(true);
   const [result, setResult] = useState("");
   const [retry, setRetry] = useState(0);
   const eventSourceRef = useRef(null);
   const retryCountRef = useRef(0);
   const isComponentMounted = useRef(true);
+  const { userId } = useSelector((state) => state.auth.user);
+  const [clickNext, setClickNext] = useState(false);
 
   const RETRY_LIMIT = 3;
 
@@ -280,6 +287,26 @@ function TomongResult({ setProcess, selectedDream }) {
     setIsLoading(true);
   };
 
+  const handleNext = async () => {
+    // userId를 사용하여 현재 선택된 꿈의 ID로 서버에서 다시 불러오기
+    const res = await fetchWithAuth(`/api/post/read/${userId}`);
+
+    if (res.ok) {
+      const data = await res.json();
+      const foundDream = data.posts.find(
+        (dream) => dream.id === selectedDream.id
+      );
+      if (foundDream) {
+        // 불러온 꿈 데이터를 tomongDream state에 설정
+        setTomongDream(foundDream);
+        // setBefore를 사용하여 이전 process를 저장
+        setBefore(2);
+        // process를 102로 변경하여 TomongRead 컴포넌트로 전환
+        setProcess(102);
+      }
+    }
+  };
+
   return (
     <>
       <h2 className={styles["title"]}>꿈을 해몽해드릴게요!</h2>
@@ -298,9 +325,13 @@ function TomongResult({ setProcess, selectedDream }) {
       )}
       <div className={styles["btn-row"]}>
         <Button onClick={() => setProcess(1)}>뒤로</Button>
-        <Button highlight={true} onClick={() => setProcess(3)}>
-          저장하기
-        </Button>
+        {isLoading ? (
+          <Button disabled>다음</Button>
+        ) : (
+          <Button highlight={true} onClick={() => handleNext()}>
+            다음
+          </Button>
+        )}
       </div>
     </>
   );
@@ -319,9 +350,7 @@ function TomongLists({ setProcess, setTomongDream }) {
       let data = null;
       if (res.ok) {
         data = await res.json();
-
-        const filteredDream = data.posts.filter((post) => post.isTomong);
-
+        const filteredDream = data.posts.filter((post) => !!post.tomongs);
         setDreams(filteredDream);
       }
 
@@ -411,12 +440,16 @@ function TomongLists({ setProcess, setTomongDream }) {
   );
 }
 
-function TomongRead({ setProcess, tomongDream }) {
-  const [showTomong, setShowTomong] = useState(tomongDream.tomongSelected);
+function TomongRead({ setProcess, tomongDream, before }) {
+  const tomongSelected = tomongDream?.tomongSelected
+    ? tomongDream.tomongSelected
+    : -1;
+  const [showTomong, setShowTomong] = useState(tomongSelected);
   const [emblaRef, emblaApi] = useEmblaCarousel({
     watchDrag: false,
   });
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const { userId } = useSelector((state) => state.auth.user);
 
   useEffect(() => {
     if (emblaApi) {
@@ -444,6 +477,14 @@ function TomongRead({ setProcess, tomongDream }) {
       return true;
     } else {
       return false;
+    }
+  };
+
+  const handleBack = () => {
+    if (before === 2) {
+      setProcess(1);
+    } else {
+      setProcess(101);
     }
   };
 
@@ -504,7 +545,10 @@ function TomongRead({ setProcess, tomongDream }) {
         ))}
       </div>
       <div className={styles["btn-row"]}>
-        <Button onClick={() => setProcess(101)}>뒤로</Button>
+        <Button onClick={handleBack}>뒤로</Button>
+        <ButtonLink href={`/${userId}`} highlight={true}>
+          프로필로 이동
+        </ButtonLink>
       </div>
     </>
   );
@@ -512,6 +556,7 @@ function TomongRead({ setProcess, tomongDream }) {
 
 export default function Tomong() {
   const [process, setProcess] = useState(0);
+  const [before, setBefore] = useState(0);
   const [selectedDream, setSelectedDream] = useState(null);
   const [tomongDream, setTomongDream] = useState(null);
 
@@ -529,7 +574,13 @@ export default function Tomong() {
           />
         )}
         {process === 2 && (
-          <TomongResult setProcess={setProcess} selectedDream={selectedDream} />
+          <TomongResult
+            setProcess={setProcess}
+            selectedDream={selectedDream}
+            setTomongDream={setTomongDream}
+            tomongDream={tomongDream}
+            setBefore={setBefore}
+          />
         )}
         {process === 101 && (
           <TomongLists
@@ -538,7 +589,11 @@ export default function Tomong() {
           />
         )}
         {process === 102 && (
-          <TomongRead setProcess={setProcess} tomongDream={tomongDream} />
+          <TomongRead
+            setProcess={setProcess}
+            tomongDream={tomongDream}
+            before={before}
+          />
         )}
       </main>
     </div>

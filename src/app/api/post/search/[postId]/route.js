@@ -100,8 +100,12 @@ export async function GET(request, { params }) {
       authorId: userData2.userId,
       authorName: userData2.userName,
       isMyself: isMyself,
-      isTomong: postData.tomongSelected ? postData.tomongSelected > -1 : false,
-      tomong: postData.tomong ? postData.tomong[postData.tomongSelected] : null,
+      isTomong:
+        postData.tomongSelected > -1 ? postData.tomongSelected > -1 : false,
+      tomong:
+        postData.tomongSelected > -1
+          ? postData.tomong[postData.tomongSelected]
+          : null,
       imageUrls: postData.imageUrls,
       isPrivate: postData.isPrivate,
       hasUserSparked: hasUserSparked,

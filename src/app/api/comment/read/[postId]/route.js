@@ -8,12 +8,19 @@ export async function GET(request, { params }) {
     const { postId } = params;
     const headersList = headers();
     const authorization = headersList.get("Authorization");
-    const idToken = authorization.split("Bearer ")[1];
+    const idToken = authorization ? authorization.split("Bearer ")[1] : null;
 
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
     // 사용자 인증 확인
-    const userData = await verifyUser(baseUrl, idToken);
+    let userData = null;
+    if (idToken) {
+      try {
+        userData = await verifyUser(baseUrl, idToken);
+      } catch (error) {
+        console.warn("User verification failed:", error);
+      }
+    }
 
     // 게시글 존재 여부 확인 및 데이터 가져오기
     const postRef = doc(db, "posts", postId);
@@ -54,26 +61,30 @@ export async function GET(request, { params }) {
         // 사용자 정보 가져오기
         const userRef = doc(db, "users", comment.authorUid);
         const userDoc = await getDoc(userRef);
-        const userData = userDoc.exists() ? userDoc.data() : null;
+        const commentUserData = userDoc.exists() ? userDoc.data() : null;
 
         // 기본 댓글 객체에 isModifiable 추가
         const baseComment = {
           ...comment,
-          isModifiable: comment.authorUid === userData.uid,
-          authorName: userData?.userName || "알 수 없음", // 사용자 이름 추가
-          authorId: userData?.userId || "unknown", // 사용자 ID 추가
+          isModifiable: userData && comment.authorUid === userData.uid,
+          authorName: commentUserData?.userName || "알 수 없음", // 사용자 이름 추가
+          authorId: commentUserData?.userId || "unknown", // 사용자 ID 추가
         };
 
         // 자신의 댓글이거나 게시글 작성자인 경우 모든 정보 표시
         if (
-          comment.authorUid === userData.uid ||
-          postData.authorUid === userData.uid
+          userData &&
+          (comment.authorUid === userData.uid ||
+            postData.authorUid === userData.uid)
         ) {
           return baseComment;
         }
 
         // 비공개 댓글인 경우 내용 숨김 처리
-        if (comment.isPrivate && comment.authorUid !== userDoc.id) {
+        if (
+          comment.isPrivate &&
+          (!userData || comment.authorUid !== userData.uid)
+        ) {
           return {
             ...baseComment,
             content: "비공개 댓글입니다.",

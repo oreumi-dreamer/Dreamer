@@ -15,12 +15,5 @@ export async function generateMetadata({ params }) {
 }
 
 export default function UserProfile(props) {
-  return (
-    <div id="container" className={styles.container}>
-      <Header />
-      <Profile userName={props.params.id} />
-      <Footer />
-      <CustomScrollbar />
-    </div>
-  );
+  return <Profile userName={props.params.id} />;
 }

@@ -96,7 +96,7 @@ export default function Post({
 
   return (
     <>
-      <article className={styles["main-post-wrap"]}>
+      <article className={styles["article"]}>
         <section className={styles["post-user-info"]}>
           <Link href={`/${post.authorId}`}>
             <img

@@ -148,7 +148,7 @@ export default function PostModal({ postId, isShow, onClose }) {
   }
 
   let tomongStampUrl = "/images/tomong-stamp.png";
-
+  let tomongIconUrl = "/images/tomong.svg";
   if (
     theme === "dark" ||
     (theme === "device" &&
@@ -387,10 +387,16 @@ export default function PostModal({ postId, isShow, onClose }) {
                           alt={`이미지${index}`}
                         />
                       ))}
-                    <Divider />
                     {postData.tomong && (
                       <>
+                        <Divider />
                         <h3 className={styles["tomong-result-heading"]}>
+                          <img
+                            className={styles["tomong-icon"]}
+                            src={tomongIconUrl}
+                            alt=""
+                            width={16}
+                          />
                           토몽이의 해몽 결과:
                         </h3>
                         <div
@@ -480,6 +486,7 @@ export default function PostModal({ postId, isShow, onClose }) {
                     <h3 className="sr-only">댓글 모음 확인</h3>
                     <CommentArticles
                       postId={postId}
+                      user={user}
                       isCommentSubmitting={isCommentSubmitting}
                       isMyself={postData.isMyself}
                     />

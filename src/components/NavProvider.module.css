@@ -1,0 +1,11 @@
+.container {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: nowrap;
+  width: 100vw;
+  height: auto;
+  background-color: var(--background-color);
+  column-gap: 6.4rem;
+  padding-left: calc(32rem);
+  padding-right: 6.4rem;
+}

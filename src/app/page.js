@@ -3,11 +3,8 @@
 import { useSelector } from "react-redux";
 import styles from "./page.module.css";
 import SocialLogin from "@/components/login/SocialLogin";
-import Header from "@/components/header/Header";
 import Link from "next/link";
-import Footer from "@/components/footer/Footer";
 import MainList from "@/components/main/MainList";
-import { CustomScrollbar } from "@/components/Controls";
 
 export default function Home() {
   const { user, isRegistrationComplete } = useSelector((state) => state.auth);
@@ -31,12 +28,5 @@ export default function Home() {
     return null;
   }
 
-  return (
-    <div id="container" className={styles.container}>
-      <Header />
-      <MainList />
-      <Footer />
-      <CustomScrollbar />
-    </div>
-  );
+  return <MainList />;
 }

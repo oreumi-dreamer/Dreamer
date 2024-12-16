@@ -48,7 +48,7 @@ export default function ProfileForm({
             onChange={handleImageChange}
           />
           <Image
-            src={profileImage ? profileImage : "/Images/rabbit.svg"}
+            src={profileImage ? profileImage : "/images/rabbit.svg"}
             width={140}
             height={140}
             alt="프로필 사진"
