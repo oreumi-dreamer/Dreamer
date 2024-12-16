@@ -8,7 +8,7 @@ import { signInWithPopup } from "firebase/auth";
 import { checkUserExists } from "@/utils/auth/checkUser";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
-import { Checkbox } from "../Controls";
+import { Checkbox, Select } from "../Controls";
 
 export default function BasicInfoForm({ onSubmit, formData, setters }) {
   const { userId, userName, year, month, day } = formData;
@@ -219,51 +219,40 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
             className={styles["input-wrapper"]}
             onChange={handleSelectChange}
           >
-            <select
+            <Select
               id="birth-year"
               name="birthYear"
               onChange={(e) => setYear(e.target.value)}
               value={year}
               required
-            >
-              <option value="">연도</option>
-              {Array.from({ length: 120 }, (_, i) => (
-                <option key={`year-${todayYear - i}`} value={todayYear - i}>
-                  {todayYear - i}년
-                </option>
-              ))}
-            </select>
-            <select
+              options={Array.from({ length: 120 }, (_, i) => ({
+                value: todayYear - i,
+                label: `${todayYear - i}년`,
+              }))}
+              placeholder="년"
+            />
+            <Select
               id="birth-month"
               name="birthMonth"
               onChange={(e) => setMonth(e.target.value)}
               value={month}
-              required
-            >
-              <option value="">월</option>
-              {Array.from({ length: 12 }, (_, i) => (
-                <option key={`month-${i + 1}`} value={i + 1}>
-                  {i + 1}월
-                </option>
-              ))}
-            </select>
-            <select
+              options={Array.from({ length: 12 }, (_, i) => ({
+                value: i + 1,
+                label: `${i + 1}월`,
+              }))}
+              placeholder="월"
+            />
+            <Select
               id="birth-day"
               name="birthDay"
-              onChange={(e) => {
-                const value = Math.min(Math.max(1, e.target.value), 31);
-                setDay(e.target.value);
-              }}
+              onChange={(e) => setDay(e.target.value)}
               value={day}
-              required
-            >
-              <option value="0">일</option>
-              {Array.from({ length: lastDay }, (_, i) => (
-                <option key={`day-${i + 1}`} value={i + 1}>
-                  {i + 1}일
-                </option>
-              ))}
-            </select>
+              options={Array.from({ length: lastDay }, (_, i) => ({
+                value: i + 1,
+                label: `${i + 1}일`,
+              }))}
+              placeholder="일"
+            />
           </div>
           <span className={styles["invalid-text"]}>
             {!isBirthValid && "생일은 필수 입력 값 입니다."}
