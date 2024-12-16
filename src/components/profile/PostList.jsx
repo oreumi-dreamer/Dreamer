@@ -5,13 +5,13 @@ import { MyPost, OtherPost } from "../dropDown/DropDown";
 import { outsideClickModalClose } from "@/utils/outsideClickModalClose";
 
 export default function PostList({
-  posts: initialPosts,
+  posts,
+  setPosts,
   styles,
   isLoggedIn,
   setSelectedPostId,
   isMyself,
 }) {
-  const [posts, setPosts] = useState(initialPosts);
   const { theme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
   const [modalType, setModalType] = useState(null);
@@ -36,13 +36,12 @@ export default function PostList({
     try {
       const newPrivacyState = !postIsPrivate;
 
-      setPosts((currentPosts) =>
-        currentPosts.map((post) =>
-          post.id === postId
-            ? { ...post, isPrivate: newPrivacyState }
-            : { ...post }
-        )
-      );
+      setPosts((currentPosts) => ({
+        ...currentPosts,
+        posts: currentPosts.posts.map((post) =>
+          post.id === postId ? { ...post, isPrivate: newPrivacyState } : post
+        ),
+      }));
 
       const response = await fetchWithAuth(`/api/post/private/${postId}`, {
         method: "GET",
@@ -85,8 +84,9 @@ export default function PostList({
   }
 
   const changeSpark = (postId) => {
-    setPosts((currentPosts) =>
-      currentPosts.map((post) =>
+    setPosts((currentPosts) => ({
+      ...currentPosts,
+      posts: currentPosts.posts.map((post) =>
         post.id === postId
           ? {
               ...post,
@@ -94,8 +94,8 @@ export default function PostList({
               hasUserSparked: post.hasUserSparked ? false : true,
             }
           : post
-      )
-    );
+      ),
+    }));
   };
 
   const sparkHandle = async (postId) => {
@@ -125,7 +125,7 @@ export default function PostList({
 
   return (
     <>
-      {posts.map((post) => (
+      {posts.posts.map((post) => (
         <article
           className={styles["post-wrap"]}
           key={post.id}
@@ -149,14 +149,6 @@ export default function PostList({
               alt="해몽이 존재함"
             />
           )}
-          {/* {post.hasImages ? (
-            <h3 className={`${styles["post-title"]} ${styles["include-img"]}`}>
-              {post.title}
-            </h3>
-          ) : (
-            <h3 className={`${styles["post-title"]}`}>{post.title}</h3>
-          )} */}
-
           <h3 className={`${styles["post-title"]}`}>
             {post.isPrivate && (
               <img
