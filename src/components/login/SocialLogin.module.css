@@ -36,11 +36,8 @@
 }
 
 .login-buttons button:hover {
-  background-color: var(--hover-btn-color);
-}
-
-.login-buttons button:active {
-  background-color: var(--active-btn-color);
+  background-color: var(--none-active-color);
+  color: #ffffff;
 }
 
 .login-buttons button:disabled {

@@ -9,20 +9,25 @@
   white-space: nowrap;
 }
 
+.button:hover {
+  background-color: var(--none-active-color);
+  color: #ffffff;
+}
+
 .button-highlight {
   background-color: var(--deep-pink-color);
   color: var(--background-white);
+}
+
+.button-highlight:hover {
+  background-color: var(--hover-btn-color);
 }
 
 .button input[type="file"] {
   display: none;
 }
 
-.button:hover {
-  background-color: var(--hover-btn-color);
-}
-
-.button:active {
+.button-highlight:active {
   background-color: var(--active-btn-color);
 }
 
