@@ -245,3 +245,14 @@ body:has(header):has(main):has(footer) main {
     padding: 16.6rem 0 0 6.4rem;
   }
 }
+
+@media (max-width: 720px) {
+  body:has(header):has(main):has(footer) {
+    padding-left: 6.4rem;
+    padding-right: 6.4rem;
+  }
+
+  html body:has(header):has(main):has(footer) main {
+    padding: 16.6rem 0 16.6rem 0;
+  }
+}
