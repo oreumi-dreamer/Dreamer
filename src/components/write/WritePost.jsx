@@ -228,6 +228,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
             width={52}
             height={52}
             className={styles["user-profile-img"]}
+            alt={`${userName}님의 프로필 사진`}
           />
           <p className={styles["user-name"]}>
             {userName}

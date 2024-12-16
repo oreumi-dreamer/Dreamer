@@ -256,7 +256,9 @@ export default function PostModal({ postId, isShow, onClose }) {
                                   ? "/images/star-fill.svg"
                                   : "/images/star.svg"
                               }
-                              alt="좋아요반짝"
+                              alt={
+                                postData.hasUserSparked ? "반짝 취소" : "반짝"
+                              }
                               width={30}
                               height={30}
                             />
@@ -384,7 +386,7 @@ export default function PostModal({ postId, isShow, onClose }) {
                           src={image}
                           width={555}
                           height={330}
-                          alt={`이미지${index}`}
+                          alt={`이미지 ${index}`}
                         />
                       ))}
                     {postData.tomong && (
@@ -475,7 +477,7 @@ export default function PostModal({ postId, isShow, onClose }) {
                             src="/images/send.svg"
                             width={30}
                             height={30}
-                            alt="댓글 입력 버튼"
+                            alt="댓글 입력"
                           />
                         </button>
                       </li>
