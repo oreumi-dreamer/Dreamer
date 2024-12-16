@@ -11,7 +11,7 @@
   font-size: var(--h2-font-size);
   line-height: 2.4rem;
   color: var(--active-header-color);
-  padding: 2rem 0 2rem 3rem;
+  padding: 2rem 1.6rem 2rem 3rem;
   margin: 0;
   display: flex;
   align-items: center;
@@ -37,8 +37,9 @@
   width: 3.5rem;
   height: 3.5rem;
   display: inline-block;
-  margin-top: -0.5rem;
   margin-right: 0.5rem;
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 
 .modal-items .change-mode-btn::after,
@@ -47,16 +48,16 @@
   width: 3.5rem;
   height: 3.5rem;
   display: inline-block;
-  margin-top: -0.5rem;
-  margin-right: 0.5rem;
-  position: relative;
-  left: 5rem;
+  margin-left: auto;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .modal-items .setting-btn::before {
   content: "";
   display: block;
-  background: url(/images/settings.svg) no-repeat center;
+  background-image: url(/images/settings.svg);
 }
 
 .modal-items .change-mode-btn.light-mode::before,
@@ -64,7 +65,7 @@
 .modal-items .back-more-modal-btn::after {
   content: "";
   display: block;
-  background: url(/images/toggle-sun.svg) no-repeat center;
+  background-image: url(/images/toggle-sun.svg);
 }
 
 .modal-items .change-mode-btn.dark-mode::before,
@@ -72,7 +73,7 @@
 .modal-items .back-more-modal-btn.dark-mode::after {
   content: "";
   display: block;
-  background: url(/images/toggle-moon.svg) no-repeat center;
+  background-image: url(/images/toggle-moon-padding.svg);
 }
 
 .modal-items .change-mode-btn.device-mode::before,
@@ -80,26 +81,26 @@
 .modal-items .back-more-modal-btn.device-mode::after {
   content: "";
   display: block;
-  background: url(/images/device.svg) no-repeat center;
+  background-image: url(/images/device.svg);
 }
 
 .modal-items .inquiry-btn::before {
   content: "";
   display: block;
-  background: url(/images/inquiry.svg) no-repeat center;
+  background-image: url(/images/inquiry.svg);
 }
 
 .modal-items .change-mode-btn::after {
   content: "";
   display: block;
-  background: url(/images/arrow-left.svg) no-repeat center;
+  background-image: url(/images/chevron-backward.svg);
   transform: rotate(180deg);
 }
 
 .modal-items .back-more-modal-btn::before {
   content: "";
   display: block;
-  background: url(/images/arrow-left.svg) no-repeat center;
+  background-image: url(/images/chevron-backward.svg);
 }
 .modal-items .logout-btn {
   border-top: 1px solid var(--dotted-color);
@@ -108,7 +109,7 @@
 
 .modal-items .back-more-modal-btn {
   border-bottom: 1px solid var(--dotted-color);
-  padding: 2rem 0 1.5rem 3rem;
+  padding: 2rem 2.6rem 1.5rem 3rem;
 }
 
 .more-modal li:first-child .more-modal-btn,
@@ -141,4 +142,36 @@
   /* #EEF0DE */
   filter: brightness(0) saturate(100%) invert(89%) sepia(27%) saturate(93%)
     hue-rotate(28deg) brightness(105%) contrast(88%);
+}
+
+@media (max-width: 720px) {
+  .more-modal,
+  .change-mode-modal {
+    width: fit-content;
+  }
+
+  .more-modal .modal-items a,
+  .change-mode-modal .modal-items a,
+  .more-modal .modal-items button,
+  .change-mode-modal .modal-items button {
+    font-size: var(--h3-font-size);
+    width: 24rem;
+    padding: 0;
+    padding: 1.2rem 2.4rem;
+    position: relative;
+  }
+
+  .more-modal .modal-items a::before,
+  .change-mode-modal .modal-items a::before,
+  .more-modal .modal-items button::before,
+  .change-mode-modal .modal-items button::before,
+  .more-modal .modal-items a::after,
+  .change-mode-modal .modal-items a::after,
+  .more-modal .modal-items button::after,
+  .change-mode-modal .modal-items button::after {
+    width: 2.4rem;
+    height: 2.4rem;
+    background-size: contain;
+    margin-top: 0;
+  }
 }
