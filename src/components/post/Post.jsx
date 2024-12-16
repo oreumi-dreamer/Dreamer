@@ -22,7 +22,7 @@ export default function PostComponent({ postId }) {
   const [isLoading, setIsLoading] = useState(true);
   const [isPrivate, setIsPrivate] = useState(false);
   const [oneiromancy, setOneiromancy] = useState(false);
-  const [error, setError] = useState(false);
+  const [notFound, setNotFound] = useState(false);
   const [isCommentSubmitting, setIsCommentSubmitting] = useState(false);
   const { user } = useSelector((state) => state.auth);
   const { theme } = useTheme();
@@ -44,9 +44,9 @@ export default function PostComponent({ postId }) {
             setPostData(data.post);
           }
         }
-        setIsModalOpen(true);
       } catch (error) {
-        setError(true);
+        console.log(error);
+        setNotFound(true);
       }
     };
     viewPost();
@@ -148,7 +148,7 @@ export default function PostComponent({ postId }) {
     tomongIconUrl = "/images/tomong-dark.svg";
   }
 
-  if (error) {
+  if (notFound) {
     return <Error404 />;
   }
 
