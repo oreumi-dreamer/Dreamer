@@ -160,7 +160,8 @@ export default function Profile({ userName }) {
         <section className={styles["posts-container"]}>
           <h2 className="sr-only">게시물</h2>
           <PostList
-            posts={posts.posts}
+            posts={posts}
+            setPosts={setPosts}
             styles={styles}
             isLoggedIn={isLoggedIn}
             setSelectedPostId={setSelectedPostId}
