@@ -257,18 +257,22 @@
   font-weight: 700;
   color: var(--black-font-color);
   z-index: 10;
+  position: relative;
+  display: flex;
 }
 
-.post-title.include-img::after {
-  content: "";
-  background-image: url(/images/image.svg);
-  background-size: contain;
-  background-repeat: no-repeat;
+.post-title img {
+  margin-top: 0.5rem;
   width: 1.5rem;
   height: 1.5rem;
-  position: absolute;
-  top: 2.6rem;
-  right: 2rem;
+}
+
+.post-title .private-post {
+  margin-right: 0.5rem;
+}
+
+.post-title .include-img {
+  margin-left: auto;
 }
 
 .post-text {

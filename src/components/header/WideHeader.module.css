@@ -80,6 +80,10 @@
   color: var(--none-active-color);
   margin-bottom: 3.2rem;
   display: flex;
+  border-bottom: 3px solid transparent;
+  padding-bottom: 0.3rem;
+  display: flex;
+  align-items: center;
 }
 
 .header-btn-container nav {

@@ -20,6 +20,7 @@ export default function PostList({
   const modalRef = useRef(null);
   const buttonRef = useRef(null);
 
+  console.log(posts);
   useEffect(() => {
     if (modalRef.current && buttonRef.current) {
       const cleanup = outsideClickModalClose(modalRef, buttonRef, () => {
@@ -105,6 +106,7 @@ export default function PostList({
             if (
               target !== "수정하기" &&
               target !== "삭제하기" &&
+              target !== "공개글로 변경하기" &&
               target !== "비밀글로 변경하기" &&
               target !== "신고하기"
             ) {
@@ -119,13 +121,31 @@ export default function PostList({
               alt="해몽이 존재함"
             />
           )}
-          {post.hasImages ? (
+          {/* {post.hasImages ? (
             <h3 className={`${styles["post-title"]} ${styles["include-img"]}`}>
               {post.title}
             </h3>
           ) : (
             <h3 className={`${styles["post-title"]}`}>{post.title}</h3>
-          )}
+          )} */}
+
+          <h3 className={`${styles["post-title"]}`}>
+            {post.isPrivate && (
+              <img
+                src="/images/lock.svg"
+                alt="비밀글"
+                className={styles["private-post"]}
+              />
+            )}
+            {post.title}
+            {post.hasImages && (
+              <img
+                src="/images/image.svg"
+                alt="이미지"
+                className={styles["include-img"]}
+              />
+            )}
+          </h3>
           <p className={styles["post-text"]}>{post.content}</p>
           <div className={styles["post-btn-container"]}>
             <button
@@ -153,6 +173,7 @@ export default function PostList({
                 ref={modalRef}
                 style={modalStyle}
                 className={styles["more-modal"]}
+                isPrivate={post.isPrivate}
               />
             )}
             {isOpen &&
