@@ -1,7 +1,7 @@
 import React, { forwardRef } from "react";
 import styles from "./DropDown.module.css";
 
-export const MyPost = forwardRef(({ style }, ref) => {
+export const MyPost = forwardRef(({ style, isPrivate }, ref) => {
   return (
     <div className={styles["drop-down"]} ref={ref} style={style}>
       <ul className={styles["my-post"]}>
@@ -23,7 +23,7 @@ export const MyPost = forwardRef(({ style }, ref) => {
           <button
             className={`${styles["secret-btn"]} ${styles["drop-down-item"]}`}
           >
-            비밀글로 변경하기
+            {isPrivate ? "공개글로 변경하기" : "비밀글로 변경하기"}
           </button>
         </li>
       </ul>
