@@ -1,7 +1,10 @@
 .container {
+  padding: 16.6rem 0 16.6rem 6.4rem;
+  background-color: var(--background-color);
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
+  flex-basis: 100%;
 }
 
 .container div {
