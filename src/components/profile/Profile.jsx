@@ -127,9 +127,11 @@ export default function Profile({ userName }) {
 
   if (!posts) {
     return (
-      <main className={styles["no-posts"]}>
+      <main id="no-posts" className={`${styles["no-posts"]} no-posts`}>
         <p>
-          사용자를 찾을 수 없습니다 <img src="/images/invalid.svg" alt="" />
+          <span>
+            사용자를 찾을 수 없습니다 <img src="/images/invalid.svg" alt="" />
+          </span>
         </p>
       </main>
     );

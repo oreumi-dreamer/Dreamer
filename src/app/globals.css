@@ -244,6 +244,16 @@ body:has(header):has(main):has(footer) main {
   body:has(header):has(main):has(footer) main {
     padding: 16.6rem 0 0 6.4rem;
   }
+
+  html body:has(header):has(main.no-posts):has(footer) {
+    height: 100dvh;
+    display: grid;
+    grid-template-rows: 1fr auto;
+  }
+
+  html body:has(header):has(main.no-posts):has(footer) footer {
+    height: fit-content;
+  }
 }
 
 @media (max-width: 720px) {
