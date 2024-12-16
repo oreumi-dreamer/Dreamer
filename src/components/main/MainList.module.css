@@ -1,5 +1,4 @@
 .main-container {
-  padding: 16.6rem 0 16.6rem 6.4rem;
   background-color: var(--background-color);
   display: flex;
   flex-direction: column;
