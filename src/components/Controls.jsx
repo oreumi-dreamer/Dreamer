@@ -101,6 +101,7 @@ export function Select({
   background = "default",
   label,
   options = [],
+  placeholder = "Select option",
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(value);
@@ -209,8 +210,7 @@ export function Select({
   };
 
   const selectedLabel =
-    options.find((opt) => opt.value === selectedOption)?.label ||
-    "Select option";
+    options.find((opt) => opt.value === selectedOption)?.label || placeholder;
 
   return (
     <div
