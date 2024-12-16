@@ -98,20 +98,27 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
   const closeStopModal = () => setIsStopModalOpen(false);
   const handleStopModalConfirm = () => {
     setIsStopModalOpen(false);
+    resetForm();
     closeWriteModal();
-    setInputValue("");
-    setContentValue("");
-    setSelectedGenres([]);
-    setSelectedMoods([]);
-    setIsContentChanged(false);
   };
   const handleStopWriting = () => {
     if (isContentChanged && contentValue !== "") {
       setIsStopModalOpen(true);
     } else {
+      resetForm();
       setIsWritingModalOpen(false);
       closeWriteModal();
     }
+  };
+
+  const resetForm = () => {
+    setInputValue("");
+    setContentValue("");
+    setSelectedGenres([]);
+    setSelectedMoods([]);
+    setIsContentChanged(false);
+    setRating(null);
+    setIsPrivate(false);
   };
 
   // 날짜
@@ -146,6 +153,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
       });
 
       if (response.ok) {
+        resetForm();
         closeWriteModal();
       } else {
         alert("게시글 작성 실패");
