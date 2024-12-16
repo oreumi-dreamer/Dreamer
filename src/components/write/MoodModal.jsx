@@ -1,10 +1,4 @@
-import React, {
-  forwardRef,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { forwardRef, useEffect, useRef } from "react";
 import styles from "./MoodModal.module.css";
 import { DREAM_MOODS } from "@/utils/constants";
 
@@ -34,12 +28,9 @@ const MoodModal = forwardRef(
         closeModal();
       }
     };
-    //     const [selectedMoods, setselectedMoods] = useState([]);
+
     const maxSelect = 5;
 
-    const handleResetSelected = () => {
-      setSelectedMoods([]);
-    };
     const handleCheckboxChange = (item) => {
       if (selectedMoods.includes(item)) {
         setSelectedMoods((prev) => prev.filter((i) => i !== item));
@@ -94,7 +85,7 @@ const MoodModal = forwardRef(
           </form>
           <p className={styles["sub-text-container"]}>
             <span className={styles["sub-text"]}>(최대 5개 선택 가능)</span>
-            <button onClick={() => onConfirm(selectedMoods)}>확인</button>
+            <button onClick={handleConfirm}>확인</button>
           </p>
         </div>
       </dialog>

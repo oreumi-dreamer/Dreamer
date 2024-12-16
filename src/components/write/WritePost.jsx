@@ -35,7 +35,13 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
   // 외부 클릭
   const handleBackgroundClick = (e) => {
     if (e.target === e.currentTarget) {
-      if (isContentChanged && contentValue !== "") {
+      if (
+        contentValue !== "" ||
+        inputValue !== "" ||
+        selectedGenres.length > 0 ||
+        selectedMoods.length > 0 ||
+        rating !== null
+      ) {
         setIsStopModalOpen(true);
       } else {
         closeWriteModal();
@@ -66,15 +72,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isMoodModalOpen, setIsMoodModalOpen] = useState(false);
   const [isStopModalOpen, setIsStopModalOpen] = useState(false);
-  // 선택지 여부 확인
-  const handleSelectGenres = (items) => {
-    setSelectedGenres(items);
-    setIsContentChanged(true);
-  };
-  const handleSelectMoods = (items) => {
-    setSelectedMoods(items);
-    setIsContentChanged(true);
-  };
+
   const genresId = selectedGenres.map((item) => item.id);
   const moodsId = selectedMoods.map((item) => item.id);
   const handleTitleChange = (e) => {
@@ -102,13 +100,30 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
     resetForm();
     closeWriteModal();
   };
+
+  const [isFormCompleted, setIsFormCompleted] = useState(false);
+  useEffect(() => {
+    if (!isWritingModalOpen && isFormCompleted) {
+      setSelectedGenres([]);
+      setSelectedMoods([]);
+      setIsFormCompleted(false);
+    }
+  }, [isWritingModalOpen, isFormCompleted]);
+
   const handleStopWriting = () => {
-    if (isContentChanged && contentValue !== "") {
+    if (
+      contentValue !== "" ||
+      inputValue !== "" ||
+      selectedGenres.length > 0 ||
+      selectedMoods.length > 0 ||
+      rating !== null
+    ) {
       setIsStopModalOpen(true);
     } else {
       resetForm();
       setIsWritingModalOpen(false);
       closeWriteModal();
+      setIsFormCompleted(true);
     }
   };
 
