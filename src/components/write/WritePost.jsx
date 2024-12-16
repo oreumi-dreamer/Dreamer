@@ -269,8 +269,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
         </div>
 
         <button onClick={handleStopWriting} className={styles["btn-close"]}>
-          <Image src="/images/close.svg" width={40} height={40}></Image>
-          <span className="sr-only">닫기</span>
+          <Image src="/images/close.svg" width={40} height={40} alt="닫기" />
         </button>
 
         <form
@@ -308,8 +307,12 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
             <div className={styles["write-field-opt"]}>
               <div className={styles["genre-picker"]}>
                 <button type="button" onClick={openModal}>
-                  <Image src="/images/plus-circle.svg" width={28} height={28} />
-                  <span className="sr-only">태그 추가하기</span>
+                  <Image
+                    src="/images/plus-circle.svg"
+                    width={28}
+                    height={28}
+                    alt="태그 추가하기"
+                  />
                 </button>
                 <ul>
                   {selectedGenres.map((item) => (
