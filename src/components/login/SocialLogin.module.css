@@ -36,6 +36,19 @@
   color: var(--white-color);
 }
 
+.login-buttons button:hover {
+  background-color: var(--hover-btn-color);
+}
+
+.login-buttons button:active {
+  background-color: var(--active-btn-color);
+}
+
+.login-buttons button:disabled {
+  background-color: var(--none-active-color);
+  cursor: not-allowed;
+}
+
 /* 이메일로 로그인 화면 style */
 .join-button {
   display: flex;

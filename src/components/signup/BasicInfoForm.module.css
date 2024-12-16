@@ -141,7 +141,7 @@
 }
 
 .next-btn:disabled {
-  background-color: #77777b;
+  background-color: var(--none-active-color);
 }
 
 @media (max-width: 480px) {

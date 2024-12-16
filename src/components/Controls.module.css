@@ -22,7 +22,7 @@
   background-color: var(--hover-btn-color);
 }
 
-.button.active {
+.button:active {
   background-color: var(--active-btn-color);
 }
 
