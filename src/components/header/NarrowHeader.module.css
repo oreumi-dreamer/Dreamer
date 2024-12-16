@@ -27,6 +27,7 @@
 
 .mode-toggle-btn img {
   object-fit: cover;
+
 }
 
 .mode-toggle-btn.light-mode {
@@ -89,11 +90,50 @@
   position: fixed;
 }
 
-@media (max-height: 850px) {
+@media (max-height: 700px) {
   .profile-btn,
   .more-btn {
     position: static;
     margin-top: 2rem;
+  }
+}
+
+@media (max-height: 930px) {
+  .header {
+    padding-top: 5rem;
+  }
+  .mode-toggle-btn {
+    width: 4rem;
+    height: 4rem;
+    margin-top: 1rem;
+  }
+
+  .mode-toggle-btn img {
+    object-fit: contain;
+    width: 3rem;
+    height: 3rem;
+  }
+
+  .header-btn-container {
+    padding-top: 2rem;
+  }
+
+  .header-btn-container .nav-item {
+    font-size: 2.2rem;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid transparent;
+    width: 4rem;
+    height: 4rem;
+  }
+
+  .header-btn-container nav {
+    margin-bottom: 8rem;
+  }
+
+  .nav-items .nav-item::before,
+  .more-btn::before {
+    width: 3rem;
+    height: 3rem;
   }
 }
 

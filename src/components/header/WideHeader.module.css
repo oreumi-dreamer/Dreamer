@@ -10,7 +10,6 @@
   align-items: flex-start;
   flex-direction: column;
   padding: 10rem 0 10.6rem 8rem;
-  min-height: 92rem;
   z-index: 100;
 }
 
@@ -69,7 +68,7 @@
 
 .header-btn-container {
   position: relative;
-  padding: 5rem 0 0 0;
+  padding-top: 5rem;
 }
 
 .header-btn-container .nav-item {
@@ -186,17 +185,10 @@
   position: fixed;
 }
 
-@media (max-height: 850px) {
-  .profile-btn,
-  .more-btn {
-    position: static;
-    margin-top: 2rem;
-  }
+.profile-btn {
+  bottom: 10rem;
 }
 
-.profile-btn {
-  bottom: 12rem;
-}
 .profile-btn img {
   margin-right: 2rem;
   border-radius: 50%;
@@ -204,7 +196,52 @@
 }
 
 .more-btn {
-  bottom: 5rem;
+  bottom: 4rem;
+}
+
+@media (max-height: 740px) {
+  .profile-btn,
+  .more-btn {
+    position: static;
+    margin-top: 2rem;
+  }
+}
+
+@media (max-height: 930px) {
+  .header {
+    padding: 5rem 0 5.3rem 8rem;
+  }
+
+  .logo img {
+    width: 80%;
+    max-width: 31.4rem;
+  }
+
+  .mode-toggle-btn {
+    margin-top: 1rem;
+    padding: 0.5rem;
+    width: 9.5rem;
+  }
+
+  .header-btn-container {
+    padding-top: 3rem;
+  }
+
+  .header-btn-container .nav-item {
+    font-size: 2.2rem;
+    margin-bottom: 2.5rem;
+    border-bottom: 2px solid transparent;
+  }
+
+  .header-btn-container nav {
+    margin-bottom: 8rem;
+  }
+
+  .nav-items .nav-item::before,
+  .more-btn::before {
+    width: 3rem;
+    height: 3rem;
+  }
 }
 
 /* dark mode */
