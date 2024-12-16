@@ -136,7 +136,6 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
         window.removeEventListener("resize", updatePosition);
       };
     }
-    console.log(tagButtonRef.current.getBoundingClientRect());
   }, [tagButtonRef, tagModalRef, isModalOpen]);
 
   useLayoutEffect(() => {
