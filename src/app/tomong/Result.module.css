@@ -45,6 +45,11 @@
   margin-bottom: 1.6rem;
 }
 
+.markdown li ul,
+.markdown li ol {
+  margin-left: 0;
+}
+
 .markdown a {
   color: var(--deep-pink-color);
 }
