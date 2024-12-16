@@ -206,6 +206,17 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
     }
   };
 
+  useEffect(() => {
+    if (isWriteModalOpen) {
+      document.documentElement.style.overflow = "hidden";
+    } else {
+      document.documentElement.style.overflow = "";
+    }
+    return () => {
+      document.documentElement.style.overflow = "";
+    };
+  }, [isWriteModalOpen]);
+
   if (!user) {
     return <Error404 />;
   }
