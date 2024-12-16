@@ -94,14 +94,18 @@ export default function Profile({ userName }) {
   }, [selectedPostId]);
 
   const [isWriteModalOpen, setIsWriteModalOpen] = useState(false);
+  const [prevPage, setPrevPage] = useState("");
   const handleWriteBtnClick = () => {
+    setPrevPage(window.location.pathname);
     setIsWriteModalOpen(true);
   };
   const closeWriteModal = () => {
-    if (isWriteModalOpen === true) {
-      setIsWriteModalOpen(false);
+    setIsWriteModalOpen(false);
+    if (prevPage) {
+      router.push(prevPage);
+    } else {
+      handleActiveBtn("홈");
     }
-    window.location.pathname = "/";
   };
 
   if (loading) {
