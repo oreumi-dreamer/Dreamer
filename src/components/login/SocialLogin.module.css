@@ -9,7 +9,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--black-font-color);
+  color: var(--always-black-font);
 }
 
 .login-buttons li:first-of-type button img {
@@ -28,7 +28,6 @@
   width: 2.5rem;
   height: 2.5rem;
   margin-right: 1rem;
-  filter: var(--filter-color);
 }
 
 .login-buttons li:first-of-type button {
