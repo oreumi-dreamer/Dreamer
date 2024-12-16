@@ -210,7 +210,7 @@ export default function EmailSignup({
       <div className={styles["btn-row"]}>
         {isEmailVerified && (
           <Button type="submit" highlight={true}>
-            가입하기
+            다음 단계로
           </Button>
         )}
         <Button

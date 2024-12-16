@@ -185,6 +185,7 @@ export async function GET(request, { params }) {
           hasUserSparked: hit.spark?.includes(userData.uid),
           isTomong: hit.tomong ? !!hit.tomong[hit.tomongSelected] : false,
           tomongSelected: hit.tomongSelected > -1 ? hit.tomongSelected : -1,
+          isMyself: hit.authorUid === userData.uid,
         };
       })
       .sort((a, b) => b.score - a.score);

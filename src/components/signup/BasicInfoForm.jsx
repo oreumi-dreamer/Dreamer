@@ -264,7 +264,7 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
           </span>
         </div>
 
-        <div className={styles["form-field"]}>
+        <div className={`${styles["form-field"]} ${styles["agree"]}`}>
           <Checkbox onChange={handleAgree}>
             <span>
               <a href="/terms" target="_blank">
