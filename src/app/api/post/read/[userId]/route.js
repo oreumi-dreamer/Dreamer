@@ -182,7 +182,7 @@ export async function GET(request, { params }) {
       isPrivate: isPrivate,
       length: posts.length,
       followersCount: followersCount ? followersCount : 0,
-      followingCount: followingCount ? followersCount : 0,
+      followingCount: followingCount ? followingCount : 0,
       isFollowing: followers?.some((follower) => follower.uid === userUid),
       isMyself: userData === authorId,
       birthDate:
