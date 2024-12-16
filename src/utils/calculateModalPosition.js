@@ -13,5 +13,6 @@ export const calculateModalPosition = (
     position: "absolute",
     top: `${top}px`,
     left: `${left}px`,
+    zIndex: "10",
   };
 };
