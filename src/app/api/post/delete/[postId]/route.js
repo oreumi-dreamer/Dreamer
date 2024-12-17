@@ -38,7 +38,7 @@ export async function DELETE(request, { params }) {
 
     // 작성자 본인 확인
     const postData = postSnap.data();
-    if (postData.authorId !== userData.userId) {
+    if (postData.authorUid !== userData.uid) {
       return new Response(JSON.stringify({ error: "삭제 권한이 없습니다." }), {
         status: 403,
       });
