@@ -197,6 +197,7 @@ export default function EmailSignup({
           id="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          disabled={!isEmailVerified}
           required
         />
         <img
@@ -205,7 +206,6 @@ export default function EmailSignup({
           height={40}
           alt={isEmailVerified ? "유효한 아이디" : "유효하지 않은 아이디"}
         />
-
         <span className={styles["invalid-text"]}>비밀번호 양식 텍스트</span>
       </div>
       <div className={styles["input-container"]}>
@@ -215,6 +215,7 @@ export default function EmailSignup({
           id="confirmPassword"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
+          disabled={!isEmailVerified}
           required
         />
         <img
