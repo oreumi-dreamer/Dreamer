@@ -7,6 +7,10 @@
   font-size: var(--small-text-font-size);
   word-break: keep-all;
   color: var(--black-font-color);
+
+  position: absolute;
+  top: 28.5rem;
+  left: 27rem;
 }
 .modal-on-writepost::backdrop {
   opacity: 0;

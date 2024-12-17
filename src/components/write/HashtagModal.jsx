@@ -47,13 +47,13 @@ const HashtagModal = forwardRef(
 
     return (
       <dialog
+        style={style}
         ref={(node) => {
           dialogRef.current = node;
           if (tagModalRef) {
             tagModalRef.current = node;
           }
         }}
-        style={style}
         onClick={handleBackgroundClick}
         className={styles["modal-on-writepost"]}
       >
