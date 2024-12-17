@@ -373,7 +373,9 @@ input[type="checkbox"]:checked + label.checkbox::before {
   }
 
   .comment-articles-section {
-    overflow-y: auto;
+    overflow-y: inherit;
+    max-height: fit-content;
+    padding-top: 1.6rem;
   }
   .comment-input {
     height: 5rem;
