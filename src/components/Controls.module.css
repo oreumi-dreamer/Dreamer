@@ -44,11 +44,26 @@
   padding: 1.2rem 2rem 1.3rem;
   border: none;
   font-size: var(--h3-font-size);
+  width: 100%;
+  border: 0.2rem solid var(--input-color);
 }
 
 .textarea {
   height: 8.8rem;
   resize: none;
+}
+
+.input:focus,
+.input-text:focus,
+.textarea:focus {
+  outline: none;
+  border: 0.2rem solid var(--focus-border-color);
+}
+
+.input:invalid,
+.input-text:invalid,
+.textarea:invalid {
+  border: 0.2rem solid var(--invalid-border-color);
 }
 
 .selectContainer {
@@ -208,11 +223,7 @@ label.checkbox a {
   flex-direction: column;
   align-items: flex-start;
   width: 100%;
-}
-
-.login-form label input {
-  width: 100%;
-  margin-left: 0;
+  gap: 0.4rem;
 }
 
 @media (max-width: 560px) {
