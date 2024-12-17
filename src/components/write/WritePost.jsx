@@ -264,6 +264,11 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
     formData.append("moods", JSON.stringify(moodsId));
     formData.append("rating", rating === null ? "0" : rating);
     formData.append("isPrivate", isPrivate ? "true" : "false");
+    if (imageFiles.length > 0) {
+      Array.from(imageFiles).forEach((file) => {
+        formData.append("images", file);
+      });
+    }
 
     try {
       const response = await fetchWithAuth("/api/post/create", {
