@@ -1,3 +1,16 @@
+main:has(.login-title) {
+  background: #fff;
+  width: 86rem;
+  height: 92rem;
+  border-radius: 2rem;
+  margin: 8rem auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: var(--black-font-color);
+}
+
 .google-login-btn,
 .email-login-btn {
   width: 24rem;
