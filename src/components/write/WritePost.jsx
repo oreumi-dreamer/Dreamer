@@ -15,6 +15,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
   const [inputValue, setInputValue] = useState("");
   const [contentValue, setContentValue] = useState("");
   const [isContentChanged, setIsContentChanged] = useState(false);
+  const [imageFiles, setImageFiles] = useState(["/images/rabbit.svg"]);
   const { user } = useSelector((state) => state.auth);
   const { theme } = useTheme();
 
@@ -38,7 +39,8 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
         inputValue !== "" ||
         selectedGenres.length > 0 ||
         selectedMoods.length > 0 ||
-        rating !== null
+        rating !== null ||
+        imageFiles.length > 0
       ) {
         setIsStopModalOpen(true);
       } else {
@@ -141,7 +143,6 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
   };
 
   // 이미지 업로드
-  const [imageFiles, setImageFiles] = useState(["/images/rabbit.svg"]);
 
   console.log(imageFiles);
   const handleImageUpload = (e) => {
