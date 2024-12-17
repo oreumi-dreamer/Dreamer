@@ -14,6 +14,7 @@ import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 import useTheme from "@/hooks/styling/useTheme";
 import Loading from "@/components/Loading";
 import { outsideClickModalClose } from "@/utils/outsideClickModalClose";
+import { useRouter } from "next/navigation";
 
 export default function PostContent({
   type,
@@ -40,6 +41,8 @@ export default function PostContent({
   const modalRef = useRef(null);
   const buttonRef = useRef(null);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+
+  const router = useRouter();
 
   useEffect(() => {
     const viewPost = async () => {
