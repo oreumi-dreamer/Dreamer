@@ -133,7 +133,7 @@ export default function SocialLogin() {
             onSubmit={handleEmailLogin}
             className={styles["login-form"]}
           >
-            <label>
+            <label className={styles["id-label"]}>
               이메일
               <Input
                 type="email"
@@ -143,7 +143,7 @@ export default function SocialLogin() {
                 required
               />
             </label>
-            <label>
+            <label className={styles["pw-label"]}>
               비밀번호
               <Input
                 type="password"
@@ -153,12 +153,14 @@ export default function SocialLogin() {
                 required
               />
             </label>
-            {error && (
-              <p role="alert" className={styles["error-message"]}>
-                {"이메일 또는 비밀번호가 일치하지 않습니다"}
-              </p>
-            )}
-            <Button type="submit" highlight={true}>
+            <p role="alert" className={styles["error-message"]}>
+              {error && "이메일 또는 비밀번호가 일치하지 않습니다"}
+            </p>
+            <Button
+              type="submit"
+              highlight={true}
+              className={styles["login-button"]}
+            >
               로그인
             </Button>
             <div className={styles["google-login"]}>

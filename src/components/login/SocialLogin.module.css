@@ -19,12 +19,39 @@ main:has(.login-title) {
   align-items: center;
   gap: 1.6rem;
 }
-
+.id-label {
+  margin-bottom: 2.4rem;
+}
+.pw-label {
+  margin-bottom: 4rem;
+}
+.error-message {
+  color: var(--invalid-text-color);
+}
 .login-title {
   font-size: var(--big-text-font-size);
   font-weight: bold;
 }
+.login-button {
+  width: 100%;
+  max-width: 14.5rem;
+}
+.google-login {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-bottom: 0.8rem;
+}
+.join-button button,
+.join-button button:hover,
+.join-button button:active {
+  background: none;
+  padding: 0;
+  color: var(--deep-pink-color);
+  margin-left: 0.4rem;
+}
 
+/* '/' 첫페이지 구글,이메일 로그인 버튼 */
 .google-login-btn,
 .email-login-btn {
   width: 24rem;
