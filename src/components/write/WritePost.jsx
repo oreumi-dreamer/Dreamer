@@ -158,7 +158,6 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
           left: `${buttonRect.left + window.scrollX}px`,
           zIndex: "10",
         };
-        console.log(position);
 
         setTagModalStyle(position);
       };
@@ -168,15 +167,11 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
 
       return () => {
         window.removeEventListener("resize", updatePosition);
-        console.log("tagButtonRef.current:", tagButtonRef.current);
-        console.log("tagModalRef.current:", tagModalRef.current);
       };
     }
   }, [tagButtonRef, tagModalRef, isModalOpen]);
 
   useLayoutEffect(() => {
-    console.log("moodButtonRef.current:", moodButtonRef.current); // 확인
-    console.log("moodModalRef.current:", moodModalRef.current);
     if (moodButtonRef.current && moodModalRef.current) {
       const updatePosition = () => {
         const buttonRect = moodButtonRef.current.getBoundingClientRect();
@@ -186,7 +181,6 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
           left: `${buttonRect.left + window.scrollX - 8}px`,
           zIndex: "10",
         };
-        console.log(position);
 
         setMoodModalStyle(position);
       };
