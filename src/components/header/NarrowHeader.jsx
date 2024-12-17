@@ -8,10 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Image from "next/image";
 import { closeModal } from "@/store/modalSlice";
 import { outsideClickModalClose } from "@/utils/outsideClickModalClose";
-import {
-  calculateMobileModalPosition,
-  calculateModalPosition,
-} from "@/utils/calculateModalPosition";
+import { calculateMobileModalPosition } from "@/utils/calculateModalPosition";
 import useTheme from "@/hooks/styling/useTheme";
 import useMediaQuery from "@/hooks/styling/useMediaQuery";
 

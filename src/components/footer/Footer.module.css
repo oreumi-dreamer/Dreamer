@@ -6,18 +6,6 @@
   max-width: 100%;
 }
 
-.footer-search-inp {
-  max-width: 26rem;
-  height: 6rem;
-  border: none;
-  border-radius: 5rem;
-  filter: drop-shadow(6px 6px 9.4px rgba(0, 0, 0, 0.15));
-  padding: 0 6rem;
-  background-image: url(/images/search.svg);
-  background-repeat: no-repeat;
-  background-position: left 2rem bottom 1rem;
-}
-
 .recommend-wrap .recommend-title {
   font-size: var(--h2-font-size);
   padding: 3rem 0 2rem 0;
