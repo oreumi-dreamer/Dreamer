@@ -129,7 +129,6 @@ export default function PostContent({
 
   const togglePostPrivacy = async (postId, postIsPrivate) => {
     setIsOpen(false);
-    console.log(postData);
 
     try {
       const response = await fetchWithAuth(`/api/post/private/${postId}`, {
@@ -144,8 +143,6 @@ export default function PostContent({
 
       const responseData = await response.json();
       if (response.ok && responseData.success) {
-        console.log("새로운 비공개 상태:", newPrivacyStatus);
-        console.log(responseData.isPrivate);
         return responseData.isPrivate;
       } else {
         alert(`오류: ${responseData.error}`);
