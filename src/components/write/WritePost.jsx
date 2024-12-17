@@ -511,7 +511,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
                         />
                       </button>
                       <Image
-                        src={img}
+                        src={URL.createObjectURL(img)}
                         width={100}
                         height={100}
                         alt={`이미지${index}`}
