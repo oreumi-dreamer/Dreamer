@@ -3,7 +3,7 @@ import Link from "next/link";
 import styles from "../modal/PostModal.module.css";
 import markdownStyles from "@/app/tomong/Result.module.css";
 import { DREAM_GENRES, DREAM_MOODS } from "@/utils/constants";
-import { ConfirmModal, Divider } from "../Controls";
+import { ConfirmModal, Divider, ShareModal } from "../Controls";
 import convertToHtml from "@/utils/markdownToHtml";
 import postTime from "@/utils/postTime";
 import CommentArticles from "../modal/CommentArticles";
@@ -41,6 +41,9 @@ export default function PostContent({
   const modalRef = useRef(null);
   const buttonRef = useRef(null);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [shareModalOpen, setShareModalOpen] = useState(false);
+
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
   const router = useRouter();
 
@@ -251,6 +254,14 @@ export default function PostContent({
     setShowConfirmModal(false);
   }
 
+  function handleShareModalOpen() {
+    setShareModalOpen(true);
+  }
+
+  function handleShareModalClose() {
+    setShareModalOpen(false);
+  }
+
   return (
     <>
       {isLoading ? (
@@ -318,7 +329,7 @@ export default function PostContent({
                 )}
 
                 <li>
-                  <button>
+                  <button onClick={handleShareModalOpen}>
                     <img
                       src="/images/share.svg"
                       alt="공유하기"
@@ -549,6 +560,13 @@ export default function PostContent({
               isOpen={loginModalOpen}
               closeModal={loginModalClose}
               onConfirm={() => router.push("/")}
+            />
+          )}
+          {shareModalOpen && (
+            <ShareModal
+              isOpen={shareModalOpen}
+              closeModal={handleShareModalClose}
+              link={`${baseUrl}/post/${postId}`}
             />
           )}
         </>
