@@ -159,11 +159,6 @@ export default function EmailSignup({
 
   return (
     <LoginForm className={styles["email-signup"]} onSubmit={handleSignup}>
-      {error && (
-        <p role="alert" className={styles["error-message"]}>
-          {error}
-        </p>
-      )}
       <label>
         이메일
         <Input
@@ -192,7 +187,7 @@ export default function EmailSignup({
         />
       </label>
       <span className={styles["invalid-text"]}>
-        유효한 이메일을 입력해주세요.
+        {error ? error : "유효한 이메일을 입력해주세요."}
       </span>
 
       <label>
@@ -255,12 +250,7 @@ export default function EmailSignup({
         </ul>
       </div>
       <div className={styles["btn-row"]}>
-        <Button
-          type="submit"
-          highlight={true}
-          disabled={!isEmailVerified}
-          float={"right-bottom"}
-        >
+        <Button type="submit" highlight={true} disabled={!isEmailVerified}>
           다음
         </Button>
       </div>
