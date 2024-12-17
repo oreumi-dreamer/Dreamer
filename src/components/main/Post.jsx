@@ -45,7 +45,12 @@ export default function Post({
         setIsOpen(true);
 
         if (buttonRef.current) {
-          const position = calculateModalPosition(buttonRef, -110, 50);
+          const position = {
+            position: "absolute",
+            top: "50px",
+            right: "0px",
+            zIndex: "1000",
+          };
           setModalStyle(position);
         }
       } else {
