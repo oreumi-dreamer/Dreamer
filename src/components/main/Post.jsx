@@ -60,6 +60,32 @@ export default function Post({
       console.error("Error checking isMyPost:", error);
     }
   };
+  const togglePostPrivacy = async (postId, postIsPrivate) => {
+    setIsOpen(false);
+
+    try {
+      const response = await fetchWithAuth(`/api/post/private/${postId}`, {
+        method: "GET",
+      });
+
+      const newPrivacyStatus = !postIsPrivate;
+      setPost((prevData) => ({
+        ...prevData,
+        isPrivate: newPrivacyStatus,
+      }));
+
+      const responseData = await response.json();
+      if (response.ok && responseData.success) {
+        return responseData.isPrivate;
+      } else {
+        alert(`오류: ${responseData.error}`);
+        return postIsPrivate;
+      }
+    } catch (error) {
+      console.error("비밀글 토글 중 오류 발생:", error);
+      return postIsPrivate;
+    }
+  };
   const changeSpark = () => {
     setPost((prevPost) => ({
       ...prevPost,
@@ -118,6 +144,15 @@ export default function Post({
           >
             {postTime(post.createdAt, post.createdAt)}
           </time>
+          {post.isPrivate && (
+            <Image
+              src="/images/lock.svg"
+              width={20}
+              height={20}
+              alt="비밀글"
+              className={styles["private-icon"]}
+            />
+          )}
           <button
             ref={buttonRef}
             onClick={() => handlePostMoreBtnClick(post.objectID, post.authorId)}
@@ -131,7 +166,15 @@ export default function Post({
             />
           </button>
           {isOpen && modalType === "isMyPost" && (
-            <MyPost ref={modalRef} style={modalStyle} />
+            <MyPost
+              ref={modalRef}
+              style={modalStyle}
+              togglePostPrivacy={() => {
+                togglePostPrivacy(post.objectID, post.isPrivate);
+              }}
+              postId={post.objectID}
+              postIsPrivate={post.isPrivate}
+            />
           )}
           {isOpen && modalType === "isNotMyPost" && (
             <OtherPost ref={modalRef} style={modalStyle} />

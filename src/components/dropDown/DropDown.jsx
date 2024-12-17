@@ -3,10 +3,7 @@ import styles from "./DropDown.module.css";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 
 export const MyPost = forwardRef(
-  (
-    { style, isPrivate, togglePostPrivacy, post = {}, postId, postData },
-    ref
-  ) => {
+  ({ style, togglePostPrivacy, postId, postIsPrivate }, ref) => {
     const id = post?.id || postId;
     const privateState = post?.isPrivate ?? postData.isPrivate;
     async function deletePost() {
@@ -42,9 +39,9 @@ export const MyPost = forwardRef(
           <li className={styles["drop-down-items"]}>
             <button
               className={`${styles["secret-btn"]} ${styles["drop-down-item"]}`}
-              onClick={() => togglePostPrivacy(id, privateState)}
+              onClick={() => togglePostPrivacy(postId, postIsPrivate)}
             >
-              {privateState ? "공개글로 변경하기" : "비밀글로 변경하기"}
+              {postIsPrivate ? "공개글로 변경하기" : "비밀글로 변경하기"}
             </button>
           </li>
         </ul>

@@ -361,7 +361,7 @@ export default function PostContent({
                         togglePostPrivacy(postId, postData.isPrivate)
                       }
                       postId={postId}
-                      postData={postData}
+                      postIsPrivate={postData.isPrivate}
                     />
                   )}
                   {isOpen && modalType === "isNotMyPost" && (
