@@ -45,7 +45,13 @@ export default function WideHeader({
   useEffect(() => {
     if (modalRef.current && buttonRef.current) {
       const updatePosition = () => {
-        const position = calculateModalPosition(buttonRef, -80, -600);
+        const buttonRect = buttonRef.current.getBoundingClientRect();
+        const position = {
+          position: "absolute",
+          top: `${buttonRect.bottom - 580}px`,
+          right: `${buttonRect.left - 180}px`,
+          zIndex: "1000",
+        };
         if (position) {
           setModalStyle(position);
         }
