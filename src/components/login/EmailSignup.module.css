@@ -29,10 +29,6 @@ main:has(.email-signup) {
   padding-right: 14rem;
 }
 
-.input-container input:disabled {
-  color: var(--input-disabled-color);
-  color: var(--email-login-btn-active-text-color);
-}
 .input-container img {
   grid-area: img;
   margin-top: 0.5rem;

@@ -48,6 +48,11 @@
   border: 0.2rem solid var(--input-color);
 }
 
+.input-text:disabled {
+  background-color: var(--input-disabled-color);
+  border: 0.2rem solid var(--input-disabled-color);
+}
+
 .textarea {
   height: 8.8rem;
   resize: none;
