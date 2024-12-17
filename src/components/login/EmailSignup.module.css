@@ -1,1 +1,61 @@
-/* 이메일로 로그인 화면 style */
+main:has(.email-signup) {
+  position: relative;
+}
+.email-signup {
+  gap: 0;
+  margin-top: 0;
+}
+
+.input-container {
+  position: relative;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 0fr;
+  column-gap: 2.2rem;
+  grid-template-areas:
+    "label label"
+    "input img"
+    "span span";
+  margin-bottom: 1.6rem;
+}
+.input-container label {
+  grid-area: label;
+}
+.input-container input {
+  grid-area: input;
+}
+.input-container input:disabled {
+  color: var(--input-disabled-color);
+  color: var(--email-login-btn-active-text-color);
+}
+.input-container img {
+  grid-area: img;
+}
+.invalid-text {
+  grid-area: span;
+  color: var(--invalid-text-color);
+}
+
+.email-verify-btn {
+  position: absolute;
+  right: 6.9rem;
+  top: 4.2rem;
+  color: #fff;
+  background-color: var(--email-verify-btn-color);
+}
+.user-login-field .login-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+.email-login-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  filter: var(--filter-5f6368);
+}
+.next-btn {
+  position: absolute;
+  bottom: 4.3rem;
+  right: 5.2rem;
+}

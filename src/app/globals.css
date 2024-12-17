@@ -50,11 +50,13 @@
   --filter-fff: brightness(0) saturate(100%) invert(100%) sepia(0%)
     saturate(7499%) hue-rotate(53deg) brightness(109%) contrast(101%);
   --input-color: #e8e8e8;
+  --input-disabled-color: #77777b;
   --email-login-btn-color: #f5f5f5;
   --email-login-btn-hover-color: #959595;
   --email-login-btn-active-color: #f89b9b;
   --email-login-btn-active-text-color: #fff;
   --email-button-color: none;
+  --email-verify-btn-color: #77777b;
   --invalid-border-color: #f41e1e;
   --invalid-text-color: #a12525;
 }
