@@ -1,6 +1,6 @@
-import React, { forwardRef, useEffect, useLayoutEffect, useRef } from "react";
+import React, { forwardRef, useLayoutEffect, useRef } from "react";
 import styles from "./HashtagModal.module.css";
-import { DREAM_GENRES, DREAM_MOODS } from "@/utils/constants";
+import { DREAM_GENRES } from "@/utils/constants";
 
 const HashtagModal = forwardRef(
   (
