@@ -31,7 +31,12 @@ export default function Header() {
         return "검색";
       case "/alarm":
         return "알람";
+      case "/tomong":
+        return "토몽";
       default:
+        if (/^\/[\wㄱ-ㅎ가-힣._~%\-]+$/.test(path)) {
+          return "프로필";
+        }
         return "";
     }
   };
@@ -56,6 +61,10 @@ export default function Header() {
     dispatch(closeModal());
   }, []);
 
+  const handleActiveBtn = (btn) => {
+    dispatch(setActiveState(btn));
+  };
+
   const handleMoreBtnClick = () => {
     if (!isOpen) {
       dispatch(openModal("moreModal"));
@@ -64,10 +73,6 @@ export default function Header() {
         dispatch(closeModal());
       }
     }
-  };
-
-  const handleActiveBtn = (btn) => {
-    dispatch(setActiveState(btn));
   };
 
   const handleToggleBtn = () => {

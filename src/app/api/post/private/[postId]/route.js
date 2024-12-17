@@ -1,19 +1,16 @@
-// 게시글 ID로 게시글을 삭제하는 API
-// /api/post/delete/[postId]/route.js
+// /api/post/private/[postId]/route.js
 
 import { headers } from "next/headers";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { ref, deleteObject } from "firebase/storage";
-import { db, storage } from "@/lib/firebase";
+import { db } from "@/lib/firebase";
 import { verifyUser } from "@/lib/api/auth";
 
-export async function DELETE(request, { params }) {
+export async function GET(request, { params }) {
   try {
     const { postId } = params;
     const headersList = headers();
     const authorization = headersList.get("Authorization");
     const idToken = authorization.split("Bearer ")[1];
-
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
     // 사용자 인증
@@ -39,29 +36,21 @@ export async function DELETE(request, { params }) {
     // 작성자 본인 확인
     const postData = postSnap.data();
     if (postData.authorUid !== userData.uid) {
-      return new Response(JSON.stringify({ error: "삭제 권한이 없습니다." }), {
+      return new Response(JSON.stringify({ error: "수정 권한이 없습니다." }), {
         status: 403,
       });
     }
 
-    // 저장된 이미지 삭제
-    if (postData.imageUrls?.length > 0) {
-      for (const url of postData.imageUrls) {
-        const imageRef = ref(storage, url);
-        await deleteObject(imageRef);
-      }
-    }
-
-    // 소프트 삭제 처리 (isDeleted 플래그 사용)
+    // isPrivate 값 토글
     await updateDoc(postRef, {
-      isDeleted: true,
-      deletedAt: new Date().toISOString(),
+      isPrivate: !postData.isPrivate,
     });
 
     return new Response(
       JSON.stringify({
         success: true,
-        message: "게시글이 삭제되었습니다.",
+        postId,
+        isPrivate: !postData.isPrivate,
       }),
       {
         status: 200,
@@ -71,10 +60,10 @@ export async function DELETE(request, { params }) {
       }
     );
   } catch (error) {
-    console.error("Error deleting post:", error);
+    console.error("Error toggling post privacy:", error);
     return new Response(
       JSON.stringify({
-        error: "게시글 삭제 중 오류가 발생했습니다.",
+        error: "게시글 공개 설정 변경 중 오류가 발생했습니다.",
       }),
       {
         status: 500,

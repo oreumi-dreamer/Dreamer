@@ -36,11 +36,8 @@
 }
 
 .login-buttons button:hover {
-  background-color: var(--hover-btn-color);
-}
-
-.login-buttons button:active {
-  background-color: var(--active-btn-color);
+  background-color: var(--none-active-color);
+  color: #ffffff;
 }
 
 .login-buttons button:disabled {
@@ -79,16 +76,17 @@
   color: var(--black-font-color);
 }
 .login-container label input {
-  background-color: #e8e8e8;
+  background-color: var(--input-color);
+  border: 0.2rem solid transparent;
   width: 100%;
   max-width: 44rem;
-  margin: 0;
+  margin: 0.4rem 0 0 0;
   align-items: center;
 }
 
 .login-container input:focus {
   outline: none;
-  border: 0.2rem solid #a54cb4;
+  border: 0.2rem solid var(--focus-border-color);
 }
 
 .error-message {

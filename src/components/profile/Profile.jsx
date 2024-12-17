@@ -8,7 +8,7 @@ import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 import ProfileEdit from "./ProfileEdit";
 import { useSelector } from "react-redux";
 import ProfileInfo from "./ProfileInfo";
-import { Button, Divider } from "../Controls";
+import { Button, ConfirmModal, Divider } from "../Controls";
 import Loading from "../Loading";
 import PostModal from "../modal/PostModal";
 import WritePost from "../write/WritePost";
@@ -22,6 +22,7 @@ export default function Profile({ userName }) {
   const [isShowModal, setIsShowModal] = useState(false);
   const [selectedPostId, setSelectedPostId] = useState(null);
   const mainRef = useRef(null);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
   const user = useSelector((state) => state.auth.user);
   const isLoggedIn = user?.exists ? true : false;
@@ -38,7 +39,7 @@ export default function Profile({ userName }) {
 
   const toggleFollow = async () => {
     if (!isLoggedIn) {
-      router.push("/"); // 로그인 페이지로 이동
+      setIsLoginModalOpen(true);
       return;
     }
 
@@ -94,14 +95,26 @@ export default function Profile({ userName }) {
   }, [selectedPostId]);
 
   const [isWriteModalOpen, setIsWriteModalOpen] = useState(false);
+  const [prevPage, setPrevPage] = useState("");
   const handleWriteBtnClick = () => {
+    setPrevPage(window.location.pathname);
     setIsWriteModalOpen(true);
   };
   const closeWriteModal = () => {
-    if (isWriteModalOpen === true) {
-      setIsWriteModalOpen(false);
+    setIsWriteModalOpen(false);
+    if (prevPage) {
+      router.push(prevPage);
+    } else {
+      handleActiveBtn("홈");
     }
-    window.location.pathname = "/";
+  };
+
+  const loginModalOpen = () => {
+    setIsLoginModalOpen(true);
+  };
+
+  const loginModalClose = () => {
+    setIsLoginModalOpen(false);
   };
 
   if (loading) {
@@ -114,11 +127,13 @@ export default function Profile({ userName }) {
 
   if (!posts) {
     return (
-      <section className={styles["no-posts"]}>
+      <main id="no-posts" className={`${styles["no-posts"]} no-posts`}>
         <p>
-          사용자를 찾을 수 없습니다 <img src="/images/invalid.svg" alt="" />
+          <span>
+            사용자를 찾을 수 없습니다 <img src="/images/invalid.svg" alt="" />
+          </span>
         </p>
-      </section>
+      </main>
     );
   }
 
@@ -147,7 +162,8 @@ export default function Profile({ userName }) {
         <section className={styles["posts-container"]}>
           <h2 className="sr-only">게시물</h2>
           <PostList
-            posts={posts.posts}
+            posts={posts}
+            setPosts={setPosts}
             styles={styles}
             isLoggedIn={isLoggedIn}
             setSelectedPostId={setSelectedPostId}
@@ -190,6 +206,14 @@ export default function Profile({ userName }) {
         isWriteModalOpen={isWriteModalOpen}
         closeWriteModal={closeWriteModal}
       />
+      {isLoginModalOpen && (
+        <ConfirmModal
+          message="로그인이 필요합니다. 로그인 하시겠습니까?"
+          isOpen={loginModalOpen}
+          closeModal={loginModalClose}
+          onConfirm={() => router.push("/")}
+        />
+      )}
     </>
   );
 }

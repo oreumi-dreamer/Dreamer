@@ -5,13 +5,13 @@ import { MyPost, OtherPost } from "../dropDown/DropDown";
 import { outsideClickModalClose } from "@/utils/outsideClickModalClose";
 
 export default function PostList({
-  posts: initialPosts,
+  posts,
+  setPosts,
   styles,
   isLoggedIn,
   setSelectedPostId,
   isMyself,
 }) {
-  const [posts, setPosts] = useState(initialPosts);
   const { theme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
   const [modalType, setModalType] = useState(null);
@@ -20,7 +20,6 @@ export default function PostList({
   const modalRef = useRef(null);
   const buttonRef = useRef(null);
 
-  console.log(posts);
   useEffect(() => {
     if (modalRef.current && buttonRef.current) {
       const cleanup = outsideClickModalClose(modalRef, buttonRef, () => {
@@ -31,6 +30,33 @@ export default function PostList({
       };
     }
   }, [modalRef, buttonRef, isOpen]);
+  const togglePostPrivacy = async (postId, postIsPrivate) => {
+    setIsOpen(false);
+    try {
+      const newPrivacyState = !postIsPrivate;
+
+      setPosts((currentPosts) => ({
+        ...currentPosts,
+        posts: currentPosts.posts.map((post) =>
+          post.id === postId ? { ...post, isPrivate: newPrivacyState } : post
+        ),
+      }));
+
+      const response = await fetchWithAuth(`/api/post/private/${postId}`, {
+        method: "GET",
+      });
+
+      const responseData = await response.json();
+
+      if (responseData.success) {
+        return responseData.isPrivate;
+      } else {
+        alert(`오류: ${responseData.error}`);
+      }
+    } catch (error) {
+      console.error("비밀글 토글 중 오류 발생:", error);
+    }
+  };
 
   function handlePostMoreBtnClick(postId) {
     const modalType = isMyself ? "isMyPost" : "isNotMyPost";
@@ -57,8 +83,9 @@ export default function PostList({
   }
 
   const changeSpark = (postId) => {
-    setPosts((currentPosts) =>
-      currentPosts.map((post) =>
+    setPosts((currentPosts) => ({
+      ...currentPosts,
+      posts: currentPosts.posts.map((post) =>
         post.id === postId
           ? {
               ...post,
@@ -66,8 +93,8 @@ export default function PostList({
               hasUserSparked: post.hasUserSparked ? false : true,
             }
           : post
-      )
-    );
+      ),
+    }));
   };
 
   const sparkHandle = async (postId) => {
@@ -97,7 +124,7 @@ export default function PostList({
 
   return (
     <>
-      {posts.map((post) => (
+      {posts.posts.map((post) => (
         <article
           className={styles["post-wrap"]}
           key={post.id}
@@ -121,14 +148,6 @@ export default function PostList({
               alt="해몽이 존재함"
             />
           )}
-          {/* {post.hasImages ? (
-            <h3 className={`${styles["post-title"]} ${styles["include-img"]}`}>
-              {post.title}
-            </h3>
-          ) : (
-            <h3 className={`${styles["post-title"]}`}>{post.title}</h3>
-          )} */}
-
           <h3 className={`${styles["post-title"]}`}>
             {post.isPrivate && (
               <img
@@ -173,7 +192,11 @@ export default function PostList({
                 ref={modalRef}
                 style={modalStyle}
                 className={styles["more-modal"]}
-                isPrivate={post.isPrivate}
+                postId={post.id}
+                postIsPrivate={post.isPrivate}
+                togglePostPrivacy={() =>
+                  togglePostPrivacy(post.id, post.isPrivate)
+                }
               />
             )}
             {isOpen &&

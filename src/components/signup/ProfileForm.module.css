@@ -86,7 +86,7 @@
 .form-field:nth-of-type(2) textarea {
   width: 49.6rem;
   height: 8.8rem;
-  background-color: var(--white-color);
+  background-color: var(--input-color);
   border: none;
   border-radius: 1rem;
   padding: 1.2rem 2rem;

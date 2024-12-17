@@ -9,7 +9,7 @@ import {
 } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import { useRouter } from "next/navigation";
-import { useDispatch } from "react-redux"; // 만약 Redux를 사용한다면
+import { useDispatch } from "react-redux";
 import { setRegistering, resetRegistering } from "@/store/authSlice";
 import styles from "./SocialLogin.module.css";
 
@@ -27,7 +27,7 @@ export default function EmailSignup({
   const [isEmailSent, setIsEmailSent] = useState(false);
   const [tempUser, setTempUser] = useState(null);
   const router = useRouter();
-  const dispatch = useDispatch(); // Redux 사용시
+  const dispatch = useDispatch();
 
   // 이메일 인증 상태 주기적 체크
   useEffect(() => {
@@ -52,7 +52,7 @@ export default function EmailSignup({
             setError("이메일 확인 중 오류가 발생했습니다. 다시 시도해주세요.");
           }
         }
-      }, 5000); // 5초로 증가
+      }, 5000); // 5초
     }
     return () => intervalId && clearInterval(intervalId);
   }, [isEmailSent, tempUser]);

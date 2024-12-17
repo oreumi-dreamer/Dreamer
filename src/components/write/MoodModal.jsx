@@ -1,17 +1,21 @@
-import React, {
-  forwardRef,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { forwardRef, useEffect, useLayoutEffect, useRef } from "react";
 import styles from "./MoodModal.module.css";
 import { DREAM_MOODS } from "@/utils/constants";
 
 const MoodModal = forwardRef(
-  ({ isModalOpen, closeModal, onConfirm, style }, moodModalRef) => {
+  (
+    {
+      isModalOpen,
+      closeModal,
+      onConfirm,
+      selectedMoods,
+      setSelectedMoods,
+      style,
+    },
+    moodModalRef
+  ) => {
     const dialogRef = useRef(null);
-    useEffect(() => {
+    useLayoutEffect(() => {
       if (isModalOpen && dialogRef.current) {
         dialogRef.current.showModal();
       } else if (dialogRef.current) {
@@ -20,39 +24,36 @@ const MoodModal = forwardRef(
     }, [isModalOpen]);
     const handleBackgroundClick = (e) => {
       if (e.target === e.currentTarget) {
-        onConfirm(selectedGenres);
+        onConfirm(selectedMoods);
         closeModal();
       }
     };
-    const [selectedGenres, setSelectedGenres] = useState([]);
+
     const maxSelect = 5;
 
-    const handleResetSelected = () => {
-      setSelectedGenres([]);
-    };
     const handleCheckboxChange = (item) => {
-      if (selectedGenres.includes(item)) {
-        setSelectedGenres((prev) => prev.filter((i) => i !== item));
+      if (selectedMoods.includes(item)) {
+        setSelectedMoods((prev) => prev.filter((i) => i !== item));
       } else {
-        if (selectedGenres.length < maxSelect) {
-          setSelectedGenres((prev) => [...prev, item]);
+        if (selectedMoods.length < maxSelect) {
+          setSelectedMoods((prev) => [...prev, item]);
         }
       }
     };
     const handleConfirm = () => {
-      onConfirm(selectedGenres);
+      onConfirm(selectedMoods);
       closeModal();
     };
 
     return (
       <dialog
+        style={style}
         ref={(node) => {
           dialogRef.current = node;
           if (moodModalRef) {
             moodModalRef.current = node;
           }
         }}
-        style={style}
         onClick={handleBackgroundClick}
         className={styles["modal-on-writepost"]}
       >
@@ -61,7 +62,7 @@ const MoodModal = forwardRef(
           onClick={(e) => e.stopPropagation()}
         >
           <button
-            onClick={handleResetSelected}
+            onClick={() => setSelectedMoods([])}
             className={styles["btn-reset-select"]}
           >
             다시 선택하기
@@ -72,7 +73,7 @@ const MoodModal = forwardRef(
                 <li key={item.id}>
                   <input
                     type="checkbox"
-                    checked={selectedGenres.includes(item)}
+                    checked={selectedMoods.includes(item)}
                     onChange={() => handleCheckboxChange(item)}
                     className={styles["hashtag-picker"]}
                     id={item.id}

@@ -9,20 +9,25 @@
   white-space: nowrap;
 }
 
+.button:hover {
+  background-color: var(--none-active-color);
+  color: #ffffff;
+}
+
 .button-highlight {
   background-color: var(--deep-pink-color);
   color: var(--background-white);
+}
+
+.button-highlight:hover {
+  background-color: var(--hover-btn-color);
 }
 
 .button input[type="file"] {
   display: none;
 }
 
-.button:hover {
-  background-color: var(--hover-btn-color);
-}
-
-.button:active {
+.button-highlight:active {
   background-color: var(--active-btn-color);
 }
 
@@ -33,7 +38,8 @@
 
 .input-text,
 .textarea {
-  color: var(--always-black-font);
+  color: var(--input-text-color);
+  background-color: var(--input-color);
   border-radius: 1rem;
   padding: 1.2rem 2rem 1.3rem;
   border: none;
@@ -54,7 +60,10 @@
   width: 100%;
   padding: 1rem 2rem;
   border-radius: 1rem;
-  background-color: #e8e8e8;
+  background-color: var(--input-color);
+  color: var(--black-font-color);
+  border: 0.2rem solid transparent;
+
   text-align: left;
   cursor: pointer;
   display: flex;
@@ -233,7 +242,7 @@ label.checkbox a {
   top: 0;
   width: 8px;
   height: 100%;
-  z-index: 50;
+  z-index: 100;
   background-color: rgba(229, 231, 235, 0.2);
 }
 
@@ -267,4 +276,167 @@ label.checkbox a {
   .dashed-line {
     background-image: url(/images/dash-bright.svg);
   }
+}
+
+.confirm-modal {
+  max-width: 74rem;
+  width: 80vw;
+  height: fit-content;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+
+  border: 0;
+  background-color: var(--modal-pink-color);
+  border-radius: 2rem;
+  box-shadow: 0 0.4rem 1rem rgba(0, 0, 0, 0.25);
+
+  padding: 3.5rem 6rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 2.4rem;
+  font-weight: 700;
+}
+
+.confirm-modal p {
+  word-break: keep-all;
+}
+.confirm-modal::backdrop {
+  background-color: rgba(0, 0, 0, 0.25);
+}
+.confirm-modal div {
+  width: 100%;
+  display: flex;
+  gap: 3.2rem;
+  justify-content: center;
+}
+.confirm-modal div button {
+  width: 100%;
+  max-width: 14rem;
+  min-width: 8rem;
+  padding: 0.8rem;
+  margin-top: 2.4rem;
+  border-radius: 1rem;
+  font-size: 1.6rem;
+}
+.confirm-modal .btn-yes {
+  background-color: var(--deep-pink-color);
+}
+.confirm-modal .btn-no {
+  background-color: white;
+}
+.confirm-modal .btn-close {
+  background-image: url("/images/close.svg");
+  width: 4rem;
+  height: 4rem;
+  position: absolute;
+  top: 0.8rem;
+  right: 1.6rem;
+}
+
+.share-modal {
+  width: 24rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.2rem 1rem 3.7rem;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--background-white);
+  color: var(--black-font-color);
+  border: none;
+  border-radius: 1rem;
+  row-gap: 0.8rem;
+  z-index: 1000;
+}
+
+.share-modal::backdrop {
+  background-color: var(--background-dimmed);
+  z-index: 999;
+}
+
+.share-modal * {
+  color: var(--black-font-color);
+}
+
+.share-modal .btn-close {
+  margin-left: auto;
+}
+.share-modal .btn-close img {
+  width: 1.6rem;
+  height: 1.6rem;
+}
+
+.share-modal h2 {
+  font-size: var(--h2-font-size);
+  font-weight: 700;
+}
+
+.share-modal p {
+  font-size: var(--body-font-size);
+}
+
+.share-modal form {
+  width: 100%;
+  border: 1px solid var(--input-color);
+  border-radius: 1rem;
+  background-color: var(--background-white);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  overflow: hidden;
+  margin: 3.2rem 0;
+}
+
+.share-modal form input {
+  background-color: var(--background-white);
+  border: none;
+  height: 100%;
+  font-size: var(--tiny-text-font-size);
+  border-radius: 1rem;
+  margin-left: 0.6rem;
+}
+
+.share-modal form input:active,
+.share-modal form input:focus {
+  outline: none;
+}
+
+.share-modal form button {
+  width: fit-content;
+  height: fit-content;
+  margin: 0.4rem 1.6rem;
+  font-size: var(--tiny-text-font-size);
+  margin: 0.55rem 0.6rem;
+  border-radius: 1.2rem;
+  padding: 0.4rem 1.6rem;
+}
+
+.modal-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1000;
+}
+
+.share-modal .btn-share {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  row-gap: 0.4rem;
+  font-size: var(--small-text-font-size);
+}
+
+.share-modal .btn-share img {
+  width: 3.2rem;
+  height: 3.2rem;
 }

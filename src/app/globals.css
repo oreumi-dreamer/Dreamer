@@ -49,6 +49,10 @@
     saturate(16%) hue-rotate(346deg) brightness(98%) contrast(89%);
   --filter-fff: brightness(0) saturate(100%) invert(100%) sepia(0%)
     saturate(7499%) hue-rotate(53deg) brightness(109%) contrast(101%);
+  --input-color: #e8e8e8;
+  --email-button-color: none;
+  --invalid-border-color: #f41e1e;
+  --invalid-text-color: #a12525;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -87,10 +91,15 @@
       rgba(17, 17, 17, 0) 100%
     );
     --option-hover-color: #95959530;
+    --focus-border-color: #a05dac;
     --filter-EEF0DE: brightness(0) saturate(100%) invert(89%) sepia(27%)
       saturate(93%) hue-rotate(28deg) brightness(105%) contrast(88%);
     --tomong-stamp-half-opacity: 1;
     --tomong-stamp-one-fifth-opacity: 1;
+    --input-color: rgba(232, 232, 232, 0.2);
+    --email-button-color: rgba(232, 232, 232, 0.2);
+    --invalid-border-color: #ba5b5b;
+    --invalid-text-color: #ba5b5b;
   }
 }
 
@@ -127,10 +136,15 @@
     rgba(17, 17, 17, 0) 100%
   );
   --option-hover-color: #95959530;
+  --focus-border-color: #a05dac;
   --filter-EEF0DE: brightness(0) saturate(100%) invert(89%) sepia(27%)
     saturate(93%) hue-rotate(28deg) brightness(105%) contrast(88%);
   --tomong-stamp-half-opacity: 1;
   --tomong-stamp-one-fifth-opacity: 1;
+  --input-color: rgba(232, 232, 232, 0.2);
+  --email-button-color: rgba(232, 232, 232, 0.2);
+  --invalid-border-color: #ba5b5b;
+  --invalid-text-color: #ba5b5b;
 }
 
 html {
@@ -174,6 +188,10 @@ body:has(header):has(main):has(footer) {
 }
 
 main {
+  padding: 8rem;
+}
+
+body:has(header):has(main):has(footer) main {
   padding: 16.6rem 0 16.6rem 6.4rem;
 }
 
@@ -182,6 +200,7 @@ main {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  transition: background-color 0.1s ease-in-out;
 }
 
 *:disabled {
@@ -212,7 +231,7 @@ main {
 }
 
 @media (max-width: 860px) {
-  main {
+  body:has(header):has(main):has(footer) main {
     padding: 16.6rem 0 16.6rem 0;
   }
 }
@@ -224,5 +243,26 @@ main {
 
   body:has(header):has(main):has(footer) main {
     padding: 16.6rem 0 0 6.4rem;
+  }
+
+  html body:has(header):has(main.no-posts):has(footer) {
+    height: 100dvh;
+    display: grid;
+    grid-template-rows: 1fr auto;
+  }
+
+  html body:has(header):has(main.no-posts):has(footer) footer {
+    height: fit-content;
+  }
+}
+
+@media (max-width: 720px) {
+  body:has(header):has(main):has(footer) {
+    padding-left: 6.4rem;
+    padding-right: 6.4rem;
+  }
+
+  html body:has(header):has(main):has(footer) main {
+    padding: 16.6rem 0 16.6rem 0;
   }
 }

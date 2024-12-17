@@ -4,26 +4,26 @@ import { useState, useEffect, useRef } from "react";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 import postTime from "@/utils/postTime";
 import { MyPost, OtherPost } from "../dropDown/DropDown";
-import isMyPost from "@/utils/isMyPost";
-import { calculateModalPosition } from "@/utils/calculateModalPosition";
 import { outsideClickModalClose } from "@/utils/outsideClickModalClose";
-import { Divider } from "../Controls";
-import PostModal from "../modal/PostModal";
+import { Divider, ShareModal } from "../Controls";
 import useTheme from "@/hooks/styling/useTheme";
 
 export default function Post({
   styles,
   post: initialPosts,
+  setPosts,
   setSelectedPostId,
 }) {
   const [post, setPost] = useState(initialPosts);
   const [isOpen, setIsOpen] = useState(false);
-  const [modalType, setModalType] = useState(null);
   const [modalStyle, setModalStyle] = useState({});
+  const [shareModalOpen, setShareModalOpen] = useState(false);
   const modalRef = useRef(null);
   const buttonRef = useRef(null);
 
   const { theme } = useTheme();
+
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
   useEffect(() => {
     if (modalRef.current && buttonRef.current) {
@@ -35,35 +35,65 @@ export default function Post({
       };
     }
   }, [modalRef, buttonRef, isOpen]);
-
-  function handlePostMoreBtnClick() {
-    const modalType = post.isMyself ? "isMyPost" : "isNotMyPost";
-
+  const handlePostMoreBtnClick = () => {
     if (!isOpen) {
       setIsOpen(true);
-      setModalType(modalType);
+
       if (buttonRef.current) {
         const position = {
           position: "absolute",
-          top: "40px",
+          top: "50px",
           right: "0px",
-          zIndex: "10",
+          zIndex: "1000",
         };
         setModalStyle(position);
       }
     } else {
       setIsOpen(false);
-      setModalType(null);
     }
-  }
-  const changeSpark = () => {
-    setPost((prevPost) => ({
-      ...prevPost,
-      hasUserSparked: !prevPost.hasUserSparked,
-      sparkCount: prevPost.hasUserSparked
-        ? prevPost.sparkCount - 1
-        : prevPost.sparkCount + 1,
-    }));
+  };
+
+  const togglePostPrivacy = async (postId, postIsPrivate) => {
+    setIsOpen(false);
+
+    try {
+      const response = await fetchWithAuth(`/api/post/private/${postId}`, {
+        method: "GET",
+      });
+
+      const newPrivacyStatus = !postIsPrivate;
+      setPost((prevData) => ({
+        ...prevData,
+        isPrivate: newPrivacyStatus,
+      }));
+
+      const responseData = await response.json();
+      if (response.ok && responseData.success) {
+        return responseData.isPrivate;
+      } else {
+        alert(`오류: ${responseData.error}`);
+        return postIsPrivate;
+      }
+    } catch (error) {
+      console.error("비밀글 토글 중 오류 발생:", error);
+      return postIsPrivate;
+    }
+  };
+  const changeSpark = (postId) => {
+    setPosts((prevPosts) =>
+      prevPosts.map((prevPost) => {
+        if (prevPost.objectID === postId) {
+          return {
+            ...prevPost,
+            hasUserSparked: !prevPost.hasUserSparked,
+            sparkCount: prevPost.hasUserSparked
+              ? prevPost.sparkCount - 1
+              : prevPost.sparkCount + 1,
+          };
+        }
+        return prevPost;
+      })
+    );
   };
 
   const sparkHandle = async (postId) => {
@@ -94,6 +124,14 @@ export default function Post({
     tomongStampUrl = "/images/tomong-stamp-dark.png";
   }
 
+  const handleShareModalOpen = () => {
+    setShareModalOpen(true);
+  };
+
+  const handleShareModalClose = () => {
+    setShareModalOpen(false);
+  };
+
   return (
     <>
       <article className={styles["article"]}>
@@ -114,7 +152,19 @@ export default function Post({
           >
             {postTime(post.createdAt, post.createdAt)}
           </time>
-          <button ref={buttonRef} onClick={() => handlePostMoreBtnClick()}>
+          {post.isPrivate && (
+            <Image
+              src="/images/lock.svg"
+              width={20}
+              height={20}
+              alt="비밀글"
+              className={styles["private-icon"]}
+            />
+          )}
+          <button
+            ref={buttonRef}
+            onClick={() => handlePostMoreBtnClick(post.objectID, post.authorId)}
+          >
             <Image
               src="/images/more.svg"
               alt="더보기"
@@ -123,10 +173,18 @@ export default function Post({
               className={styles["more-btn"]}
             />
           </button>
-          {isOpen && modalType === "isMyPost" && (
-            <MyPost ref={modalRef} style={modalStyle} />
+          {isOpen && post.isMyself && (
+            <MyPost
+              ref={modalRef}
+              style={modalStyle}
+              togglePostPrivacy={() => {
+                togglePostPrivacy(post.objectID, post.isPrivate);
+              }}
+              postId={post.objectID}
+              postIsPrivate={post.isPrivate}
+            />
           )}
-          {isOpen && modalType === "isNotMyPost" && (
+          {isOpen && !post.isMyself && (
             <OtherPost ref={modalRef} style={modalStyle} />
           )}
         </section>
@@ -196,7 +254,7 @@ export default function Post({
               {post.commentsCount} 댓글
             </span>
           </button>
-          <button>
+          <button onClick={handleShareModalOpen}>
             <Image
               className={styles["icon-padding"]}
               src="/images/share.svg"
@@ -216,6 +274,13 @@ export default function Post({
           </button>
         </section>
       </article>
+      {shareModalOpen && (
+        <ShareModal
+          isOpen={shareModalOpen}
+          closeModal={handleShareModalClose}
+          link={`${baseUrl}/post/${post.id}`}
+        />
+      )}
     </>
   );
 }

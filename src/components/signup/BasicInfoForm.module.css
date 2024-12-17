@@ -28,27 +28,29 @@
   gap: 0.4rem;
 }
 .invalid-text {
-  color: #a12525;
+  color: var(--invalid-text-color);
 }
 
 .form-field input {
   width: 100%;
   max-width: 44rem;
-  padding: 1.2rem 0 1.2rem 0;
-  background-color: #e8e8e8;
-  border: none;
+  padding: 1rem 0 1rem 0;
+  background-color: var(--input-color);
+  border: 0.2rem solid transparent;
   border-radius: 1rem;
   font-size: var(--body-font-size);
   text-indent: 2rem;
+  background-color: var(--input-color);
+  color: var(--black-font-color);
 }
 .form-field input:focus,
-.form-field select:focus {
+.input-wrapper div button:focus {
   outline: none;
-  border: 0.2rem solid #a54cb4;
+  border: 0.2rem solid var(--focus-border-color);
 }
 
 .form-field .invalid {
-  border: 0.2rem solid #f41e1e;
+  border: 0.2rem solid var(--invalid-border-color);
 }
 
 .form-field label {
@@ -76,31 +78,13 @@
   gap: 0.8rem;
 }
 
-.input-wrapper select {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  background-color: var(--white-color);
-  border: none;
+.input-wrapper div {
+  border: 0.2rem solid transparent;
   border-radius: 1rem;
-  padding: 1.2rem 2rem;
   font-size: var(--body-font-size);
-  width: 100%;
   max-width: 12.6rem;
-  cursor: pointer;
-
-  background-image: url("/images/comment-close.svg");
-  background-repeat: no-repeat;
-  background-size: 2.4rem 2.4rem;
-  object-position: 2rem 2rem;
-  background-position: right 0.8rem center;
 }
-
-.input-wrapper .selected {
-  background-image: url("/images/comment-open.svg");
-}
-
-.input-wrapper select:first-of-type {
+.input-wrapper div:first-of-type {
   max-width: 16rem;
   margin-right: 1.6rem;
 }
@@ -121,6 +105,18 @@
   position: relative;
   top: 1rem;
   filter: var(--filter-EEF0DE);
+}
+
+.login-buttons li:last-of-type button {
+  background-color: var(--email-button-color);
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  top: -1rem;
 }
 
 .next-btn {
@@ -162,7 +158,7 @@
     top: 2.8rem;
     right: -4.6rem;
   }
-  .input-wrapper select {
+  .input-wrapper div button {
     font-size: var(--small-text-font-size);
   }
   .signup-form .user-login-field p {

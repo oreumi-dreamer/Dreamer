@@ -8,7 +8,7 @@ import { signInWithPopup } from "firebase/auth";
 import { checkUserExists } from "@/utils/auth/checkUser";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
-import { Checkbox } from "../Controls";
+import { Checkbox, Select } from "../Controls";
 
 export default function BasicInfoForm({ onSubmit, formData, setters }) {
   const { userId, userName, year, month, day } = formData;
@@ -36,9 +36,8 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
       }
     }
     // 아이디, 이름, 생일 값이 각각 유효한경우 state 값을 true로 지정
-    userId.length < 4 || userId.length > 20
-      ? setIsIdValid(false)
-      : setIsIdValid(true);
+    const idPattern = /^[a-z0-9]{4,20}$/;
+    !idPattern.test(userId) ? setIsIdValid(false) : setIsIdValid(true);
 
     userName.length < 2 || userName.length > 20
       ? setIsNameValid(false)
@@ -88,49 +87,23 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
   };
 
   const validationItem = (e, type) => {
-    const value = e.target.value;
+    const valid = e.target.validity.valid;
+    const inputClass = e.target.classList;
 
     if (type === "userId") {
-      if (value.length < 4 || value.length > 20) {
-        e.target.classList.add(`${styles.invalid}`);
+      if (!valid) {
+        inputClass.add(`${styles.invalid}`);
       } else {
-        e.target.classList.remove(`${styles.invalid}`);
+        inputClass.remove(`${styles.invalid}`);
       }
     }
 
     if (type === "userName") {
-      if (value.length < 2 || value.length > 20) {
-        e.target.classList.add(`${styles.invalid}`);
+      if (!valid) {
+        inputClass.add(`${styles.invalid}`);
       } else {
-        e.target.classList.remove(`${styles.invalid}`);
+        inputClass.remove(`${styles.invalid}`);
       }
-    }
-  };
-
-  const handleSelectChange = (e) => {
-    const yearData = e.currentTarget.children[0];
-    const monthData = e.currentTarget.children[1];
-    const dayData = e.currentTarget.children[2];
-
-    if (dayData.value && !monthData.value && !yearData.value) {
-      yearData.classList.add(`${styles.invalid}`);
-      monthData.classList.add(`${styles.invalid}`);
-    } else if (dayData.value === "0" && monthData.value && !yearData.value) {
-      yearData.classList.add(`${styles.invalid}`);
-      dayData.classList.add(`${styles.invalid}`);
-    }
-
-    if (dayData.value !== "0") {
-      dayData.classList.remove(`${styles.invalid}`);
-      dayData.classList.add(`${styles.selected}`);
-    }
-    if (monthData.value) {
-      monthData.classList.remove(`${styles.invalid}`);
-      monthData.classList.add(`${styles.selected}`);
-    }
-    if (yearData.value) {
-      yearData.classList.remove(`${styles.invalid}`);
-      yearData.classList.add(`${styles.selected}`);
     }
   };
 
@@ -169,10 +142,14 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
             onChange={(e) => preventBlank(e, setUserId)}
             onBlur={(e) => validationItem(e, "userId")}
             value={userId}
+            minLength={4}
+            maxLength={20}
+            pattern="^[a-z0-9]+$"
             required
           />
           <span className={styles["invalid-text"]}>
-            {!isIdValid && "아이디는 4~20자로 입력해주세요."}
+            {!isIdValid &&
+              "아이디는 4~20자의 영문 소문자와 숫자로 입력해주세요."}
           </span>
         </div>
 
@@ -192,6 +169,8 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
             onChange={(e) => setUserName(e.target.value)}
             onBlur={(e) => validationItem(e, "userName")}
             value={userName}
+            minLength={2}
+            maxLength={20}
             required
           />
           <span className={styles["invalid-text"]}>
@@ -209,55 +188,50 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
             />
             생일
           </label>
-          <div
-            className={styles["input-wrapper"]}
-            onChange={handleSelectChange}
-          >
-            <select
+          <div className={styles["input-wrapper"]}>
+            <Select
               id="birth-year"
               name="birthYear"
               onChange={(e) => setYear(e.target.value)}
               value={year}
               required
-            >
-              <option value="">연도</option>
-              {Array.from({ length: 120 }, (_, i) => (
-                <option key={`year-${todayYear - i}`} value={todayYear - i}>
-                  {todayYear - i}년
-                </option>
-              ))}
-            </select>
-            <select
+              options={Array.from({ length: 120 }, (_, i) => ({
+                value: todayYear - i,
+                label: `${todayYear - i}년`,
+              }))}
+              placeholder="년"
+              className={
+                (year === 0 && month !== 0) || (year === 0 && day !== 0)
+                  ? styles.invalid
+                  : ""
+              }
+            />
+            <Select
               id="birth-month"
               name="birthMonth"
               onChange={(e) => setMonth(e.target.value)}
               value={month}
-              required
-            >
-              <option value="">월</option>
-              {Array.from({ length: 12 }, (_, i) => (
-                <option key={`month-${i + 1}`} value={i + 1}>
-                  {i + 1}월
-                </option>
-              ))}
-            </select>
-            <select
+              options={Array.from({ length: 12 }, (_, i) => ({
+                value: i + 1,
+                label: `${i + 1}월`,
+              }))}
+              placeholder="월"
+              className={month === 0 && day !== 0 ? styles.invalid : ""}
+            />
+            <Select
               id="birth-day"
               name="birthDay"
-              onChange={(e) => {
-                const value = Math.min(Math.max(1, e.target.value), 31);
-                setDay(e.target.value);
-              }}
+              onChange={(e) => setDay(e.target.value)}
               value={day}
-              required
-            >
-              <option value="0">일</option>
-              {Array.from({ length: lastDay }, (_, i) => (
-                <option key={`day-${i + 1}`} value={i + 1}>
-                  {i + 1}일
-                </option>
-              ))}
-            </select>
+              options={Array.from({ length: lastDay }, (_, i) => ({
+                value: i + 1,
+                label: `${i + 1}일`,
+              }))}
+              placeholder="일"
+              className={
+                day === 0 && month !== 0 && year === 0 ? styles.invalid : ""
+              }
+            />
           </div>
           <span className={styles["invalid-text"]}>
             {!isBirthValid && "생일은 필수 입력 값 입니다."}

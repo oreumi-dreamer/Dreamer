@@ -12,6 +12,7 @@ import convertToHtml from "@/utils/markdownToHtml";
 import Link from "next/link";
 import useEmblaCarousel from "embla-carousel-react";
 import TomongListItem from "@/components/tomong/TomongListItem";
+import Image from "next/image";
 
 function TomongIntro({ setProcess }) {
   return (
@@ -24,6 +25,12 @@ function TomongIntro({ setProcess }) {
         <p className={styles["intro"]}>
           앨런 AI의 도움으로 드리머님이 작성하신 꿈의 해몽을 들려드릴게요!
         </p>
+        <Image
+          src="/images/tomong-hi-480p.png"
+          width={240}
+          height={240}
+          alt="마법사 토끼 토몽이 손을 들고 인사하고 있다."
+        />
         <Button
           highlight={true}
           onClick={() => setProcess(1)}
@@ -479,9 +486,11 @@ export default function Tomong() {
 
   return (
     <div className={styles["container"]}>
-      <Link href="/">
-        <img src="/images/logo-full.svg" alt="DREAMER" width={240} />
-      </Link>
+      <h1>
+        <Link href="/">
+          <img src="/images/logo-full.svg" alt="DREAMER" width={240} />
+        </Link>
+      </h1>
       <main className={styles["main"]}>
         {process === 0 && <TomongIntro setProcess={setProcess} />}
         {process === 1 && (

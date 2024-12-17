@@ -197,16 +197,22 @@
   justify-content: center;
   align-items: center;
   row-gap: 3.2rem;
+  padding: 5rem 0 0;
 }
 
 .no-posts p {
   font-size: 4rem;
   color: var(--black-transparent-color);
-  display: inline-flex;
+  display: inline;
   align-items: center;
 }
 
+.no-posts span {
+  word-break: keep-all;
+}
+
 .no-posts p img {
+  vertical-align: sub;
   margin-left: 1rem;
 }
 

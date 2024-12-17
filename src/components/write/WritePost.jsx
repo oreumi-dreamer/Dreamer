@@ -8,9 +8,7 @@ import HashtagModal from "./HashtagModal";
 import MoodModal from "./MoodModal";
 import { useSelector } from "react-redux";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
-import Error404 from "../error404/Error404";
 import useTheme from "@/hooks/styling/useTheme";
-import { calculateModalPosition } from "@/utils/calculateModalPosition";
 
 export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
   const [isWritingModalOpen, setIsWritingModalOpen] = useState(false);
@@ -20,9 +18,9 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
   const { user } = useSelector((state) => state.auth);
   const { theme } = useTheme();
 
-  const profileImageUrl = user.profileImageUrl || "/images/rabbit.svg";
-  const userId = user.userId;
-  const userName = user.userName;
+  const profileImageUrl = user?.profileImageUrl || "/images/rabbit.svg";
+  const userId = user?.userId;
+  const userName = user?.userName;
   // 모달 오픈 상태
   const modalRef = useRef(null);
   useEffect(() => {
@@ -35,7 +33,13 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
   // 외부 클릭
   const handleBackgroundClick = (e) => {
     if (e.target === e.currentTarget) {
-      if (isContentChanged && contentValue !== "") {
+      if (
+        contentValue !== "" ||
+        inputValue !== "" ||
+        selectedGenres.length > 0 ||
+        selectedMoods.length > 0 ||
+        rating !== null
+      ) {
         setIsStopModalOpen(true);
       } else {
         closeWriteModal();
@@ -66,15 +70,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isMoodModalOpen, setIsMoodModalOpen] = useState(false);
   const [isStopModalOpen, setIsStopModalOpen] = useState(false);
-  // 선택지 여부 확인
-  const handleSelectGenres = (items) => {
-    setSelectedGenres(items);
-    setIsContentChanged(true);
-  };
-  const handleSelectMoods = (items) => {
-    setSelectedMoods(items);
-    setIsContentChanged(true);
-  };
+
   const genresId = selectedGenres.map((item) => item.id);
   const moodsId = selectedMoods.map((item) => item.id);
   const handleTitleChange = (e) => {
@@ -89,8 +85,23 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
     setRating(e.target.value);
   };
   const openModal = () => {
-    setIsModalOpen(true);
+    if (!isModalOpen) {
+      setIsModalOpen(true);
+
+      if (tagButtonRef.current) {
+        const position = {
+          position: "absolute",
+          top: "50px",
+          right: "0px",
+          zIndex: "10",
+        };
+        setTagModalStyle(position);
+      }
+    } else {
+      setIsModalOpen(false);
+    }
   };
+
   const openMoodModal = () => {
     setIsMoodModalOpen(true);
   };
@@ -102,13 +113,30 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
     resetForm();
     closeWriteModal();
   };
+
+  const [isFormCompleted, setIsFormCompleted] = useState(false);
+  useEffect(() => {
+    if (!isWritingModalOpen && isFormCompleted) {
+      setSelectedGenres([]);
+      setSelectedMoods([]);
+      setIsFormCompleted(false);
+    }
+  }, [isWritingModalOpen, isFormCompleted]);
+
   const handleStopWriting = () => {
-    if (isContentChanged && contentValue !== "") {
+    if (
+      contentValue !== "" ||
+      inputValue !== "" ||
+      selectedGenres.length > 0 ||
+      selectedMoods.length > 0 ||
+      rating !== null
+    ) {
       setIsStopModalOpen(true);
     } else {
       resetForm();
       setIsWritingModalOpen(false);
       closeWriteModal();
+      setIsFormCompleted(true);
     }
   };
 
@@ -123,10 +151,16 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
   useLayoutEffect(() => {
     if (tagButtonRef.current && tagModalRef.current) {
       const updatePosition = () => {
-        const position = calculateModalPosition(tagButtonRef, 0, 35);
-        if (position) {
-          setTagModalStyle(position);
-        }
+        const buttonRect = tagButtonRef.current.getBoundingClientRect();
+        const position = {
+          position: "absolute",
+          top: `${buttonRect.bottom + window.scrollY}px`,
+          left: `${buttonRect.left + window.scrollX}px`,
+          zIndex: "10",
+        };
+        console.log(position);
+
+        setTagModalStyle(position);
       };
 
       updatePosition();
@@ -134,26 +168,38 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
 
       return () => {
         window.removeEventListener("resize", updatePosition);
+        console.log("tagButtonRef.current:", tagButtonRef.current);
+        console.log("tagModalRef.current:", tagModalRef.current);
       };
     }
   }, [tagButtonRef, tagModalRef, isModalOpen]);
 
   useLayoutEffect(() => {
+    console.log("moodButtonRef.current:", moodButtonRef.current); // 확인
+    console.log("moodModalRef.current:", moodModalRef.current);
     if (moodButtonRef.current && moodModalRef.current) {
       const updatePosition = () => {
-        const position = calculateModalPosition(moodButtonRef, -5, 12);
-        if (position) {
-          setMoodModalStyle(position);
-        }
+        const buttonRect = moodButtonRef.current.getBoundingClientRect();
+        const position = {
+          position: "absolute",
+          top: `${buttonRect.bottom + window.scrollY + 5}px`,
+          left: `${buttonRect.left + window.scrollX - 8}px`,
+          zIndex: "10",
+        };
+        console.log(position);
+
+        setMoodModalStyle(position);
       };
 
       updatePosition();
       window.addEventListener("resize", updatePosition);
+
       return () => {
         window.removeEventListener("resize", updatePosition);
       };
     }
   }, [moodButtonRef, moodModalRef, isMoodModalOpen]);
+
   const resetForm = () => {
     setInputValue("");
     setContentValue("");
@@ -206,8 +252,25 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
     }
   };
 
+  useEffect(() => {
+    if (isWriteModalOpen) {
+      document.documentElement.style.overflow = "hidden";
+    } else {
+      document.documentElement.style.overflow = "";
+    }
+    return () => {
+      document.documentElement.style.overflow = "";
+    };
+  }, [isWriteModalOpen]);
+
+  useEffect(() => {
+    if (isWritingModalOpen) {
+      resetForm();
+    }
+  }, [isWritingModalOpen]);
+
   if (!user) {
-    return <Error404 />;
+    return null;
   }
 
   return (
@@ -237,8 +300,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
         </div>
 
         <button onClick={handleStopWriting} className={styles["btn-close"]}>
-          <Image src="/images/close.svg" width={40} height={40}></Image>
-          <span className="sr-only">닫기</span>
+          <Image src="/images/close.svg" width={40} height={40} alt="닫기" />
         </button>
 
         <form
@@ -247,19 +309,24 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
           onSubmit={handleSubmit}
         >
           <div id={styles["title"]}>
-            <label id={styles["title-input"]}>
+            <label
+              id="title-input"
+              className={styles["title-input"]}
+              htmlFor="title"
+            >
               Title
               <input
                 type="text"
-                for="title"
+                id="title"
                 placeholder={`${year}년 ${month}월 ${date}일 꿈 일기`}
                 onChange={handleTitleChange}
+                value={inputValue}
               />
             </label>
-            <label id={styles["hidden"]}>
+            <label id="hidden" className={styles["hidden"]} htmlFor="hidden">
               <input
                 type="checkbox"
-                for="hidden"
+                id="hidden"
                 checked={isPrivate}
                 onChange={() => setIsPrivate((prev) => !prev)}
               />
@@ -270,9 +337,13 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
           <div className={styles["write-field"]}>
             <div className={styles["write-field-opt"]}>
               <div className={styles["genre-picker"]}>
-                <button type="button" onClick={openModal}>
-                  <Image src="/images/plus-circle.svg" width={28} height={28} />
-                  <span className="sr-only">태그 추가하기</span>
+                <button type="button" onClick={openModal} ref={tagButtonRef}>
+                  <Image
+                    src="/images/plus-circle.svg"
+                    width={28}
+                    height={28}
+                    alt="태그 추가하기"
+                  />
                 </button>
                 <ul>
                   {selectedGenres.map((item) => (
@@ -309,6 +380,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
                     type="button"
                     className={styles["btn-feeling"]}
                     onClick={openMoodModal}
+                    ref={moodButtonRef}
                   ></button>
                 )}
                 {selectedMoods.length !== 0 && (
@@ -316,6 +388,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
                     type="button"
                     className={styles["btn-feeling-selected"]}
                     onClick={openMoodModal}
+                    ref={moodButtonRef}
                   >
                     <ul>
                       {selectedMoods.map((item) => (
@@ -377,6 +450,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
                 placeholder="오늘은 어떤 꿈을 꾸셨나요?"
                 className={styles["text-field-area"]}
                 onChange={handleContentChange}
+                value={contentValue}
               />
             </p>
           </div>
@@ -390,18 +464,21 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
             </button>
           </div>
         </form>
-
         <HashtagModal
           isModalOpen={isModalOpen}
           closeModal={closeModal}
-          onConfirm={handleSelectGenres}
+          onConfirm={(selected) => setSelectedGenres(selected)}
+          selectedGenres={selectedGenres}
+          setSelectedGenres={setSelectedGenres}
           ref={tagModalRef}
           style={tagModalStyle}
         />
         <MoodModal
           isModalOpen={isMoodModalOpen}
           closeModal={closeMoodModal}
-          onConfirm={handleSelectMoods}
+          onConfirm={(selected) => setSelectedMoods(selected)}
+          selectedMoods={selectedMoods}
+          setSelectedMoods={setSelectedMoods}
           ref={moodModalRef}
           style={moodModalStyle}
         />

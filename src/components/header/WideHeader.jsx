@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from "react-redux";
 import Image from "next/image";
 import { closeModal } from "@/store/modalSlice";
 import { outsideClickModalClose } from "@/utils/outsideClickModalClose";
-import { calculateModalPosition } from "@/utils/calculateModalPosition";
 import useTheme from "@/hooks/styling/useTheme";
 
 export default function WideHeader({
@@ -25,7 +24,7 @@ export default function WideHeader({
   const [modalStyle, setModalStyle] = useState({});
   const modalRef = useRef(null);
   const dispatch = useDispatch();
-  const { theme, changeTheme } = useTheme();
+  const { theme } = useTheme();
 
   const isLightMode =
     theme === "light" || localStorage.getItem("theme") === "light";
@@ -45,7 +44,13 @@ export default function WideHeader({
   useEffect(() => {
     if (modalRef.current && buttonRef.current) {
       const updatePosition = () => {
-        const position = calculateModalPosition(buttonRef, -80, -600);
+        const buttonRect = buttonRef.current.getBoundingClientRect();
+        const position = {
+          position: "absolute",
+          top: `${buttonRect.bottom - 580}px`,
+          right: `${buttonRect.left - 180}px`,
+          zIndex: "1000",
+        };
         if (position) {
           setModalStyle(position);
         }

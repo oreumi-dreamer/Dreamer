@@ -8,8 +8,9 @@ import { useDispatch, useSelector } from "react-redux";
 import Image from "next/image";
 import { closeModal } from "@/store/modalSlice";
 import { outsideClickModalClose } from "@/utils/outsideClickModalClose";
-import { calculateModalPosition } from "@/utils/calculateModalPosition";
+import { calculateMobileModalPosition } from "@/utils/calculateModalPosition";
 import useTheme from "@/hooks/styling/useTheme";
+import useMediaQuery from "@/hooks/styling/useMediaQuery";
 
 export default function NarrowHeader({
   onMoreBtnClick,
@@ -26,6 +27,7 @@ export default function NarrowHeader({
   const modalRef = useRef(null);
   const dispatch = useDispatch();
   const { theme } = useTheme();
+  const isTopHeader = useMediaQuery("(max-width: 720px)");
   const isLightMode =
     theme === "light" || localStorage.getItem("theme") === "light";
   const isDarkMode =
@@ -58,7 +60,18 @@ export default function NarrowHeader({
   useEffect(() => {
     if (modalRef.current && buttonRef.current) {
       const updatePosition = () => {
-        const position = calculateModalPosition(buttonRef, -30, -600);
+        const buttonRect = buttonRef.current.getBoundingClientRect();
+        let position;
+        if (isTopHeader) {
+          position = calculateMobileModalPosition(buttonRef, 0, 48);
+        } else {
+          position = {
+            position: "absolute",
+            top: `${buttonRect.bottom - 532}px`,
+            left: `${buttonRect.right} - 50px`,
+            zIndex: "1000",
+          };
+        }
         if (position) {
           setModalStyle(position);
         }
@@ -160,7 +173,7 @@ export default function NarrowHeader({
         </nav>
         <Link
           href={`/${userId}`}
-          className={`${styles["nav-item"]} ${styles["profile-btn"]} ${isActive === "프로필" ? styles.active : ""}`}
+          className={`${styles["nav-item"]} ${styles["profile-btn"]}`}
           onClick={() => handleActiveBtn("프로필")}
         >
           <img
