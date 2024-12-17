@@ -479,9 +479,11 @@ export default function Tomong() {
 
   return (
     <div className={styles["container"]}>
-      <Link href="/">
-        <img src="/images/logo-full.svg" alt="DREAMER" width={240} />
-      </Link>
+      <h1>
+        <Link href="/">
+          <img src="/images/logo-full.svg" alt="DREAMER" width={240} />
+        </Link>
+      </h1>
       <main className={styles["main"]}>
         {process === 0 && <TomongIntro setProcess={setProcess} />}
         {process === 1 && (
