@@ -9,9 +9,8 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 import { useDispatch, useSelector } from "react-redux";
-import { loginSuccess } from "@/store/authSlice";
 import { checkUserExists } from "@/utils/auth/checkUser";
-import { Button, Form, Input, LoginForm } from "../Controls";
+import { Button, Input, LoginForm } from "../Controls";
 import styles from "./SocialLogin.module.css";
 import EmailSignup from "./EmailSignup";
 
