@@ -105,6 +105,7 @@ export default function MainList() {
             styles={styles}
             key={post.objectID + Math.random()}
             post={post}
+            setPosts={setPosts}
             setSelectedPostId={() => handleModalOpen(post)}
           />
         ))}
