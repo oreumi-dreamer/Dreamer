@@ -255,7 +255,12 @@ export default function EmailSignup({
         </ul>
       </div>
       <div className={styles["btn-row"]}>
-        <Button type="submit" highlight={true} disabled={!isEmailVerified}>
+        <Button
+          type="submit"
+          highlight={true}
+          disabled={!isEmailVerified}
+          float={"right-bottom"}
+        >
           다음
         </Button>
       </div>

@@ -227,10 +227,10 @@ label.checkbox a {
   }
 }
 
-.button-left-bottom {
+.button-right-bottom {
   position: absolute;
-  bottom: 2.4rem;
-  left: 2.4rem;
+  right: 5.2rem;
+  bottom: 4.3rem;
 }
 
 .scrollbar-track {
