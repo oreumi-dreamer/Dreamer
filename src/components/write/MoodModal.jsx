@@ -1,4 +1,4 @@
-import React, { forwardRef, useEffect, useRef } from "react";
+import React, { forwardRef, useEffect, useLayoutEffect, useRef } from "react";
 import styles from "./MoodModal.module.css";
 import { DREAM_MOODS } from "@/utils/constants";
 
@@ -15,7 +15,7 @@ const MoodModal = forwardRef(
     moodModalRef
   ) => {
     const dialogRef = useRef(null);
-    useEffect(() => {
+    useLayoutEffect(() => {
       if (isModalOpen && dialogRef.current) {
         dialogRef.current.showModal();
       } else if (dialogRef.current) {
@@ -47,13 +47,13 @@ const MoodModal = forwardRef(
 
     return (
       <dialog
+        style={style}
         ref={(node) => {
           dialogRef.current = node;
           if (moodModalRef) {
             moodModalRef.current = node;
           }
         }}
-        style={style}
         onClick={handleBackgroundClick}
         className={styles["modal-on-writepost"]}
       >

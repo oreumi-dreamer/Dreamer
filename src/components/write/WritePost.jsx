@@ -8,9 +8,7 @@ import HashtagModal from "./HashtagModal";
 import MoodModal from "./MoodModal";
 import { useSelector } from "react-redux";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
-import Error404 from "../error404/Error404";
 import useTheme from "@/hooks/styling/useTheme";
-import { calculateModalPosition } from "@/utils/calculateModalPosition";
 
 export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
   const [isWritingModalOpen, setIsWritingModalOpen] = useState(false);
@@ -87,8 +85,23 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
     setRating(e.target.value);
   };
   const openModal = () => {
-    setIsModalOpen(true);
+    if (!isModalOpen) {
+      setIsModalOpen(true);
+
+      if (tagButtonRef.current) {
+        const position = {
+          position: "absolute",
+          top: "50px",
+          right: "0px",
+          zIndex: "10",
+        };
+        setTagModalStyle(position);
+      }
+    } else {
+      setIsModalOpen(false);
+    }
   };
+
   const openMoodModal = () => {
     setIsMoodModalOpen(true);
   };
@@ -138,10 +151,16 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
   useLayoutEffect(() => {
     if (tagButtonRef.current && tagModalRef.current) {
       const updatePosition = () => {
-        const position = calculateModalPosition(tagButtonRef, 0, 35);
-        if (position) {
-          setTagModalStyle(position);
-        }
+        const buttonRect = tagButtonRef.current.getBoundingClientRect();
+        const position = {
+          position: "absolute",
+          top: `${buttonRect.bottom + window.scrollY}px`,
+          left: `${buttonRect.left + window.scrollX}px`,
+          zIndex: "10",
+        };
+        console.log(position);
+
+        setTagModalStyle(position);
       };
 
       updatePosition();
@@ -149,26 +168,38 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
 
       return () => {
         window.removeEventListener("resize", updatePosition);
+        console.log("tagButtonRef.current:", tagButtonRef.current);
+        console.log("tagModalRef.current:", tagModalRef.current);
       };
     }
   }, [tagButtonRef, tagModalRef, isModalOpen]);
 
   useLayoutEffect(() => {
+    console.log("moodButtonRef.current:", moodButtonRef.current); // 확인
+    console.log("moodModalRef.current:", moodModalRef.current);
     if (moodButtonRef.current && moodModalRef.current) {
       const updatePosition = () => {
-        const position = calculateModalPosition(moodButtonRef, -5, 12);
-        if (position) {
-          setMoodModalStyle(position);
-        }
+        const buttonRect = moodButtonRef.current.getBoundingClientRect();
+        const position = {
+          position: "absolute",
+          top: `${buttonRect.bottom + window.scrollY + 5}px`,
+          left: `${buttonRect.left + window.scrollX - 8}px`,
+          zIndex: "10",
+        };
+        console.log(position);
+
+        setMoodModalStyle(position);
       };
 
       updatePosition();
       window.addEventListener("resize", updatePosition);
+
       return () => {
         window.removeEventListener("resize", updatePosition);
       };
     }
   }, [moodButtonRef, moodModalRef, isMoodModalOpen]);
+
   const resetForm = () => {
     setInputValue("");
     setContentValue("");
@@ -306,7 +337,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
           <div className={styles["write-field"]}>
             <div className={styles["write-field-opt"]}>
               <div className={styles["genre-picker"]}>
-                <button type="button" onClick={openModal}>
+                <button type="button" onClick={openModal} ref={tagButtonRef}>
                   <Image
                     src="/images/plus-circle.svg"
                     width={28}
@@ -349,6 +380,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
                     type="button"
                     className={styles["btn-feeling"]}
                     onClick={openMoodModal}
+                    ref={moodButtonRef}
                   ></button>
                 )}
                 {selectedMoods.length !== 0 && (
@@ -356,6 +388,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
                     type="button"
                     className={styles["btn-feeling-selected"]}
                     onClick={openMoodModal}
+                    ref={moodButtonRef}
                   >
                     <ul>
                       {selectedMoods.map((item) => (
@@ -431,7 +464,6 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
             </button>
           </div>
         </form>
-
         <HashtagModal
           isModalOpen={isModalOpen}
           closeModal={closeModal}
