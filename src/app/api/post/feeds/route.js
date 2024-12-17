@@ -92,6 +92,7 @@ export async function GET(request, { params }) {
         "imageUrls",
         "tomong",
         "tomongSelected",
+        "isPrivate",
       ],
     });
 
