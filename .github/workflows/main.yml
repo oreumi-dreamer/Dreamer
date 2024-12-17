@@ -1,9 +1,10 @@
 name: git push into another repo to deploy to vercel
 on:
   push:
-    branches: 
+    branches:
       - main
       - dev
+      - dev2
 
 jobs:
   build:
@@ -24,7 +25,7 @@ jobs:
         env:
           API_TOKEN_GITHUB: ${{ secrets.TOKEN }}
         with:
-          source-directory: 'output'
+          source-directory: "output"
           destination-github-username: jihun-io
           destination-repository-name: Dreamer
           user-email: ${{ secrets.EMAIL }}
