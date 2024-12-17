@@ -190,32 +190,29 @@ label.checkbox a {
 }
 
 .login-form {
-  position: relative;
   display: flex;
   flex-direction: column;
   row-gap: 1.6rem;
   align-items: center;
   margin-top: 2.4rem;
-  width: 80vw;
-  position: relative;
-  background-color: #fff;
+  width: 100vw;
+  max-width: 54.6rem;
   border-radius: 2rem;
-  padding: 4.4rem 7rem 5.3rem;
-  margin: 4rem;
+  padding: 0 2.5rem;
 }
 
 .login-form label {
-  width: 100%;
-  font-size: var(--h3-font-size);
-  color: var(--black-font-color);
+  font-size: var(--h2-font-size);
+  font-weight: bold;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
 }
 
 .login-form label input {
-  width: max-content;
-  margin-left: 1.6rem;
+  width: 100%;
+  margin-left: 0;
 }
 
 @media (max-width: 560px) {

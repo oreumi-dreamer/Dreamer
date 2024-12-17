@@ -9,6 +9,19 @@ main:has(.login-title) {
   justify-content: center;
   align-items: center;
   color: var(--black-font-color);
+  gap: 1rem;
+}
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-title {
+  font-size: var(--big-text-font-size);
+  font-weight: bold;
 }
 
 .google-login-btn,
