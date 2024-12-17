@@ -340,6 +340,7 @@ export async function GET(request) {
 
           return {
             id: doc.id,
+            objectID: doc.id,
             title: postData.title,
             content: postData.content,
             authorUid: postData.authorUid,

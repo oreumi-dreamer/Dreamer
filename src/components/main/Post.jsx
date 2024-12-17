@@ -4,7 +4,6 @@ import { useState, useEffect, useRef } from "react";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 import postTime from "@/utils/postTime";
 import { MyPost, OtherPost } from "../dropDown/DropDown";
-import isMyPost from "@/utils/isMyPost";
 import { outsideClickModalClose } from "@/utils/outsideClickModalClose";
 import { Divider } from "../Controls";
 import useTheme from "@/hooks/styling/useTheme";
@@ -17,7 +16,6 @@ export default function Post({
 }) {
   const [post, setPost] = useState(initialPosts);
   const [isOpen, setIsOpen] = useState(false);
-  const [modalType, setModalType] = useState(null);
   const [modalStyle, setModalStyle] = useState({});
   const modalRef = useRef(null);
   const buttonRef = useRef(null);
@@ -34,30 +32,21 @@ export default function Post({
       };
     }
   }, [modalRef, buttonRef, isOpen]);
-  const handlePostMoreBtnClick = async (postId, userId) => {
-    try {
-      const data = await isMyPost(postId, userId);
-      const modalType = data ? "isMyPost" : "isNotMyPost";
+  const handlePostMoreBtnClick = () => {
+    if (!isOpen) {
+      setIsOpen(true);
 
-      if (!isOpen) {
-        setModalType(modalType);
-        setIsOpen(true);
-
-        if (buttonRef.current) {
-          const position = {
-            position: "absolute",
-            top: "50px",
-            right: "0px",
-            zIndex: "1000",
-          };
-          setModalStyle(position);
-        }
-      } else {
-        setModalType(null);
-        setIsOpen(false);
+      if (buttonRef.current) {
+        const position = {
+          position: "absolute",
+          top: "50px",
+          right: "0px",
+          zIndex: "1000",
+        };
+        setModalStyle(position);
       }
-    } catch (error) {
-      console.error("Error checking isMyPost:", error);
+    } else {
+      setIsOpen(false);
     }
   };
 
@@ -173,7 +162,7 @@ export default function Post({
               className={styles["more-btn"]}
             />
           </button>
-          {isOpen && modalType === "isMyPost" && (
+          {isOpen && post.isMyself && (
             <MyPost
               ref={modalRef}
               style={modalStyle}
@@ -184,7 +173,7 @@ export default function Post({
               postIsPrivate={post.isPrivate}
             />
           )}
-          {isOpen && modalType === "isNotMyPost" && (
+          {isOpen && !post.isMyself && (
             <OtherPost ref={modalRef} style={modalStyle} />
           )}
         </section>
