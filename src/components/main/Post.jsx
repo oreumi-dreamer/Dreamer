@@ -8,7 +8,6 @@ import isMyPost from "@/utils/isMyPost";
 import { calculateModalPosition } from "@/utils/calculateModalPosition";
 import { outsideClickModalClose } from "@/utils/outsideClickModalClose";
 import { Divider } from "../Controls";
-import PostModal from "../modal/PostModal";
 import useTheme from "@/hooks/styling/useTheme";
 
 export default function Post({

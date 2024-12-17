@@ -61,10 +61,7 @@
   transition: background-color ease 0.5s;
 }
 
-.dark-loading-container {
-  background-color: var(--background-dark);
-}
-
-.loading-container[data-theme="dark"] {
-  background-color: var(--background-dark);
+html[data-theme="dark"] .loading div,
+html[data-theme="dark"] .loading-small div {
+  filter: var(--filter-EEF0DE);
 }
