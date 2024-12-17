@@ -60,6 +60,10 @@ div.divider {
   margin-left: auto;
 }
 
+.post-user-info .private-icon {
+  margin: 0.7rem 0 0 1rem;
+}
+
 .post-content {
   background-color: var(--background-white);
   border-radius: 1.5rem;

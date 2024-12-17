@@ -25,6 +25,8 @@ export default function Post({
 
   const { theme } = useTheme();
 
+  console.log(post);
+
   useEffect(() => {
     if (modalRef.current && buttonRef.current) {
       const cleanup = outsideClickModalClose(modalRef, buttonRef, () => {
@@ -119,6 +121,15 @@ export default function Post({
           >
             {postTime(post.createdAt, post.createdAt)}
           </time>
+          {post.isPrivate && (
+            <Image
+              src="/images/lock.svg"
+              width={20}
+              height={20}
+              alt="비밀글"
+              className={styles["private-icon"]}
+            />
+          )}
           <button
             ref={buttonRef}
             onClick={() => handlePostMoreBtnClick(post.objectID, post.authorId)}
