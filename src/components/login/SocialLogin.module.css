@@ -1,6 +1,6 @@
 main:has(.login-title) {
   background: #fff;
-  width: 86rem;
+  max-width: 86rem;
   height: 92rem;
   border-radius: 2rem;
   margin: 8rem auto;
@@ -17,6 +17,7 @@ main:has(.login-title) {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 1.6rem;
 }
 
 .login-title {
