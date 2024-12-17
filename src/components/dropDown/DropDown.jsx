@@ -2,12 +2,7 @@ import React, { forwardRef } from "react";
 import styles from "./DropDown.module.css";
 
 export const MyPost = forwardRef(
-  (
-    { style, isPrivate, togglePostPrivacy, post = {}, postId, postData },
-    ref
-  ) => {
-    const id = post?.id || postId;
-    const privateState = post?.isPrivate ?? postData.isPrivate;
+  ({ style, togglePostPrivacy, postId, postIsPrivate }, ref) => {
     return (
       <div className={styles["drop-down"]} ref={ref} style={style}>
         <ul className={styles["my-post"]}>
@@ -28,9 +23,9 @@ export const MyPost = forwardRef(
           <li className={styles["drop-down-items"]}>
             <button
               className={`${styles["secret-btn"]} ${styles["drop-down-item"]}`}
-              onClick={() => togglePostPrivacy(id, privateState)}
+              onClick={() => togglePostPrivacy(postId, postIsPrivate)}
             >
-              {privateState ? "공개글로 변경하기" : "비밀글로 변경하기"}
+              {postIsPrivate ? "공개글로 변경하기" : "비밀글로 변경하기"}
             </button>
           </li>
         </ul>
