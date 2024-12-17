@@ -494,12 +494,12 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
               <span className="sr-only">글 작성</span>
               <textarea
                 placeholder="오늘은 어떤 꿈을 꾸셨나요?"
-                className={`${styles["text-field-area"]} ${imageFiles.length > 0 && styles["has-image"]}`}
+                className={`${styles["text-field-area"]} ${imageFiles !== null > 0 && styles["has-image"]}`}
                 onChange={handleContentChange}
                 value={contentValue}
               />
               <section className={styles["image-preview-field"]}>
-              {imageFiles &&
+                {imageFiles &&
                   Array.from(imageFiles).map((img, index) => (
                     <div key={index} className={styles["image-container"]}>
                       <button
