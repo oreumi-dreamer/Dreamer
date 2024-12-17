@@ -140,6 +140,16 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
     }
   };
 
+  // 이미지 업로드
+  const [imageFiles, setImageFiles] = useState(["/images/rabbit.svg"]);
+
+  console.log(imageFiles);
+  const handleImageUpload = (e) => {
+    const files = Array.from(e.target.files);
+    const newImages = files.map((file) => URL.createObjectURL(file));
+    setImageFiles((prevImages) => [...prevImages, ...newImages]);
+  };
+
   // 버튼위치에 따른 모달위치고정
   const [tagModalStyle, setTagModalStyle] = useState({});
   const [moodModalStyle, setMoodModalStyle] = useState({});
@@ -436,16 +446,58 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
                   checked={rating === "5"}
                 />
               </div>
+              <div className={styles["image-uploader"]}>
+                <label>
+                  <div className={styles["btn-upload"]}>이미지 추가하기</div>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    id={styles["file"]}
+                    multiple
+                    onChange={handleImageUpload}
+                  />
+                </label>
+              </div>
             </div>
             <span className={styles["break-line"]}></span>
             <p className={styles["text-field-area"]}>
               <span className="sr-only">글 작성</span>
               <textarea
                 placeholder="오늘은 어떤 꿈을 꾸셨나요?"
-                className={styles["text-field-area"]}
+                className={`${styles["text-field-area"]} ${imageFiles.length > 0 && styles["has-image"]}`}
                 onChange={handleContentChange}
                 value={contentValue}
               />
+              <section className={styles["image-preview-field"]}>
+                {imageFiles.length > 0 &&
+                  imageFiles.map((img, index) => (
+                    <div key={index} className={styles["image-container"]}>
+                      <button
+                        type="button"
+                        className={styles["image-delete"]}
+                        onClick={() =>
+                          setImageFiles(
+                            imageFiles.filter((_, i) => i !== index)
+                          )
+                        }
+                      >
+                        <Image
+                          src="/images/close.svg"
+                          width={30}
+                          height={30}
+                          alt="이미지 삭제"
+                        />
+                      </button>
+                      <Image
+                        src={img}
+                        width={100}
+                        height={100}
+                        alt={`이미지${index}`}
+                        className={styles["preview-image"]}
+                      />
+                    </div>
+                  ))}
+              </section>
             </p>
           </div>
           <div className={styles["btn-submit-area"]}>
