@@ -4,7 +4,7 @@ import Post from "./Post";
 import { useState, useEffect } from "react";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 import Loading from "../Loading";
-import { Button, CustomScrollbar } from "../Controls";
+import { Button } from "../Controls";
 import PostModal from "../modal/PostModal";
 
 export default function MainList() {

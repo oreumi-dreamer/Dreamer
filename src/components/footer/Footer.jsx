@@ -6,11 +6,6 @@ import Recommends from "./Recommends";
 export default function Footer() {
   return (
     <footer className={styles.footer}>
-      {/* <input
-        type="text"
-        className={styles["footer-search-inp"]}
-        name="footer-search"
-      /> */}
       <article className={styles["recommend-wrap"]}>
         <h2 className={styles["recommend-title"]}>추천 DREAMER</h2>
         <Recommends className={styles["recommend-list"]} styles={styles} />

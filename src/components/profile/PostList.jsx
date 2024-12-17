@@ -30,7 +30,6 @@ export default function PostList({
       };
     }
   }, [modalRef, buttonRef, isOpen]);
-  const postIsPrivate = posts.isPrivate;
   const togglePostPrivacy = async (postId, postIsPrivate) => {
     setIsOpen(false);
     try {

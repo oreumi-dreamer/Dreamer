@@ -29,7 +29,7 @@ export default function ThemeHandler({ children }) {
     return () => {
       darkModeMediaQuery.removeEventListener("change", handleThemeChange);
     };
-  }, []); // deviceTheme 의존성 제거
+  }, []);
 
   return <>{children}</>;
 }
