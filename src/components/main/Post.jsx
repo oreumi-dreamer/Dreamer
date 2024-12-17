@@ -88,7 +88,7 @@ export default function Post({
       return postIsPrivate;
     }
   };
-  const changeSpark = () => {
+  const changeSpark = (postId) => {
     setPosts((prevPosts) =>
       prevPosts.map((prevPost) => {
         if (prevPost.objectID === postId) {
