@@ -63,11 +63,17 @@ export default function NarrowHeader({
   useEffect(() => {
     if (modalRef.current && buttonRef.current) {
       const updatePosition = () => {
+        const buttonRect = buttonRef.current.getBoundingClientRect();
         let position;
         if (isTopHeader) {
           position = calculateMobileModalPosition(buttonRef, 0, 48);
         } else {
-          position = calculateModalPosition(buttonRef, -30, -600);
+          position = {
+            position: "absolute",
+            top: `${buttonRect.bottom - 532}px`,
+            left: `${buttonRect.right} - 50px`,
+            zIndex: "1000",
+          };
         }
         if (position) {
           setModalStyle(position);
