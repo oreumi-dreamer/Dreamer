@@ -124,6 +124,36 @@ export default function PostContent({
     setIsCommentSubmitting(false);
   }
 
+  const togglePostPrivacy = async (postId, postIsPrivate) => {
+    setIsOpen(false);
+    console.log(postData);
+
+    try {
+      const response = await fetchWithAuth(`/api/post/private/${postId}`, {
+        method: "GET",
+      });
+
+      const newPrivacyStatus = !postIsPrivate;
+      setPostData((prevData) => ({
+        ...prevData,
+        isPrivate: newPrivacyStatus,
+      }));
+
+      const responseData = await response.json();
+      if (response.ok && responseData.success) {
+        console.log("새로운 비공개 상태:", newPrivacyStatus);
+        console.log(responseData.isPrivate);
+        return responseData.isPrivate;
+      } else {
+        alert(`오류: ${responseData.error}`);
+        return postIsPrivate;
+      }
+    } catch (error) {
+      console.error("비밀글 토글 중 오류 발생:", error);
+      return postIsPrivate;
+    }
+  };
+
   async function handleStarButtonClick(e) {
     if (!user) {
       loginModalOpen();
@@ -327,6 +357,11 @@ export default function PostContent({
                       ref={modalRef}
                       style={modalStyle}
                       className={styles["more-modal"]}
+                      togglePostPrivacy={() =>
+                        togglePostPrivacy(postId, postData.isPrivate)
+                      }
+                      postId={postId}
+                      postData={postData}
                     />
                   )}
                   {isOpen && modalType === "isNotMyPost" && (
