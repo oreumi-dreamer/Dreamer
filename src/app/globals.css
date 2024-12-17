@@ -51,7 +51,9 @@
     saturate(7499%) hue-rotate(53deg) brightness(109%) contrast(101%);
   --input-color: #e8e8e8;
   --email-login-btn-color: #f5f5f5;
-  --email-login-btn-hover-color: #f5f5f5;
+  --email-login-btn-hover-color: #959595;
+  --email-login-btn-active-color: #f89b9b;
+  --email-login-btn-active-text-color: #fff;
   --email-button-color: none;
   --invalid-border-color: #f41e1e;
   --invalid-text-color: #a12525;
@@ -100,7 +102,9 @@
     --tomong-stamp-one-fifth-opacity: 1;
     --input-color: rgba(232, 232, 232, 0.2);
     --email-login-btn-color: #111111;
-    --email-login-btn-hover-color: #f5f5f5;
+    --email-login-btn-hover-color: #5b5b5b;
+    --email-login-btn-active-color: #2a2a3c;
+    --email-login-btn-active-text-color: #eef0de;
     --email-button-color: rgba(17, 4, 4, 0.2);
     --invalid-border-color: #ba5b5b;
     --invalid-text-color: #ba5b5b;
@@ -147,7 +151,9 @@
   --tomong-stamp-one-fifth-opacity: 1;
   --input-color: rgba(232, 232, 232, 0.2);
   --email-login-btn-color: #111111;
-  --email-login-btn-hover-color: #f5f5f5;
+  --email-login-btn-hover-color: #5b5b5b;
+  --email-login-btn-active-color: #2a2a3c;
+  --email-login-btn-active-text-color: #eef0de;
   --email-button-color: rgba(232, 232, 232, 0.2);
   --invalid-border-color: #ba5b5b;
   --invalid-text-color: #ba5b5b;

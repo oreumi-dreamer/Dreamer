@@ -36,9 +36,15 @@
 }
 .email-login-btn:hover {
   background-color: var(--none-active-color);
-  color: var(--white-color);
+}
+.email-login-btn:active {
+  background-color: var(--email-login-btn-active-color);
+  color: var(--email-login-btn-active-text-color);
+}
+.email-login-btn:active img {
+  filter: var(--filter-fff);
 }
 .email-login-btn:disabled {
-  background-color: var(--none-active-color);
+  background-color: var(--email-login-btn-active-color);
   cursor: not-allowed;
 }
