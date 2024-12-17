@@ -132,7 +132,7 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
               src={isIdValid ? "/images/valid.svg" : "/images/invalid.svg"}
               width={40}
               height={40}
-              alt="유효하지 않은 아이디"
+              alt={isIdValid ? "유효한 아이디" : "유효하지 않은 아이디"}
             />
             아이디
           </label>
@@ -159,7 +159,7 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
               src={isNameValid ? "/images/valid.svg" : "/images/invalid.svg"}
               width={40}
               height={40}
-              alt="유효하지 않은 이름"
+              alt={isNameValid ? "유효한 이름" : "유효하지 않은 이름"}
             />
             이름
           </label>
@@ -184,7 +184,7 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
               src={isBirthValid ? "/images/valid.svg" : "/images/invalid.svg"}
               width={40}
               height={40}
-              alt="유효하지 않은 생일"
+              alt={isBirthValid ? "유효한 생일" : "유효하지 않은 생일"}
             />
             생일
           </label>
