@@ -24,12 +24,14 @@ main:has(.email-signup) {
 .input-container input {
   grid-area: input;
 }
-.input-container input:disabled {
-  color: var(--input-disabled-color);
-  color: var(--email-login-btn-active-text-color);
+
+.input-container:first-of-type input {
+  padding-right: 14rem;
 }
+
 .input-container img {
   grid-area: img;
+  margin-top: 0.5rem;
 }
 .invalid-text {
   grid-area: span;
