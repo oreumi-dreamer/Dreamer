@@ -15,7 +15,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
   const [inputValue, setInputValue] = useState("");
   const [contentValue, setContentValue] = useState("");
   const [isContentChanged, setIsContentChanged] = useState(false);
-  const [imageFiles, setImageFiles] = useState(["/images/rabbit.svg"]);
+  const [imageFiles, setImageFiles] = useState(null);
   const { user } = useSelector((state) => state.auth);
   const { theme } = useTheme();
 
@@ -29,7 +29,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
       modalRef.current.showModal();
     } else if (modalRef.current) {
       modalRef.current.close();
-      setImageFiles([]);
+      setImageFiles(null);
     }
   }, [isWriteModalOpen]);
   // 외부 클릭
@@ -41,7 +41,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
         selectedGenres.length > 0 ||
         selectedMoods.length > 0 ||
         rating !== null ||
-        imageFiles.length > 0
+        imageFiles !== null
       ) {
         setIsStopModalOpen(true);
       } else {
@@ -146,10 +146,38 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
   // 이미지 업로드
 
   console.log(imageFiles);
+
+  // 이미지 삭제
+  const handleDeleteImage = (indexToRemove) => {
+    if (!imageFiles) return;
+    const dataTransfer = new DataTransfer();
+    const files = Array.from(imageFiles);
+    // 선택된 인덱스를 제외한 나머지 파일들을 새로운 FileList에 추가
+    files.forEach((file, index) => {
+      if (index !== indexToRemove) {
+        dataTransfer.items.add(file);
+      }
+    });
+    setImageFiles(dataTransfer.files);
+  };
+
+  // 파일 추가하는 함수
   const handleImageUpload = (e) => {
-    const files = Array.from(e.target.files);
-    const newImages = files.map((file) => URL.createObjectURL(file));
-    setImageFiles((prevImages) => [...prevImages, ...newImages]);
+    if (!imageFiles) {
+      // 처음 파일을 추가하는 경우
+      setImageFiles(e.target.files);
+    } else {
+      // 기존 파일이 있는 경우, 새로운 FileList를 기존 파일과 합치기
+      const newFiles = Array.from(e.target.files);
+      const existingFiles = Array.from(imageFiles);
+      // FileList 객체를 생성하기 위해 DataTransfer 사용
+      const dataTransfer = new DataTransfer();
+      // 기존 파일과 새 파일을 모두 추가
+      [...existingFiles, ...newFiles].forEach((file) => {
+        dataTransfer.items.add(file);
+      });
+      setImageFiles(dataTransfer.files);
+    }
   };
 
   // 버튼위치에 따른 모달위치고정
@@ -471,17 +499,13 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
                 value={contentValue}
               />
               <section className={styles["image-preview-field"]}>
-                {imageFiles.length > 0 &&
-                  imageFiles.map((img, index) => (
+              {imageFiles &&
+                  Array.from(imageFiles).map((img, index) => (
                     <div key={index} className={styles["image-container"]}>
                       <button
                         type="button"
                         className={styles["image-delete"]}
-                        onClick={() =>
-                          setImageFiles(
-                            imageFiles.filter((_, i) => i !== index)
-                          )
-                        }
+                        onClick={() => handleDeleteImage(index)}
                       >
                         <Image
                           src="/images/close.svg"
