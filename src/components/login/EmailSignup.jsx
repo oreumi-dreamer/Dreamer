@@ -159,10 +159,11 @@ export default function EmailSignup({
 
   return (
     <LoginForm className={styles["email-signup"]} onSubmit={handleSignup}>
-      <label>
-        이메일
+      <div className={styles["input-container"]}>
+        <label htmlFor="email">이메일</label>
         <Input
           type="email"
+          id="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           disabled={isEmailSent}
@@ -185,15 +186,15 @@ export default function EmailSignup({
           height={40}
           alt={isEmailVerified ? "유효한 아이디" : "유효하지 않은 아이디"}
         />
-      </label>
-      <span className={styles["invalid-text"]}>
-        {error ? error : "유효한 이메일을 입력해주세요."}
-      </span>
-
-      <label>
-        비밀번호
+        <span className={styles["invalid-text"]}>
+          {error ? error : "유효한 이메일을 입력해주세요."}
+        </span>
+      </div>
+      <div className={styles["input-container"]}>
+        <label htmlFor="password">비밀번호</label>
         <Input
           type="password"
+          id="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
@@ -204,12 +205,14 @@ export default function EmailSignup({
           height={40}
           alt={isEmailVerified ? "유효한 아이디" : "유효하지 않은 아이디"}
         />
-      </label>
-      <span className={styles["invalid-text"]}>비밀번호 양식 텍스트</span>
-      <label>
-        비밀번호 재확인
+
+        <span className={styles["invalid-text"]}>비밀번호 양식 텍스트</span>
+      </div>
+      <div className={styles["input-container"]}>
+        <label htmlFor="confirmPassword">비밀번호 재확인</label>
         <Input
           type="password"
+          id="confirmPassword"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
           required
@@ -220,10 +223,11 @@ export default function EmailSignup({
           height={40}
           alt={isEmailVerified ? "유효한 아이디" : "유효하지 않은 아이디"}
         />
-      </label>
-      <span className={styles["invalid-text"]}>
-        비밀번호가 일치하지 않습니다.
-      </span>
+
+        <span className={styles["invalid-text"]}>
+          비밀번호가 일치하지 않습니다.
+        </span>
+      </div>
       <div className={styles["user-login-field"]}>
         <p>이미 회원이신가요? 로그인하여 꿈을 공유해보세요!</p>
         <ul className={styles["login-buttons"]}>
@@ -237,7 +241,7 @@ export default function EmailSignup({
               />
             </button>
           </li>
-          <li>
+          <li className={styles["email-login-button"]}>
             <button type="button" onClick={() => setShowSignupForm(false)}>
               <img
                 src="/images/mail.svg"
@@ -249,11 +253,15 @@ export default function EmailSignup({
           </li>
         </ul>
       </div>
-      <div className={styles["btn-row"]}>
-        <Button type="submit" highlight={true} disabled={!isEmailVerified}>
-          다음
-        </Button>
-      </div>
+
+      <Button
+        type="submit"
+        highlight={true}
+        disabled={!isEmailVerified}
+        className={styles["next-btn"]}
+      >
+        다음
+      </Button>
     </LoginForm>
   );
 }
