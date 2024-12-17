@@ -1,16 +1,18 @@
 import React, { useState } from "react";
 import styles from "./PostModal.module.css";
 import PostContent from "../post/PostContent";
+import { ConfirmModal } from "../Controls";
 
 export default function PostModal({ postId, isShow, onClose }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [comment, setComment] = useState(undefined);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
 
   function handleModalClose() {
     if (comment) {
-      const exitAnswer = confirm("댓글을 작성중입니다. 종료하시겠습니까?");
-      if (!exitAnswer) return;
+      setIsConfirmModalOpen(true);
+      return;
     }
     setIsModalOpen(false);
     onClose();
@@ -37,6 +39,20 @@ export default function PostModal({ postId, isShow, onClose }) {
               setComment={setComment}
             />
           </dialog>
+          {isConfirmModalOpen && (
+            <ConfirmModal
+              onConfirm={() => {
+                setIsModalOpen(false);
+                onClose();
+                setComment(undefined);
+                setIsLoading(true);
+                setIsConfirmModalOpen(false);
+              }}
+              isOpen={() => setIsConfirmModalOpen(true)}
+              closeModal={() => setIsConfirmModalOpen(false)}
+              message="댓글을 작성중입니다. 종료하시겠습니까?"
+            />
+          )}
         </>
       ) : null}
     </>
