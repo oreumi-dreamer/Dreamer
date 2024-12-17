@@ -1,13 +1,23 @@
 import React, { forwardRef } from "react";
 import styles from "./DropDown.module.css";
+import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 
 export const MyPost = forwardRef(
-  (
-    { style, isPrivate, togglePostPrivacy, post = {}, postId, postData },
-    ref
-  ) => {
+  ({ style, togglePostPrivacy, postId, postIsPrivate }, ref) => {
     const id = post?.id || postId;
     const privateState = post?.isPrivate ?? postData.isPrivate;
+    async function deletePost() {
+      try {
+        const response = await fetchWithAuth(`/api/post/delete/${id}`, {
+          method: "DELETE",
+        });
+        if (response.ok) {
+          window.location.reload();
+        }
+      } catch (error) {
+        console.error("게시물을 삭제할 수 없습니다", error);
+      }
+    }
     return (
       <div className={styles["drop-down"]} ref={ref} style={style}>
         <ul className={styles["my-post"]}>
@@ -21,6 +31,7 @@ export const MyPost = forwardRef(
           <li className={styles["drop-down-items"]}>
             <button
               className={`${styles["delete-btn"]} ${styles["drop-down-item"]}`}
+              onClick={deletePost}
             >
               삭제하기
             </button>
@@ -28,9 +39,9 @@ export const MyPost = forwardRef(
           <li className={styles["drop-down-items"]}>
             <button
               className={`${styles["secret-btn"]} ${styles["drop-down-item"]}`}
-              onClick={() => togglePostPrivacy(id, privateState)}
+              onClick={() => togglePostPrivacy(postId, postIsPrivate)}
             >
-              {privateState ? "공개글로 변경하기" : "비밀글로 변경하기"}
+              {postIsPrivate ? "공개글로 변경하기" : "비밀글로 변경하기"}
             </button>
           </li>
         </ul>
