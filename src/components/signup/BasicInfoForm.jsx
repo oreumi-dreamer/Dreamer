@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Image from "next/image";
 import styles from "./BasicInfoForm.module.css";
 import { auth, googleProvider } from "@/lib/firebase";
 import { signInWithPopup } from "firebase/auth";
@@ -128,7 +127,7 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
 
         <div className={styles["form-field"]}>
           <label htmlFor="userId">
-            <Image
+            <img
               src={isIdValid ? "/images/valid.svg" : "/images/invalid.svg"}
               width={40}
               height={40}
@@ -155,7 +154,7 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
 
         <div className={styles["form-field"]}>
           <label htmlFor="userName">
-            <Image
+            <img
               src={isNameValid ? "/images/valid.svg" : "/images/invalid.svg"}
               width={40}
               height={40}
@@ -180,7 +179,7 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
 
         <div className={styles["form-field"]}>
           <label htmlFor="birthDate">
-            <Image
+            <img
               src={isBirthValid ? "/images/valid.svg" : "/images/invalid.svg"}
               width={40}
               height={40}
@@ -258,7 +257,7 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
           <ul className={styles["login-buttons"]}>
             <li>
               <button type="button" onClick={handleGoogleLogin}>
-                <Image
+                <img
                   src="/images/google-logo.svg"
                   width={40}
                   height={40}
@@ -268,7 +267,7 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
             </li>
             <li>
               <button type="button" onClick={() => router.push("/logout")}>
-                <Image
+                <img
                   src="/images/mail.svg"
                   width={20}
                   height={20}
