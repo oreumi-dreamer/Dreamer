@@ -527,3 +527,97 @@ export function ConfirmModal({ onConfirm, isOpen, closeModal, message }) {
     </dialog>
   );
 }
+
+export function ShareModal({ isOpen, closeModal, link }) {
+  const dialogRef = useRef(null);
+  const [isCopied, setIsCopied] = useState(false);
+
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    const html = document.querySelector("html");
+    if (isOpen) {
+      dialog?.showModal();
+      html.style.overflowY = "hidden";
+    } else {
+      html.style.overflowY = "scroll";
+      dialog?.close();
+    }
+  }, [isOpen]);
+
+  const handleClose = () => {
+    const html = document.querySelector("html");
+    html.style.overflowY = "scroll";
+    setIsCopied(false);
+    closeModal();
+  };
+
+  // 백드롭 클릭을 감지하는 이벤트 핸들러
+  const handleClick = (e) => {
+    const dialogDimensions = dialogRef.current?.getBoundingClientRect();
+    if (dialogDimensions) {
+      const isClickedInDialog =
+        e.clientX >= dialogDimensions.left &&
+        e.clientX <= dialogDimensions.right &&
+        e.clientY >= dialogDimensions.top &&
+        e.clientY <= dialogDimensions.bottom;
+
+      if (!isClickedInDialog) {
+        handleClose();
+      }
+    }
+  };
+
+  const handleCopy = (e) => {
+    e.preventDefault();
+    navigator.clipboard.writeText(link);
+    setIsCopied(true);
+  };
+
+  const handleShare = async () => {
+    try {
+      await navigator.share({
+        url: link,
+      });
+    } catch (error) {
+      console.error("Error sharing:", error);
+    }
+  };
+
+  return (
+    <dialog
+      ref={dialogRef}
+      className={styles["share-modal"]}
+      onClick={handleClick}
+    >
+      <button onClick={handleClose} className={styles["btn-close"]}>
+        <img src="/images/close-without-padding.svg" alt="닫기" />
+      </button>
+      <h2>공유하기</h2>
+      <p>다른 사람에게 꿈을 공유해보세요.</p>
+      <form onClick={(e) => e.stopPropagation()}>
+        <input
+          type="text"
+          value={link}
+          readOnly
+          onClick={(e) => e.target.select()}
+        />
+        {isCopied ? (
+          <Button highlight={true} onClick={handleCopy}>
+            복사 완료
+          </Button>
+        ) : (
+          <Button highlight={true} onClick={handleCopy}>
+            복사
+          </Button>
+        )}
+      </form>
+      <button
+        className={styles["btn-share"]}
+        onClick={async () => await handleShare()}
+      >
+        <img src="/images/ios-share-circle.svg" alt="" />
+        다른 곳에 공유
+      </button>
+    </dialog>
+  );
+}

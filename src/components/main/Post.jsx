@@ -5,7 +5,7 @@ import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 import postTime from "@/utils/postTime";
 import { MyPost, OtherPost } from "../dropDown/DropDown";
 import { outsideClickModalClose } from "@/utils/outsideClickModalClose";
-import { Divider } from "../Controls";
+import { Divider, ShareModal } from "../Controls";
 import useTheme from "@/hooks/styling/useTheme";
 
 export default function Post({
@@ -17,10 +17,13 @@ export default function Post({
   const [post, setPost] = useState(initialPosts);
   const [isOpen, setIsOpen] = useState(false);
   const [modalStyle, setModalStyle] = useState({});
+  const [shareModalOpen, setShareModalOpen] = useState(false);
   const modalRef = useRef(null);
   const buttonRef = useRef(null);
 
   const { theme } = useTheme();
+
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
   useEffect(() => {
     if (modalRef.current && buttonRef.current) {
@@ -120,6 +123,14 @@ export default function Post({
   ) {
     tomongStampUrl = "/images/tomong-stamp-dark.png";
   }
+
+  const handleShareModalOpen = () => {
+    setShareModalOpen(true);
+  };
+
+  const handleShareModalClose = () => {
+    setShareModalOpen(false);
+  };
 
   return (
     <>
@@ -243,7 +254,7 @@ export default function Post({
               {post.commentsCount} 댓글
             </span>
           </button>
-          <button>
+          <button onClick={handleShareModalOpen}>
             <Image
               className={styles["icon-padding"]}
               src="/images/share.svg"
@@ -263,6 +274,13 @@ export default function Post({
           </button>
         </section>
       </article>
+      {shareModalOpen && (
+        <ShareModal
+          isOpen={shareModalOpen}
+          closeModal={handleShareModalClose}
+          link={`${baseUrl}/post/${post.id}`}
+        />
+      )}
     </>
   );
 }
