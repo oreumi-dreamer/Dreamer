@@ -19,8 +19,8 @@ export function Button({
     ? `${styles["button-highlight"]} ${styles["button"]}`
     : styles["button"];
 
-  if (float === "left-bottom") {
-    buttonClass = `${buttonClass} ${styles["button-left-bottom"]}`;
+  if (float === "right-bottom") {
+    buttonClass = `${buttonClass} ${styles["button-right-bottom"]}`;
   }
 
   buttonClass = className ? `${buttonClass} ${className}` : buttonClass;

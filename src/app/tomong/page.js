@@ -40,7 +40,7 @@ function TomongIntro({ setProcess }) {
         </Button>
       </div>
       <div className={styles["btn-row"]}>
-        <Button onClick={() => history.back()}>뒤로</Button>
+        <Button onClick={() => history.back()}>이전 페이지로</Button>
         <Button onClick={() => setProcess(101)}>해몽된 꿈 보러 가기</Button>
       </div>
     </>

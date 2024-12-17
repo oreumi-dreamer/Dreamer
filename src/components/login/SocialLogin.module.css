@@ -1,3 +1,65 @@
+main:has(.login-title) {
+  background: #fff;
+  max-width: 86rem;
+  height: 92rem;
+  border-radius: 2rem;
+  margin: 8rem auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: var(--black-font-color);
+  gap: 0;
+}
+main:has(.login-title) img {
+  max-width: 48rem;
+}
+.login-form {
+  gap: 0;
+}
+.login-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1.6rem;
+}
+.id-label {
+  margin-bottom: 4rem;
+}
+.pw-label {
+  margin-bottom: 4.2rem;
+}
+.error-message {
+  color: var(--invalid-text-color);
+  margin-bottom: 0.8rem;
+}
+.login-title {
+  font-size: var(--big-text-font-size);
+  font-weight: bold;
+}
+.login-button {
+  width: 100%;
+  max-width: 14.5rem;
+  margin-bottom: 6.8rem;
+}
+.google-login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 0.8rem;
+}
+.join-button button,
+.join-button button:hover,
+.join-button button:active {
+  background: none;
+  padding: 0;
+  color: var(--deep-pink-color);
+  margin: 0 0 3.7rem 0.4rem;
+}
+
+/* '/' 첫페이지 구글,이메일 로그인 버튼 */
 .google-login-btn,
 .email-login-btn {
   width: 24rem;

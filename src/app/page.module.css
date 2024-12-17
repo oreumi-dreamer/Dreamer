@@ -1,13 +1,16 @@
-.main {
+body:has(.main) {
+  background: var(--background-blue-top);
   width: 100vw;
   height: 100vh;
-  background: var(--background-blue-top);
+}
 
+.main {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 5.995rem;
+  height: 100vh;
 }
 
 .main h1 {

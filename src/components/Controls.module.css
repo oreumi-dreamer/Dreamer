@@ -44,11 +44,26 @@
   padding: 1.2rem 2rem 1.3rem;
   border: none;
   font-size: var(--h3-font-size);
+  width: 100%;
+  border: 0.2rem solid var(--input-color);
 }
 
 .textarea {
   height: 8.8rem;
   resize: none;
+}
+
+.input:focus,
+.input-text:focus,
+.textarea:focus {
+  outline: none;
+  border: 0.2rem solid var(--focus-border-color);
+}
+
+.input:invalid,
+.input-text:invalid,
+.textarea:invalid {
+  border: 0.2rem solid var(--invalid-border-color);
 }
 
 .selectContainer {
@@ -190,32 +205,25 @@ label.checkbox a {
 }
 
 .login-form {
-  position: relative;
   display: flex;
   flex-direction: column;
   row-gap: 1.6rem;
   align-items: center;
   margin-top: 2.4rem;
-  width: 80vw;
-  position: relative;
-  background-color: #fff;
+  width: 100vw;
+  max-width: 54.6rem;
   border-radius: 2rem;
-  padding: 4.4rem 7rem 5.3rem;
-  margin: 4rem;
+  padding: 0 2.5rem;
 }
 
 .login-form label {
-  width: 100%;
-  font-size: var(--h3-font-size);
-  color: var(--black-font-color);
+  font-size: var(--h2-font-size);
+  font-weight: bold;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.login-form label input {
-  width: max-content;
-  margin-left: 1.6rem;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  gap: 0.4rem;
 }
 
 @media (max-width: 560px) {
@@ -230,10 +238,10 @@ label.checkbox a {
   }
 }
 
-.button-left-bottom {
+.button-right-bottom {
   position: absolute;
-  bottom: 2.4rem;
-  left: 2.4rem;
+  right: 5.2rem;
+  bottom: 4.3rem;
 }
 
 .scrollbar-track {
