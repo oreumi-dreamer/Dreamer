@@ -8,8 +8,12 @@ import { useDispatch, useSelector } from "react-redux";
 import Image from "next/image";
 import { closeModal } from "@/store/modalSlice";
 import { outsideClickModalClose } from "@/utils/outsideClickModalClose";
-import { calculateModalPosition } from "@/utils/calculateModalPosition";
+import {
+  calculateMobileModalPosition,
+  calculateModalPosition,
+} from "@/utils/calculateModalPosition";
 import useTheme from "@/hooks/styling/useTheme";
+import useMediaQuery from "@/hooks/styling/useMediaQuery";
 
 export default function NarrowHeader({
   onMoreBtnClick,
@@ -26,6 +30,7 @@ export default function NarrowHeader({
   const modalRef = useRef(null);
   const dispatch = useDispatch();
   const { theme } = useTheme();
+  const isTopHeader = useMediaQuery("(max-width: 720px)");
   const isLightMode =
     theme === "light" || localStorage.getItem("theme") === "light";
   const isDarkMode =
@@ -58,7 +63,12 @@ export default function NarrowHeader({
   useEffect(() => {
     if (modalRef.current && buttonRef.current) {
       const updatePosition = () => {
-        const position = calculateModalPosition(buttonRef, -30, -600);
+        let position;
+        if (isTopHeader) {
+          position = calculateMobileModalPosition(buttonRef, 0, 48);
+        } else {
+          position = calculateModalPosition(buttonRef, -30, -600);
+        }
         if (position) {
           setModalStyle(position);
         }

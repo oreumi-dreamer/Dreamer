@@ -145,3 +145,9 @@ button.recommend-follow {
     padding: 0 2px;
   }
 }
+
+@media (max-width: 720px) {
+  .footer {
+    margin-left: 0;
+  }
+}
