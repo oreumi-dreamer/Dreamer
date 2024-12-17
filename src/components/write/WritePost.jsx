@@ -143,10 +143,6 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
     }
   };
 
-  // 이미지 업로드
-
-  console.log(imageFiles);
-
   // 이미지 삭제
   const handleDeleteImage = (indexToRemove) => {
     if (!imageFiles) return;
@@ -161,7 +157,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
     setImageFiles(dataTransfer.files);
   };
 
-  // 파일 추가하는 함수
+  // 이미지 추가
   const handleImageUpload = (e) => {
     if (!imageFiles) {
       // 처음 파일을 추가하는 경우
