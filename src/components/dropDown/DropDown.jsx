@@ -4,11 +4,9 @@ import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 
 export const MyPost = forwardRef(
   ({ style, togglePostPrivacy, postId, postIsPrivate }, ref) => {
-    const id = post?.id || postId;
-    const privateState = post?.isPrivate ?? postData.isPrivate;
     async function deletePost() {
       try {
-        const response = await fetchWithAuth(`/api/post/delete/${id}`, {
+        const response = await fetchWithAuth(`/api/post/delete/${postId}`, {
           method: "DELETE",
         });
         if (response.ok) {
