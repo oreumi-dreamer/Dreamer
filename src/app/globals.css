@@ -182,6 +182,10 @@ html {
   overflow-y: auto;
 }
 
+html[data-theme="light"] {
+  filter: none;
+}
+
 html::-webkit-scrollbar {
   display: none;
 }
