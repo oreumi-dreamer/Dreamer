@@ -18,7 +18,7 @@ export default function Home() {
               <img src="/images/logo-full.svg" width={600} alt="Dreamer" />
             </Link>
           </h1>
-          <SocialLogin className={styles.login} />
+          <SocialLogin />
         </main>
       </>
     );

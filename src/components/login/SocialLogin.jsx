@@ -9,9 +9,8 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 import { useDispatch, useSelector } from "react-redux";
-import { loginSuccess } from "@/store/authSlice";
 import { checkUserExists } from "@/utils/auth/checkUser";
-import { Button, Form, Input, LoginForm } from "../Controls";
+import { Button, Input, LoginForm } from "../Controls";
 import styles from "./SocialLogin.module.css";
 import EmailSignup from "./EmailSignup";
 
@@ -193,16 +192,24 @@ export default function SocialLogin() {
       ) : (
         <>
           <h2 className="sr-only">로그인</h2>
-          <ul className={styles["login-buttons"]}>
+          <ul>
             <li>
-              <button onClick={handleGoogleLogin} type="button">
-                <img src="/images/google-logo.svg" alt="" srcset="" />
+              <button
+                onClick={handleGoogleLogin}
+                type="button"
+                className={styles["google-login-btn"]}
+              >
+                <img src="/images/google-logo.svg" alt="" />
                 Google로 로그인
               </button>
             </li>
             <li>
-              <button type="button" onClick={() => setShowEmailForm(true)}>
-                <img src="/images/mail.svg" alt="" srcset="" />
+              <button
+                type="button"
+                onClick={() => setShowEmailForm(true)}
+                className={styles["email-login-btn"]}
+              >
+                <img src="/images/mail.svg" alt="" />
                 이메일로 로그인
               </button>
             </li>
