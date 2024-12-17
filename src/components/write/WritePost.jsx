@@ -29,6 +29,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
       modalRef.current.showModal();
     } else if (modalRef.current) {
       modalRef.current.close();
+      setImageFiles([]);
     }
   }, [isWriteModalOpen]);
   // 외부 클릭
