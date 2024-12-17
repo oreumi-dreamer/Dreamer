@@ -170,7 +170,7 @@ export default function NarrowHeader({
         </nav>
         <Link
           href={`/${userId}`}
-          className={`${styles["nav-item"]} ${styles["profile-btn"]} ${isActive === "프로필" ? styles.active : ""}`}
+          className={`${styles["nav-item"]} ${styles["profile-btn"]}`}
           onClick={() => handleActiveBtn("프로필")}
         >
           <img
