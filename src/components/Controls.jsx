@@ -573,6 +573,16 @@ export function ShareModal({ isOpen, closeModal, link }) {
     setIsCopied(true);
   };
 
+  const handleShare = async () => {
+    try {
+      await navigator.share({
+        url: link,
+      });
+    } catch (error) {
+      console.error("Error sharing:", error);
+    }
+  };
+
   return (
     <dialog
       ref={dialogRef}
@@ -601,7 +611,10 @@ export function ShareModal({ isOpen, closeModal, link }) {
           </Button>
         )}
       </form>
-      <button className={styles["btn-share"]}>
+      <button
+        className={styles["btn-share"]}
+        onClick={async () => await handleShare()}
+      >
         <img src="/images/ios-share-circle.svg" alt="" />
         다른 곳에 공유
       </button>
