@@ -1,18 +1,15 @@
-.login-buttons button {
+.google-login-btn,
+.email-login-btn {
   width: 24rem;
   height: 5rem;
   margin-bottom: 2.5rem;
   border-radius: 1rem;
-  background-color: var(--white-color);
   font-size: 1.6rem;
-
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--always-black-font);
 }
-
-.login-buttons li:first-of-type button img {
+.google-login-btn img {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -20,104 +17,34 @@
   height: 3.2rem;
   margin-right: 1rem;
 }
-
-.login-buttons li:last-of-type button img {
+.email-login-btn img {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 2.5rem;
   height: 2.5rem;
   margin-right: 1rem;
+  filter: var(--filter-EEF0DE);
 }
-
-.login-buttons li:first-of-type button {
+.email-login-btn {
+  background-color: var(--email-login-btn-color);
+  color: var(--active-header-color);
+}
+.google-login-btn {
   background-color: #4285f4;
   color: var(--white-color);
 }
-
-.login-buttons button:hover {
+.email-login-btn:hover {
   background-color: var(--none-active-color);
-  color: #ffffff;
 }
-
-.login-buttons button:disabled {
-  background-color: var(--none-active-color);
+.email-login-btn:active {
+  background-color: var(--email-login-btn-active-color);
+  color: var(--email-login-btn-active-text-color);
+}
+.email-login-btn:active img {
+  filter: var(--filter-fff);
+}
+.email-login-btn:disabled {
+  background-color: var(--email-login-btn-active-color);
   cursor: not-allowed;
-}
-
-/* 이메일로 로그인 화면 style */
-.join-button {
-  display: flex;
-  align-items: center;
-  column-gap: 1.6rem;
-}
-
-.join-button p {
-  font-size: var(--h3-font-size);
-  color: var(--black-font-color);
-}
-
-.login-form,
-.email-signup {
-  max-width: 60rem;
-  padding: 4.4rem 8rem 10rem 8rem;
-  background-color: var(--background-white);
-}
-
-.login-container label {
-  font-size: var(--h2-font-size);
-  font-weight: bold;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-.login-container h2 {
-  text-align: center;
-  color: var(--black-font-color);
-}
-.login-container label input {
-  background-color: var(--input-color);
-  border: 0.2rem solid transparent;
-  width: 100%;
-  max-width: 44rem;
-  margin: 0.4rem 0 0 0;
-  align-items: center;
-}
-
-.login-container input:focus {
-  outline: none;
-  border: 0.2rem solid var(--focus-border-color);
-}
-
-.error-message {
-  text-align: center;
-  word-break: keep-all;
-  color: var(--black-font-color);
-}
-
-.email-input {
-  position: relative;
-}
-
-.btn-row {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  justify-content: center;
-  align-items: center;
-  row-gap: 2.4rem;
-}
-
-.back-btn {
-  margin-right: auto;
-  position: absolute;
-  bottom: 4.3rem;
-  left: 4rem;
-}
-
-.email-verify-btn {
-  position: absolute;
-  right: 0;
-  bottom: 4.3rem;
-  right: 5.2rem;
 }

@@ -11,7 +11,7 @@ import { auth } from "@/lib/firebase";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { setRegistering, resetRegistering } from "@/store/authSlice";
-import styles from "./SocialLogin.module.css";
+import styles from "./EmailSignup.module.css";
 
 export default function EmailSignup({
   email,
