@@ -281,7 +281,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
             <label
               id="title-input"
               className={styles["title-input"]}
-              for="title"
+              htmlFor="title"
             >
               Title
               <input
@@ -292,7 +292,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
                 value={inputValue}
               />
             </label>
-            <label id="hidden" className={styles["hidden"]} for="hidden">
+            <label id="hidden" className={styles["hidden"]} htmlFor="hidden">
               <input
                 type="checkbox"
                 id="hidden"
