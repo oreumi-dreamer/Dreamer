@@ -1,29 +1,30 @@
-// 피드 목록을 가져오는 API 라우트
-// /api/post/feeds/route.js
-
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
-import { searchOnlyPostsIndex } from "@/lib/algolia";
 import { db } from "@/lib/firebase";
 import {
-  getDoc,
-  doc,
   collection,
   query,
   where,
   getDocs,
+  orderBy,
+  limit,
+  startAfter,
+  Timestamp,
+  doc,
+  getDoc,
+  or,
+  and,
 } from "firebase/firestore";
 import { verifyUser } from "@/lib/api/auth";
 
-export async function GET(request, { params }) {
+export async function GET(request) {
   const headersList = headers();
   const authorization = headersList.get("Authorization");
   const idToken = authorization.split("Bearer ")[1];
 
-  // URL에서 페이지네이션 파라미터 추출
   const { searchParams } = new URL(request.url);
-  const page = parseInt(searchParams.get("page")) || 1;
-  const limit = parseInt(searchParams.get("limit")) || 20; // 페이지당 기본 20개
+  const cursor = searchParams.get("cursor");
+  const pageSize = parseInt(searchParams.get("limit")) || 20;
 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -36,6 +37,7 @@ export async function GET(request, { params }) {
   }
 
   try {
+    // 사용자 데이터 가져오기
     const userDoc = await getDoc(doc(db, "users", userData.uid));
     const userDataDoc = userDoc.data();
     const following = userDataDoc.following || [];
@@ -43,163 +45,339 @@ export async function GET(request, { params }) {
     const genreStats = userDataDoc.genreStats || {};
     const moodStats = userDataDoc.moodStats || {};
 
-    // 1. 기본 필터
-    const baseFilter = "NOT isDeleted:true";
-    const publicFilter = `NOT isPrivate:true OR authorUid:'${userData.uid}'`;
+    // cursor가 있는 경우 쿼리 수정
+    if (cursor) {
+      // cursor 문서 가져오기
+      const cursorDoc = await getDoc(doc(db, "posts", cursor));
 
-    // 2. 팔로우 가중치 필터
-    const followBoost =
-      followingUids.length > 0
-        ? followingUids.map((uid) => `authorUid:'${uid}'<score=30>`).join(",")
-        : "";
-
-    // 3. 관심사 가중치 필터
-    const genreBoosts = Object.entries(genreStats)
-      .map(
-        ([genre, stats]) =>
-          `dreamGenres:'${genre}'<score=${Math.min(25, stats.count)}>`
-      )
-      .join(",");
-
-    const moodBoosts = Object.entries(moodStats)
-      .map(
-        ([mood, stats]) =>
-          `dreamMoods:'${mood}'<score=${Math.min(25, stats.count)}>`
-      )
-      .join(",");
-
-    // 4. Algolia 검색 실행 - 페이지네이션 파라미터 추가
-    const { hits, nbHits, nbPages } = await searchOnlyPostsIndex.search("", {
-      filters: `(${baseFilter}) AND (${publicFilter})`,
-      optionalFilters: [
-        followBoost, // 팔로우 가중치 (30%)
-        genreBoosts, // 장르 관심사 가중치 (25%)
-        moodBoosts, // 무드 관심사 가중치 (25%)
-      ],
-      page: page - 1, // Algolia는 0-based 페이지 인덱스 사용
-      hitsPerPage: limit,
-      attributesToRetrieve: [
-        "objectID",
-        "title",
-        "content",
-        "authorUid",
-        "spark",
-        "sparkCount",
-        "commentsCount",
-        "createdAt",
-        "dreamGenres",
-        "dreamMoods",
-        "imageUrls",
-        "tomong",
-        "tomongSelected",
-        "isPrivate",
-      ],
-    });
-
-    // 작성자 정보 조회
-    const uniqueAuthorUids = [...new Set(hits.map((hit) => hit.authorUid))];
-    const usersRef = collection(db, "users");
-    const userQuery = query(
-      usersRef,
-      where("__name__", "in", uniqueAuthorUids)
-    );
-    const userSnapshot = await getDocs(userQuery);
-
-    // userMap 생성
-    const userMap = {};
-    userSnapshot.forEach((doc) => {
-      userMap[doc.id] = {
-        userId: doc.data().userId,
-        userName: doc.data().userName,
-        profileImageUrl: doc.data().profileImageUrl,
-      };
-    });
-
-    const calculateTimeDecay = (
-      createdAt,
-      sparkCount = 0,
-      commentsCount = 0
-    ) => {
-      const now = new Date();
-      const postDate = new Date(createdAt);
-      const hoursElapsed = (now - postDate) / (1000 * 60 * 60);
-      const threeDaysInHours = 72; // 3일
-
-      let baseDecay;
-
-      if (hoursElapsed <= 24) {
-        // 24시간 이내: 높은 점수
-        baseDecay = Math.max(
-          0,
-          15 * (1 - Math.log(hoursElapsed + 1) / Math.log(48))
-        );
-      } else if (hoursElapsed <= threeDaysInHours) {
-        // 1일~3일: 급격한 감소
-        baseDecay = Math.max(
-          0,
-          10 * (1 - Math.log(hoursElapsed + 1) / Math.log(96))
-        );
-      } else {
-        // 3일 이후: 마이너스 점수
-        const daysElapsed = hoursElapsed / 24;
-        baseDecay = -Math.min(5, (daysElapsed - 3) * 0.5); // 하루당 0.5점씩 감소, 최대 -5점
-      }
-
-      // 상호작용 보정 (마이너스 점수도 상호작용으로 만회 가능)
-      const interactionBonus = Math.min(8, (sparkCount + commentsCount) / 8);
-
-      return Math.min(15, baseDecay + interactionBonus);
-    };
-
-    // 5. 점수 계산 및 정렬
-    const posts = hits
-      .map((hit) => {
-        const followScore = followingUids.includes(hit.authorUid) ? 30 : 0;
-        const interactionScore = Math.min(
-          30,
-          ((hit.sparkCount || 0) + (hit.commentsCount || 0)) / 2
-        );
-        const genreMatchScore = Math.min(
-          25,
-          hit.dreamGenres?.reduce(
-            (acc, genre) => acc + (genreStats[genre]?.count || 0),
-            0
-          ) || 0
-        );
-        const timeFreshnessScore = calculateTimeDecay(
-          hit.createdAt,
-          hit.sparkCount,
-          hit.commentsCount
+      if (cursorDoc.exists()) {
+        // 공개 게시물 쿼리 수정
+        const publicPostsQuery = query(
+          collection(db, "posts"),
+          where("isDeleted", "==", false),
+          where("isPrivate", "==", false),
+          orderBy("createdAt", "desc"),
+          startAfter(cursorDoc), // cursor 이후부터 조회
+          limit(pageSize)
         );
 
-        const totalScore =
-          followScore + interactionScore + genreMatchScore + timeFreshnessScore;
+        // 비공개 게시물 쿼리 수정
+        const privatePostsQuery = query(
+          collection(db, "posts"),
+          where("isDeleted", "==", false),
+          where("isPrivate", "==", true),
+          where("authorUid", "==", userData.uid),
+          orderBy("createdAt", "desc"),
+          startAfter(cursorDoc), // cursor 이후부터 조회
+          limit(pageSize)
+        );
 
-        return {
-          ...hit,
-          tomong: [],
-          score: totalScore,
-          authorId: userMap[hit.authorUid]?.userId || "알 수 없음",
-          authorName: userMap[hit.authorUid]?.userName || "알 수 없음",
-          profileImageUrl:
-            userMap[hit.authorUid]?.profileImageUrl || "/images/rabbit.svg",
-          hasUserSparked: hit.spark?.includes(userData.uid),
-          isTomong: hit.tomong ? !!hit.tomong[hit.tomongSelected] : false,
-          tomongSelected: hit.tomongSelected > -1 ? hit.tomongSelected : -1,
-          isMyself: hit.authorUid === userData.uid,
+        // 두 쿼리 실행
+        const [publicSnapshot, privateSnapshot] = await Promise.all([
+          getDocs(publicPostsQuery),
+          getDocs(privatePostsQuery),
+        ]);
+
+        // 이하 동일...
+        // 결과 합치기
+        let allDocs = [...publicSnapshot.docs, ...privateSnapshot.docs];
+        // createdAt으로 정렬
+        allDocs.sort(
+          (a, b) => b.data().createdAt.seconds - a.data().createdAt.seconds
+        );
+        // pageSize만큼만 자르기
+        allDocs = allDocs.slice(0, pageSize);
+
+        // 작성자 정보 일괄 조회
+        const uniqueAuthorUids = [
+          ...new Set(allDocs.map((doc) => doc.data().authorUid)),
+        ];
+        const usersRef = collection(db, "users");
+        const userQuery = query(
+          usersRef,
+          where("__name__", "in", uniqueAuthorUids)
+        );
+        const userSnapshot = await getDocs(userQuery);
+
+        // 작성자 정보 매핑
+        const userMap = {};
+        userSnapshot.forEach((doc) => {
+          userMap[doc.id] = {
+            userId: doc.data().userId,
+            userName: doc.data().userName,
+            profileImageUrl: doc.data().profileImageUrl,
+          };
+        });
+
+        // 시간 기반 점수 계산 함수
+        const calculateTimeDecay = (
+          createdAt,
+          sparkCount = 0,
+          commentsCount = 0
+        ) => {
+          const now = new Date();
+          const postDate = createdAt.toDate();
+          const hoursElapsed = (now - postDate) / (1000 * 60 * 60);
+          const threeDaysInHours = 72;
+
+          let baseDecay;
+          if (hoursElapsed <= 24) {
+            baseDecay = Math.max(
+              0,
+              15 * (1 - Math.log(hoursElapsed + 1) / Math.log(48))
+            );
+          } else if (hoursElapsed <= threeDaysInHours) {
+            baseDecay = Math.max(
+              0,
+              10 * (1 - Math.log(hoursElapsed + 1) / Math.log(96))
+            );
+          } else {
+            const daysElapsed = hoursElapsed / 24;
+            baseDecay = -Math.min(5, (daysElapsed - 3) * 0.5);
+          }
+
+          const interactionBonus = Math.min(
+            8,
+            (sparkCount + commentsCount) / 8
+          );
+          return Math.min(15, baseDecay + interactionBonus);
         };
-      })
-      .sort((a, b) => b.score - a.score);
 
-    return NextResponse.json({
-      posts,
-      pagination: {
-        currentPage: page,
-        totalPages: nbPages,
-        totalItems: nbHits,
-        itemsPerPage: limit,
-      },
-    });
+        // 점수 계산 및 게시물 데이터 가공
+        const posts = allDocs
+          .map((doc) => {
+            const postData = doc.data();
+
+            // 점수 계산
+            const followScore = followingUids.includes(postData.authorUid)
+              ? 30
+              : 0;
+            const interactionScore = Math.min(
+              30,
+              ((postData.sparkCount || 0) + (postData.commentsCount || 0)) / 2
+            );
+            const genreMatchScore = Math.min(
+              25,
+              postData.dreamGenres?.reduce(
+                (acc, genre) => acc + (genreStats[genre]?.count || 0),
+                0
+              ) || 0
+            );
+            const timeFreshnessScore = calculateTimeDecay(
+              postData.createdAt,
+              postData.sparkCount,
+              postData.commentsCount
+            );
+
+            const totalScore =
+              followScore +
+              interactionScore +
+              genreMatchScore +
+              timeFreshnessScore;
+
+            return {
+              id: doc.id,
+              title: postData.title,
+              content: postData.content,
+              authorUid: postData.authorUid,
+              createdAt: postData.createdAt.toDate().toISOString(),
+              sparkCount: postData.sparkCount || 0,
+              commentsCount: postData.commentsCount || 0,
+              dreamGenres: postData.dreamGenres || [],
+              dreamMoods: postData.dreamMoods || [],
+              imageUrls: postData.imageUrls || [],
+              spark: postData.spark || [],
+              score: totalScore,
+              authorId: userMap[postData.authorUid]?.userId || "알 수 없음",
+              authorName: userMap[postData.authorUid]?.userName || "알 수 없음",
+              profileImageUrl:
+                userMap[postData.authorUid]?.profileImageUrl ||
+                "/images/rabbit.svg",
+              hasUserSparked: postData.spark?.includes(userData.uid) || false,
+              isTomong: postData.tomong
+                ? !!postData.tomong[postData.tomongSelected]
+                : false,
+              tomongSelected:
+                postData.tomongSelected > -1 ? postData.tomongSelected : -1,
+              isMyself: postData.authorUid === userData.uid,
+              isPrivate: postData.isPrivate || false,
+            };
+          })
+          .sort((a, b) => b.score - a.score);
+
+        const lastVisible = allDocs[allDocs.length - 1];
+
+        return NextResponse.json({
+          posts,
+          pagination: {
+            nextCursor: lastVisible?.id,
+            hasMore: allDocs.length === pageSize,
+          },
+        });
+      } else {
+        return NextResponse.json(
+          { error: "유효하지 않은 cursor입니다." },
+          { status: 400 }
+        );
+      }
+    } else {
+      // 두 개의 쿼리를 실행: 공개 게시물과 자신의 비공개 게시물
+      const publicPostsQuery = query(
+        collection(db, "posts"),
+        where("isDeleted", "==", false),
+        where("isPrivate", "==", false),
+        orderBy("createdAt", "desc"),
+        limit(pageSize)
+      );
+
+      const privatePostsQuery = query(
+        collection(db, "posts"),
+        where("isDeleted", "==", false),
+        where("isPrivate", "==", true),
+        where("authorUid", "==", userData.uid),
+        orderBy("createdAt", "desc"),
+        limit(pageSize)
+      );
+
+      // 두 쿼리 모두 실행
+      const [publicSnapshot, privateSnapshot] = await Promise.all([
+        getDocs(publicPostsQuery),
+        getDocs(privatePostsQuery),
+      ]);
+
+      // 결과 합치기
+      let allDocs = [...publicSnapshot.docs, ...privateSnapshot.docs];
+      // createdAt으로 정렬
+      allDocs.sort(
+        (a, b) => b.data().createdAt.seconds - a.data().createdAt.seconds
+      );
+      // pageSize만큼만 자르기
+      allDocs = allDocs.slice(0, pageSize);
+
+      // 작성자 정보 일괄 조회
+      const uniqueAuthorUids = [
+        ...new Set(allDocs.map((doc) => doc.data().authorUid)),
+      ];
+      const usersRef = collection(db, "users");
+      const userQuery = query(
+        usersRef,
+        where("__name__", "in", uniqueAuthorUids)
+      );
+      const userSnapshot = await getDocs(userQuery);
+
+      // 작성자 정보 매핑
+      const userMap = {};
+      userSnapshot.forEach((doc) => {
+        userMap[doc.id] = {
+          userId: doc.data().userId,
+          userName: doc.data().userName,
+          profileImageUrl: doc.data().profileImageUrl,
+        };
+      });
+
+      // 시간 기반 점수 계산 함수
+      const calculateTimeDecay = (
+        createdAt,
+        sparkCount = 0,
+        commentsCount = 0
+      ) => {
+        const now = new Date();
+        const postDate = createdAt.toDate();
+        const hoursElapsed = (now - postDate) / (1000 * 60 * 60);
+        const threeDaysInHours = 72;
+
+        let baseDecay;
+        if (hoursElapsed <= 24) {
+          baseDecay = Math.max(
+            0,
+            15 * (1 - Math.log(hoursElapsed + 1) / Math.log(48))
+          );
+        } else if (hoursElapsed <= threeDaysInHours) {
+          baseDecay = Math.max(
+            0,
+            10 * (1 - Math.log(hoursElapsed + 1) / Math.log(96))
+          );
+        } else {
+          const daysElapsed = hoursElapsed / 24;
+          baseDecay = -Math.min(5, (daysElapsed - 3) * 0.5);
+        }
+
+        const interactionBonus = Math.min(8, (sparkCount + commentsCount) / 8);
+        return Math.min(15, baseDecay + interactionBonus);
+      };
+
+      // 점수 계산 및 게시물 데이터 가공
+      const posts = allDocs
+        .map((doc) => {
+          const postData = doc.data();
+
+          // 점수 계산
+          const followScore = followingUids.includes(postData.authorUid)
+            ? 30
+            : 0;
+          const interactionScore = Math.min(
+            30,
+            ((postData.sparkCount || 0) + (postData.commentsCount || 0)) / 2
+          );
+          const genreMatchScore = Math.min(
+            25,
+            postData.dreamGenres?.reduce(
+              (acc, genre) => acc + (genreStats[genre]?.count || 0),
+              0
+            ) || 0
+          );
+          const timeFreshnessScore = calculateTimeDecay(
+            postData.createdAt,
+            postData.sparkCount,
+            postData.commentsCount
+          );
+
+          const totalScore =
+            followScore +
+            interactionScore +
+            genreMatchScore +
+            timeFreshnessScore;
+
+          return {
+            id: doc.id,
+            title: postData.title,
+            content: postData.content,
+            authorUid: postData.authorUid,
+            createdAt: postData.createdAt.toDate().toISOString(),
+            sparkCount: postData.sparkCount || 0,
+            commentsCount: postData.commentsCount || 0,
+            dreamGenres: postData.dreamGenres || [],
+            dreamMoods: postData.dreamMoods || [],
+            imageUrls: postData.imageUrls || [],
+            spark: postData.spark || [],
+            score: totalScore,
+            authorId: userMap[postData.authorUid]?.userId || "알 수 없음",
+            authorName: userMap[postData.authorUid]?.userName || "알 수 없음",
+            profileImageUrl:
+              userMap[postData.authorUid]?.profileImageUrl ||
+              "/images/rabbit.svg",
+            hasUserSparked: postData.spark?.includes(userData.uid) || false,
+            isTomong: postData.tomong
+              ? !!postData.tomong[postData.tomongSelected]
+              : false,
+            tomongSelected:
+              postData.tomongSelected > -1 ? postData.tomongSelected : -1,
+            isMyself: postData.authorUid === userData.uid,
+            isPrivate: postData.isPrivate || false,
+          };
+        })
+        .sort((a, b) => b.score - a.score);
+
+      const lastVisible = allDocs[allDocs.length - 1];
+
+      return NextResponse.json({
+        posts,
+        pagination: {
+          nextCursor: lastVisible?.id,
+          hasMore: allDocs.length === pageSize,
+        },
+      });
+    }
   } catch (error) {
     console.error("Error fetching posts:", error);
     return NextResponse.json(
