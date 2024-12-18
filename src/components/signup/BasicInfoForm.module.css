@@ -40,7 +40,6 @@
   border-radius: 1rem;
   font-size: var(--body-font-size);
   text-indent: 2rem;
-  background-color: var(--input-color);
   color: var(--black-font-color);
 }
 .form-field input:focus,
