@@ -199,7 +199,7 @@
   bottom: 4rem;
 }
 
-@media (max-height: 740px) {
+@media (max-height: 770px) {
   .profile-btn,
   .more-btn {
     position: static;
@@ -208,10 +208,6 @@
 }
 
 @media (max-height: 930px) {
-  .header {
-    padding: 5rem 0 5.3rem 8rem;
-  }
-
   .logo img {
     width: 80%;
     max-width: 31.4rem;

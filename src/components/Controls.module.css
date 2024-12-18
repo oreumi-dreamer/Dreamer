@@ -11,12 +11,12 @@
 
 .button:hover {
   background-color: var(--none-active-color);
-  color: #ffffff;
+  color: var(--white-color);
 }
 
 .button-highlight {
   background-color: var(--deep-pink-color);
-  color: var(--background-white);
+  color: var(--white-color);
 }
 
 .button-highlight:hover {
@@ -382,7 +382,7 @@ label.checkbox a {
   z-index: 999;
 }
 
-.share-modal * {
+.share-modal input {
   color: var(--black-font-color);
 }
 
@@ -399,8 +399,10 @@ label.checkbox a {
   font-weight: 700;
 }
 
-.share-modal p {
+.share-modal p,
+.share-modal a {
   font-size: var(--body-font-size);
+  color: var(--black-font-color);
 }
 
 .share-modal form {
@@ -454,6 +456,7 @@ label.checkbox a {
   justify-content: center;
   row-gap: 0.4rem;
   font-size: var(--small-text-font-size);
+  color: var(--black-font-color);
 }
 
 .share-modal .btn-share img {

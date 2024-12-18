@@ -93,7 +93,7 @@
   position: fixed;
 }
 
-@media (max-height: 700px) {
+@media (max-height: 760px) {
   .profile-btn,
   .more-btn {
     position: static;
@@ -102,9 +102,6 @@
 }
 
 @media (max-height: 930px) {
-  .header {
-    padding-top: 5rem;
-  }
   .mode-toggle-btn {
     width: 4rem;
     height: 4rem;
@@ -130,7 +127,7 @@
   }
 
   .header-btn-container nav {
-    margin-bottom: 8rem;
+    margin-bottom: 3rem;
   }
 
   .nav-items .nav-item::before,
