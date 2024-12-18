@@ -11,6 +11,7 @@ import Loading from "@/components/Loading";
 import { useDispatch, useSelector } from "react-redux";
 import { checkUserExists } from "@/utils/auth/checkUser";
 import SignupHeader from "@/components/signup/SignupHeader";
+import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 
 export default function Signup() {
   const router = useRouter();
@@ -23,11 +24,10 @@ export default function Signup() {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        if (!user) return;
+        const res = await fetchWithAuth("/api/auth/verify");
+        const result = await res.json();
 
-        const exists = await checkUserExists(dispatch);
-
-        if (exists === true) {
+        if (result.exists === true || !result.uid) {
           router.push("/");
         }
       } catch (error) {

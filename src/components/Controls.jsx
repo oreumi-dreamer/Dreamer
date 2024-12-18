@@ -2,6 +2,11 @@
 
 import { useState, useEffect, useRef, useCallback, createRef } from "react";
 import styles from "./Controls.module.css";
+import Loading from "./Loading";
+import Link from "next/link";
+import { fetchWithAuth } from "@/utils/auth/tokenUtils";
+import { useSelector } from "react-redux";
+import { useRouter } from "next/navigation";
 
 export function Button({
   highlight,
@@ -619,6 +624,135 @@ export function ShareModal({ isOpen, closeModal, link }) {
         <img src="/images/ios-share-circle.svg" alt="" />
         다른 곳에 공유
       </button>
+    </dialog>
+  );
+}
+
+export function UsersList({
+  isOpen,
+  closeModal,
+  users,
+  setUsers,
+  type,
+  isLoading,
+}) {
+  const dialogRef = useRef(null);
+
+  const { user } = useSelector((state) => state.auth);
+  const router = useRouter();
+
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    const html = document.querySelector("html");
+    if (isOpen) {
+      dialog?.showModal();
+      html.style.overflowY = "hidden";
+    } else {
+      html.style.overflowY = "scroll";
+      dialog?.close();
+    }
+  }, [isOpen]);
+
+  const handleClose = () => {
+    const html = document.querySelector("html");
+    html.style.overflowY = "scroll";
+    closeModal();
+  };
+
+  // 백드롭 클릭을 감지하는 이벤트 핸들러
+  const handleClick = (e) => {
+    const dialogDimensions = dialogRef.current?.getBoundingClientRect();
+    if (dialogDimensions) {
+      const isClickedInDialog =
+        e.clientX >= dialogDimensions.left &&
+        e.clientX <= dialogDimensions.right &&
+        e.clientY >= dialogDimensions.top &&
+        e.clientY <= dialogDimensions.bottom;
+
+      if (!isClickedInDialog) {
+        handleClose();
+      }
+    }
+  };
+
+  const handleFollow = async (userId) => {
+    if (!user) {
+      router.push("/");
+      return;
+    }
+
+    const isFollowing = users.find(
+      (user) => user.userId === userId
+    ).isFollowing;
+
+    setUsers((prevUsers) =>
+      prevUsers.map((user) =>
+        user.userId === userId ? { ...user, isFollowing: !isFollowing } : user
+      )
+    );
+    const res = await fetchWithAuth(`/api/account/follow/${userId}`);
+    const data = await res.json();
+
+    if (!data.success) {
+      setUsers((prevUsers) =>
+        prevUsers.map((user) =>
+          user.userId === userId ? { ...user, isFollowing: !isFollowing } : user
+        )
+      );
+    }
+  };
+
+  return (
+    <dialog
+      ref={dialogRef}
+      className={styles["share-modal"]}
+      onClick={handleClick}
+    >
+      <button onClick={handleClose} className={styles["btn-close"]}>
+        <img src="/images/close-without-padding.svg" alt="닫기" />
+      </button>
+      <h2>{type === "followers" ? "팔로워" : "팔로잉"}</h2>
+      <ul className={styles["users-list"]}>
+        {isLoading && <Loading type="small" />}
+        {!isLoading && users.length === 0 && (
+          <p className={styles["no-users"]}>
+            아직 {type === "followers" ? "팔로워가 " : "팔로잉이 "}없어요!
+          </p>
+        )}
+        {!isLoading &&
+          users.map((user) => (
+            <li key={user.userId}>
+              <Link href={`/${user.userId}`}>
+                <img
+                  src={
+                    user.profileImageUrl
+                      ? user.profileImageUrl
+                      : "/images/rabbit.svg"
+                  }
+                  alt={`${user.userName}님의 프로필 사진`}
+                />
+                <span>{user.userName}</span>
+                <span>@{user.userId}</span>
+              </Link>
+              {user.isMyself ? null : user.isFollowing ? (
+                <Button
+                  className={styles["recommend-follow"]}
+                  onClick={() => handleFollow(user.userId)}
+                >
+                  팔로잉
+                </Button>
+              ) : (
+                <Button
+                  className={styles["recommend-follow"]}
+                  onClick={() => handleFollow(user.userId)}
+                  highlight={true}
+                >
+                  팔로우
+                </Button>
+              )}
+            </li>
+          ))}
+      </ul>
     </dialog>
   );
 }

@@ -453,3 +453,60 @@ label.checkbox a {
   width: 3.2rem;
   height: 3.2rem;
 }
+
+.share-modal .no-users {
+  text-align: center;
+}
+
+.share-modal ul.users-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.8rem;
+  padding: 0.8rem;
+}
+
+.share-modal ul.users-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 1.6rem;
+  border-radius: 1rem;
+  background-color: var(--input-color);
+}
+
+.share-modal ul.users-list li a {
+  display: grid;
+  grid-template-areas: "img name" "img id";
+  align-items: center;
+  column-gap: 0.8rem;
+}
+
+.share-modal ul.users-list li img {
+  width: 3.2rem;
+  height: 3.2rem;
+  border-radius: 50%;
+  object-fit: cover;
+  grid-area: img;
+}
+
+.share-modal ul.users-list li span {
+  font-size: var(--small-text-font-size);
+  white-space: nowrap;
+}
+
+.share-modal ul.users-list li span:first-child {
+  grid-area: name;
+}
+
+.share-modal ul.users-list li span:last-child {
+  grid-area: id;
+}
+
+.share-modal button.recommend-follow {
+  padding: 0.8rem 1.2rem;
+  font-size: var(--small-text-font-size);
+  grid-area: follow;
+  margin-left: auto;
+  height: fit-content;
+}

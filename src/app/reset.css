@@ -124,7 +124,8 @@ table {
 }
 
 a,
-button {
+button,
+*[role="button"] {
   cursor: pointer;
 }
 

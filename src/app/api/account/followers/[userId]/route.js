@@ -65,6 +65,28 @@ export async function GET(request, { params }) {
     const followers = targetUserData.followers || [];
     const following = targetUserData.following || [];
 
+    // UID 배열을 사용하여 사용자 정보를 가져오는 함수
+    const getUserInfo = async (uids) => {
+      const userInfos = [];
+      for (const { uid } of uids) {
+        const userDoc = await getDoc(doc(db, "users", uid));
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          userInfos.push({
+            uid,
+            userName: userData.userName,
+            userId: userData.userId,
+            profileImageUrl: userData.profileImageUrl,
+            isFollowing: userData.followers.some(
+              (follower) => follower.uid === currentUserUid
+            ),
+            isMyself: currentUserUid === uid,
+          });
+        }
+      }
+      return userInfos;
+    };
+
     // summary 모드일 경우 카운트와 팔로우 여부만 반환
     if (summary) {
       return NextResponse.json({
@@ -88,9 +110,10 @@ export async function GET(request, { params }) {
     if (type === "followers") {
       const startIndex = (page - 1) * limit;
       paginatedFollowers = followers.slice(startIndex, startIndex + limit);
+      const followersInfo = await getUserInfo(paginatedFollowers);
 
       return NextResponse.json({
-        followers: paginatedFollowers,
+        followers: followersInfo,
         followersCount: followers.length,
         currentPage: page,
         nextPage: page + 1,
@@ -103,9 +126,10 @@ export async function GET(request, { params }) {
     } else if (type === "following") {
       const startIndex = (page - 1) * limit;
       paginatedFollowing = following.slice(startIndex, startIndex + limit);
+      const followingInfo = await getUserInfo(paginatedFollowing);
 
       return NextResponse.json({
-        following: paginatedFollowing,
+        following: followingInfo,
         followingCount: following.length,
         currentPage: page,
         nextPage: page + 1,
@@ -130,9 +154,12 @@ export async function GET(request, { params }) {
       followingStartIndex + limit
     );
 
+    const followersInfo = await getUserInfo(paginatedFollowers);
+    const followingInfo = await getUserInfo(paginatedFollowing);
+
     return NextResponse.json({
-      followers: paginatedFollowers,
-      following: paginatedFollowing,
+      followers: followersInfo,
+      following: followingInfo,
       followersCount: followers.length,
       followingCount: following.length,
       currentPage: page,
