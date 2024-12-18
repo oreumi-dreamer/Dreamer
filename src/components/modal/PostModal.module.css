@@ -387,18 +387,3 @@ input[type="checkbox"]:checked + label.checkbox::before {
     height: 5rem;
   }
 }
-@media (max-width: 480px) {
-  .post-section {
-    height: 60%;
-  }
-  .post-text {
-    min-width: 30rem;
-    height: 76%;
-  }
-  .profile-info {
-    margin: 0;
-  }
-  .comment-section {
-    height: 35%;
-  }
-}
