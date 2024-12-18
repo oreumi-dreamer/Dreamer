@@ -35,6 +35,9 @@ main:has(.login-title) img {
   color: var(--invalid-text-color);
   margin-bottom: 0.8rem;
 }
+.login-loading {
+  margin: 0.5rem 0 7.5rem 0;
+}
 .login-title {
   font-size: var(--big-text-font-size);
   font-weight: bold;

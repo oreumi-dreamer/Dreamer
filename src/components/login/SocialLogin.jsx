@@ -14,6 +14,7 @@ import { checkUserExists } from "@/utils/auth/checkUser";
 import { Button, Input, LoginForm } from "../Controls";
 import styles from "./SocialLogin.module.css";
 import EmailSignup from "./EmailSignup";
+import Loading from "../Loading";
 
 export default function SocialLogin() {
   const router = useRouter();
@@ -23,6 +24,7 @@ export default function SocialLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailValid, setEmailValid] = useState(false);
+  const [isLoginLoading, setIsLoginLoading] = useState(false);
   const dispatch = useDispatch();
   const { user: reduxUser } = useSelector((state) => state.auth);
 
@@ -84,6 +86,7 @@ export default function SocialLogin() {
 
   const handleEmailLogin = async (e) => {
     e.preventDefault();
+    setIsLoginLoading(true);
     try {
       const userCredential = await signInWithEmailAndPassword(
         auth,
@@ -124,6 +127,7 @@ export default function SocialLogin() {
           ? "너무 많은 로그인 시도가 발생하였습니다. 잠시 후에 다시 시도해주세요."
           : "아이디 또는 비밀번호가 일치하지 않습니다"
       );
+      setIsLoginLoading(false);
       console.error("Email login error:", error);
     }
   };
@@ -166,6 +170,12 @@ export default function SocialLogin() {
             <p role="alert" className={styles["error-message"]}>
               {error}
             </p>
+            {isLoginLoading ? (
+              <Loading
+                type={"miniCircle"}
+                className={styles["login-loading"]}
+              />
+            ) : (
               <Button
                 type="submit"
                 highlight={true}
@@ -174,6 +184,7 @@ export default function SocialLogin() {
               >
                 로그인
               </Button>
+            )}
             <div className={styles["google-login"]}>
               <p>다른 방법으로 로그인하기</p>
               <button type="button" onClick={handleGoogleLogin}>
