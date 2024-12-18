@@ -276,7 +276,7 @@ img.tomong-icon {
 
 .comment-setting button {
   position: absolute;
-  bottom: -1.2rem;
+  bottom: -1rem;
 }
 
 .comment-articles-section {
@@ -324,6 +324,11 @@ img.tomong-icon {
   top: 0rem;
   background-image: url(/images/checkbox.svg);
   background-size: contain;
+}
+
+.send-btn {
+  position: relative;
+  top: -1rem;
 }
 
 input[type="checkbox"]:checked + label.checkbox::before {

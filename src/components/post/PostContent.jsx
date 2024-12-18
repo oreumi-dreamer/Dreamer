@@ -538,7 +538,10 @@ export default function PostContent({
                 <li>
                   <button type="submit" disabled={isCommentSubmitting}>
                     {isCommentSubmitting ? (
-                      <Loading type="miniCircle" />
+                      <Loading
+                        type="miniCircle"
+                        className={styles["send-btn"]}
+                      />
                     ) : (
                       <img
                         src="/images/send.svg"
