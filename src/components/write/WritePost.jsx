@@ -129,7 +129,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
 
   // 이미지 삭제
   const handleDeleteImage = (indexToRemove) => {
-    if (!imageFiles) return;
+    if (!imageFiles || Object.keys(imageFiles).length === 0) return null;
     const dataTransfer = new DataTransfer();
     const files = Array.from(imageFiles);
     // 선택된 인덱스를 제외한 나머지 파일들을 새로운 FileList에 추가
@@ -138,7 +138,13 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
         dataTransfer.items.add(file);
       }
     });
-    setImageFiles(dataTransfer.files);
+
+    const newFileList = dataTransfer.files;
+    setImageFiles(newFileList);
+
+    if (newFileList.length === 0) {
+      setImageFiles(null);
+    }
   };
 
   // 이미지 추가
