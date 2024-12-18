@@ -52,7 +52,7 @@ function TomongSelect({ setProcess, setSelectedDream }) {
   const [dreams, setDreams] = useState([]);
   const [selectedDream, setSelectedDreamState] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const { userId, theme } = useSelector((state) => state.auth.user);
+  const { userId, userName, theme } = useSelector((state) => state.auth.user);
 
   useEffect(() => {
     const getDreams = async () => {
@@ -81,6 +81,13 @@ function TomongSelect({ setProcess, setSelectedDream }) {
       <div className={styles["tomong-body"]}>
         {isLoading ? (
           <Loading type="small" />
+        ) : !dreams.length ? (
+          <>
+            <p>아직 {userName}님이 들려준 꿈이 없어요!</p>
+            <ButtonLink highlight={true} href={`/${userId}?write=true`}>
+              꿈 작성하러 가기
+            </ButtonLink>
+          </>
         ) : (
           <ul className={styles["dreams-list"]}>
             {dreams.map((dream) => (
