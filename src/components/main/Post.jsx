@@ -1,13 +1,12 @@
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useEffect, useRef } from "react";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 import postTime from "@/utils/postTime";
 import { MyPost, OtherPost } from "../dropDown/DropDown";
 import { outsideClickModalClose } from "@/utils/outsideClickModalClose";
 import { Divider, ShareModal } from "../Controls";
 import useTheme from "@/hooks/styling/useTheme";
-import useMediaQuery from "@/hooks/styling/useMediaQuery";
 
 export default function Post({
   styles,
@@ -20,6 +19,7 @@ export default function Post({
   const [shareModalOpen, setShareModalOpen] = useState(false);
   const modalRef = useRef(null);
   const buttonRef = useRef(null);
+  const containerRef = useRef(null);
 
   const { theme } = useTheme();
 
@@ -30,29 +30,27 @@ export default function Post({
   const [blurStyle, setBlurStyle] = useState("");
   const [overlayStyle, setOverlayStyle] = useState("");
   const [moreCount, setMoreCount] = useState(0);
-
-  const fiveView = useMediaQuery("(min-width : 1280px)");
-  const fourView = useMediaQuery(
-    "(min-width : 769px) and (max-width: 1279px )"
-  );
-  const threeView = useMediaQuery("(min-width:481px) and (max-width: 768px )");
-  const twoView = useMediaQuery("(max-width: 480px )");
+  const [containerWidth, setContainerWidth] = useState(0);
+  const [repeatCol, setRepeatCol] = useState(4);
 
   const getImageCount = () => {
     if (post.imageUrls && post.imageUrls.length > 0) {
-      if (fiveView) {
+      if (containerWidth >= 700) {
         return 5;
-      } else if (fourView) {
+      } else if (containerWidth >= 553) {
         return 4;
-      } else if (threeView) {
+      } else if (containerWidth >= 448) {
         return 3;
-      } else if (twoView) {
+      } else if (containerWidth >= 316) {
         return 2;
+      } else if (containerWidth >= 0) {
+        return 1;
       }
       return post.imageUrls.length;
     }
     return 0;
   };
+
   const imageLayout = () => {
     setOverlayWrapStyle(styles["has-overlay"]);
     setBlurStyle(styles["blur"]);
@@ -64,20 +62,37 @@ export default function Post({
     setOverlayStyle("");
     setMoreCount(0);
   };
+
   const imageResponsive = () => {
     const imageCount = getImageCount();
+    setRepeatCol(imageCount);
     if (post.imageUrls.length > imageCount) {
       imageLayout();
       setOverlayStyle(styles["overlay"]);
-      setMoreCount(post.imageUrls.length - imageCount);
+      setMoreCount(post.imageUrls.length - imageCount + 1);
     } else {
       initOverlay();
     }
   };
 
   useEffect(() => {
+    const handleResize = () => {
+      if (containerRef.current) {
+        setContainerWidth(containerRef.current.offsetWidth);
+      }
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
     imageResponsive();
-  }, [fiveView, fourView, threeView, twoView, post.imageUrls.length]);
+  }, [containerWidth, post.imageUrls.length]);
 
   useEffect(() => {
     if (modalRef.current && buttonRef.current) {
@@ -89,6 +104,7 @@ export default function Post({
       };
     }
   }, [modalRef, buttonRef, isOpen]);
+
   const handlePostMoreBtnClick = () => {
     if (!isOpen) {
       setIsOpen(true);
@@ -133,6 +149,7 @@ export default function Post({
       return postIsPrivate;
     }
   };
+
   const changeSpark = (postId) => {
     setPost((prevData) => ({
       ...prevData,
@@ -181,7 +198,7 @@ export default function Post({
 
   return (
     <>
-      <article className={styles["article"]}>
+      <article className={styles["article"]} ref={containerRef}>
         <section className={styles["post-user-info"]}>
           <Link href={`/${post.authorId}`}>
             <img
@@ -249,7 +266,10 @@ export default function Post({
           )}
           <p className={styles["post-text"]}>{post.content}</p>
           {post.imageUrls && (
-            <div className={`${styles["post-img-wrap"]}`}>
+            <div
+              className={`${styles["post-img-wrap"]}`}
+              style={{ gridTemplateColumns: `repeat(${repeatCol}, 1fr)` }}
+            >
               {post.imageUrls
                 .slice(0, getImageCount())
                 .map((url, index, arr) => {

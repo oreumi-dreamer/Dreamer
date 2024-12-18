@@ -11,11 +11,11 @@ export default function Loading({ type, className }) {
     );
   } else if (type === "full") {
     return (
-      <div id="loading-wrapper" className={styles["loading-container"]}>
+      <main id="loading-wrapper" className={styles["loading-container"]}>
         <div className={styles.loading}>
           <div></div>
         </div>
-      </div>
+      </main>
     );
   } else if (type === "miniCircle") {
     return (
