@@ -24,6 +24,9 @@ main:has(.email-signup) {
 .input-container input {
   grid-area: input;
 }
+.input-container input.invalid {
+  border: 0.2rem solid var(--invalid-border-color);
+}
 
 .input-container:first-of-type input {
   padding-right: 14rem;
