@@ -92,21 +92,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
     setRating(e.target.value);
   };
   const openModal = () => {
-    if (!isModalOpen) {
-      setIsModalOpen(true);
-
-      if (tagButtonRef.current) {
-        const position = {
-          position: "absolute",
-          top: "50px",
-          right: "0px",
-          zIndex: "10",
-        };
-        setTagModalStyle(position);
-      }
-    } else {
-      setIsModalOpen(false);
-    }
+    setIsModalOpen(false);
   };
 
   const openMoodModal = () => {
