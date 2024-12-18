@@ -24,12 +24,13 @@ export default function EmailSignup({
   handleGoogleLogin,
 }) {
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [isPasswordValid, setIsPasswordValid] = useState(false);
+  const [isConfirmPasswordValid, setIsConfirmPasswordValid] = useState(false);
   const [isEmailVerified, setIsEmailVerified] = useState(false);
   const [isEmailSent, setIsEmailSent] = useState(false);
   const [tempUser, setTempUser] = useState(null);
   const router = useRouter();
   const dispatch = useDispatch();
-
   // 이메일 인증 상태 주기적 체크
   useEffect(() => {
     let intervalId;
@@ -57,6 +58,13 @@ export default function EmailSignup({
     }
     return () => intervalId && clearInterval(intervalId);
   }, [isEmailSent, tempUser]);
+
+  useEffect(() => {
+    setIsPasswordValid(validatePassword(password) ? true : false);
+    validatePassword(confirmPassword) && confirmPassword === password
+      ? setIsConfirmPasswordValid(true)
+      : setIsConfirmPasswordValid(false);
+  }, [password, confirmPassword]);
 
   const handleEmailVerification = async (e) => {
     e.preventDefault();
@@ -170,24 +178,28 @@ export default function EmailSignup({
           required
           className={styles["email-input"]}
         />
-        {!isEmailVerified && (
-          <Button
-            type="button"
-            disabled={isEmailSent}
-            className={styles["email-verify-btn"]}
-            onClick={(e) => handleEmailVerification(e)}
-          >
-            인증 메일 발송
-          </Button>
-        )}
+
+        <Button
+          type="button"
+          disabled={isEmailSent}
+          className={styles["email-verify-btn"]}
+          onClick={(e) => handleEmailVerification(e)}
+        >
+          {isEmailVerified ? "인증 완료" : "인증 메일 발송"}
+        </Button>
+
         <img
           src={isEmailVerified ? "/images/valid.svg" : "/images/invalid.svg"}
           width={40}
           height={40}
-          alt={isEmailVerified ? "유효한 아이디" : "유효하지 않은 아이디"}
+          alt={isEmailVerified ? "유효한 이메일" : "유효하지 않은 이메일"}
         />
         <span className={styles["invalid-text"]}>
-          {error ? error : "유효한 이메일을 입력해주세요."}
+          {isPasswordValid
+            ? ""
+            : error
+              ? error
+              : "유효한 이메일을 입력해주세요."}
         </span>
       </div>
       <div className={styles["input-container"]}>
@@ -196,17 +208,26 @@ export default function EmailSignup({
           type="password"
           id="password"
           value={password}
+          onBlur={(e) => {
+            validatePassword(e.target.value)
+              ? e.target.classList.remove(styles.invalid)
+              : e.target.classList.add(styles.invalid);
+          }}
           onChange={(e) => setPassword(e.target.value)}
           disabled={!isEmailVerified}
           required
         />
         <img
-          src={isEmailVerified ? "/images/valid.svg" : "/images/invalid.svg"}
+          src={isPasswordValid ? "/images/valid.svg" : "/images/invalid.svg"}
           width={40}
           height={40}
-          alt={isEmailVerified ? "유효한 아이디" : "유효하지 않은 아이디"}
+          alt={isPasswordValid ? "유효한 비밀번호" : "유효하지 않은 비밀번호"}
         />
-        <span className={styles["invalid-text"]}>비밀번호 양식 텍스트</span>
+        <span className={styles["invalid-text"]}>
+          {isPasswordValid
+            ? ""
+            : "비밀번호는 6자 이상, 영문 대,소문자, 숫자, 특수문자를 포함해주세요"}
+        </span>
       </div>
       <div className={styles["input-container"]}>
         <label htmlFor="confirmPassword">비밀번호 재확인</label>
@@ -214,19 +235,32 @@ export default function EmailSignup({
           type="password"
           id="confirmPassword"
           value={confirmPassword}
+          onBlur={(e) => {
+            validatePassword(e.target.value) && confirmPassword === password
+              ? e.target.classList.remove(styles.invalid)
+              : e.target.classList.add(styles.invalid);
+          }}
           onChange={(e) => setConfirmPassword(e.target.value)}
           disabled={!isEmailVerified}
           required
         />
         <img
-          src={isEmailVerified ? "/images/valid.svg" : "/images/invalid.svg"}
+          src={
+            isConfirmPasswordValid ? "/images/valid.svg" : "/images/invalid.svg"
+          }
           width={40}
           height={40}
-          alt={isEmailVerified ? "유효한 아이디" : "유효하지 않은 아이디"}
+          alt={
+            isConfirmPasswordValid
+              ? "유효한 비밀번호 재확인"
+              : "유효하지 않은 비밀번호 재확인"
+          }
         />
 
         <span className={styles["invalid-text"]}>
-          비밀번호가 일치하지 않습니다.
+          {confirmPassword === "" || isConfirmPasswordValid
+            ? ""
+            : "비밀번호가 일치하지 않습니다."}
         </span>
       </div>
       <div className={styles["user-login-field"]}>
@@ -243,7 +277,16 @@ export default function EmailSignup({
             </button>
           </li>
           <li className={styles["email-login-button"]}>
-            <button type="button" onClick={() => setShowSignupForm(false)}>
+            <button
+              type="button"
+              onClick={() => {
+                setEmail("");
+                setPassword("");
+                setError("");
+                setIsEmailSent(false);
+                setShowSignupForm(false);
+              }}
+            >
               <img
                 src="/images/mail.svg"
                 width={20}
@@ -258,7 +301,9 @@ export default function EmailSignup({
       <Button
         type="submit"
         highlight={true}
-        disabled={!isEmailVerified}
+        disabled={
+          !isEmailVerified || !isPasswordValid || !isConfirmPasswordValid
+        }
         className={styles["next-btn"]}
       >
         다음
