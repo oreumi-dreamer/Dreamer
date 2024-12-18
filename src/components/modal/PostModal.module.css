@@ -263,11 +263,10 @@ img.tomong-icon {
 .comment-setting {
   color: var(--black-font-color);
   display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-left: auto;
   gap: 0.8rem;
-
-  position: absolute;
-  bottom: -3rem;
-  right: 3rem;
   font-size: var(--small-text-font-size);
 }
 .comment-setting input {
@@ -275,8 +274,9 @@ img.tomong-icon {
 }
 
 .comment-setting button {
-  position: absolute;
-  bottom: -1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .comment-articles-section {
@@ -327,8 +327,9 @@ img.tomong-icon {
 }
 
 .send-btn {
-  position: relative;
-  top: -1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 input[type="checkbox"]:checked + label.checkbox::before {
