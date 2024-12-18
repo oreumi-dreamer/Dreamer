@@ -57,6 +57,13 @@ export default function PostContent({
           } else {
             response = await fetch(`/api/post/search/${postId}`);
           }
+
+          if (response.status === 404) {
+            alert("해당 게시글을 찾을 수 없습니다.");
+            onClose();
+            return;
+          }
+
           const data = await response.json();
           setPostData(data.post);
         }
