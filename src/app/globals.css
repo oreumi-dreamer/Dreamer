@@ -41,8 +41,9 @@
   --post-text-blur: linear-gradient(#fcfcfc00, #fcfcfc);
   --option-hover-color: #ccc;
   --focus-border-color: #a54cb4;
-  --delete-btn-background:rgba(200,200,200,0.75);
-
+  --delete-btn-background: rgba(200, 200, 200, 0.75);
+  --mainPost-img-overlay: rgba(0, 0, 0, 60%);
+  
   --tomong-stamp-half-opacity: 0.5;
   --tomong-stamp-one-fifth-opacity: 0.2;
 

@@ -194,15 +194,28 @@ export default function Post({
           )}
           <p className={styles["post-text"]}>{post.content}</p>
           {post.imageUrls && (
-            <div className={styles["post-img-wrap"]}>
-              {post.imageUrls.map((url, index) => (
-                <img
+            <div className={`${styles["post-img-wrap"]}`}>
+              {post.imageUrls.slice(0, 5).map((url, index) => (
+                <div
                   key={index}
-                  className={styles["post-img"]}
-                  src={url}
-                  alt={`게시글 이미지 ${index}`}
-                  loading="lazy"
-                />
+                  className={`${
+                    index === 4 && post.imageUrls.length > 5
+                      ? styles["has-overlay"]
+                      : ""
+                  }`}
+                >
+                  <img
+                    className={`${styles["post-img"]} ${index === 4 && post.imageUrls.length > 5 && styles["blur-img"]}`}
+                    src={url}
+                    alt={`게시글 이미지 ${index}`}
+                    loading="lazy"
+                  />
+                  {index === 4 && post.imageUrls.length > 5 && (
+                    <div className={styles["overlay"]}>
+                      +{post.imageUrls.length - 5}
+                    </div>
+                  )}
+                </div>
               ))}
             </div>
           )}
