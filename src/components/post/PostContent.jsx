@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import styles from "../modal/PostModal.module.css";
-import markdownStyles from "@/app/tomong/Result.module.css";
+import markdownStyles from "@/components/tomong/Result.module.css";
 import { DREAM_GENRES, DREAM_MOODS } from "@/utils/constants";
 import { ConfirmModal, Divider, ShareModal } from "../Controls";
 import convertToHtml from "@/utils/markdownToHtml";
