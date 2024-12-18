@@ -18,6 +18,7 @@ export default function Signup() {
   const dispatch = useDispatch();
   const [process, setProcess] = useState(0);
   const [isJoined, setIsJoined] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const { user } = useSelector((state) => state.auth);
 
@@ -30,8 +31,10 @@ export default function Signup() {
         if (result.exists === true || !result.uid) {
           router.push("/");
         }
+        setIsLoading(false); // 체크 완료 후 로딩 상태 해제
       } catch (error) {
         console.error("Auth check error:", error);
+        setIsLoading(false); // 에러 발생시에도 로딩 상태 해제
       }
     };
 
@@ -143,7 +146,7 @@ export default function Signup() {
   };
 
   // useSignupSubmit 훅 사용
-  const { isLoading, error } = useSignupSubmit({
+  const { error } = useSignupSubmit({
     process,
     formData,
     onSuccess: handleSuccess,
