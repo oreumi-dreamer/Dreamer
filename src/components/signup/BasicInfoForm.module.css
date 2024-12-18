@@ -40,15 +40,23 @@
   border-radius: 1rem;
   font-size: var(--body-font-size);
   text-indent: 2rem;
-  background-color: var(--input-color);
   color: var(--black-font-color);
 }
+
 .form-field input:focus,
 .input-wrapper div button:focus {
   outline: none;
   border: 0.2rem solid var(--focus-border-color);
 }
 
+.form-field input:-webkit-autofill,
+.form-field input:-webkit-autofill:hover,
+.form-field input:-webkit-autofill:focus,
+.form-field input:-webkit-autofill:active {
+  -webkit-text-fill-color: var(--black-font-color);
+  -webkit-box-shadow: 0 0 0px 1000px var(--input-color) inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
 .form-field .invalid {
   border: 0.2rem solid var(--invalid-border-color);
 }
