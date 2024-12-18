@@ -41,11 +41,12 @@
   --post-text-blur: linear-gradient(#fcfcfc00, #fcfcfc);
   --option-hover-color: #ccc;
   --focus-border-color: #a54cb4;
-  --delete-btn-background:rgba(200,200,200,0.75);
-
+  --delete-btn-background: rgba(200, 200, 200, 0.75);
   --tomong-stamp-half-opacity: 0.5;
   --tomong-stamp-one-fifth-opacity: 0.2;
-
+  --tomong-list-item-background: #fff;
+  --tomong-carousel-indicator-color: #ddd;
+  --tomong-carousel-indicator-color-active: #666;
   --filter-EEF0DE: none;
   --filter-5f6368: invert(59%) sepia(0%) saturate(0%) hue-rotate(0deg)
     brightness(58%) contrast(91%);
@@ -107,6 +108,9 @@
       saturate(93%) hue-rotate(28deg) brightness(105%) contrast(88%);
     --tomong-stamp-half-opacity: 1;
     --tomong-stamp-one-fifth-opacity: 1;
+    --tomong-list-item-background: #95959530;
+    --tomong-carousel-indicator-color: #666;
+    --tomong-carousel-indicator-color-active: #ddd;
     --input-color: rgba(232, 232, 232, 0.2);
     --email-login-btn-color: #111111;
     --email-login-btn-hover-color: #5b5b5b;
@@ -156,6 +160,9 @@
     saturate(93%) hue-rotate(28deg) brightness(105%) contrast(88%);
   --tomong-stamp-half-opacity: 1;
   --tomong-stamp-one-fifth-opacity: 1;
+  --tomong-list-item-background: #95959530;
+  --tomong-carousel-indicator-color: #666;
+  --tomong-carousel-indicator-color-active: #ddd;
   --input-color: rgba(232, 232, 232, 0.2);
   --email-login-btn-color: #111111;
   --email-login-btn-hover-color: #5b5b5b;
