@@ -22,6 +22,28 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
   const profileImageUrl = user?.profileImageUrl || "/images/rabbit.svg";
   const userId = user?.userId;
   const userName = user?.userName;
+
+  // 해시태그/기분 클릭 목록
+  const [selectedGenres, setSelectedGenres] = useState([]);
+  const [selectedMoods, setSelectedMoods] = useState([]);
+  const [rating, setRating] = useState(null); // 별점
+  const [isPrivate, setIsPrivate] = useState(false); // 비공개
+  // 모달 열림 확인
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isMoodModalOpen, setIsMoodModalOpen] = useState(false);
+  const [isStopModalOpen, setIsStopModalOpen] = useState(false);
+
+  const genresId = selectedGenres.map((item) => item.id);
+  const moodsId = selectedMoods.map((item) => item.id);
+
+  const inProgress =
+    contentValue !== "" ||
+    inputValue !== "" ||
+    selectedGenres.length > 0 ||
+    selectedMoods.length > 0 ||
+    rating !== null ||
+    imageFiles !== null;
+
   // 모달 오픈 상태
   const modalRef = useRef(null);
   useEffect(() => {
@@ -32,17 +54,11 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
       setImageFiles(null);
     }
   }, [isWriteModalOpen]);
+
   // 외부 클릭
   const handleBackgroundClick = (e) => {
     if (e.target === e.currentTarget) {
-      if (
-        contentValue !== "" ||
-        inputValue !== "" ||
-        selectedGenres.length > 0 ||
-        selectedMoods.length > 0 ||
-        rating !== null ||
-        imageFiles !== null
-      ) {
+      if (inProgress) {
         setIsStopModalOpen(true);
       } else {
         closeWriteModal();
@@ -64,18 +80,6 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
     };
   }, [isWriteModalOpen, contentValue, isContentChanged]);
 
-  // 해시태그/기분 클릭 목록
-  const [selectedGenres, setSelectedGenres] = useState([]);
-  const [selectedMoods, setSelectedMoods] = useState([]);
-  const [rating, setRating] = useState(null); // 별점
-  const [isPrivate, setIsPrivate] = useState(false); // 비공개
-  // 모달 열림 확인
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isMoodModalOpen, setIsMoodModalOpen] = useState(false);
-  const [isStopModalOpen, setIsStopModalOpen] = useState(false);
-
-  const genresId = selectedGenres.map((item) => item.id);
-  const moodsId = selectedMoods.map((item) => item.id);
   const handleTitleChange = (e) => {
     setInputValue(e.target.value);
     setIsContentChanged(true);
@@ -127,13 +131,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
   }, [isWritingModalOpen, isFormCompleted]);
 
   const handleStopWriting = () => {
-    if (
-      contentValue !== "" ||
-      inputValue !== "" ||
-      selectedGenres.length > 0 ||
-      selectedMoods.length > 0 ||
-      rating !== null
-    ) {
+    if (inProgress) {
       setIsStopModalOpen(true);
     } else {
       resetForm();
@@ -495,7 +493,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
               <span className="sr-only">글 작성</span>
               <textarea
                 placeholder="오늘은 어떤 꿈을 꾸셨나요?"
-                className={`${styles["text-field-area"]} ${imageFiles !== null > 0 && styles["has-image"]}`}
+                className={`${styles["text-field-area"]} ${imageFiles && styles["has-image"]}`}
                 onChange={handleContentChange}
                 value={contentValue}
               />
