@@ -12,7 +12,9 @@
 .container * {
   word-break: keep-all;
 }
-
+.container h1 img {
+  filter: var(--filter-EEF0DE);
+}
 .main {
   width: 80vw;
   height: 80vh;
@@ -24,6 +26,7 @@
   padding: 3rem;
   align-items: center;
   justify-items: center;
+  color: var(--black-font-color);
 }
 
 .main-result {
@@ -111,6 +114,7 @@
   border: 0.2rem solid #00000000;
   position: relative;
   overflow: hidden;
+  background-color: var(--tomong-list-item-background);
 }
 
 .dreams-list li input {
@@ -185,6 +189,7 @@ ul.post-tag li {
   display: flex;
   justify-content: space-between;
   padding: 0 2rem;
+  filter: var(--filter-EEF0DE);
 }
 
 .tomong-results-chevrons button:disabled {
@@ -218,13 +223,13 @@ ul.post-tag li {
   height: 1rem;
   border: none;
   border-radius: 50%;
-  background-color: #ddd;
+  background-color: var(--tomong-carousel-indicator-color);
   cursor: pointer;
   padding: 0;
 }
 
 .carousel-indicator.active {
-  background-color: #666;
+  background-color: var(--tomong-carousel-indicator-color-active);
 }
 
 @media (max-width: 1280px) {
@@ -239,36 +244,7 @@ ul.post-tag li {
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  .container h1 img {
-    filter: var(--filter-EEF0DE);
-  }
-
-  .container p,
-  .container span,
-  .container h2,
-  .container h3 {
-    color: var(--black-font-color);
-  }
-
-  .container p {
-    position: relative;
-    z-index: 10;
-  }
-
-  .dreams-list li {
-    background-color: var(--comment-input-color);
-  }
-
-  .tomong-results-chevrons {
-    filter: var(--filter-EEF0DE);
-  }
-
-  .carousel-indicator {
-    background-color: #666;
-  }
-
-  .carousel-indicator.active {
-    background-color: #ddd;
-  }
-}
+/* .container p {
+  position: relative;
+  z-index: 10;
+} */
