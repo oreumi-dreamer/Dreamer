@@ -251,34 +251,14 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
             </span>
           </Checkbox>
         </div>
-
-        <div className={styles["user-login-field"]}>
-          <p>이미 회원이신가요? 로그인하여 꿈을 공유해보세요!</p>
-          <ul className={styles["login-buttons"]}>
-            <li>
-              <button type="button" onClick={handleGoogleLogin}>
-                <img
-                  src="/images/google-logo.svg"
-                  width={40}
-                  height={40}
-                  alt="google 로그인"
-                />
-              </button>
-            </li>
-            <li>
-              <button type="button" onClick={() => router.push("/logout")}>
-                <img
-                  src="/images/mail.svg"
-                  width={20}
-                  height={20}
-                  alt="이메일 로그인"
-                />
-              </button>
-            </li>
-          </ul>
-        </div>
       </fieldset>
-
+      <button
+        type="button"
+        onClick={() => router.push("/logout")}
+        className={styles["main-btn"]}
+      >
+        메인으로 돌아가기
+      </button>
       <button
         type="submit"
         className={styles["next-btn"]}
