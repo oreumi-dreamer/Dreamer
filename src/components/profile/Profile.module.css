@@ -228,6 +228,7 @@
 
 .post-wrap {
   width: 100%;
+  max-width: 24rem;
   aspect-ratio: 1 / 1;
   background-color: var(--background-white);
   border-radius: 1.5rem;
