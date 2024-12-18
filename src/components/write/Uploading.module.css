@@ -1,0 +1,58 @@
+.container {
+  border: 0.4rem solid var(--hover-text-color);
+  border-radius: 2rem;
+  padding: 0.2rem;
+  position: relative;
+  width: 100%;
+}
+.line {
+  width: 100%;
+  height: 0.4rem;
+  border-radius: 1rem;
+  background-color: var(--hover-text-color);
+  position: relative;
+}
+.line::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 120%;
+  background-color: var(--background-lightgray);
+  animation: upload 5s linear infinite;
+  animation-timing-function: ease-in-out;
+}
+@keyframes upload {
+  0% {
+    transform-origin: 100%;
+    transform: scale(1, 1);
+  }
+  100% {
+    transform-origin: 100%;
+    transform: scale(0, 1);
+  }
+}
+.line::after {
+  content: "";
+  background-image: url("/images/pencil.svg");
+  position: absolute;
+  bottom: 0.2rem;
+  left: 0;
+  width: 4rem;
+  height: 4rem;
+  background-size: contain;
+  background-repeat: no-repeat;
+  animation: pencil 5s linear infinite;
+  animation-timing-function: ease-in-out;
+}
+@keyframes pencil {
+  0% {
+    transform-origin: 100%;
+    left: 0;
+  }
+  100% {
+    transform-origin: 100%;
+    left: 100%;
+  }
+}
