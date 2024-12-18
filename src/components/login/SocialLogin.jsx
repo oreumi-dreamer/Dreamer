@@ -154,7 +154,9 @@ export default function SocialLogin() {
               />
             </label>
             <p role="alert" className={styles["error-message"]}>
-              {error && "이메일 또는 비밀번호가 일치하지 않습니다"}
+              {email === "" || password === ""
+                ? "이메일과 비밀번호를 입력해주세요"
+                : error && "이메일 또는 비밀번호가 일치하지 않습니다"}
             </p>
             <Button
               type="submit"
@@ -176,7 +178,14 @@ export default function SocialLogin() {
             </div>
             <div className={styles["join-button"]}>
               <span>회원이 아니신가요?</span>
-              <Button type="button" onClick={() => setShowSignupForm(true)}>
+              <Button
+                type="button"
+                onClick={() => {
+                  setEmail("");
+                  setPassword("");
+                  setShowSignupForm(true);
+                }}
+              >
                 가입하기
               </Button>
             </div>

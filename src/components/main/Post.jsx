@@ -11,7 +11,6 @@ import useTheme from "@/hooks/styling/useTheme";
 export default function Post({
   styles,
   post: initialPosts,
-  setPosts,
   setSelectedPostId,
 }) {
   const [post, setPost] = useState(initialPosts);
@@ -80,20 +79,13 @@ export default function Post({
     }
   };
   const changeSpark = (postId) => {
-    setPosts((prevPosts) =>
-      prevPosts.map((prevPost) => {
-        if (prevPost.objectID === postId) {
-          return {
-            ...prevPost,
-            hasUserSparked: !prevPost.hasUserSparked,
-            sparkCount: prevPost.hasUserSparked
-              ? prevPost.sparkCount - 1
-              : prevPost.sparkCount + 1,
-          };
-        }
-        return prevPost;
-      })
-    );
+    setPost((prevData) => ({
+      ...prevData,
+      hasUserSparked: !prevData.hasUserSparked,
+      sparkCount: prevData.hasUserSparked
+        ? prevData.sparkCount - 1
+        : prevData.sparkCount + 1,
+    }));
   };
 
   const sparkHandle = async (postId) => {

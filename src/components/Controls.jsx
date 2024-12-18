@@ -67,7 +67,15 @@ export function ButtonLink({ highlight, children, href }) {
   );
 }
 
-export function Input({ type, value, onChange, background, disabled, id }) {
+export function Input({
+  type,
+  value,
+  onChange,
+  background,
+  disabled,
+  id,
+  onBlur,
+}) {
   let inputClass = styles["input"];
   if (type === "text" || type === "password" || type === "email") {
     inputClass = styles["input-text"];
@@ -82,6 +90,7 @@ export function Input({ type, value, onChange, background, disabled, id }) {
       className={inputClass}
       disabled={disabled}
       style={background === "white" ? { backgroundColor: "white" } : {}}
+      onBlur={onBlur}
     />
   );
 }
