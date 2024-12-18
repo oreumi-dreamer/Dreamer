@@ -274,7 +274,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
       if (response.ok) {
         const result = await response.json();
         const postId = result.postId;
-        router.push(`/post/${postId}`);
+        location.href = `/${user.userId}?post=${postId}`;
         closeWriteModal();
         resetForm();
       } else {

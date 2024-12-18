@@ -13,7 +13,7 @@ import Loading from "../Loading";
 import PostModal from "../modal/PostModal";
 import WritePost from "../write/WritePost";
 
-export default function Profile({ userName, write }) {
+export default function Profile({ userName, write, post }) {
   const router = useRouter();
   const [profile, setProfile] = useState(null);
   const [posts, setPosts] = useState(null);
@@ -93,6 +93,12 @@ export default function Profile({ userName, write }) {
   useEffect(() => {
     setIsShowModal(!!selectedPostId);
   }, [selectedPostId]);
+
+  useEffect(() => {
+    if (post) {
+      setSelectedPostId(post);
+    }
+  }, [post]);
 
   const [isWriteModalOpen, setIsWriteModalOpen] = useState(false);
 

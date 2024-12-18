@@ -12,6 +12,10 @@ export async function generateMetadata({ params }) {
 
 export default function UserProfile(props) {
   return (
-    <Profile userName={props.params.id} write={props.searchParams?.write} />
+    <Profile
+      userName={props.params.id}
+      write={props.searchParams?.write}
+      post={props.searchParams?.post}
+    />
   );
 }
