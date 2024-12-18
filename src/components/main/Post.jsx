@@ -155,7 +155,7 @@ export default function Post({
           )}
           <button
             ref={buttonRef}
-            onClick={() => handlePostMoreBtnClick(post.objectID, post.authorId)}
+            onClick={() => handlePostMoreBtnClick(post.id, post.authorId)}
           >
             <Image
               src="/images/more.svg"
@@ -170,9 +170,9 @@ export default function Post({
               ref={modalRef}
               style={modalStyle}
               togglePostPrivacy={() => {
-                togglePostPrivacy(post.objectID, post.isPrivate);
+                togglePostPrivacy(post.id, post.isPrivate);
               }}
-              postId={post.objectID}
+              postId={post.id}
               postIsPrivate={post.isPrivate}
             />
           )}
@@ -183,7 +183,7 @@ export default function Post({
         <Divider className={styles["divider"]} />
         <section
           className={styles["post-content"]}
-          onClick={() => handleModalOpen(post.objectID)}
+          onClick={() => handleModalOpen(post.id)}
         >
           {post.isTomong && (
             <img
@@ -208,7 +208,7 @@ export default function Post({
           )}
         </section>
         <section className={styles["post-btn-content"]}>
-          <button onClick={() => sparkHandle(post.objectID)}>
+          <button onClick={() => sparkHandle(post.id)}>
             {post.hasUserSparked ? (
               <>
                 {" "}
@@ -233,7 +233,7 @@ export default function Post({
               </>
             )}
           </button>
-          <button onClick={() => handleModalOpen(post.objectID)}>
+          <button onClick={() => handleModalOpen(post.id)}>
             <span className="sr-only">댓글 작성하기</span>
             <Image
               className={styles["icon-padding"]}
