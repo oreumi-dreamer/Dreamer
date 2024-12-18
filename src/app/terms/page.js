@@ -1,8 +1,12 @@
-import Header from "@/components/header/Header";
-import basicStyles from "../page.module.css";
 import styles from "../privacy/page.module.css";
-import Footer from "@/components/footer/Footer";
-import { CustomScrollbar } from "@/components/Controls";
+import { metadataMaker } from "@/utils/metadata";
+
+export async function generateMetadata() {
+  return metadataMaker(
+    `서비스 이용 약관: DREAMER`,
+    "DREAMER의 서비스 이용 약관입니다."
+  );
+}
 
 export default function Terms() {
   return (
