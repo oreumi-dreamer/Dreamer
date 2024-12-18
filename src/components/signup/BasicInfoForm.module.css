@@ -42,6 +42,7 @@
   text-indent: 2rem;
   color: var(--black-font-color);
 }
+
 .form-field input:focus,
 .input-wrapper div button:focus {
   outline: none;
