@@ -3,7 +3,6 @@ body:has(.main) {
   width: 100vw;
   height: 100vh;
 }
-
 .main {
   display: flex;
   flex-direction: column;
@@ -11,36 +10,21 @@ body:has(.main) {
   align-items: center;
   gap: 5.995rem;
   height: 100vh;
-}
-
-.main h1 {
-  margin-right: 5rem;
-}
-
-.main h1 img {
-  width: 85vw;
-  max-width: 60rem;
-  filter: var(--filter-EEF0DE);
-}
-
-main:has(.login-title) {
   background: #fff;
   max-width: 86rem;
   height: 92rem;
   border-radius: 2rem;
   margin: 8rem auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   color: var(--black-font-color);
   gap: 0;
 }
-main:has(.login-title) img {
-  max-width: 48rem;
+.main h1 {
+  margin-right: 5rem;
 }
-.login-form {
-  gap: 0;
+.main h1 img {
+  width: 85vw;
+  max-width: 48rem;
+  filter: var(--filter-EEF0DE);
 }
 .login-container {
   display: flex;
@@ -49,89 +33,7 @@ main:has(.login-title) img {
   align-items: center;
   gap: 1.6rem;
 }
-.id-label {
-  margin-bottom: 4rem;
-}
-.pw-label {
-  margin-bottom: 4.2rem;
-}
-.error-message {
-  color: var(--invalid-text-color);
-  margin-bottom: 0.8rem;
-}
 .login-title {
   font-size: var(--big-text-font-size);
   font-weight: bold;
-}
-.login-button {
-  width: 100%;
-  max-width: 14.5rem;
-  margin-bottom: 6.8rem;
-}
-.google-login {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.8rem;
-  margin-bottom: 0.8rem;
-}
-.join-button button,
-.join-button button:hover,
-.join-button button:active {
-  background: none;
-  padding: 0;
-  color: var(--deep-pink-color);
-  margin: 0 0 3.7rem 0.4rem;
-}
-
-/* '/' 첫페이지 구글,이메일 로그인 버튼 */
-.google-login-btn,
-.email-login-btn {
-  width: 24rem;
-  height: 5rem;
-  margin-bottom: 2.5rem;
-  border-radius: 1rem;
-  font-size: 1.6rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.google-login-btn img {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 3.2rem;
-  height: 3.2rem;
-  margin-right: 1rem;
-}
-.email-login-btn img {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 2.5rem;
-  height: 2.5rem;
-  margin-right: 1rem;
-  filter: var(--filter-EEF0DE);
-}
-.email-login-btn {
-  background-color: var(--email-login-btn-color);
-  color: var(--active-header-color);
-}
-.google-login-btn {
-  background-color: #4285f4;
-  color: var(--white-color);
-}
-.email-login-btn:hover {
-  background-color: var(--none-active-color);
-}
-.email-login-btn:active {
-  background-color: var(--email-login-btn-active-color);
-  color: var(--email-login-btn-active-text-color);
-}
-.email-login-btn:active img {
-  filter: var(--filter-fff);
-}
-.email-login-btn:disabled {
-  background-color: var(--email-login-btn-active-color);
-  cursor: not-allowed;
 }
