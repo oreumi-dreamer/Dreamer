@@ -176,7 +176,14 @@ export default function SocialLogin() {
             </div>
             <div className={styles["join-button"]}>
               <span>회원이 아니신가요?</span>
-              <Button type="button" onClick={() => setShowSignupForm(true)}>
+              <Button
+                type="button"
+                onClick={() => {
+                  setEmail("");
+                  setPassword("");
+                  setShowSignupForm(true);
+                }}
+              >
                 가입하기
               </Button>
             </div>
