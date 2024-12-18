@@ -77,7 +77,7 @@ export default function MainList() {
   };
 
   const handleModalOpen = (post) => {
-    setSelectedPostId(post.objectID);
+    setSelectedPostId(post.id);
   };
 
   const handleModalClose = () => {
