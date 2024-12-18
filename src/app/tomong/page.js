@@ -131,7 +131,7 @@ function TomongResult({
   const { userId } = useSelector((state) => state.auth.user);
   const [clickNext, setClickNext] = useState(false);
 
-  const RETRY_LIMIT = 3;
+  const RETRY_LIMIT = 2;
 
   useEffect(() => {
     // 컴포넌트 마운트 상태 추적
