@@ -19,8 +19,11 @@ export default function AuthStateHandler({ children }) {
   const pathname = usePathname();
   const [isAuthChecked, setIsAuthChecked] = useState(false);
   const isRegistering = useSelector((state) => state.auth.isRegistering); // 회원가입 중인지 확인
+  const isEmailVerified = useSelector(
+    (state) => state.auth.user?.emailVerified
+  ); // 이메일 인증 여부
 
-  const exceptPaths = ["/terms", "/privacy"];
+  const exceptPaths = ["/terms", "/privacy", "/join", "/join/verify-email"];
   const isExceptPath = exceptPaths.includes(pathname);
 
   useEffect(() => {
@@ -34,9 +37,10 @@ export default function AuthStateHandler({ children }) {
 
           if (result === true) {
             dispatch(setRegistrationComplete());
-          } else if (!isRegistering) {
+          } else if (!isRegistering && isEmailVerified) {
             // 회원가입 중이 아닐 때만 리다이렉트
             dispatch(resetRegistrationComplete());
+            console.log("Redirect to signup");
             router.push("/signup");
           }
         } catch (error) {

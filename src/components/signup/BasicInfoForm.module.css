@@ -40,15 +40,23 @@
   border-radius: 1rem;
   font-size: var(--body-font-size);
   text-indent: 2rem;
-  background-color: var(--input-color);
   color: var(--black-font-color);
 }
+
 .form-field input:focus,
 .input-wrapper div button:focus {
   outline: none;
   border: 0.2rem solid var(--focus-border-color);
 }
 
+.form-field input:-webkit-autofill,
+.form-field input:-webkit-autofill:hover,
+.form-field input:-webkit-autofill:focus,
+.form-field input:-webkit-autofill:active {
+  -webkit-text-fill-color: var(--black-font-color);
+  -webkit-box-shadow: 0 0 0px 1000px var(--input-color) inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
 .form-field .invalid {
   border: 0.2rem solid var(--invalid-border-color);
 }
@@ -65,12 +73,6 @@
   position: absolute;
   top: 4.2rem;
   right: -4rem;
-}
-
-.signup-form .user-login-field p {
-  font-size: var(--body-font-size);
-  margin: 4rem 0 0.8rem 0;
-  text-align: center;
 }
 
 .input-wrapper {
@@ -90,44 +92,27 @@
 }
 
 .agree label {
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 3.6rem;
+  margin: 3.6rem auto 6.6rem auto;
 }
 
-.login-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-}
-
-.login-buttons li:last-of-type {
-  position: relative;
-  top: 1rem;
-  filter: var(--filter-EEF0DE);
-}
-
-.login-buttons li:last-of-type button {
-  background-color: var(--email-button-color);
-  width: 4rem;
-  height: 4rem;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  top: -1rem;
-}
-
-.next-btn {
+.next-btn,
+.main-btn {
   padding: 0.8rem 2.4rem;
-  background-color: var(--deep-pink-color);
   border-radius: 1rem;
   font-size: var(--body-font-size);
+  background-color: var(--deep-pink-color);
   color: #ffffff;
   position: absolute;
   right: 5.2rem;
-  bottom: 0rem;
+  bottom: -1.3rem;
+}
+
+.main-btn {
+  background-color: var(--background-lightgray);
+  color: var(--black-font-color);
+  position: absolute;
+  right: unset;
+  left: 4rem;
 }
 
 .next-btn:hover {
@@ -138,8 +123,10 @@
   background-color: var(--active-btn-color);
 }
 
+.main-btn:hover,
 .next-btn:disabled {
   background-color: var(--none-active-color);
+  color: #fff;
 }
 
 @media (max-width: 480px) {
@@ -160,8 +147,5 @@
   }
   .input-wrapper div button {
     font-size: var(--small-text-font-size);
-  }
-  .signup-form .user-login-field p {
-    font-size: var(--body-font-size);
   }
 }

@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import styles from "../modal/PostModal.module.css";
-import markdownStyles from "@/app/tomong/Result.module.css";
+import markdownStyles from "@/components/tomong/Result.module.css";
 import { DREAM_GENRES, DREAM_MOODS } from "@/utils/constants";
 import { ConfirmModal, Divider, ShareModal } from "../Controls";
 import convertToHtml from "@/utils/markdownToHtml";
@@ -42,9 +42,7 @@ export default function PostContent({
   const buttonRef = useRef(null);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [shareModalOpen, setShareModalOpen] = useState(false);
-
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-
   const router = useRouter();
 
   useEffect(() => {
@@ -57,6 +55,13 @@ export default function PostContent({
           } else {
             response = await fetch(`/api/post/search/${postId}`);
           }
+
+          if (response.status === 404) {
+            alert("해당 게시글을 찾을 수 없습니다.");
+            onClose();
+            return;
+          }
+
           const data = await response.json();
           setPostData(data.post);
         }
@@ -531,13 +536,20 @@ export default function PostContent({
                 </li>
 
                 <li>
-                  <button type="submit">
-                    <img
-                      src="/images/send.svg"
-                      width={30}
-                      height={30}
-                      alt="댓글 입력"
-                    />
+                  <button type="submit" disabled={isCommentSubmitting}>
+                    {isCommentSubmitting ? (
+                      <Loading
+                        type="miniCircle"
+                        className={styles["send-btn"]}
+                      />
+                    ) : (
+                      <img
+                        src="/images/send.svg"
+                        width={30}
+                        height={30}
+                        alt="댓글 입력"
+                      />
+                    )}
                   </button>
                 </li>
               </ul>

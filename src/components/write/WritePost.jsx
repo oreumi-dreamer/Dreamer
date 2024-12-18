@@ -9,18 +9,45 @@ import MoodModal from "./MoodModal";
 import { useSelector } from "react-redux";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 import useTheme from "@/hooks/styling/useTheme";
+import Loading from "../Loading";
+import { useRouter } from "next/navigation";
 
 export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
   const [isWritingModalOpen, setIsWritingModalOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [contentValue, setContentValue] = useState("");
   const [isContentChanged, setIsContentChanged] = useState(false);
+  const [imageFiles, setImageFiles] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const { user } = useSelector((state) => state.auth);
   const { theme } = useTheme();
+  const router = useRouter();
 
   const profileImageUrl = user?.profileImageUrl || "/images/rabbit.svg";
   const userId = user?.userId;
   const userName = user?.userName;
+
+  // 해시태그/기분 클릭 목록
+  const [selectedGenres, setSelectedGenres] = useState([]);
+  const [selectedMoods, setSelectedMoods] = useState([]);
+  const [rating, setRating] = useState(null); // 별점
+  const [isPrivate, setIsPrivate] = useState(false); // 비공개
+  // 모달 열림 확인
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isMoodModalOpen, setIsMoodModalOpen] = useState(false);
+  const [isStopModalOpen, setIsStopModalOpen] = useState(false);
+
+  const genresId = selectedGenres.map((item) => item.id);
+  const moodsId = selectedMoods.map((item) => item.id);
+
+  const inProgress =
+    contentValue !== "" ||
+    inputValue !== "" ||
+    selectedGenres.length > 0 ||
+    selectedMoods.length > 0 ||
+    rating !== null ||
+    imageFiles !== null;
+
   // 모달 오픈 상태
   const modalRef = useRef(null);
   useEffect(() => {
@@ -28,18 +55,14 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
       modalRef.current.showModal();
     } else if (modalRef.current) {
       modalRef.current.close();
+      setImageFiles(null);
     }
   }, [isWriteModalOpen]);
+
   // 외부 클릭
   const handleBackgroundClick = (e) => {
     if (e.target === e.currentTarget) {
-      if (
-        contentValue !== "" ||
-        inputValue !== "" ||
-        selectedGenres.length > 0 ||
-        selectedMoods.length > 0 ||
-        rating !== null
-      ) {
+      if (inProgress) {
         setIsStopModalOpen(true);
       } else {
         closeWriteModal();
@@ -61,18 +84,6 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
     };
   }, [isWriteModalOpen, contentValue, isContentChanged]);
 
-  // 해시태그/기분 클릭 목록
-  const [selectedGenres, setSelectedGenres] = useState([]);
-  const [selectedMoods, setSelectedMoods] = useState([]);
-  const [rating, setRating] = useState(null); // 별점
-  const [isPrivate, setIsPrivate] = useState(false); // 비공개
-  // 모달 열림 확인
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isMoodModalOpen, setIsMoodModalOpen] = useState(false);
-  const [isStopModalOpen, setIsStopModalOpen] = useState(false);
-
-  const genresId = selectedGenres.map((item) => item.id);
-  const moodsId = selectedMoods.map((item) => item.id);
   const handleTitleChange = (e) => {
     setInputValue(e.target.value);
     setIsContentChanged(true);
@@ -85,21 +96,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
     setRating(e.target.value);
   };
   const openModal = () => {
-    if (!isModalOpen) {
-      setIsModalOpen(true);
-
-      if (tagButtonRef.current) {
-        const position = {
-          position: "absolute",
-          top: "50px",
-          right: "0px",
-          zIndex: "10",
-        };
-        setTagModalStyle(position);
-      }
-    } else {
-      setIsModalOpen(false);
-    }
+    setIsModalOpen(false);
   };
 
   const openMoodModal = () => {
@@ -124,19 +121,52 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
   }, [isWritingModalOpen, isFormCompleted]);
 
   const handleStopWriting = () => {
-    if (
-      contentValue !== "" ||
-      inputValue !== "" ||
-      selectedGenres.length > 0 ||
-      selectedMoods.length > 0 ||
-      rating !== null
-    ) {
+    if (inProgress) {
       setIsStopModalOpen(true);
     } else {
       resetForm();
       setIsWritingModalOpen(false);
       closeWriteModal();
       setIsFormCompleted(true);
+    }
+  };
+
+  // 이미지 삭제
+  const handleDeleteImage = (indexToRemove) => {
+    if (!imageFiles || Object.keys(imageFiles).length === 0) return null;
+    const dataTransfer = new DataTransfer();
+    const files = Array.from(imageFiles);
+    // 선택된 인덱스를 제외한 나머지 파일들을 새로운 FileList에 추가
+    files.forEach((file, index) => {
+      if (index !== indexToRemove) {
+        dataTransfer.items.add(file);
+      }
+    });
+
+    const newFileList = dataTransfer.files;
+    setImageFiles(newFileList);
+
+    if (newFileList.length === 0) {
+      setImageFiles(null);
+    }
+  };
+
+  // 이미지 추가
+  const handleImageUpload = (e) => {
+    if (!imageFiles) {
+      // 처음 파일을 추가하는 경우
+      setImageFiles(e.target.files);
+    } else {
+      // 기존 파일이 있는 경우, 새로운 FileList를 기존 파일과 합치기
+      const newFiles = Array.from(e.target.files);
+      const existingFiles = Array.from(imageFiles);
+      // FileList 객체를 생성하기 위해 DataTransfer 사용
+      const dataTransfer = new DataTransfer();
+      // 기존 파일과 새 파일을 모두 추가
+      [...existingFiles, ...newFiles].forEach((file) => {
+        dataTransfer.items.add(file);
+      });
+      setImageFiles(dataTransfer.files);
     }
   };
 
@@ -158,7 +188,6 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
           left: `${buttonRect.left + window.scrollX}px`,
           zIndex: "10",
         };
-        console.log(position);
 
         setTagModalStyle(position);
       };
@@ -168,15 +197,11 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
 
       return () => {
         window.removeEventListener("resize", updatePosition);
-        console.log("tagButtonRef.current:", tagButtonRef.current);
-        console.log("tagModalRef.current:", tagModalRef.current);
       };
     }
   }, [tagButtonRef, tagModalRef, isModalOpen]);
 
   useLayoutEffect(() => {
-    console.log("moodButtonRef.current:", moodButtonRef.current); // 확인
-    console.log("moodModalRef.current:", moodModalRef.current);
     if (moodButtonRef.current && moodModalRef.current) {
       const updatePosition = () => {
         const buttonRect = moodButtonRef.current.getBoundingClientRect();
@@ -186,7 +211,6 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
           left: `${buttonRect.left + window.scrollX - 8}px`,
           zIndex: "10",
         };
-        console.log(position);
 
         setMoodModalStyle(position);
       };
@@ -234,21 +258,32 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
     formData.append("moods", JSON.stringify(moodsId));
     formData.append("rating", rating === null ? "0" : rating);
     formData.append("isPrivate", isPrivate ? "true" : "false");
+    if (imageFiles?.length > 0) {
+      Array.from(imageFiles).forEach((file) => {
+        formData.append("images", file);
+      });
+    }
 
     try {
+      setIsLoading(true);
       const response = await fetchWithAuth("/api/post/create", {
         method: "POST",
         body: formData,
       });
 
       if (response.ok) {
-        resetForm();
+        const result = await response.json();
+        const postId = result.postId;
+        location.href = `/${user.userId}?post=${postId}`;
         closeWriteModal();
+        resetForm();
       } else {
         alert("게시글 작성 실패");
       }
     } catch (error) {
       console.error("에러", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -442,26 +477,68 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
                   checked={rating === "5"}
                 />
               </div>
+              <div className={styles["image-uploader"]}>
+                <label>
+                  <div className={styles["btn-upload"]}>이미지 추가하기</div>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    id={styles["file"]}
+                    multiple
+                    onChange={handleImageUpload}
+                  />
+                </label>
+              </div>
             </div>
             <span className={styles["break-line"]}></span>
             <p className={styles["text-field-area"]}>
               <span className="sr-only">글 작성</span>
               <textarea
                 placeholder="오늘은 어떤 꿈을 꾸셨나요?"
-                className={styles["text-field-area"]}
+                className={`${styles["text-field-area"]} ${imageFiles && styles["has-image"]}`}
                 onChange={handleContentChange}
                 value={contentValue}
               />
+              <section className={styles["image-preview-field"]}>
+                {imageFiles &&
+                  Array.from(imageFiles).map((img, index) => (
+                    <div key={index} className={styles["image-container"]}>
+                      <button
+                        type="button"
+                        className={styles["image-delete"]}
+                        onClick={() => handleDeleteImage(index)}
+                      >
+                        <Image
+                          src="/images/close.svg"
+                          width={30}
+                          height={30}
+                          alt="이미지 삭제"
+                        />
+                      </button>
+                      <Image
+                        src={URL.createObjectURL(img)}
+                        width={100}
+                        height={100}
+                        alt={`이미지${index}`}
+                        className={styles["preview-image"]}
+                      />
+                    </div>
+                  ))}
+              </section>
             </p>
           </div>
           <div className={styles["btn-submit-area"]}>
-            <button
-              type="submit"
-              form="new-post-form"
-              className={styles["btn-submit"]}
-            >
-              전송
-            </button>
+            {isLoading ? (
+              <Loading type="miniCircle" />
+            ) : (
+              <button
+                type="submit"
+                form="new-post-form"
+                className={styles["btn-submit"]}
+              >
+                전송
+              </button>
+            )}
           </div>
         </form>
         <HashtagModal

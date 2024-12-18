@@ -7,7 +7,7 @@ export const calculateMobileModalPosition = (
 
   return {
     position: "absolute",
-    top: `${offsetY}px`,
+    bottom: `${offsetY}px`,
     right: `${offsetX}px`,
     zIndex: "10",
   };

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { auth, googleProvider } from "@/lib/firebase";
@@ -127,17 +128,13 @@ export default function SocialLogin() {
     <section className={styles["login-container"]}>
       {showEmailForm && !showSignupForm ? (
         <>
-          <h2>이메일로 로그인</h2>
+          <h2 className={styles["login-title"]}>이메일로 로그인</h2>
+          <p>다시 꿈꾸러 오셔서 기뻐요!</p>
           <LoginForm
             onSubmit={handleEmailLogin}
             className={styles["login-form"]}
           >
-            {error && (
-              <p role="alert" className={styles["error-message"]}>
-                {error}
-              </p>
-            )}
-            <label>
+            <label className={styles["id-label"]}>
               이메일
               <Input
                 type="email"
@@ -147,7 +144,7 @@ export default function SocialLogin() {
                 required
               />
             </label>
-            <label>
+            <label className={styles["pw-label"]}>
               비밀번호
               <Input
                 type="password"
@@ -157,27 +154,39 @@ export default function SocialLogin() {
                 required
               />
             </label>
-            <Button type="submit" highlight={true}>
+            <p role="alert" className={styles["error-message"]}>
+              {email === "" || password === ""
+                ? "이메일과 비밀번호를 입력해주세요"
+                : error && "이메일 또는 비밀번호가 일치하지 않습니다"}
+            </p>
+            <Button
+              type="submit"
+              highlight={true}
+              className={styles["login-button"]}
+            >
               로그인
             </Button>
-            <div className={styles["join-button"]}>
-              <p>회원이 아니신가요?</p>
-              <Button type="button" onClick={() => setShowSignupForm(true)}>
-                가입하기
-              </Button>
+            <div className={styles["google-login"]}>
+              <p>다른 방법으로 로그인하기</p>
+              <button type="button" onClick={handleGoogleLogin}>
+                <img
+                  src="/images/google-logo.svg"
+                  width={40}
+                  height={40}
+                  alt="google 로그인"
+                />
+              </button>
             </div>
-            <Button
-              type="button"
-              onClick={() => setShowEmailForm(false)}
-              className={styles["back-btn"]}
-            >
-              돌아가기
-            </Button>
+            <div className={styles["join-button"]}>
+              <span>회원이 아니신가요?</span>
+              <Link href="/join">가입하기</Link>
+            </div>
           </LoginForm>
         </>
       ) : showSignupForm ? (
         <>
-          <h2>회원가입</h2>
+          <h2 className={styles["login-title"]}>회원가입</h2>
+          <p>새로운 드리머가 되어 당신이 꾼 꿈을 알려주세요!</p>
           <EmailSignup
             email={email}
             setEmail={setEmail}
@@ -187,6 +196,7 @@ export default function SocialLogin() {
             error={error}
             setError={setError}
             checkUserExists={checkUserExists}
+            handleGoogleLogin={handleGoogleLogin}
           />
         </>
       ) : (

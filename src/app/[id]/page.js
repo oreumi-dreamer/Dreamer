@@ -1,11 +1,7 @@
 // 사용자 프로필 페이지
 
-import Header from "@/components/header/Header";
-import Footer from "@/components/footer/Footer";
 import Profile from "@/components/profile/Profile";
-import styles from "@/app/page.module.css";
 import { metadataMaker } from "@/utils/metadata";
-import { CustomScrollbar } from "@/components/Controls";
 
 export async function generateMetadata({ params }) {
   return metadataMaker(
@@ -15,5 +11,11 @@ export async function generateMetadata({ params }) {
 }
 
 export default function UserProfile(props) {
-  return <Profile userName={props.params.id} />;
+  return (
+    <Profile
+      userName={props.params.id}
+      write={props.searchParams?.write}
+      post={props.searchParams?.post}
+    />
+  );
 }

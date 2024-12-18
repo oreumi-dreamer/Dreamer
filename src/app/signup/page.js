@@ -11,27 +11,30 @@ import Loading from "@/components/Loading";
 import { useDispatch, useSelector } from "react-redux";
 import { checkUserExists } from "@/utils/auth/checkUser";
 import SignupHeader from "@/components/signup/SignupHeader";
+import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 
 export default function Signup() {
   const router = useRouter();
   const dispatch = useDispatch();
   const [process, setProcess] = useState(0);
   const [isJoined, setIsJoined] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        if (!user) return;
+        const res = await fetchWithAuth("/api/auth/verify");
+        const result = await res.json();
 
-        const exists = await checkUserExists(dispatch);
-
-        if (exists === true) {
+        if (result.exists === true || !result.uid) {
           router.push("/");
         }
+        setIsLoading(false); // 체크 완료 후 로딩 상태 해제
       } catch (error) {
         console.error("Auth check error:", error);
+        setIsLoading(false); // 에러 발생시에도 로딩 상태 해제
       }
     };
 
@@ -143,7 +146,7 @@ export default function Signup() {
   };
 
   // useSignupSubmit 훅 사용
-  const { isLoading, error } = useSignupSubmit({
+  const { error } = useSignupSubmit({
     process,
     formData,
     onSuccess: handleSuccess,

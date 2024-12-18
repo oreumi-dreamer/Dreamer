@@ -27,6 +27,7 @@ async function compressImage(imageBuffer) {
       fit: "inside",
       withoutEnlargement: true,
     })
+    .flatten({ background: { r: 255, g: 255, b: 255 } })
     .jpeg({
       // JPEG 포맷으로 변환
       quality: 80, // 품질 설정 (0-100)
@@ -184,7 +185,7 @@ export async function POST(request) {
     return new Response(
       JSON.stringify({
         success: true,
-        postId: docRef.id,
+        postId: docRef,
       }),
       {
         status: 201,

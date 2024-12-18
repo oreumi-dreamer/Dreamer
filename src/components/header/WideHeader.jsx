@@ -45,11 +45,12 @@ export default function WideHeader({
     if (modalRef.current && buttonRef.current) {
       const updatePosition = () => {
         const buttonRect = buttonRef.current.getBoundingClientRect();
+        const modalHeight = 295;
         const position = {
           position: "absolute",
-          top: `${buttonRect.bottom - 580}px`,
-          right: `${buttonRect.left - 180}px`,
-          zIndex: "1000",
+          top: `${buttonRect.top - modalHeight*2}px`,
+          left: `${buttonRect.left - 100}px`,
+          zIndex: "10",
         };
         if (position) {
           setModalStyle(position);

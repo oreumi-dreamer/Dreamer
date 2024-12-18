@@ -61,15 +61,16 @@ export default function NarrowHeader({
     if (modalRef.current && buttonRef.current) {
       const updatePosition = () => {
         const buttonRect = buttonRef.current.getBoundingClientRect();
+        const modalHeight = 295;
         let position;
         if (isTopHeader) {
-          position = calculateMobileModalPosition(buttonRef, 0, 48);
+          position = calculateMobileModalPosition(buttonRef, 10, 58);
         } else {
           position = {
             position: "absolute",
-            top: `${buttonRect.bottom - 532}px`,
+            top: `${buttonRect.top - modalHeight*2}px`,
             left: `${buttonRect.right} - 50px`,
-            zIndex: "1000",
+            zIndex: "10",
           };
         }
         if (position) {
@@ -171,32 +172,34 @@ export default function NarrowHeader({
             </li>
           </ul>
         </nav>
-        <Link
-          href={`/${userId}`}
-          className={`${styles["nav-item"]} ${styles["profile-btn"]}`}
-          onClick={() => handleActiveBtn("프로필")}
-        >
-          <img
-            src={profileImageUrl ? profileImageUrl : "/images/rabbit.svg"}
-            alt="프로필사진"
-            loading="lazy"
-            width={40}
-            height={40}
-          />
-        </Link>
-        <button
-          className={`${styles["nav-item"]} ${styles["more-btn"]} ${isOpen ? styles.active : ""}`}
-          ref={buttonRef}
-          onClick={onMoreBtnClick}
-        >
-          <Image
-            src="/images/more.svg"
-            alt="더보기"
-            loading="lazy"
-            width={40}
-            height={40}
-          />
-        </button>
+        <nav>
+          <Link
+            href={`/${userId}`}
+            className={`${styles["nav-item"]} ${styles["profile-btn"]}`}
+            onClick={() => handleActiveBtn("프로필")}
+          >
+            <img
+              src={profileImageUrl ? profileImageUrl : "/images/rabbit.svg"}
+              alt="프로필사진"
+              loading="lazy"
+              width={40}
+              height={40}
+            />
+          </Link>
+          <button
+            className={`${styles["nav-item"]} ${styles["more-btn"]} ${isOpen ? styles.active : ""}`}
+            ref={buttonRef}
+            onClick={onMoreBtnClick}
+          >
+            <Image
+              src="/images/more.svg"
+              alt="더보기"
+              loading="lazy"
+              width={40}
+              height={40}
+            />
+          </button>
+        </nav>
         {isOpen && <HeaderBaseModal ref={modalRef} style={modalStyle} />}
       </div>
     </header>

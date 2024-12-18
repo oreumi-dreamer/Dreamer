@@ -24,6 +24,7 @@ export const uploadAvatar = async (idToken, image, uid) => {
         fit: "inside",
         withoutEnlargement: true,
       })
+      .flatten({ background: { r: 255, g: 255, b: 255 } })
       .jpeg({ quality: 80 })
       .toBuffer();
 

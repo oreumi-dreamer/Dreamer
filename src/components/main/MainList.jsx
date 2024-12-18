@@ -9,7 +9,7 @@ import PostModal from "../modal/PostModal";
 
 export default function MainList() {
   const [posts, setPosts] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false); // true에서 false로 변경
   const [cursor, setCursor] = useState(null);
   const [hasMore, setHasMore] = useState(true);
   const [showButton, setShowButton] = useState(true);
@@ -19,6 +19,8 @@ export default function MainList() {
   const LIMIT = 5;
 
   const fetchPosts = async (nextCursor = null) => {
+    if (isLoading) return;
+
     try {
       setIsLoading(true);
 
@@ -30,23 +32,24 @@ export default function MainList() {
       const res = await fetchWithAuth(`/api/post/feeds?${queryParams}`);
       const data = await res.json();
 
-      if (!nextCursor) {
-        setPosts(data.posts);
-      } else {
-        setPosts((prev) => [...prev, ...data.posts]);
-      }
-
+      setPosts((prevPosts) =>
+        nextCursor ? [...prevPosts, ...data.posts] : data.posts
+      );
       setCursor(data.pagination.nextCursor);
       setHasMore(data.pagination.hasMore);
-      setIsLoading(false);
     } catch (error) {
       console.error("Error fetching posts:", error);
+    } finally {
       setIsLoading(false);
     }
   };
 
+  // 초기 데이터 로딩
   useEffect(() => {
-    fetchPosts();
+    if (posts.length === 0) {
+      // 추가: 중복 로딩 방지
+      fetchPosts();
+    }
   }, []);
 
   const handleScroll = useCallback(() => {
@@ -74,7 +77,7 @@ export default function MainList() {
   };
 
   const handleModalOpen = (post) => {
-    setSelectedPostId(post.objectID);
+    setSelectedPostId(post.id);
   };
 
   const handleModalClose = () => {
@@ -92,7 +95,7 @@ export default function MainList() {
         {posts.map((post) => (
           <Post
             styles={styles}
-            key={post.objectID + Math.random()}
+            key={post.id}
             post={post}
             setSelectedPostId={() => handleModalOpen(post)}
           />
@@ -112,6 +115,7 @@ export default function MainList() {
         )}
       </main>
       <PostModal
+        key={selectedPostId}
         postId={selectedPostId}
         isShow={isShowModal}
         onClose={handleModalClose}
