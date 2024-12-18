@@ -64,3 +64,10 @@ main:has(.email-signup) {
   bottom: 4.3rem;
   right: 5.2rem;
 }
+
+.check-your-email {
+  font-size: var(--h2-font-size);
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 1.6rem;
+}

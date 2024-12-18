@@ -7,7 +7,8 @@ const initialState = {
   isLoading: false,
   error: null,
   isRegistrationComplete: false,
-  isRegistering: false, // 추가
+  isRegistering: false,
+  isEmailVerified: false,
   theme: "device",
 };
 
@@ -29,6 +30,12 @@ const authSlice = createSlice({
     },
     resetRegistrationComplete: (state) => {
       state.isRegistrationComplete = false;
+    },
+    setEmailVerified: (state) => {
+      state.isEmailVerified = true;
+    },
+    resetEmailVerified: (state) => {
+      state.isEmailVerified = false;
     },
     loginFailure: (state, action) => {
       state.isLoading = false;
@@ -64,6 +71,8 @@ export const {
   logout,
   setRegistering,
   resetRegistering,
+  setEmailVerified,
+  resetEmailVerified,
   setUserTheme,
 } = authSlice.actions;
 export default authSlice.reducer;

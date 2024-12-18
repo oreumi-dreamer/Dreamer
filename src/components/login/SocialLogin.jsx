@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { auth, googleProvider } from "@/lib/firebase";
@@ -178,16 +179,7 @@ export default function SocialLogin() {
             </div>
             <div className={styles["join-button"]}>
               <span>회원이 아니신가요?</span>
-              <Button
-                type="button"
-                onClick={() => {
-                  setEmail("");
-                  setPassword("");
-                  setShowSignupForm(true);
-                }}
-              >
-                가입하기
-              </Button>
+              <Link href="/join">가입하기</Link>
             </div>
           </LoginForm>
         </>

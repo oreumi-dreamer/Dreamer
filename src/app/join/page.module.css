@@ -1,3 +1,28 @@
+body:has(.main) {
+  background: var(--background-blue-top);
+  width: 100vw;
+  height: 100vh;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5.995rem;
+  height: 100vh;
+}
+
+.main h1 {
+  margin-right: 5rem;
+}
+
+.main h1 img {
+  width: 85vw;
+  max-width: 60rem;
+  filter: var(--filter-EEF0DE);
+}
+
 main:has(.login-title) {
   background: #fff;
   max-width: 86rem;
@@ -8,7 +33,6 @@ main:has(.login-title) {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: var(--background-white);
   color: var(--black-font-color);
   gap: 0;
 }
@@ -53,10 +77,7 @@ main:has(.login-title) img {
 }
 .join-button button,
 .join-button button:hover,
-.join-button button:active,
-.join-button a,
-.join-button a:hover,
-.join-button a:active {
+.join-button button:active {
   background: none;
   padding: 0;
   color: var(--deep-pink-color);
