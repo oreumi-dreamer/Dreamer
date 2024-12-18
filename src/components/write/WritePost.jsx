@@ -9,6 +9,7 @@ import MoodModal from "./MoodModal";
 import { useSelector } from "react-redux";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 import useTheme from "@/hooks/styling/useTheme";
+import { useRouter } from "next/navigation";
 
 export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
   const [isWritingModalOpen, setIsWritingModalOpen] = useState(false);
@@ -73,6 +74,8 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isMoodModalOpen, setIsMoodModalOpen] = useState(false);
   const [isStopModalOpen, setIsStopModalOpen] = useState(false);
+
+  const router = useRouter();
 
   const genresId = selectedGenres.map((item) => item.id);
   const moodsId = selectedMoods.map((item) => item.id);
@@ -264,7 +267,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
     formData.append("moods", JSON.stringify(moodsId));
     formData.append("rating", rating === null ? "0" : rating);
     formData.append("isPrivate", isPrivate ? "true" : "false");
-    if (imageFiles.length > 0) {
+    if (imageFiles?.length > 0) {
       Array.from(imageFiles).forEach((file) => {
         formData.append("images", file);
       });
@@ -277,8 +280,11 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
       });
 
       if (response.ok) {
+        const result = await response.json();
+        const postId = result.postId;
+        router.push(`/post/${postId}`);
+
         resetForm();
-        closeWriteModal();
       } else {
         alert("게시글 작성 실패");
       }
