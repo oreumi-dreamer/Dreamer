@@ -63,7 +63,7 @@ export default function NarrowHeader({
         const buttonRect = buttonRef.current.getBoundingClientRect();
         let position;
         if (isTopHeader) {
-          position = calculateMobileModalPosition(buttonRef, 0, 48);
+          position = calculateMobileModalPosition(buttonRef, 10, 58);
         } else {
           position = {
             position: "absolute",
@@ -171,32 +171,34 @@ export default function NarrowHeader({
             </li>
           </ul>
         </nav>
-        <Link
-          href={`/${userId}`}
-          className={`${styles["nav-item"]} ${styles["profile-btn"]}`}
-          onClick={() => handleActiveBtn("프로필")}
-        >
-          <img
-            src={profileImageUrl ? profileImageUrl : "/images/rabbit.svg"}
-            alt="프로필사진"
-            loading="lazy"
-            width={40}
-            height={40}
-          />
-        </Link>
-        <button
-          className={`${styles["nav-item"]} ${styles["more-btn"]} ${isOpen ? styles.active : ""}`}
-          ref={buttonRef}
-          onClick={onMoreBtnClick}
-        >
-          <Image
-            src="/images/more.svg"
-            alt="더보기"
-            loading="lazy"
-            width={40}
-            height={40}
-          />
-        </button>
+        <nav>
+          <Link
+            href={`/${userId}`}
+            className={`${styles["nav-item"]} ${styles["profile-btn"]}`}
+            onClick={() => handleActiveBtn("프로필")}
+          >
+            <img
+              src={profileImageUrl ? profileImageUrl : "/images/rabbit.svg"}
+              alt="프로필사진"
+              loading="lazy"
+              width={40}
+              height={40}
+            />
+          </Link>
+          <button
+            className={`${styles["nav-item"]} ${styles["more-btn"]} ${isOpen ? styles.active : ""}`}
+            ref={buttonRef}
+            onClick={onMoreBtnClick}
+          >
+            <Image
+              src="/images/more.svg"
+              alt="더보기"
+              loading="lazy"
+              width={40}
+              height={40}
+            />
+          </button>
+        </nav>
         {isOpen && <HeaderBaseModal ref={modalRef} style={modalStyle} />}
       </div>
     </header>
