@@ -7,6 +7,7 @@ import { MyPost, OtherPost } from "../dropDown/DropDown";
 import { outsideClickModalClose } from "@/utils/outsideClickModalClose";
 import { Divider, ShareModal } from "../Controls";
 import useTheme from "@/hooks/styling/useTheme";
+import useMediaQuery from "@/hooks/styling/useMediaQuery";
 
 export default function Post({
   styles,
@@ -23,6 +24,60 @@ export default function Post({
   const { theme } = useTheme();
 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+
+  // 이미지 반응형적용
+  const [overlayWrapStyle, setOverlayWrapStyle] = useState("");
+  const [blurStyle, setBlurStyle] = useState("");
+  const [overlayStyle, setOverlayStyle] = useState("");
+  const [moreCount, setMoreCount] = useState(0);
+
+  const fiveView = useMediaQuery("(min-width : 1280px)");
+  const fourView = useMediaQuery(
+    "(min-width : 769px) and (max-width: 1279px )"
+  );
+  const threeView = useMediaQuery("(min-width:481px) and (max-width: 768px )");
+  const twoView = useMediaQuery("(max-width: 480px )");
+
+  const getImageCount = () => {
+    if (post.imageUrls && post.imageUrls.length > 0) {
+      if (fiveView) {
+        return 5;
+      } else if (fourView) {
+        return 4;
+      } else if (threeView) {
+        return 3;
+      } else if (twoView) {
+        return 2;
+      }
+      return post.imageUrls.length;
+    }
+    return 0;
+  };
+  const imageLayout = () => {
+    setOverlayWrapStyle(styles["has-overlay"]);
+    setBlurStyle(styles["blur"]);
+  };
+
+  const initOverlay = () => {
+    setOverlayWrapStyle("");
+    setBlurStyle("");
+    setOverlayStyle("");
+    setMoreCount(0);
+  };
+  const imageResponsive = () => {
+    const imageCount = getImageCount();
+    if (post.imageUrls.length > imageCount) {
+      imageLayout();
+      setOverlayStyle(styles["overlay"]);
+      setMoreCount(post.imageUrls.length - imageCount);
+    } else {
+      initOverlay();
+    }
+  };
+
+  useEffect(() => {
+    imageResponsive();
+  }, [fiveView, fourView, threeView, twoView, post.imageUrls.length]);
 
   useEffect(() => {
     if (modalRef.current && buttonRef.current) {
@@ -194,16 +249,25 @@ export default function Post({
           )}
           <p className={styles["post-text"]}>{post.content}</p>
           {post.imageUrls && (
-            <div className={styles["post-img-wrap"]}>
-              {post.imageUrls.map((url, index) => (
-                <img
-                  key={index}
-                  className={styles["post-img"]}
-                  src={url}
-                  alt={`게시글 이미지 ${index}`}
-                  loading="lazy"
-                />
-              ))}
+            <div className={`${styles["post-img-wrap"]}`}>
+              {post.imageUrls
+                .slice(0, getImageCount())
+                .map((url, index, arr) => {
+                  const isLastImage = index === arr.length - 1;
+                  return (
+                    <div key={index} className={overlayWrapStyle}>
+                      <img
+                        className={`${styles["post-img"]} ${blurStyle}`}
+                        src={url}
+                        alt={`게시글 이미지 ${index}`}
+                        loading="lazy"
+                      />
+                      {isLastImage && overlayStyle && moreCount > 0 && (
+                        <div className={styles["overlay"]}>+{moreCount}</div>
+                      )}
+                    </div>
+                  );
+                })}
             </div>
           )}
         </section>

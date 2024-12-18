@@ -109,17 +109,65 @@ div.divider {
 }
 
 .post-content .post-img-wrap {
-  display: flex;
-  flex-wrap: wrap;
+  max-height: 10.8rem;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  overflow: hidden;
+  margin-top: 2.5rem;
   gap: 1rem;
+  transition: all 0.3s ease;
+}
+
+@media screen and (max-width: 1279px) {
+  .post-content .post-img-wrap {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .post-content .post-img-wrap {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .post-content .post-img-wrap {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.post-img-wrap .has-overlay {
+  position: relative;
+  margin-top: 0;
+  padding: 0;
 }
 
 .post-content .post-img {
   width: 10.8rem;
   height: 10.8rem;
-  margin-top: 2.5rem;
   background-color: var(--gray-font-color);
   object-fit: cover;
+  border-radius: 1rem;
+  aspect-ratio: 1/1;
+}
+
+.post-img-wrap .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 10.8rem;
+  height: 10.8rem;
+  background-color: var(--mainPost-img-overlay);
+  color: var(--dark-white-color);
+  font-weight: bold;
+  font-size: var(--h2-font-size);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+  filter: none;
+  backdrop-filter: blur(0.2rem);
+  border-radius: 1rem;
 }
 
 .post-btn-content {

@@ -42,6 +42,8 @@
   --option-hover-color: #ccc;
   --focus-border-color: #a54cb4;
   --delete-btn-background: rgba(200, 200, 200, 0.75);
+  --mainPost-img-overlay: rgba(0, 0, 0, 60%);
+
   --tomong-stamp-half-opacity: 0.5;
   --tomong-stamp-one-fifth-opacity: 0.2;
   --tomong-list-item-background: #fff;
@@ -256,13 +258,13 @@ body:has(header):has(main):has(footer) main {
   }
 }
 
-@media (max-width: 860px) {
+@media (max-width: 969px) {
   body:has(header):has(main):has(footer) main {
     padding: 16.6rem 0 16.6rem 0;
   }
 }
 
-@media (max-width: 860px) {
+@media (max-width: 969px) {
   body:has(header):has(main):has(footer) {
     flex-direction: column;
     width: max-content;

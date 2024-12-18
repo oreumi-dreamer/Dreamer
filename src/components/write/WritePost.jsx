@@ -9,8 +9,8 @@ import MoodModal from "./MoodModal";
 import { useSelector } from "react-redux";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 import useTheme from "@/hooks/styling/useTheme";
-import Loading from "../Loading";
 import { useRouter } from "next/navigation";
+import Uploading from "./Uploading";
 
 export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
   const [isWritingModalOpen, setIsWritingModalOpen] = useState(false);
@@ -529,7 +529,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
           </div>
           <div className={styles["btn-submit-area"]}>
             {isLoading ? (
-              <Loading type="miniCircle" />
+              <Uploading />
             ) : (
               <button
                 type="submit"
