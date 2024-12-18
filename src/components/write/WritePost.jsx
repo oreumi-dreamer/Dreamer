@@ -21,6 +21,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useSelector((state) => state.auth);
   const { theme } = useTheme();
+  const router = useRouter();
 
   const profileImageUrl = user?.profileImageUrl || "/images/rabbit.svg";
   const userId = user?.userId;
@@ -274,7 +275,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
         const result = await response.json();
         const postId = result.postId;
         router.push(`/post/${postId}`);
-
+        closeWriteModal();
         resetForm();
       } else {
         alert("게시글 작성 실패");
