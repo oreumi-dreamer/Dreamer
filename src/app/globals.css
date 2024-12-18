@@ -41,8 +41,11 @@
   --post-text-blur: linear-gradient(#fcfcfc00, #fcfcfc);
   --option-hover-color: #ccc;
   --focus-border-color: #a54cb4;
+  --delete-btn-background:rgba(200,200,200,0.75);
+
   --tomong-stamp-half-opacity: 0.5;
   --tomong-stamp-one-fifth-opacity: 0.2;
+
   --filter-EEF0DE: none;
   --filter-5f6368: invert(59%) sepia(0%) saturate(0%) hue-rotate(0deg)
     brightness(58%) contrast(91%);

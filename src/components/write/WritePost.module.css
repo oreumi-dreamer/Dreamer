@@ -285,7 +285,6 @@
 }
 
 .image-preview-field .preview-image {
-  background-color: var(--background-white);
   object-fit: contain;
 }
 
@@ -299,6 +298,10 @@
   position: absolute;
   top: 0;
   right: 0;
+  background-color: var(--delete-btn-background);
+  border-radius: 50%;
+  width: 3rem;
+  height: 3rem;
 }
 
 .btn-submit-area {
@@ -307,6 +310,7 @@
   right: 2.5rem;
   bottom: 2rem;
 }
+
 .btn-submit {
   background-color: var(--deep-pink-color);
   padding: 0.8rem 4rem;

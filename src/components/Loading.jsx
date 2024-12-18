@@ -17,6 +17,12 @@ export default function Loading({ type }) {
         </div>
       </div>
     );
+  } else if (type === "miniCircle") {
+    return (
+      <div className={styles["loading-mini"]}>
+        <div></div>
+      </div>
+    );
   } else {
     return (
       <div className={styles.loading}>
