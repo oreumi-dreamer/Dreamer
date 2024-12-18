@@ -9,6 +9,7 @@ import MoodModal from "./MoodModal";
 import { useSelector } from "react-redux";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 import useTheme from "@/hooks/styling/useTheme";
+import Loading from "../Loading";
 
 export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
   const [isWritingModalOpen, setIsWritingModalOpen] = useState(false);
@@ -16,6 +17,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
   const [contentValue, setContentValue] = useState("");
   const [isContentChanged, setIsContentChanged] = useState(false);
   const [imageFiles, setImageFiles] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const { user } = useSelector((state) => state.auth);
   const { theme } = useTheme();
 
@@ -261,6 +263,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
     }
 
     try {
+      setIsLoading(true);
       const response = await fetchWithAuth("/api/post/create", {
         method: "POST",
         body: formData,
@@ -274,6 +277,8 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
       }
     } catch (error) {
       console.error("에러", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -518,13 +523,17 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
             </p>
           </div>
           <div className={styles["btn-submit-area"]}>
-            <button
-              type="submit"
-              form="new-post-form"
-              className={styles["btn-submit"]}
-            >
-              전송
-            </button>
+            {isLoading ? (
+              <Loading type="miniCircle" />
+            ) : (
+              <button
+                type="submit"
+                form="new-post-form"
+                className={styles["btn-submit"]}
+              >
+                전송
+              </button>
+            )}
           </div>
         </form>
         <HashtagModal
