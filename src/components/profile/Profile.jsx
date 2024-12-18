@@ -13,7 +13,7 @@ import Loading from "../Loading";
 import PostModal from "../modal/PostModal";
 import WritePost from "../write/WritePost";
 
-export default function Profile({ userName }) {
+export default function Profile({ userName, write }) {
   const router = useRouter();
   const [profile, setProfile] = useState(null);
   const [posts, setPosts] = useState(null);
@@ -95,6 +95,13 @@ export default function Profile({ userName }) {
   }, [selectedPostId]);
 
   const [isWriteModalOpen, setIsWriteModalOpen] = useState(false);
+
+  useEffect(() => {
+    if (write) {
+      handleWriteBtnClick();
+    }
+  }, [write]);
+
   const [prevPage, setPrevPage] = useState("");
   const handleWriteBtnClick = () => {
     setPrevPage(window.location.pathname);
@@ -202,10 +209,12 @@ export default function Profile({ userName }) {
         isShow={isShowModal}
         onClose={handleModalClose}
       />
-      <WritePost
-        isWriteModalOpen={isWriteModalOpen}
-        closeWriteModal={closeWriteModal}
-      />
+      {isWriteModalOpen && (
+        <WritePost
+          isWriteModalOpen={isWriteModalOpen}
+          closeWriteModal={closeWriteModal}
+        />
+      )}
       {isLoginModalOpen && (
         <ConfirmModal
           message="로그인이 필요합니다. 로그인 하시겠습니까?"
