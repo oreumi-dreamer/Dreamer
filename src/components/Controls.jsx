@@ -7,6 +7,7 @@ import Link from "next/link";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
+import { auth } from "@/lib/firebase";
 
 export const CustomScrollbar = ({ containerRef, trackStyle }) => {
   // 상수 정의
@@ -204,16 +205,32 @@ export function ButtonLabel({ highlight, children, htmlFor }) {
   );
 }
 
-export function ButtonLink({ highlight, children, href }) {
+export function ButtonLink({ highlight, children, disabled, href, type }) {
   const buttonClass = highlight
     ? `${styles["button-highlight"]} ${styles["button"]}`
     : styles["button"];
 
-  return (
-    <a href={href} className={buttonClass}>
-      {children}
-    </a>
-  );
+  if (disabled) {
+    return (
+      <button className={buttonClass} disabled>
+        {children}
+      </button>
+    );
+  }
+
+  if (type === "a") {
+    return (
+      <a href={href} className={buttonClass}>
+        {children}
+      </a>
+    );
+  } else {
+    return (
+      <Link href={href} className={buttonClass}>
+        {children}
+      </Link>
+    );
+  }
 }
 
 export function Input({
@@ -226,6 +243,7 @@ export function Input({
   onBlur,
   minLength,
   maxLength,
+  onKeyDown,
 }) {
   let inputClass = styles["input"];
   if (type === "text" || type === "password" || type === "email") {
@@ -242,6 +260,7 @@ export function Input({
       disabled={disabled}
       style={background === "white" ? { backgroundColor: "white" } : {}}
       onBlur={onBlur}
+      onKeyDown={onKeyDown}
       minLength={minLength}
       maxLength={maxLength}
     />
@@ -758,6 +777,148 @@ export function UsersList({
             </li>
           ))}
       </ul>
+    </dialog>
+  );
+}
+
+export function WithdrawModal({ isOpen, closeModal, userId }) {
+  const dialogRef = useRef(null);
+  const [step, setStep] = useState(1);
+  const [confirmUserId, setConfirmUserId] = useState("");
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    const html = document.querySelector("html");
+    if (isOpen) {
+      dialog?.showModal();
+      html.style.overflowY = "hidden";
+    } else {
+      html.style.overflowY = "scroll";
+      dialog?.close();
+      // 모달이 닫힐 때 상태 초기화
+      setStep(1);
+      setConfirmUserId("");
+      setError("");
+    }
+  }, [isOpen]);
+
+  const handleClose = () => {
+    const html = document.querySelector("html");
+    html.style.overflowY = "scroll";
+    closeModal();
+  };
+
+  // 백드롭 클릭을 감지하는 이벤트 핸들러
+  const handleClick = (e) => {
+    const dialogDimensions = dialogRef.current?.getBoundingClientRect();
+    if (dialogDimensions) {
+      const isClickedInDialog =
+        e.clientX >= dialogDimensions.left &&
+        e.clientX <= dialogDimensions.right &&
+        e.clientY >= dialogDimensions.top &&
+        e.clientY <= dialogDimensions.bottom;
+
+      if (!isClickedInDialog) {
+        handleClose();
+      }
+    }
+  };
+
+  const handleWithdraw = async () => {
+    if (confirmUserId !== userId) {
+      setError("아이디가 일치하지 않습니다.");
+      return;
+    }
+
+    try {
+      // API 호출을 통한 회원 탈퇴 처리
+      const response = await fetchWithAuth("/api/auth/withdraw", {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(
+          error.error || "회원 탈퇴 처리 중 오류가 발생했습니다."
+        );
+      }
+
+      // 성공 시 처리
+      alert(
+        "회원 탈퇴가 완료되었습니다.\n그동안 DREMAER를 이용해 주셔서 감사합니다."
+      );
+      location.href = "/logout";
+    } catch (error) {
+      setError(error.message);
+      console.error("Withdraw error:", error);
+    }
+  };
+
+  return (
+    <dialog
+      ref={dialogRef}
+      className={styles["withdraw-modal"]}
+      onClick={handleClick}
+    >
+      <button onClick={handleClose} className={styles["btn-close"]}>
+        <img src="/images/close-without-padding.svg" alt="닫기" />
+      </button>
+
+      {step === 1 ? (
+        <div
+          className={styles["modal-content"]}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <h2>회원 탈퇴</h2>
+          <p>정말로 탈퇴하시겠습니까?</p>
+          <p className={styles["warning-text"]}>
+            탈퇴하시면 모든 데이터가 삭제되며, 복구할 수 없습니다.
+          </p>
+          <div className={styles["button-group"]}>
+            <Button onClick={() => setStep(2)} highlight={true}>
+              예
+            </Button>
+            <Button onClick={handleClose}>아니오</Button>
+          </div>
+        </div>
+      ) : (
+        <div
+          className={styles["modal-content"]}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <h2>회원 탈퇴 확인</h2>
+          <p>
+            회원 탈퇴를 진행하시려면 아이디를 입력해주세요.
+            <br />이 작업은 취소할 수 없습니다.
+          </p>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleWithdraw();
+            }}
+          >
+            <div className={styles["input-group"]}>
+              <Input
+                type="text"
+                value={confirmUserId}
+                onChange={(e) => setConfirmUserId(e.target.value)}
+                placeholder={userId}
+                required
+              />
+            </div>
+            {error && <p className={styles.error}>{error}</p>}
+            <div className={styles["button-group"]}>
+              <Button type="button" onClick={() => setStep(1)}>
+                이전
+              </Button>
+              <Button type="submit" highlight={true}>
+                확인
+              </Button>
+            </div>
+          </form>
+        </div>
+      )}
     </dialog>
   );
 }

@@ -240,6 +240,8 @@
   color: var(--black-transparent-color);
   display: inline;
   align-items: center;
+  text-align: center;
+  word-break: keep-all;
 }
 
 .no-posts span {

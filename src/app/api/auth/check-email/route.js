@@ -16,15 +16,7 @@ export async function POST(req) {
     try {
       const userRecord = await auth.getUserByEmail(email);
 
-      // 임시 계정 체크:
-      // 1. 이메일이 인증되어 있고 (emailVerified: true)
-      // 2. 생성 시간과 마지막 로그인 시간이 같으면 (방금 생성된 임시 계정)
-      const isTemporaryAccount =
-        userRecord.emailVerified &&
-        userRecord.metadata.creationTime === userRecord.metadata.lastSignInTime;
-
-      // 임시 계정이 아닌 경우에만 exists: true 반환
-      return NextResponse.json({ exists: !isTemporaryAccount });
+      return NextResponse.json({ exists: userRecord.emailVerified });
     } catch (error) {
       if (error.code === "auth/user-not-found") {
         return NextResponse.json({ exists: false });

@@ -225,6 +225,13 @@ body:has(header):has(main):has(footer) main {
   padding: 16.6rem 6.4rem 16.6rem 6.4rem;
 }
 
+/* 404 페이지에서는 padding을 0으로 설정 */
+body:has(#not-found-wrap) {
+  padding: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
+
 /* 404 페이지에서는 header, footer를 숨김 처리 */
 body:has(#not-found-wrap) header,
 body:has(#not-found-wrap) footer {
@@ -279,6 +286,7 @@ body:has(header):has(main):has(footer) footer {
     width: 100%;
     min-height: 100dvh;
     display: grid;
+    justify-content: center;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr auto;
     padding-right: 0;
@@ -309,7 +317,7 @@ body:has(header):has(main):has(footer) footer {
     height: 100dvh;
   }
 
-  body:not(:has(div#tomong-container)) {
+  body {
     width: inherit;
     padding-left: 6.4rem;
     padding-right: 6.4rem;
