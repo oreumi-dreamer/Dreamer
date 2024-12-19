@@ -65,6 +65,7 @@
   --email-login-btn-active-text-color: #fff;
   --email-button-color: none;
   --email-verify-btn-color: #77777b;
+  --signup-email-background-color: none;
   --invalid-border-color: #f41e1e;
   --invalid-text-color: #a12525;
 }
@@ -119,6 +120,7 @@
     --email-login-btn-active-color: #2a2a3c;
     --email-login-btn-active-text-color: #eef0de;
     --email-button-color: rgba(17, 4, 4, 0.2);
+    --signup-email-background-color: #373737;
     --invalid-border-color: #ba5b5b;
     --invalid-text-color: #ba5b5b;
   }
@@ -171,6 +173,7 @@
   --email-login-btn-active-color: #2a2a3c;
   --email-login-btn-active-text-color: #eef0de;
   --email-button-color: rgba(232, 232, 232, 0.2);
+  --signup-email-background-color: #373737;
   --invalid-border-color: #ba5b5b;
   --invalid-text-color: #ba5b5b;
 }

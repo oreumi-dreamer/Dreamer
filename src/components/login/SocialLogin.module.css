@@ -2,7 +2,6 @@ body:has(.login-title) {
   background: var(--background-pink-top);
 }
 main:has(.login-title) {
-  background: #fff;
   max-width: 86rem;
   height: 92rem;
   border-radius: 2rem;
