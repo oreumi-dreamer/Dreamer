@@ -487,8 +487,8 @@ export function TomongRead({ setProcess, tomongDream, before }) {
       </div>
       <div className={styles["btn-row"]}>
         <Button onClick={handleBack}>뒤로</Button>
-        <ButtonLink href={`/${userId}`} highlight={true}>
-          프로필로 이동
+        <ButtonLink href={`/${userId}?post=${tomongDream.id}`} highlight={true}>
+          게시글로 이동
         </ButtonLink>
       </div>
     </>
