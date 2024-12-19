@@ -28,7 +28,8 @@ main:has(.email-signup) {
   border: 0.2rem solid var(--invalid-border-color);
 }
 
-.input-container:first-of-type input {
+.email-input,
+.code-input {
   padding-right: 14rem;
 }
 
@@ -41,7 +42,8 @@ main:has(.email-signup) {
   color: var(--invalid-text-color);
 }
 
-.email-verify-btn {
+.email-verify-btn,
+.code-verify-btn {
   position: absolute;
   right: 6.9rem;
   top: 4.2rem;
@@ -83,7 +85,8 @@ main:has(.email-signup) {
   .input-container {
     padding: 0 1.5rem;
   }
-  .email-verify-btn {
+  .email-verify-btn,
+  .code-verify-btn {
     right: 8.4rem;
   }
   .next-btn {
@@ -96,7 +99,8 @@ main:has(.email-signup) {
   .input-container input {
     max-height: 4.8rem;
   }
-  .email-verify-btn {
+  .email-verify-btn,
+  .code-verify-btn {
     top: 4.2rem;
     padding: 0.6rem 1.2rem;
   }
