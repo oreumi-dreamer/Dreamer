@@ -127,10 +127,12 @@ export default function Header() {
             handleWriteBtnClick={handleWriteBtnClick}
             handleToggleBtn={handleToggleBtn}
           />
-          <WritePost
-            isWriteModalOpen={isWriteModalOpen}
-            closeWriteModal={closeWriteModal}
-          />
+          {isWriteModalOpen && (
+            <WritePost
+              isWriteModalOpen={isWriteModalOpen}
+              closeWriteModal={closeWriteModal}
+            />
+          )}
         </>
       )}
     </>
