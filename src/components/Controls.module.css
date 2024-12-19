@@ -58,6 +58,7 @@
 .input-text:disabled {
   background-color: var(--input-disabled-color);
   border: 0.2rem solid var(--input-disabled-color);
+  color: #fff;
 }
 
 .textarea {
