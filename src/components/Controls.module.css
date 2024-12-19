@@ -116,6 +116,11 @@
   margin-right: 0.8rem;
 }
 
+.dropdownContainer {
+  position: relative;
+  width: 100%;
+}
+
 .optionsList {
   position: absolute;
   top: calc(100% + 1rem);
@@ -124,6 +129,9 @@
   width: 100%;
   max-height: 200px;
   overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
   background-color: var(--background-white);
   border-radius: 10px;
   padding: 0.4rem;
@@ -133,7 +141,21 @@
   flex-direction: column;
   row-gap: 0.8rem;
   color: var(--black-font-color);
+  white-space: nowrap;
 }
+
+.optionsList::-webkit-scrollbar {
+  display: none;
+}
+
+.optionsList::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
+
+.optionsList::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
 /* option 사이마다 optionsList의 구분 선 가상 요소 추가 */
 
 .option {
@@ -258,13 +280,13 @@ label.checkbox a {
 }
 
 .scrollbar-track {
-  position: fixed;
+  position: absolute;
   right: 0;
   top: 0;
   width: 8px;
   height: 100%;
-  z-index: 100;
   background-color: rgba(229, 231, 235, 0.2);
+  z-index: 10000;
 }
 
 .scrollbar-thumb {
@@ -275,6 +297,7 @@ label.checkbox a {
   cursor: pointer;
   opacity: 0.6;
   transition: opacity 150ms ease;
+  padding: 0.1rem 0;
 }
 
 .scrollbar-thumb:hover {
