@@ -204,16 +204,32 @@ export function ButtonLabel({ highlight, children, htmlFor }) {
   );
 }
 
-export function ButtonLink({ highlight, children, href }) {
+export function ButtonLink({ highlight, children, disabled, href, type }) {
   const buttonClass = highlight
     ? `${styles["button-highlight"]} ${styles["button"]}`
     : styles["button"];
 
-  return (
-    <a href={href} className={buttonClass}>
-      {children}
-    </a>
-  );
+  if (disabled) {
+    return (
+      <button className={buttonClass} disabled>
+        {children}
+      </button>
+    );
+  }
+
+  if (type === "a") {
+    return (
+      <a href={href} className={buttonClass}>
+        {children}
+      </a>
+    );
+  } else {
+    return (
+      <Link href={href} className={buttonClass}>
+        {children}
+      </Link>
+    );
+  }
 }
 
 export function Input({
@@ -226,6 +242,7 @@ export function Input({
   onBlur,
   minLength,
   maxLength,
+  onKeyDown,
 }) {
   let inputClass = styles["input"];
   if (type === "text" || type === "password" || type === "email") {
@@ -242,6 +259,7 @@ export function Input({
       disabled={disabled}
       style={background === "white" ? { backgroundColor: "white" } : {}}
       onBlur={onBlur}
+      onKeyDown={onKeyDown}
       minLength={minLength}
       maxLength={maxLength}
     />
