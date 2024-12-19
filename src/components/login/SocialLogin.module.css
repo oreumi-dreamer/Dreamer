@@ -1,5 +1,6 @@
 body:has(.login-title) {
   background: var(--background-pink-top);
+  padding: 0;
 }
 main:has(.login-title) {
   max-width: 86rem;

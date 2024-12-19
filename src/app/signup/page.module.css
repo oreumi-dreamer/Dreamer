@@ -2,6 +2,7 @@ body:has(.signup-main) {
   width: 100vw;
   height: 100%;
   background: var(--background-pink-top);
+  padding: 0;
 }
 
 .signup-main {
