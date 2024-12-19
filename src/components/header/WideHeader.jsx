@@ -48,7 +48,7 @@ export default function WideHeader({
         const modalHeight = 295;
         const position = {
           position: "absolute",
-          top: `${buttonRect.top - modalHeight*2}px`,
+          top: `${buttonRect.top - modalHeight * 2}px`,
           left: `${buttonRect.left - 100}px`,
           zIndex: "10",
         };
@@ -120,7 +120,7 @@ export default function WideHeader({
           </ul>
         </nav>
         <Link
-          href={`/${userId}`}
+          href={`/users/${userId}`}
           className={`${styles["nav-item"]} ${styles["profile-btn"]} ${isActive === "프로필" ? styles.active : ""}`}
           onClick={() => handleActiveBtn("프로필")}
         >

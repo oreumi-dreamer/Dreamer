@@ -20,7 +20,7 @@ body:has(.main) h1 img {
 
 .main {
   width: 80vw;
-  height: 60vh;
+  height: 70vh;
   background-color: var(--background-white);
   border-radius: 1.5rem;
   display: grid;
@@ -30,6 +30,11 @@ body:has(.main) h1 img {
   align-items: center;
   justify-items: center;
   color: var(--black-font-color);
+}
+
+.main .tomong-body img {
+  height: 50%;
+  grid-area: tomong-img;
 }
 
 .main-result {
@@ -49,14 +54,14 @@ body:has(.main) h1 img {
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   overflow-y: hidden;
-  row-gap: 3.2rem;
 }
 
 .tomong-body img {
   object-fit: contain;
+  grid-area: img;
 }
 
 .headings {
@@ -64,11 +69,17 @@ body:has(.main) h1 img {
   line-height: 1.5;
   margin-bottom: 1.6rem;
   text-align: center;
+  grid-area: headings;
 }
 
 .intro {
   text-align: center;
   margin-bottom: 1.6rem;
+  grid-area: intro;
+}
+
+.start-btn {
+  grid-area: start-btn;
 }
 
 .btn-row {
@@ -270,15 +281,27 @@ ul.post-tag li {
     row-gap: 0;
   }
 
-  .main .tomong-body img {
-    width: 50%;
-  }
-
   .tomong-results-wrapper {
     padding: 1.6rem;
   }
 
   .tomong-results-chevrons {
     padding: 0 1rem;
+  }
+}
+
+@media (max-height: 650px) {
+  /* .main .tomong-first {
+    display: grid;
+    grid-template-areas: "headings headings" "intro tomong-img" "start-btn start-btn";
+    grid-template-rows: auto auto auto;
+  } */
+
+  .tomong-first {
+    position: relative;
+  }
+  .start-btn {
+    position: absolute;
+    bottom: 0;
   }
 }

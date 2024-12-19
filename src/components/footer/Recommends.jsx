@@ -62,7 +62,7 @@ export default function Recommends({ className, styles }) {
             <li key={user.userId + user.userName}>
               <Link
                 className={styles["recommend-link"]}
-                href={`/${user.userId}`}
+                href={`/users/${user.userId}`}
               >
                 <img
                   src={user.profileImageUrl}

@@ -139,7 +139,7 @@ export default function ProfileEdit({
         });
       }
       setIsEdit(false);
-      router.push(`/${userId}`);
+      router.push(`/users/${userId}`);
     } catch (err) {
       alert(err.message); // 임시로 alert를 사용함
     } finally {
