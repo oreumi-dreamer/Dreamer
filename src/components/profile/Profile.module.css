@@ -337,11 +337,42 @@
   .profile-wrap {
     padding: 4.3rem 0 4.3rem 0;
     flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
   }
 
   .profile-wrap img {
     width: clamp(10rem, 20vw + 10rem, 15rem);
     height: clamp(10rem, 20vw + 10rem, 15rem);
     margin-right: 2rem;
+  }
+
+  .profile-name-wrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  .profile-btn {
+    position: absolute;
+    top: calc(36.5rem + 1.8rem);
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin-left: 0;
+  }
+
+  .profile-stat {
+    display: flex;
+    justify-content: center;
+  }
+  .profile-state li {
+    margin-right: 0;
+  }
+  .profile-bio {
+    width: 32rem;
   }
 }
