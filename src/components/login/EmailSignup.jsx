@@ -34,6 +34,7 @@ export default function EmailSignup({
   setError,
   handleGoogleLogin,
 }) {
+  const router = useRouter();
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [isConfirmPasswordValid, setIsConfirmPasswordValid] = useState(false);
@@ -391,6 +392,7 @@ export default function EmailSignup({
                 setError("");
                 setIsEmailSent(false);
                 setShowSignupForm(false);
+                router.push("/");
               }}
             >
               <img
