@@ -3,25 +3,11 @@
 import React, { useState, useEffect } from "react";
 import { LoginForm } from "../Controls";
 import { Button, Input } from "../Controls";
-import {
-  createUserWithEmailAndPassword,
-  sendEmailVerification,
-  signInWithEmailAndPassword,
-  deleteUser,
-  sendSignInLinkToEmail,
-  isSignInWithEmailLink,
-  signInWithEmailLink,
-  updatePassword,
-  reauthenticateWithCredential,
-} from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/lib/firebase";
-import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
-import {
-  setRegistering,
-  resetRegistering,
-  setEmailVerified,
-} from "@/store/authSlice";
+import { setRegistering, resetRegistering } from "@/store/authSlice";
+import { useRouter } from "next/navigation";
 import styles from "./EmailSignup.module.css";
 
 export default function EmailSignup({
@@ -36,100 +22,16 @@ export default function EmailSignup({
 }) {
   const router = useRouter();
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [verificationCode, setVerificationCode] = useState("");
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [isConfirmPasswordValid, setIsConfirmPasswordValid] = useState(false);
   const [isEmailVerified, setIsEmailVerified] = useState(false);
   const [isEmailSent, setIsEmailSent] = useState(false);
-  const [isWaitingVerification, setIsWaitingVerification] = useState(false);
-  const [isExistingUser, setIsExistingUser] = useState(false);
+  const [emailInfo, setEmailInfo] = useState("");
+  const [emailProcess, setEmailProcess] = useState("인증 코드 발송");
+  const [countdown, setCountdown] = useState(0);
 
   const dispatch = useDispatch();
-
-  const actionCodeSettings = {
-    url: `${window.location.origin}/join/verify-email?email=${encodeURIComponent(email)}`,
-    handleCodeInApp: true,
-  };
-
-  useEffect(() => {
-    const handleEmailVerification = async () => {
-      // 새 창인지 확인 (window.opener가 있으면 새 창)
-      const isPopup = window.opener;
-
-      if (isSignInWithEmailLink(auth, window.location.href)) {
-        try {
-          const urlParams = new URLSearchParams(window.location.search);
-          const emailFromUrl = urlParams.get("email");
-
-          if (!emailFromUrl) {
-            setError("이메일 정보를 찾을 수 없습니다. 다시 시도해주세요.");
-            return;
-          }
-
-          if (auth.currentUser) {
-            await auth.signOut();
-          }
-
-          await signInWithEmailLink(auth, emailFromUrl, window.location.href);
-
-          if (isPopup) {
-            // 새 창인 경우
-            window.localStorage.setItem("verifiedEmail", emailFromUrl);
-            window.localStorage.setItem("emailVerified", "true");
-            setError(
-              "이메일 인증이 완료되었습니다. 원래 창에서 비밀번호를 입력해주세요."
-            );
-            window.close();
-          } else {
-            // 원래 창인 경우
-            setEmail(emailFromUrl);
-            setIsEmailVerified(true);
-            setIsEmailSent(true);
-            setError("이메일 인증이 완료되었습니다. 비밀번호를 입력해주세요.");
-          }
-        } catch (error) {
-          console.error("이메일 링크 인증 오류:", error);
-          handleVerificationError(error);
-        }
-      }
-    };
-
-    handleEmailVerification();
-  }, []);
-
-  // 원래 창에서 주기적으로 인증 상태 체크
-  useEffect(() => {
-    if (!isEmailVerified) {
-      const checkVerification = async () => {
-        try {
-          const response = await fetch("/api/auth/verify-email");
-          const data = await response.json();
-
-          if (data.verified && data.email === email) {
-            setIsEmailVerified(true);
-            dispatch(setEmailVerified(true));
-            setIsEmailSent(true);
-            setError("이메일 인증이 완료되었습니다. 비밀번호를 입력해주세요.");
-          }
-        } catch (error) {
-          console.error("Verification check error:", error);
-        }
-      };
-
-      const interval = setInterval(checkVerification, 2000);
-      return () => clearInterval(interval);
-    }
-  }, [email, isEmailVerified]);
-
-  const handleVerificationError = (error) => {
-    if (error.code === "auth/invalid-action-code") {
-      setError("유효하지 않은 인증 링크입니다. 다시 시도해주세요.");
-    } else if (error.code === "auth/invalid-email") {
-      setError("이메일 정보가 올바르지 않습니다. 다시 시도해주세요.");
-    } else {
-      setError("인증 처리 중 오류가 발생했습니다. 다시 시도해주세요.");
-    }
-    setIsEmailSent(false);
-  };
 
   useEffect(() => {
     setIsPasswordValid(validatePassword(password));
@@ -137,6 +39,16 @@ export default function EmailSignup({
       validatePassword(confirmPassword) && confirmPassword === password
     );
   }, [password, confirmPassword]);
+
+  // 카운트다운 효과
+  useEffect(() => {
+    if (countdown > 0) {
+      const timer = setInterval(() => {
+        setCountdown((prev) => prev - 1);
+      }, 1000);
+      return () => clearInterval(timer);
+    }
+  }, [countdown]);
 
   const validatePassword = (password) => {
     const minLength = 6;
@@ -157,18 +69,47 @@ export default function EmailSignup({
     );
   };
 
-  const handleEmailVerification = async (e) => {
+  const handleEmailChange = (e) => {
+    setEmailInfo("");
+    setEmail(e.target.value);
+  };
+
+  const handleSendVerificationCode = async (e) => {
     e.preventDefault();
+    setEmailInfo("");
+
     if (!email) {
       setError("이메일을 입력해주세요.");
+      setEmailInfo("이메일을 입력해주세요.");
       return;
     }
 
     try {
-      // 이메일 인증 시작할 때 isRegistering 설정
       dispatch(setRegistering());
 
-      const response = await fetch("/api/auth/check-email", {
+      // 이메일 중복 체크
+      const checkResponse = await fetch("/api/auth/check-email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      const checkData = await checkResponse.json();
+
+      if (checkData.exists) {
+        setError("이미 가입된 이메일입니다. 로그인을 시도해주세요.");
+        setEmailInfo("이미 가입된 이메일입니다. 로그인을 시도해주세요.");
+
+        setShowSignupForm(false);
+        dispatch(resetRegistering());
+        return;
+      }
+
+      setEmailProcess("발송 중...");
+      // 인증 코드 발송
+      const response = await fetch("/api/auth/send-email-verification", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -178,26 +119,53 @@ export default function EmailSignup({
 
       const data = await response.json();
 
-      if (data.exists) {
-        setError("이미 가입된 이메일입니다. 로그인을 시도해주세요.");
-        setShowSignupForm(false);
-        dispatch(resetRegistering()); // 에러시 상태 초기화
-        return;
+      if (!response.ok) {
+        throw new Error(data.error || "인증 코드 발송 실패");
       }
 
-      if (auth.currentUser) {
-        await auth.signOut();
-      }
-
-      await sendSignInLinkToEmail(auth, email, actionCodeSettings);
-      window.localStorage.setItem("emailForSignIn", email);
       setIsEmailSent(true);
-      setIsWaitingVerification(true);
-      setError("인증 이메일이 발송되었습니다. 이메일을 확인해주세요.");
+      setCountdown(60); // 1분 카운트다운 시작
+      setError("인증 코드가 이메일로 발송되었습니다.");
     } catch (error) {
-      console.error("인증 오류:", error);
-      setError("이메일 인증 중 오류가 발생했습니다. 다시 시도해주세요.");
+      console.error("인증 코드 발송 오류:", error);
+      setError(
+        "인증 코드 발송 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요."
+      );
+      setEmailInfo(
+        "인증 코드 발송 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요."
+      );
       dispatch(resetRegistering());
+    }
+  };
+
+  const handleVerifyCode = async (e) => {
+    e.preventDefault();
+    if (!verificationCode) {
+      setError("인증 코드를 입력해주세요.");
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/auth/check-email-verification", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, code: verificationCode }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "인증 코드 확인 실패");
+      }
+
+      setIsEmailVerified(true);
+      setError("이메일 인증이 완료되었습니다.");
+      dispatch(resetRegistering());
+    } catch (error) {
+      console.error("인증 코드 확인 오류:", error);
+      setError(error.message);
     }
   };
 
@@ -221,17 +189,15 @@ export default function EmailSignup({
     }
 
     try {
-      // 현재 인증된 사용자가 있는지 확인
-      const currentUser = auth.currentUser;
-      if (!currentUser) {
-        setError("인증 세션이 만료되었습니다. 다시 시도해주세요.");
-        return;
-      }
+      dispatch(setRegistering());
 
-      // 비밀번호 업데이트
-      await updatePassword(currentUser, password);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
 
-      const idToken = await currentUser.getIdToken(true);
+      const idToken = await userCredential.user.getIdToken(true);
 
       const tokenRes = await fetch("/api/auth/login", {
         method: "POST",
@@ -246,16 +212,17 @@ export default function EmailSignup({
       }
 
       setError("계정이 생성되었습니다. 프로필 정보를 입력해주세요.");
+      setEmailInfo("");
       dispatch(resetRegistering());
       window.location.href = "/signup";
     } catch (error) {
       console.error("가입 오류:", error);
-      if (error.code === "auth/requires-recent-login") {
-        setError("인증이 만료되었습니다. 다시 인증을 진행해주세요.");
-        // 필요한 경우 여기서 재인증 로직 추가
+      if (error.code === "auth/email-already-in-use") {
+        setError("이미 사용 중인 이메일입니다.");
       } else {
         setError("회원가입 중 오류가 발생했습니다. 다시 시도해주세요.");
       }
+      dispatch(resetRegistering());
     }
   };
 
@@ -267,108 +234,123 @@ export default function EmailSignup({
           type="email"
           id="email"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          disabled={isEmailSent}
+          onChange={handleEmailChange}
+          disabled={isEmailVerified}
           required
           className={styles["email-input"]}
         />
-
         <Button
           type="button"
-          disabled={isEmailSent}
+          disabled={isEmailSent && countdown > 0}
           className={styles["email-verify-btn"]}
-          onClick={(e) => handleEmailVerification(e)}
+          onClick={handleSendVerificationCode}
         >
-          {isEmailVerified ? "인증 완료" : "인증 메일 발송"}
+          {isEmailVerified
+            ? "인증 완료"
+            : countdown > 0
+              ? `재발송 ${countdown}초`
+              : isEmailSent
+                ? "재발송"
+                : emailProcess}
         </Button>
-
         <img
           src={isEmailVerified ? "/images/valid.svg" : "/images/invalid.svg"}
           width={40}
           height={40}
-          alt={isEmailVerified ? "유효한 이메일" : "유효하지 않은 이메일"}
+          alt={isEmailVerified ? "인증된 이메일" : "인증되지 않은 이메일"}
+        />
+        <span className={styles["invalid-text"]}>{emailInfo}</span>
+      </div>
+
+      {isEmailSent && !isEmailVerified && (
+        <div className={styles["input-container"]}>
+          <label htmlFor="verificationCode">인증번호</label>
+          <Input
+            type="text"
+            id="verificationCode"
+            value={verificationCode}
+            onChange={(e) => setVerificationCode(e.target.value)}
+            maxLength={6}
+            placeholder="6자리 숫자 입력"
+            className={styles["code-input"]}
+          />
+          <Button
+            className={styles["code-verify-btn"]}
+            type="button"
+            onClick={handleVerifyCode}
+          >
+            확인
+          </Button>
+          <img
+            src={isEmailVerified ? "/images/valid.svg" : "/images/invalid.svg"}
+            width={40}
+            height={40}
+            alt={isEmailVerified ? "인증된 이메일" : "인증되지 않은 이메일"}
+          />
+        </div>
+      )}
+
+      <div className={styles["input-container"]}>
+        <label htmlFor="password">비밀번호</label>
+        <Input
+          type="password"
+          id="password"
+          value={password}
+          onBlur={(e) => {
+            validatePassword(e.target.value)
+              ? e.target.classList.remove(styles.invalid)
+              : e.target.classList.add(styles.invalid);
+          }}
+          onChange={(e) => setPassword(e.target.value)}
+          disabled={!isEmailVerified}
+          required
+        />
+        <img
+          src={isPasswordValid ? "/images/valid.svg" : "/images/invalid.svg"}
+          width={40}
+          height={40}
+          alt={isPasswordValid ? "유효한 비밀번호" : "유효하지 않은 비밀번호"}
         />
         <span className={styles["invalid-text"]}>
           {isPasswordValid
             ? ""
-            : error
-              ? error
-              : "유효한 이메일을 입력해주세요."}
+            : "비밀번호는 6자 이상, 영문 대,소문자, 숫자, 특수문자를 포함해주세요"}
         </span>
       </div>
-      {/* {isWaitingVerification ? (
-        <p className={styles["check-your-email"]}>
-          이제 이 창을 닫으셔도 됩니다.
-          <br />
-          발송된 메일을 확인하여 가입 절차를 마저 진행해주세요.
-        </p>
-      ) : ( */}
-      <>
-        <div className={styles["input-container"]}>
-          <label htmlFor="password">비밀번호</label>
-          <Input
-            type="password"
-            id="password"
-            value={password}
-            onBlur={(e) => {
-              validatePassword(e.target.value)
-                ? e.target.classList.remove(styles.invalid)
-                : e.target.classList.add(styles.invalid);
-            }}
-            onChange={(e) => setPassword(e.target.value)}
-            disabled={!isEmailVerified}
-            required
-          />
-          <img
-            src={isPasswordValid ? "/images/valid.svg" : "/images/invalid.svg"}
-            width={40}
-            height={40}
-            alt={isPasswordValid ? "유효한 비밀번호" : "유효하지 않은 비밀번호"}
-          />
-          <span className={styles["invalid-text"]}>
-            {isPasswordValid
-              ? ""
-              : "비밀번호는 6자 이상, 영문 대,소문자, 숫자, 특수문자를 포함해주세요"}
-          </span>
-        </div>
 
-        <div className={styles["input-container"]}>
-          <label htmlFor="confirmPassword">비밀번호 재확인</label>
-          <Input
-            type="password"
-            id="confirmPassword"
-            value={confirmPassword}
-            onBlur={(e) => {
-              validatePassword(e.target.value) && confirmPassword === password
-                ? e.target.classList.remove(styles.invalid)
-                : e.target.classList.add(styles.invalid);
-            }}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            disabled={!isEmailVerified}
-            required
-          />
-          <img
-            src={
-              isConfirmPasswordValid
-                ? "/images/valid.svg"
-                : "/images/invalid.svg"
-            }
-            width={40}
-            height={40}
-            alt={
-              isConfirmPasswordValid
-                ? "유효한 비밀번호 재확인"
-                : "유효하지 않은 비밀번호 재확인"
-            }
-          />
-          <span className={styles["invalid-text"]}>
-            {confirmPassword === "" || isConfirmPasswordValid
-              ? ""
-              : "비밀번호가 일치하지 않습니다."}
-          </span>
-        </div>
-      </>
-      {/* )} */}
+      <div className={styles["input-container"]}>
+        <label htmlFor="confirmPassword">비밀번호 재확인</label>
+        <Input
+          type="password"
+          id="confirmPassword"
+          value={confirmPassword}
+          onBlur={(e) => {
+            validatePassword(e.target.value) && confirmPassword === password
+              ? e.target.classList.remove(styles.invalid)
+              : e.target.classList.add(styles.invalid);
+          }}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          disabled={!isEmailVerified}
+          required
+        />
+        <img
+          src={
+            isConfirmPasswordValid ? "/images/valid.svg" : "/images/invalid.svg"
+          }
+          width={40}
+          height={40}
+          alt={
+            isConfirmPasswordValid
+              ? "유효한 비밀번호 재확인"
+              : "유효하지 않은 비밀번호 재확인"
+          }
+        />
+        <span className={styles["invalid-text"]}>
+          {confirmPassword === "" || isConfirmPasswordValid
+            ? ""
+            : "비밀번호가 일치하지 않습니다."}
+        </span>
+      </div>
 
       <div className={styles["user-login-field"]}>
         <p>이미 회원이신가요? 로그인하여 꿈을 공유해보세요!</p>
@@ -414,7 +396,7 @@ export default function EmailSignup({
         }
         className={styles["next-btn"]}
       >
-        다음
+        가입하기
       </Button>
     </LoginForm>
   );
