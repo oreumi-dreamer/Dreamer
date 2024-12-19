@@ -367,6 +367,8 @@ input[type="checkbox"]:checked + label.checkbox::before {
   }
   .post-text {
     min-width: 30rem;
+    padding-left: 1.6rem;
+    padding-right: 1.6rem;
     height: fit-content;
     max-height: max-content;
   }
