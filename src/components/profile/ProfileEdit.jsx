@@ -177,6 +177,8 @@ export default function ProfileEdit({
               type="text"
               value={userName}
               onChange={(e) => setUserName(e.target.value)}
+              minLength={2}
+              maxLength={20}
             />
           </label>
           <label>
@@ -185,6 +187,8 @@ export default function ProfileEdit({
               type="text"
               value={userId}
               onChange={(e) => setUserId(e.target.value)}
+              minLength={4}
+              maxLength={20}
             />
           </label>
           <label className={styles["relative"]}>
@@ -258,7 +262,11 @@ export default function ProfileEdit({
                 >
                   취소
                 </Button>
-                <Button type="submit" highlight={true}>
+                <Button
+                  type="submit"
+                  highlight={true}
+                  disabled={userName.length < 2 || userId.length < 4}
+                >
                   수정 완료
                 </Button>
               </>
