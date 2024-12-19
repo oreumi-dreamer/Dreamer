@@ -131,7 +131,7 @@ export default function WideHeader({
             width={40}
             height={40}
           />
-          <p>{userName}</p>
+          <p>내 프로필</p>
         </Link>
         <button
           className={`${styles["nav-item"]} ${styles["more-btn"]} ${isOpen ? styles.active : ""}`}
