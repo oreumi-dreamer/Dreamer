@@ -25,10 +25,10 @@ export default function NavProvider({ children }) {
   }
 
   return (
-    <div className="root-container">
+    <>
       <Header />
       {children}
       <Footer />
-    </div>
+    </>
   );
 }

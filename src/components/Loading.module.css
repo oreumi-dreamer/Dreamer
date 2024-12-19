@@ -73,6 +73,7 @@
   left: 0;
   z-index: 1000;
   transition: background-color ease 0.5s;
+  overflow-y: hidden;
 }
 
 .loading-mini div {

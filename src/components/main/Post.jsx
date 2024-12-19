@@ -35,13 +35,13 @@ export default function Post({
 
   const getImageCount = () => {
     if (post.imageUrls && post.imageUrls.length > 0) {
-      if (containerWidth >= 700) {
+      if (containerWidth >= 550) {
         return 5;
-      } else if (containerWidth >= 553) {
+      } else if (containerWidth >= 450) {
         return 4;
-      } else if (containerWidth >= 448) {
+      } else if (containerWidth >= 350) {
         return 3;
-      } else if (containerWidth >= 316) {
+      } else if (containerWidth >= 250) {
         return 2;
       } else if (containerWidth >= 0) {
         return 1;
