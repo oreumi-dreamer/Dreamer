@@ -1,5 +1,5 @@
-body:has(.main) {
-  background: var(--background-blue-top);
+body:has(.login-title) {
+  background: var(--background-pink-top);
   width: 100vw;
   height: 100vh;
 }

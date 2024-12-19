@@ -2,10 +2,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 20rem;
 }
 .signup-header img {
-  width: 100%;
+  width: 60vw;
   max-width: 86rem;
   filter: var(--filter-EEF0DE);
+  height: 100%;
+  max-height: 20rem;
+  min-height: 12rem;
 }

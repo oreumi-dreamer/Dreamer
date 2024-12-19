@@ -129,20 +129,35 @@
   color: #fff;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 720px) {
   .signup-form p:first-of-type {
     font-size: var(--h2-font-size);
+    margin: 0 0 0.5rem 0;
   }
+  .signup-form p:nth-of-type(2),
   .form-field input {
-    font-size: var(--small-text-font-size);
-  }
-  .form-field label,
-  .invalid-text {
     font-size: var(--h3-font-size);
+    margin: 0 0 0.4rem 0;
+  }
+  .form-field label {
+    font-size: var(--h2-font-size);
+    margin-top: 0;
+  }
+  .agree label {
+    margin: 1.6rem auto 4.6rem auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-field {
+    gap: 0.2rem;
+  }
+  .invalid-text {
+    font-size: var(--small-text-font-size);
   }
   .form-field label img {
     position: absolute;
-    top: 2.8rem;
+    top: 4rem;
     right: -4.6rem;
   }
   .input-wrapper div button {

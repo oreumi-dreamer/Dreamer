@@ -1,3 +1,6 @@
+body:has(.login-title) {
+  background: var(--background-pink-top);
+}
 main:has(.login-title) {
   background: #fff;
   max-width: 86rem;
@@ -116,4 +119,11 @@ main:has(.login-title) img {
 .email-login-btn:disabled {
   background-color: var(--email-login-btn-active-color);
   cursor: not-allowed;
+}
+
+@media (max-width: 480px) {
+  .google-login-btn,
+  .email-login-btn {
+    width: 18rem;
+  }
 }
