@@ -148,6 +148,7 @@ export default function PostList({
               alt="해몽이 존재함"
             />
           )}
+
           <h3 className={`${styles["post-title"]}`}>
             {post.isPrivate && (
               <img
@@ -157,14 +158,14 @@ export default function PostList({
               />
             )}
             {post.title}
-            {post.hasImages && (
-              <img
-                src="/images/image.svg"
-                alt="이미지"
-                className={styles["include-img"]}
-              />
-            )}
           </h3>
+          {post.hasImages && (
+            <img
+              src="/images/image.svg"
+              alt="이미지"
+              className={styles["include-img"]}
+            />
+          )}
           <p className={styles["post-text"]}>{post.content}</p>
           <div className={styles["post-btn-container"]}>
             <button
