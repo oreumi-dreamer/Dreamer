@@ -225,6 +225,11 @@ body:has(header):has(main):has(footer) main {
   padding: 16.6rem 0 16.6rem 6.4rem;
 }
 
+/* 404 페이지에서는 footer를 숨김 처리 */
+body:has(#not-found-wrap) footer {
+  display: none;
+}
+
 * {
   font-family: inherit;
   box-sizing: border-box;
