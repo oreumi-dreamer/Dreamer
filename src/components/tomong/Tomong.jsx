@@ -43,8 +43,8 @@ export function TomongIntro({ setProcess }) {
         </Button>
       </div>
       <div className={styles["btn-row"]}>
-        <Button onClick={() => history.back()}>이전 페이지로</Button>
-        <Button onClick={() => setProcess(101)}>해몽된 꿈 보러 가기</Button>
+        <Button onClick={() => history.back()}>이전 페이지</Button>
+        <Button onClick={() => setProcess(101)}>해몽된 꿈 목록...</Button>
       </div>
     </>
   );
@@ -487,8 +487,8 @@ export function TomongRead({ setProcess, tomongDream, before }) {
       </div>
       <div className={styles["btn-row"]}>
         <Button onClick={handleBack}>뒤로</Button>
-        <ButtonLink href={`/${userId}`} highlight={true}>
-          프로필로 이동
+        <ButtonLink href={`/${userId}?post=${tomongDream.id}`} highlight={true}>
+          게시글로 이동
         </ButtonLink>
       </div>
     </>
@@ -511,7 +511,7 @@ export default function TomongComponent() {
   }
 
   return (
-    <div className={styles["container"]}>
+    <>
       <h1>
         <Link href="/">
           <img src="/images/logo-full.svg" alt="DREAMER" width={240} />
@@ -548,6 +548,6 @@ export default function TomongComponent() {
           />
         )}
       </main>
-    </div>
+    </>
   );
 }

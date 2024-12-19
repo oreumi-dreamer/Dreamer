@@ -285,7 +285,7 @@ body:has(header):has(main):has(footer) main {
     height: 100dvh;
   }
 
-  body {
+  body:not(:has(div#tomong-container)) {
     width: inherit;
     padding-left: 6.4rem;
     padding-right: 6.4rem;
