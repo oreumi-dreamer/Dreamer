@@ -43,8 +43,8 @@ export function TomongIntro({ setProcess }) {
         </Button>
       </div>
       <div className={styles["btn-row"]}>
-        <Button onClick={() => history.back()}>이전 페이지로</Button>
-        <Button onClick={() => setProcess(101)}>해몽된 꿈 보러 가기</Button>
+        <Button onClick={() => history.back()}>이전 페이지</Button>
+        <Button onClick={() => setProcess(101)}>해몽된 꿈 목록...</Button>
       </div>
     </>
   );
