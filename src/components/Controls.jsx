@@ -8,6 +8,155 @@ import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 
+export const CustomScrollbar = ({ containerRef, trackStyle }) => {
+  // 상수 정의
+  const TRACK_PADDING = 5; // px
+  const TOTAL_PADDING = TRACK_PADDING * 2;
+
+  const thumbRef = useRef(null);
+  const [thumbHeight, setThumbHeight] = useState(0);
+  const [thumbTop, setThumbTop] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startY, setStartY] = useState(0);
+  const [startScrollTop, setStartScrollTop] = useState(0);
+  const [container, setContainer] = useState(null);
+
+  const calculateThumbSize = useCallback(() => {
+    if (!container) return;
+
+    const scrollHeight = container.scrollHeight;
+    const clientHeight = container.clientHeight;
+    const trackHeight = clientHeight - TOTAL_PADDING;
+
+    const heightPercentage = (clientHeight / scrollHeight) * 100;
+    const minHeight = 20;
+    const calculatedHeight = Math.max(
+      minHeight,
+      (trackHeight * heightPercentage) / 100
+    );
+
+    setThumbHeight(calculatedHeight);
+  }, [container]);
+
+  const handleScroll = useCallback(() => {
+    if (!container || isDragging) return;
+
+    const scrollHeight = container.scrollHeight;
+    const clientHeight = container.clientHeight;
+    const scrollTop = container.scrollTop;
+    const trackHeight = clientHeight - thumbHeight - TOTAL_PADDING;
+
+    const scrollDistance = scrollHeight - clientHeight;
+    const percentage = scrollDistance > 0 ? scrollTop / scrollDistance : 0;
+    const newThumbTop = Math.min(
+      Math.max(TRACK_PADDING, percentage * trackHeight + TRACK_PADDING),
+      trackHeight + TRACK_PADDING
+    );
+
+    setThumbTop(newThumbTop);
+  }, [container, isDragging, thumbHeight]);
+
+  useEffect(() => {
+    // containerRef를 통해 직접 요소 참조
+    const element = containerRef?.current;
+    if (!element) return;
+
+    setContainer(element);
+    const resizeObserver = new ResizeObserver(() => {
+      requestAnimationFrame(() => {
+        calculateThumbSize();
+        handleScroll();
+      });
+    });
+
+    resizeObserver.observe(element);
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, [calculateThumbSize, handleScroll, containerRef]);
+
+  useEffect(() => {
+    if (!container) return;
+
+    const scrollHandler = () => {
+      requestAnimationFrame(() => {
+        handleScroll();
+      });
+    };
+
+    container.addEventListener("scroll", scrollHandler);
+    return () => container.removeEventListener("scroll", scrollHandler);
+  }, [container, handleScroll]);
+
+  const handleMouseDown = (e) => {
+    e.preventDefault();
+    setIsDragging(true);
+    setStartY(e.clientY);
+    setStartScrollTop(container.scrollTop);
+  };
+
+  useEffect(() => {
+    if (!isDragging) return;
+
+    const handleMouseMove = (e) => {
+      const deltaY = e.clientY - startY;
+      const scrollHeight = container.scrollHeight;
+      const clientHeight = container.clientHeight;
+      const trackHeight = clientHeight - thumbHeight;
+
+      const percentage = deltaY / trackHeight;
+      const scrollDistance = scrollHeight - clientHeight;
+      const newScrollTop = Math.min(
+        Math.max(0, startScrollTop + percentage * scrollDistance),
+        scrollDistance
+      );
+
+      container.scrollTop = newScrollTop;
+
+      const thumbPercentage = newScrollTop / scrollDistance;
+      const newThumbTop = Math.min(
+        Math.max(0, thumbPercentage * trackHeight),
+        trackHeight
+      );
+
+      setThumbTop(newThumbTop);
+    };
+
+    const handleMouseUp = () => {
+      setIsDragging(false);
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [isDragging, startY, startScrollTop, thumbHeight, container]);
+
+  if (container && container.scrollHeight <= container.clientHeight) {
+    return null;
+  }
+
+  return (
+    <div className={styles["scrollbar-track"]} style={trackStyle}>
+      <div
+        ref={thumbRef}
+        className={styles["scrollbar-thumb"]}
+        style={{
+          height: `${thumbHeight}px`,
+          top: `${thumbTop}px`,
+        }}
+        onMouseDown={handleMouseDown}
+        role="presentation"
+        aria-hidden="true"
+      />
+    </div>
+  );
+};
+
 export function Button({
   highlight,
   children,
@@ -259,32 +408,42 @@ export function Select({
       )}
 
       {isOpen && (
-        <ul
-          ref={listboxRef}
-          role="listbox"
-          aria-labelledby={`${id}-label`}
-          className={styles.optionsList}
-          tabIndex={-1}
-          style={background === "white" ? { backgroundColor: "white" } : {}}
-        >
-          {options.map((option, index) => (
-            <li
-              key={option.value}
-              ref={optionRefs.current[index]}
-              role="option"
-              aria-selected={selectedOption === option.value}
-              className={`${styles.option} ${focusedIndex === index ? styles.focused : ""}`}
-              onClick={(e) => handleOptionClick(option, e)}
-              onMouseEnter={() => setFocusedIndex(index)}
-              tabIndex={0}
-              onKeyDown={handleKeyDown}
-            >
-              {option.label}
-            </li>
-          ))}
-        </ul>
+        <div className={styles.dropdownContainer}>
+          <ul
+            ref={listboxRef}
+            role="listbox"
+            aria-labelledby={`${id}-label`}
+            className={styles.optionsList}
+            tabIndex={-1}
+            style={{
+              ...(background === "white" ? { backgroundColor: "white" } : {}),
+              maxHeight: "200px",
+            }}
+          >
+            {options.map((option, index) => (
+              <li
+                key={option.value}
+                ref={optionRefs.current[index]}
+                role="option"
+                aria-selected={selectedOption === option.value}
+                className={`${styles.option} ${
+                  focusedIndex === index ? styles.focused : ""
+                }`}
+                onClick={(e) => handleOptionClick(option, e)}
+                onMouseEnter={() => setFocusedIndex(index)}
+                tabIndex={0}
+                onKeyDown={handleKeyDown}
+              >
+                {option.label}
+              </li>
+            ))}
+          </ul>
+          <CustomScrollbar
+            containerRef={listboxRef}
+            trackStyle={{ top: "calc(100% + 1rem)" }}
+          />
+        </div>
       )}
-
       <select
         name={name}
         value={selectedOption}
@@ -343,173 +502,6 @@ export function LoginForm({ onSubmit, className, children }) {
     </form>
   );
 }
-
-export const CustomScrollbar = () => {
-  const thumbRef = useRef(null);
-  const [thumbHeight, setThumbHeight] = useState(0);
-  const [thumbTop, setThumbTop] = useState(0);
-  const [isDragging, setIsDragging] = useState(false);
-  const [startY, setStartY] = useState(0);
-  const [startScrollTop, setStartScrollTop] = useState(0);
-  const [container, setContainer] = useState(null);
-
-  const calculateThumbSize = useCallback(() => {
-    if (!container) return;
-
-    // 전체 문서의 높이와 viewport 높이를 사용
-    const documentHeight = container.offsetHeight; // 컨테이너의 전체 높이
-    const viewportHeight = window.innerHeight; // viewport 높이
-
-    const heightPercentage = (viewportHeight / documentHeight) * 100;
-    const minHeight = 20;
-    const calculatedHeight = Math.max(
-      minHeight,
-      (viewportHeight * heightPercentage) / 100
-    );
-
-    setThumbHeight(calculatedHeight);
-  }, [container]);
-
-  const handleScroll = useCallback(() => {
-    if (!container || isDragging) return;
-
-    const documentHeight = container.offsetHeight;
-    const viewportHeight = window.innerHeight;
-    const scrollTop = window.scrollY;
-    const trackHeight = viewportHeight - thumbHeight;
-
-    // scrollDistance 추가
-    const scrollDistance = documentHeight - viewportHeight;
-
-    // percentage 계산 수정
-    const percentage = scrollDistance > 0 ? scrollTop / scrollDistance : 0;
-
-    // thumbTop 계산 수정
-    const newThumbTop = Math.min(
-      Math.max(0, percentage * trackHeight),
-      trackHeight
-    );
-
-    setThumbTop(newThumbTop);
-  }, [container, isDragging, thumbHeight]);
-
-  useEffect(() => {
-    const htmlElement = document.querySelector("body");
-    if (!htmlElement) return;
-
-    setContainer(htmlElement);
-    const resizeObserver = new ResizeObserver(() => {
-      requestAnimationFrame(() => {
-        calculateThumbSize();
-        handleScroll();
-      });
-    });
-
-    resizeObserver.observe(htmlElement);
-
-    const handleResize = () => {
-      requestAnimationFrame(() => {
-        calculateThumbSize();
-        handleScroll();
-      });
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    // 초기 계산
-    calculateThumbSize();
-    handleScroll();
-
-    return () => {
-      resizeObserver.disconnect();
-      window.removeEventListener("resize", handleResize);
-    };
-  }, [calculateThumbSize, handleScroll]);
-
-  useEffect(() => {
-    if (!container) return;
-
-    // 스크롤 이벤트 핸들러를 별도 함수로 분리
-    const scrollHandler = () => {
-      requestAnimationFrame(() => {
-        handleScroll();
-      });
-    };
-
-    window.addEventListener("scroll", scrollHandler);
-    return () => window.removeEventListener("scroll", scrollHandler);
-  }, [container, handleScroll]);
-
-  const handleMouseDown = (e) => {
-    e.preventDefault();
-    setIsDragging(true);
-    setStartY(e.clientY);
-    setStartScrollTop(window.scrollY); // container.scrollTop 대신 window.scrollY 사용
-  };
-
-  useEffect(() => {
-    if (!isDragging) return;
-
-    const handleMouseMove = (e) => {
-      const deltaY = e.clientY - startY;
-      const documentHeight = container.offsetHeight;
-      const viewportHeight = window.innerHeight;
-      const trackHeight = viewportHeight - thumbHeight;
-
-      // 스크롤바 위치 계산
-      const percentage = deltaY / trackHeight;
-      const scrollDistance = documentHeight - viewportHeight;
-      const newScrollTop = Math.min(
-        Math.max(0, startScrollTop + percentage * scrollDistance),
-        scrollDistance
-      ); // 스크롤 위치를 0과 최대값 사이로 제한
-
-      window.scrollTo(0, newScrollTop);
-
-      // 스크롤바 thumb의 위치도 제한하여 업데이트
-      const thumbPercentage = newScrollTop / scrollDistance;
-      const newThumbTop = Math.min(
-        Math.max(0, thumbPercentage * trackHeight),
-        trackHeight
-      ); // thumb 위치를 0과 track 높이 사이로 제한
-
-      setThumbTop(newThumbTop);
-    };
-
-    const handleMouseUp = () => {
-      setIsDragging(false);
-    };
-
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mouseup", handleMouseUp);
-
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mouseup", handleMouseUp);
-    };
-  }, [isDragging, startY, startScrollTop, thumbHeight, container]);
-
-  // 스크롤이 필요 없는 경우 스크롤바를 숨김
-  if (container && container.offsetHeight <= window.innerHeight) {
-    return null;
-  }
-
-  return (
-    <div className={styles["scrollbar-track"]}>
-      <div
-        ref={thumbRef}
-        className={styles["scrollbar-thumb"]}
-        style={{
-          height: `${thumbHeight}px`,
-          top: `${thumbTop}px`,
-        }}
-        onMouseDown={handleMouseDown}
-        role="presentation"
-        aria-hidden="true"
-      />
-    </div>
-  );
-};
 
 export function Divider({ className }) {
   const dividerClass = className
