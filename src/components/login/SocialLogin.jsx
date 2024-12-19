@@ -191,7 +191,7 @@ export default function SocialLogin() {
                   src="/images/google-logo.svg"
                   width={40}
                   height={40}
-                  alt="google 로그인"
+                  alt="Google로 로그인"
                 />
               </button>
             </div>

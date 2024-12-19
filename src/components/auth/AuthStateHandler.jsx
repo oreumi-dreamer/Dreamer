@@ -25,6 +25,7 @@ const authRoutes = {
     "/account",
     "/account/modify-email",
     "/account/modify-password",
+    "/tomong",
   ],
 
   // 인증 체크를 하지 않는 페이지
