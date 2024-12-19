@@ -48,7 +48,7 @@ export async function GET(request, { params }) {
   const followingCount = authorDocsData.followingCount;
   const followers = authorDocsData.followers;
   const profileImageUrl = authorDocsData.profileImageUrl;
-  const isPrivate = authorDocsData.isPrivate;
+  const isPrivate = authorDocsData.isPrivate === "on" ? true : false;
 
   const headersList = headers();
   const authorization = headersList.get("Authorization");
