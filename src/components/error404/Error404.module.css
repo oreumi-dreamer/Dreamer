@@ -20,12 +20,23 @@
 .page-not-found {
   font-size: var(--h2-font-size);
   padding: 2rem 0 4rem;
+  color: var(--black-font-color);
 }
 
 .go-back-btn {
   font-size: var(--body-font-size);
-  background-color: var(--background-dark);
-  color: var(--background-white);
+  background-color: var(--black-font-color);
+  color: var(--reverse-black-font-color);
   padding: 1.5rem 7rem;
   border-radius: 1rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-theme="device"] .logo img {
+    filter: var(--filter-EEF0DE);
+  }
+}
+
+[data-theme="dark"] .logo img {
+  filter: var(--filter-EEF0DE);
 }
