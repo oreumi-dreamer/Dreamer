@@ -1,8 +1,9 @@
 /* profile */
-
 .profile-main {
   width: 100%;
   background-color: var(--background-color);
+  margin: auto;
+  max-width: 72rem;
   flex-basis: 100%;
 }
 
@@ -15,7 +16,7 @@
   display: flex;
   margin: auto;
   width: 100%;
-  padding: 4.3rem 0 4.3rem 5.1rem;
+  padding: 4.3rem 0 0.3rem 5.1rem;
 }
 
 .profile-wrap img {
@@ -218,17 +219,14 @@
 
 .posts-container {
   width: 100%;
-  padding: 0 1.2rem;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  place-items: center;
-  margin: 3rem auto 0 auto;
-  gap: 2.32rem;
+  grid-template-columns: repeat(3, minmax(14rem, 1fr));
+  margin: 1% auto 0 auto;
+  gap: 1.5vw;
 }
 
 .post-wrap {
   width: 100%;
-  max-width: 24rem;
   aspect-ratio: 1 / 1;
   background-color: var(--background-white);
   border-radius: 1.5rem;
