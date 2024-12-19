@@ -357,7 +357,7 @@
   .profile-wrap img {
     width: clamp(10rem, 20vw + 10rem, 15rem);
     height: clamp(10rem, 20vw + 10rem, 15rem);
-    margin-right: 2rem;
+    margin-right: 0;
   }
 
   .profile-name-wrap {
