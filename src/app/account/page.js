@@ -53,7 +53,7 @@ export default function Account() {
             <dd className={styles["info-value"]}>{userName}</dd>
             <dt className={styles["info-label"]}>계정 유형</dt>
             <dd className={styles["info-value"]}>
-              {via === "google" ? "Google 계정" : "이메일 계정"}
+              {via === "google.com" ? "Google 계정" : "이메일 계정"}
             </dd>
           </dl>
         </section>
