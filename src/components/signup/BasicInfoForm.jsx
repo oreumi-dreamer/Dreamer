@@ -88,15 +88,7 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
         <legend className="sr-only">기본 정보</legend>
 
         <div className={styles["form-field"]}>
-          <label htmlFor="userId">
-            <img
-              src={isIdValid ? "/images/valid.svg" : "/images/invalid.svg"}
-              width={40}
-              height={40}
-              alt={isIdValid ? "유효한 아이디" : "유효하지 않은 아이디"}
-            />
-            아이디
-          </label>
+          <label htmlFor="userId">아이디</label>
           <input
             type="text"
             id="userId"
@@ -112,18 +104,16 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
             {!isIdValid &&
               "아이디는 4~20자의 영문 소문자와 숫자로 입력해주세요."}
           </span>
+          <img
+            src={isIdValid ? "/images/valid.svg" : "/images/invalid.svg"}
+            width={40}
+            height={40}
+            alt={isIdValid ? "유효한 아이디" : "유효하지 않은 아이디"}
+          />
         </div>
 
         <div className={styles["form-field"]}>
-          <label htmlFor="userName">
-            <img
-              src={isNameValid ? "/images/valid.svg" : "/images/invalid.svg"}
-              width={40}
-              height={40}
-              alt={isNameValid ? "유효한 이름" : "유효하지 않은 이름"}
-            />
-            이름
-          </label>
+          <label htmlFor="userName">이름</label>
           <input
             type="text"
             id="userName"
@@ -137,18 +127,16 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
           <span className={styles["invalid-text"]}>
             {!isNameValid && "이름은 2~20자로 입력해주세요."}
           </span>
+          <img
+            src={isNameValid ? "/images/valid.svg" : "/images/invalid.svg"}
+            width={40}
+            height={40}
+            alt={isNameValid ? "유효한 이름" : "유효하지 않은 이름"}
+          />
         </div>
 
         <div className={styles["form-field"]}>
-          <label htmlFor="birthDate">
-            <img
-              src={isBirthValid ? "/images/valid.svg" : "/images/invalid.svg"}
-              width={40}
-              height={40}
-              alt={isBirthValid ? "유효한 생일" : "유효하지 않은 생일"}
-            />
-            생일
-          </label>
+          <label htmlFor="birthDate">생일</label>
           <div className={styles["input-wrapper"]}>
             <Select
               id="birth-year"
@@ -197,6 +185,12 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
           <span className={styles["invalid-text"]}>
             {!isBirthValid && "생일은 필수 입력 값 입니다."}
           </span>
+          <img
+            src={isBirthValid ? "/images/valid.svg" : "/images/invalid.svg"}
+            width={40}
+            height={40}
+            alt={isBirthValid ? "유효한 생일" : "유효하지 않은 생일"}
+          />
         </div>
 
         <div className={`${styles["form-field"]} ${styles["agree"]}`}>
@@ -214,20 +208,22 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
           </Checkbox>
         </div>
       </fieldset>
-      <button
-        type="button"
-        onClick={() => router.push("/logout")}
-        className={styles["main-btn"]}
-      >
-        메인으로 돌아가기
-      </button>
-      <button
-        type="submit"
-        className={styles["next-btn"]}
-        disabled={!isIdValid || !isNameValid || !isBirthValid || !isAgree}
-      >
-        다음
-      </button>
+      <div className={styles["btn-row"]}>
+        <button
+          type="button"
+          onClick={() => router.push("/logout")}
+          className={styles["main-btn"]}
+        >
+          메인으로 돌아가기
+        </button>
+        <button
+          type="submit"
+          className={styles["next-btn"]}
+          disabled={!isIdValid || !isNameValid || !isBirthValid || !isAgree}
+        >
+          다음
+        </button>
+      </div>
     </form>
   );
 }
