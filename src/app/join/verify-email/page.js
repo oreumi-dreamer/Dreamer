@@ -6,6 +6,7 @@ import { auth } from "@/lib/firebase";
 import { isSignInWithEmailLink, signInWithEmailLink } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { setEmailVerified } from "@/store/authSlice";
+import styles from "./page.module.css";
 
 export default function VerifyEmail() {
   const [status, setStatus] = useState("verifying");
@@ -53,7 +54,7 @@ export default function VerifyEmail() {
   }, []);
 
   return (
-    <div>
+    <main className={styles["verify-email-container"]}>
       {status === "verifying" && <p>이메일 인증을 처리하고 있습니다...</p>}
       {status === "success" && (
         <div>
@@ -64,6 +65,6 @@ export default function VerifyEmail() {
       {status === "error" && (
         <p>인증 처리 중 오류가 발생했습니다. 다시 시도해주세요.</p>
       )}
-    </div>
+    </main>
   );
 }
