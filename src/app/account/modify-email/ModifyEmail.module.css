@@ -36,21 +36,6 @@
   grid-area: label;
 }
 
-/* 
-.form-input {
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #d1d5db;
-  border-radius: 4px;
-  margin-bottom: 0.5rem;
-}
-
-.form-input:focus {
-  outline: none;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-} */
-
 .form-button {
   width: 100%;
 }
@@ -58,11 +43,6 @@
 .submit-button {
   width: 100%;
   color: white;
-}
-
-.submit-button:disabled {
-  background-color: #9ca3af;
-  cursor: not-allowed;
 }
 
 .error {
