@@ -511,7 +511,7 @@ export default function TomongComponent() {
   }
 
   return (
-    <div className={styles["container"]}>
+    <div id="tomong-container" className={styles["container"]}>
       <h1>
         <Link href="/">
           <img src="/images/logo-full.svg" alt="DREAMER" width={240} />
