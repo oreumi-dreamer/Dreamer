@@ -291,7 +291,14 @@ export default function PostContent({
                   height={49}
                   alt="프로필 사진"
                 />
-                <p className={styles["profile-info"]}>
+                <p
+                  className={`${styles["profile-info"]} ${
+                    postData.authorName.length > 7 ||
+                    postData.authorId.length > 7
+                      ? styles["long-profile-info"]
+                      : ""
+                  }`}
+                >
                   {postData.authorName}
                   <span>{`@${postData.authorId}`}</span>
                   <time
