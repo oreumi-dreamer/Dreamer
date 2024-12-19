@@ -2,7 +2,7 @@ body:has(.login-title) {
   background: var(--background-pink-top);
   width: 100vw;
   height: 100vh;
-  padding: 0;
+  padding: 0 !important;
 }
 .main {
   display: flex;
