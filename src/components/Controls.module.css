@@ -179,6 +179,9 @@
 
 label.checkbox {
   width: fit-content;
+}
+
+label.checkbox > span {
   font-size: var(--body-font-size);
   font-weight: 400;
 }
