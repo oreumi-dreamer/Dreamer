@@ -200,7 +200,7 @@ export default function Post({
     <>
       <article className={styles["article"]} ref={containerRef}>
         <section className={styles["post-user-info"]}>
-          <Link href={`/${post.authorId}`}>
+          <Link href={`/users/${post.authorId}`}>
             <img
               src={post.profileImageUrl}
               alt={`${post.authorName}님의 프로필 사진`}

@@ -68,7 +68,7 @@ export default function NarrowHeader({
         } else {
           position = {
             position: "absolute",
-            top: `${buttonRect.top - modalHeight*2}px`,
+            top: `${buttonRect.top - modalHeight * 2}px`,
             left: `${buttonRect.right} - 50px`,
             zIndex: "10",
           };
@@ -174,7 +174,7 @@ export default function NarrowHeader({
         </nav>
         <nav>
           <Link
-            href={`/${userId}`}
+            href={`/users/${userId}`}
             className={`${styles["nav-item"]} ${styles["profile-btn"]}`}
             onClick={() => handleActiveBtn("프로필")}
           >

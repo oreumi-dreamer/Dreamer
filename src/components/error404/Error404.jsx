@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export default function Error404() {
   return (
-    <div className={styles["page-wrap"]}>
+    <div id="not-found-wrap" className={styles["page-wrap"]}>
       <h1 className={styles.logo}>
         <Link href="/">
           <img src="/images/logo-404.svg" alt="DREAMER" />

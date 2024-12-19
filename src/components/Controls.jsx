@@ -735,7 +735,7 @@ export function UsersList({
         {!isLoading &&
           users.map((user) => (
             <li key={user.userId}>
-              <Link href={`/${user.userId}`}>
+              <Link href={`/users/${user.userId}`}>
                 <img
                   src={
                     user.profileImageUrl

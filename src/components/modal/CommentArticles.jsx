@@ -94,7 +94,7 @@ export default function CommentArticles({
                 : ""
             }`}
           >
-            <Link href={`/${comment.authorId}`}>
+            <Link href={`/users/${comment.authorId}`}>
               <span>
                 {comment.authorName.length > 7
                   ? comment.authorName.slice(0, 10) + "..."
