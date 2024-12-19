@@ -302,13 +302,13 @@ export function Select({
   );
 }
 
-export function Checkbox({ type, background, value, onChange, children }) {
+export function Checkbox({ type, background, checked, onChange, children }) {
   if (type === "col") {
     return (
       <label className={`${styles["checkbox"]} ${styles["checkbox-col"]}`}>
         <input
           type="checkbox"
-          value={value}
+          checked={checked}
           onChange={onChange}
           className={styles["checkbox"]}
           style={background === "white" ? { backgroundColor: "white" } : {}}
@@ -321,7 +321,7 @@ export function Checkbox({ type, background, value, onChange, children }) {
       <label className={styles["checkbox"]}>
         <input
           type="checkbox"
-          value={value}
+          checked={checked}
           onChange={onChange}
           className={styles["checkbox"]}
           style={background === "white" ? { backgroundColor: "white" } : {}}
