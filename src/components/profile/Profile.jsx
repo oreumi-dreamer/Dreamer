@@ -23,6 +23,7 @@ export default function Profile({ userName, write, post }) {
   const [selectedPostId, setSelectedPostId] = useState(null);
   const mainRef = useRef(null);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isPrivate, setIsPrivate] = useState(false);
 
   const user = useSelector((state) => state.auth.user);
   const isLoggedIn = user?.exists ? true : false;
@@ -77,6 +78,7 @@ export default function Profile({ userName, write, post }) {
           isFollowing: data.isFollowing,
           isMyself: data.isMyself,
           birthDate: data.birthDate,
+          isPrivate: data.isPrivate,
         });
       }
 
