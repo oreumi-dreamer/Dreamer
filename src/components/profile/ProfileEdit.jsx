@@ -65,6 +65,13 @@ export default function ProfileEdit({
     }
   }, [year, month]);
 
+  useEffect(() => {
+    setProfile((pervProfile) => ({
+      ...pervProfile,
+      isPrivate: isPrivate,
+    }));
+  }, [isPrivate, setProfile]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -101,7 +108,7 @@ export default function ProfileEdit({
       });
 
       const data = await res.json();
-
+      console.log(data);
       if (!res.ok) {
         throw new Error(data.message || "프로필 수정에 실패했습니다.");
       }
@@ -113,6 +120,7 @@ export default function ProfileEdit({
             userName: userName,
             bio: bio,
             profileImageUrl: data.profileImageUrl,
+            isPrivate: isPrivate,
           },
         })
       );
@@ -124,7 +132,7 @@ export default function ProfileEdit({
           name: userName,
           id: userId,
           bio,
-          isPrivate,
+          isPrivate: isPrivate,
           birthDate: new Date(year, month - 1, day),
           profileImageUrl: newImage,
         });
@@ -134,7 +142,7 @@ export default function ProfileEdit({
           name: userName,
           id: userId,
           bio,
-          isPrivate,
+          isPrivate: isPrivate,
           birthDate: new Date(year, month - 1, day),
         });
       }
@@ -241,8 +249,8 @@ export default function ProfileEdit({
                 />
                 <Checkbox
                   type="col"
-                  value={isPrivate}
-                  onChange={(e) => setIsPrivate(e.target.value)}
+                  checked={isPrivate}
+                  onChange={(e) => setIsPrivate(e.target.checked)}
                 >
                   비공개
                 </Checkbox>
