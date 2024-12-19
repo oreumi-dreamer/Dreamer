@@ -171,7 +171,7 @@ export default function ProfileEdit({
           </ButtonLabel>
         </fieldset>
         <fieldset className={styles["profile-form-info"]}>
-          <label>
+          <label className={styles["relative"]}>
             이름
             <Input
               type="text"
@@ -180,8 +180,9 @@ export default function ProfileEdit({
               minLength={2}
               maxLength={20}
             />
+            <span className={styles["char-limits"]}>{userName.length}/20</span>
           </label>
-          <label>
+          <label className={styles["relative"]}>
             아이디
             <Input
               type="text"
@@ -190,6 +191,7 @@ export default function ProfileEdit({
               minLength={4}
               maxLength={20}
             />
+            <span className={styles["char-limits"]}>{userId.length}/20</span>
           </label>
           <label className={styles["relative"]}>
             한줄소개

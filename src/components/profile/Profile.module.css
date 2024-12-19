@@ -174,7 +174,8 @@
 .char-limits {
   position: absolute;
   right: 0.8rem;
-  bottom: 0.4rem;
+  bottom: 0.2rem;
+  font-size: 1rem;
 }
 
 .form-btn-row {
@@ -392,7 +393,7 @@
     flex-direction: column;
   }
 
-  .profile-form-pic img{
+  .profile-form-pic img {
     margin-right: 0;
   }
 
