@@ -96,7 +96,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
     setRating(e.target.value);
   };
   const openModal = () => {
-    setIsModalOpen(false);
+    setIsModalOpen(true);
   };
 
   const openMoodModal = () => {
