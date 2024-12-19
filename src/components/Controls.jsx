@@ -75,6 +75,8 @@ export function Input({
   disabled,
   id,
   onBlur,
+  minLength,
+  maxLength,
 }) {
   let inputClass = styles["input"];
   if (type === "text" || type === "password" || type === "email") {
@@ -91,6 +93,8 @@ export function Input({
       disabled={disabled}
       style={background === "white" ? { backgroundColor: "white" } : {}}
       onBlur={onBlur}
+      minLength={minLength}
+      maxLength={maxLength}
     />
   );
 }
