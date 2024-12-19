@@ -59,16 +59,16 @@ export default function ProfileInfo({
             className={styles["user-profile-img"]}
             alt={profile.name + "님의 프로필 이미지"}
           />
-          {/* {profile.isPrivate && ( */}
-          <div className={styles["lock-icon"]}>
-            <img
-              src="/images/lock.svg"
-              width={16}
-              height={16}
-              alt="비공개계정"
-            />
-          </div>
-          {/* )} */}
+          {profile.isPrivate && (
+            <div className={styles["lock-icon"]}>
+              <img
+                src="/images/lock.svg"
+                width={16}
+                height={16}
+                alt="비공개계정"
+              />
+            </div>
+          )}
         </div>
 
         <div className={styles["profile-info"]}>
