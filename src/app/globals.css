@@ -199,17 +199,17 @@ body {
   font-size: var(--body-font-size);
   line-height: 1.44;
   letter-spacing: 0.03em;
+  position: relative;
 }
 
 body:has(header):has(main):has(footer) {
   width: 100%;
-  display: grid;
-  grid-template-columns: 1fr auto;
+  min-height: 100%;
   height: auto;
   background-color: var(--background-color);
   column-gap: 6.4rem;
-  padding-left: calc(32rem);
-  padding-right: 8.4rem;
+  padding-left: 32rem;
+  padding-right: 26rem;
 }
 
 body {
@@ -222,12 +222,20 @@ main {
 }
 
 body:has(header):has(main):has(footer) main {
-  padding: 16.6rem 0 16.6rem 6.4rem;
+  padding: 16.6rem 6.4rem 16.6rem 6.4rem;
 }
 
-/* 404 페이지에서는 footer를 숨김 처리 */
+/* 404 페이지에서는 header, footer를 숨김 처리 */
+body:has(#not-found-wrap) header,
 body:has(#not-found-wrap) footer {
   display: none;
+}
+
+body:has(header):has(main):has(footer) footer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20rem;
 }
 
 * {
@@ -262,7 +270,6 @@ body:has(#not-found-wrap) footer {
 @media (max-width: 1152px) {
   body:has(header):has(main):has(footer) {
     padding-left: 10.4rem;
-    padding-right: calc(6.4rem + (100vw - 969px) * 0.26087 / 16);
   }
 }
 
@@ -274,10 +281,15 @@ body:has(#not-found-wrap) footer {
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr auto;
+    padding-right: 0;
   }
 
   body:has(header):has(main):has(footer) main {
     padding-top: 16.6rem;
+  }
+
+  body:has(header):has(main):has(footer) footer {
+    position: inherit;
   }
 
   html body:has(header):has(main.no-posts):has(footer) footer {
