@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 import { loginSuccess } from "@/store/authSlice";
 import { useDispatch } from "react-redux";
 import useTheme from "@/hooks/styling/useTheme";
+import Loading from "../Loading";
 
 export default function ProfileEdit({
   profile,
@@ -34,6 +35,8 @@ export default function ProfileEdit({
   const [isPrivate, setIsPrivate] = useState(profile.isPrivate);
 
   const [newImage, setNewImage] = useState(null);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
   const dispatch = useDispatch();
@@ -91,6 +94,7 @@ export default function ProfileEdit({
 
     // API 호출
     try {
+      setIsLoading(true);
       const res = await fetchWithAuth("/api/account/modify", {
         method: "PUT",
         body: body,
@@ -113,7 +117,7 @@ export default function ProfileEdit({
         })
       );
 
-      alert("프로필이 성공적으로 수정되었습니다!"); // 임시로 alert를 사용함
+      // alert("프로필이 성공적으로 수정되었습니다!"); // 임시로 alert를 사용함
       if (newImage) {
         setProfile({
           ...profile,
@@ -138,6 +142,8 @@ export default function ProfileEdit({
       router.push(`/${userId}`);
     } catch (err) {
       alert(err.message); // 임시로 alert를 사용함
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -238,17 +244,25 @@ export default function ProfileEdit({
             </label>
           </div>
           <div className={styles["form-btn-row"]}>
-            <Button
-              onClick={(e) => {
-                e.preventDefault();
-                setIsEdit(false);
-              }}
-            >
-              취소
-            </Button>
-            <Button type="submit" highlight={true}>
-              수정 완료
-            </Button>
+            {isLoading ? (
+              <button type="button">
+                <Loading type="miniCircle" className={styles["loading"]} />
+              </button>
+            ) : (
+              <>
+                <Button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setIsEdit(false);
+                  }}
+                >
+                  취소
+                </Button>
+                <Button type="submit" highlight={true}>
+                  수정 완료
+                </Button>
+              </>
+            )}
           </div>
         </fieldset>
       </form>
