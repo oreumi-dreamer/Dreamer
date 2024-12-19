@@ -289,10 +289,12 @@ body:has(header):has(main):has(footer) main {
 
   body {
     width: inherit;
-    height: calc(100dvh - 6rem);
     padding-left: 6.4rem;
     padding-right: 6.4rem;
-    overflow-y: scroll;
+  }
+
+  body:has(main#loading-wrapper) {
+    overflow: hidden;
   }
 
   body:has(header):has(main):has(footer) {
