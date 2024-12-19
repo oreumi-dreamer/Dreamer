@@ -12,13 +12,15 @@ body:has(.main) {
   gap: 5.995rem;
   height: 100vh;
 }
-
-.main h1 {
-  margin-right: 5rem;
-}
-
 .main h1 img {
+  margin-right: 5rem;
   width: 85vw;
   max-width: 60rem;
   filter: var(--filter-EEF0DE);
+}
+@media (max-width: 480px) {
+  .main h1 img {
+    margin-right: 3rem;
+    max-width: 38.4rem;
+  }
 }

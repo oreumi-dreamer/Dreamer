@@ -117,3 +117,10 @@ main:has(.login-title) img {
   background-color: var(--email-login-btn-active-color);
   cursor: not-allowed;
 }
+
+@media (max-width: 480px) {
+  .google-login-btn,
+  .email-login-btn {
+    width: 18rem;
+  }
+}
