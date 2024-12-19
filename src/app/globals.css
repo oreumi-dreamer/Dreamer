@@ -315,3 +315,9 @@ body:has(header):has(main):has(footer) main {
     padding-bottom: 6rem;
   }
 }
+
+@media (max-width: 499px) {
+  div.root-container:has(header):has(main):has(footer) {
+    padding-left: 2rem;
+  }
+}
