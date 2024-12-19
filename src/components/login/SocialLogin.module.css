@@ -1,11 +1,14 @@
 body:has(.login-title) {
   background: var(--background-pink-top);
+  padding: 0;
 }
 main:has(.login-title) {
   max-width: 86rem;
-  height: 92rem;
   border-radius: 2rem;
   margin: 8rem auto;
+  height: 92rem;
+  max-height: 92rem;
+  padding: 5.7rem 15.7rem 8.4rem 15.7rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -120,9 +123,58 @@ main:has(.login-title) img {
   cursor: not-allowed;
 }
 
+@media (max-width: 720px) {
+  main:has(.login-title) {
+    height: fit-content;
+    margin: 8rem 2rem 0 2rem;
+    padding: 1.6rem 2.5rem;
+    justify-content: flex-start;
+  }
+  main:has(.login-title) img {
+    margin-right: 0rem;
+  }
+  .login-container {
+    gap: 0.5rem;
+  }
+  .login-title {
+    font-size: var(--h2-font-size);
+  }
+  .login-button {
+    margin-bottom: 4rem;
+  }
+  .id-label,
+  .pw-label {
+    padding: 0 1.5rem;
+  }
+  .id-label input,
+  .pw-label input {
+    max-height: 4.8rem;
+  }
+}
+
 @media (max-width: 480px) {
   .google-login-btn,
   .email-login-btn {
     width: 18rem;
+  }
+
+  .login-container {
+    gap: 0;
+  }
+  .id-label,
+  .pw-label {
+    margin-bottom: 2rem;
+  }
+  .id-label input,
+  .pw-label input {
+    max-height: 4.5rem;
+  }
+  .login-button {
+    margin-bottom: 3rem;
+  }
+  .error-message,
+  .google-login,
+  .join-button {
+    font-size: var(--small-text-font-size);
   }
 }

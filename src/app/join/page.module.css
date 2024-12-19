@@ -2,6 +2,7 @@ body:has(.login-title) {
   background: var(--background-pink-top);
   width: 100vw;
   height: 100vh;
+  padding: 0;
 }
 .main {
   display: flex;
@@ -12,18 +13,19 @@ body:has(.login-title) {
   height: 100vh;
   max-width: 86rem;
   height: 92rem;
+  max-height: 92rem;
   border-radius: 2rem;
   margin: 8rem auto;
   background-color: var(--background-white);
   color: var(--black-font-color);
   gap: 0;
+  padding: 5.7rem 15.7rem 8.4rem 15.7rem;
 }
-.main h1 {
-  margin-right: 5rem;
-}
+
 .main h1 img {
   width: 85vw;
   max-width: 48rem;
+  margin-right: 10rem;
   filter: var(--filter-EEF0DE);
 }
 .login-container {
@@ -36,4 +38,26 @@ body:has(.login-title) {
 .login-title {
   font-size: var(--big-text-font-size);
   font-weight: bold;
+}
+@media (max-width: 720px) {
+  main:has(.login-title) {
+    height: fit-content;
+    margin: 8rem 2rem 0 2rem;
+    padding: 1.6rem 2.5rem;
+    justify-content: flex-start;
+  }
+  .main h1 img {
+    margin-right: 3rem;
+  }
+  .login-container {
+    gap: 1rem;
+  }
+  .login-title {
+    font-size: var(--h2-font-size);
+  }
+}
+@media (max-width: 480px) {
+  .main h1 img {
+    margin-right: 1rem;
+  }
 }

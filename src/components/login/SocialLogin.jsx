@@ -136,7 +136,7 @@ export default function SocialLogin() {
     <section className={styles["login-container"]}>
       {showEmailForm && !showSignupForm ? (
         <>
-          <h2 className={styles["login-title"]}>이메일로 로그인</h2>
+          <h2 className={styles["login-title"]}>이메일로 로그인하기</h2>
           <p>다시 꿈꾸러 오셔서 기뻐요!</p>
           <LoginForm
             onSubmit={handleEmailLogin}
