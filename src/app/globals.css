@@ -80,6 +80,7 @@
     --background-gray: rgba(149, 149, 149, 0.5);
     --background-dimmed: rgba(17, 17, 17, 0.4);
     --background-dark: #242424;
+    --background-mobile-header: #242424;
     --none-active-color: #959595;
     --black-font-color: #e0e0e0;
     --gray-font-color: #eef0de40;
@@ -135,6 +136,7 @@
   --background-gray: rgba(149, 149, 149, 0.5);
   --background-dimmed: rgba(17, 17, 17, 0.4);
   --background-dark: #242424;
+  --background-mobile-header: #242424;
   --none-active-color: #959595;
   --black-font-color: #e0e0e0;
   --gray-font-color: #eef0de40;
