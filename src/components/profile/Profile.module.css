@@ -377,10 +377,12 @@
     position: relative;
   }
 
-  .user-profile-img img {
-    width: clamp(10rem, 20vw + 10rem, 15rem);
-    height: clamp(10rem, 20vw + 10rem, 15rem);
+  .user-profile-img {
     margin-right: 0;
+  }
+
+  .profile-image .lock-icon {
+    right: 0.5rem;
   }
 
   .profile-name-wrap {
@@ -393,9 +395,9 @@
 
   .profile-btn {
     position: absolute;
-    top: calc(36.5rem + 1.8rem);
+    bottom: 0;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translateX(-50%);
     margin-left: 0;
   }
 
