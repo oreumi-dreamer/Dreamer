@@ -19,17 +19,39 @@
   padding: 4.3rem 0 0.3rem 5.1rem;
 }
 
-.profile-wrap img {
+.profile-image {
+  position: relative;
+}
+
+.user-profile-img {
   width: 15rem;
   height: 15rem;
   margin-right: 4.5rem;
-  object-fit: cover;
+  border-radius: 50%;
 }
 
-.profile-image {
+.user-profile-img img {
   object-fit: cover;
-  border-radius: 50%;
   margin-bottom: 1.6rem;
+}
+
+.profile-image .lock-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  bottom: 0.5rem;
+  right: 5rem;
+  width: 4rem;
+  height: 4rem;
+  background-color: var(--background-white);
+  border: 1px solid var(--background-gray);
+  border-radius: 50%;
+}
+
+.profile-image .lock-icon img {
+  width: 3rem;
+  height: 3rem;
 }
 
 .profile-name-wrap {
@@ -174,7 +196,8 @@
 .char-limits {
   position: absolute;
   right: 0.8rem;
-  bottom: 0.4rem;
+  bottom: 0.2rem;
+  font-size: 1rem;
 }
 
 .form-btn-row {
@@ -354,7 +377,7 @@
     position: relative;
   }
 
-  .profile-wrap img {
+  .user-profile-img img {
     width: clamp(10rem, 20vw + 10rem, 15rem);
     height: clamp(10rem, 20vw + 10rem, 15rem);
     margin-right: 0;
@@ -392,7 +415,7 @@
     flex-direction: column;
   }
 
-  .profile-form-pic img{
+  .profile-form-pic img {
     margin-right: 0;
   }
 

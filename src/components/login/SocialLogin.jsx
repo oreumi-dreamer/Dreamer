@@ -13,7 +13,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { checkUserExists } from "@/utils/auth/checkUser";
 import { Button, Input, LoginForm } from "../Controls";
 import styles from "./SocialLogin.module.css";
-import EmailSignup from "./EmailSignup";
 import Loading from "../Loading";
 
 export default function SocialLogin() {
@@ -201,22 +200,6 @@ export default function SocialLogin() {
               <Link href="/join">가입하기</Link>
             </div>
           </LoginForm>
-        </>
-      ) : showSignupForm ? (
-        <>
-          <h2 className={styles["login-title"]}>회원가입</h2>
-          <p>새로운 드리머가 되어 당신이 꾼 꿈을 알려주세요!</p>
-          <EmailSignup
-            email={email}
-            setEmail={setEmail}
-            password={password}
-            setPassword={setPassword}
-            setShowSignupForm={setShowSignupForm}
-            error={error}
-            setError={setError}
-            checkUserExists={checkUserExists}
-            handleGoogleLogin={handleGoogleLogin}
-          />
         </>
       ) : (
         <>

@@ -9,7 +9,6 @@ import ProfileForm from "@/components/signup/ProfileForm";
 import { validateFirstForm, validateSecondForm } from "@/utils/validation";
 import Loading from "@/components/Loading";
 import { useDispatch, useSelector } from "react-redux";
-import { checkUserExists } from "@/utils/auth/checkUser";
 import SignupHeader from "@/components/signup/SignupHeader";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 

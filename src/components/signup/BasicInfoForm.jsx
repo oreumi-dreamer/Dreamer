@@ -2,10 +2,6 @@
 
 import { useState, useEffect } from "react";
 import styles from "./BasicInfoForm.module.css";
-import { auth, googleProvider } from "@/lib/firebase";
-import { signInWithPopup } from "firebase/auth";
-import { checkUserExists } from "@/utils/auth/checkUser";
-import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { Checkbox, Select } from "../Controls";
 
@@ -17,9 +13,6 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
   const [isNameValid, setIsNameValid] = useState(false);
   const [isBirthValid, setIsBirthValid] = useState(false);
   const [isAgree, setIsAgree] = useState(false);
-  const [error, setError] = useState("");
-  const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.auth);
 
   const router = useRouter();
 
@@ -46,37 +39,6 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
       ? setIsBirthValid(true)
       : setIsBirthValid(false);
   }, [year, month, day, userId, userName]);
-
-  const handleGoogleLogin = async () => {
-    try {
-      const result = await signInWithPopup(auth, googleProvider);
-      const idToken = await result.user.getIdToken(true);
-
-      // 1. ID 토큰을 API로 전달하여 세션 토큰을 쿠키에 저장
-      const tokenRes = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ idToken }),
-      });
-
-      if (!tokenRes.ok) {
-        throw new Error("토큰 쿠키 저장 중 오류 발생");
-      }
-
-      // 2. 사용자 존재 여부 확인
-      const exists = await checkUserExists(dispatch);
-
-      // 3. 결과에 따라 리다이렉트
-      if (!exists) {
-        alert("존재하지 않는 사용자 입니다. 회원가입을 이어서 진행해주세요!");
-      }
-    } catch (error) {
-      setError("로그인 중 오류가 발생했습니다.");
-      console.error("Login error:", error);
-    }
-  };
 
   const preventBlank = (e, setState) => {
     if (e.target.value.includes(" ")) {
