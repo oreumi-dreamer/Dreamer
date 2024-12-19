@@ -11,17 +11,17 @@ body:has(.signup-main) {
   padding: 4.4rem 0rem 5.3rem 0rem;
   border-radius: 2rem;
   background: var(--background-white);
-  min-width: 39rem;
+  /* min-width: 39rem; 반응형 문제 해결을 위해 주석 처리 */
 }
 
 @media (max-width: 720px) {
   .signup-main {
-    margin: 8rem 2rem 0 2rem;
+    margin: 8rem 2rem;
   }
 }
 
 @media (max-width: 480px) {
   .signup-main {
-    padding: 1.6rem 0rem 4.5rem 0rem;
+    padding: 1.6rem 2.5rem;
   }
 }

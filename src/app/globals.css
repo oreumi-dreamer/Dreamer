@@ -299,6 +299,11 @@ body:has(header):has(main):has(footer) footer {
 }
 
 @media (max-width: 720px) {
+  :root {
+    --h2-font-size: 2rem;
+    --some-font-size: 1.4rem;
+  }
+
   html:has(header):has(main):has(footer) {
     width: 100vw;
     height: 100dvh;
