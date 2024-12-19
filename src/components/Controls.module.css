@@ -200,8 +200,10 @@ label.checkbox a {
   content: "";
   width: 2rem;
   height: 2rem;
+  aspect-ratio: 1/1;
   background-image: url("/images/checkbox.svg");
-  background-size: contain;
+  background-size: cover;
+  background-repeat: no-repeat;
   margin-right: 0.8rem;
   cursor: pointer;
 }
