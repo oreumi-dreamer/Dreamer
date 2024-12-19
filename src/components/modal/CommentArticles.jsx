@@ -87,9 +87,20 @@ export default function CommentArticles({
         onClick={handleCommentClick}
       >
         <ul className={styles["comment-info"]}>
-          <li>
+          <li
+            className={`${
+              comment.authorName.length > 7 || comment.authorId.length > 7
+                ? styles["long-comment-info"]
+                : ""
+            }`}
+          >
             <Link href={`/${comment.authorId}`}>
-              <span>{comment.authorName}</span> {`@${comment.authorId}`}
+              <span>
+                {comment.authorName.length > 7
+                  ? comment.authorName.slice(0, 10) + "..."
+                  : comment.authorName}
+              </span>{" "}
+              {`@${comment.authorId.length > 7 ? comment.authorId.slice(0, 10) + "..." : comment.authorId}`}
             </Link>
           </li>
           <li>
