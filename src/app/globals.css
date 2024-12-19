@@ -279,6 +279,7 @@ body:has(header):has(main):has(footer) footer {
     width: 100%;
     min-height: 100dvh;
     display: grid;
+    justify-content: center;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr auto;
     padding-right: 0;
