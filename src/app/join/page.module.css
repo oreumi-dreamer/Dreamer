@@ -10,7 +10,6 @@ body:has(.login-title) {
   align-items: center;
   gap: 5.995rem;
   height: 100vh;
-  background: #fff;
   max-width: 86rem;
   height: 92rem;
   border-radius: 2rem;
