@@ -233,16 +233,16 @@
   }
 
   .header nav ul li:last-child button {
-    width: 8.4rem;
-    height: 8.4rem;
+    width: 6.4rem;
+    height: 6.4rem;
     box-shadow:
       0 4px 6px -1px rgb(0 0 0 / 0.1),
       0 2px 4px -2px rgb(0 0 0 / 0.1);
   }
 
   .header nav ul li:last-child button img {
-    width: 4.8rem;
-    height: 4.8rem;
+    width: 3.2rem;
+    height: 3.2rem;
   }
 
   .header .nav-items * {
