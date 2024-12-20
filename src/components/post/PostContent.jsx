@@ -17,6 +17,7 @@ import { outsideClickModalClose } from "@/utils/outsideClickModalClose";
 import { useRouter } from "next/navigation";
 import PostModal from "../modal/PostModal";
 import WritePost from "../write/WritePost";
+import ReportModal from "../report/Report";
 
 export default function PostContent({
   type,
@@ -45,6 +46,7 @@ export default function PostContent({
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [shareModalOpen, setShareModalOpen] = useState(false);
   const [isWriteModalOpen, setIsWriteModalOpen] = useState(false);
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
   const router = useRouter();
 
@@ -399,6 +401,7 @@ export default function PostContent({
                       ref={modalRef}
                       style={modalStyle}
                       className={styles["more-modal"]}
+                      setIsReportModalOpen={setIsReportModalOpen}
                     />
                   )}
                 </li>
@@ -601,6 +604,13 @@ export default function PostContent({
               isWriteModalOpen={isWriteModalOpen}
               closeWriteModal={() => setIsWriteModalOpen(false)}
               modifyId={postId}
+            />
+          )}
+          {isReportModalOpen && (
+            <ReportModal
+              isOpen={isReportModalOpen}
+              closeModal={() => setIsReportModalOpen(false)}
+              postId={postId}
             />
           )}
         </>
