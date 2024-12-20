@@ -1,6 +1,8 @@
+
 # ![DreamerLogo](https://github.com/user-attachments/assets/96c445fd-727c-4a60-a93f-ca1bc00b6178)
 
 >  [<img src = "https://github.com/user-attachments/assets/c26addd5-86c6-4bcb-8633-d2cdeb9a2ba4" width= "250px"/>](https://dreamer.today)
+>  배포환경 : Vercel
 
 
  ##  👩‍💻팀원 소개👨‍💻
@@ -15,7 +17,7 @@
 - [Ⅱ. 프로젝트의 목표와 기능](#%E2%85%B2-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%EC%9D%98-%EB%AA%A9%ED%91%9C%EC%99%80-%EA%B8%B0%EB%8A%A5)
 - [Ⅲ. 프로젝트 구조와 개발 일정](#%E2%85%B4-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EA%B5%AC%EC%A1%B0%EC%99%80-%EA%B0%9C%EB%B0%9C-%EC%9D%BC%EC%A0%95)
 - [Ⅳ. 와이어프레임 / UI](#%E2%85%B5-%EC%99%80%EC%9D%B4%EC%96%B4%ED%94%84%EB%A0%88%EC%9E%84--ui)
-- [Ⅴ. 개발하며 느낀점](#%E2%85%B6-%EA%B0%9C%EB%B0%9C%ED%95%98%EB%A9%B0-%EB%8A%90%EB%82%80%EC%A0%90)
+- [Ⅴ. 개발History](#%E2%85%B6-%EA%B0%9C%EB%B0%9C%ED%95%98%EB%A9%B0-%EB%8A%90%EB%82%80%EC%A0%90)
 
 
 ##  Ⅰ. 기술 스택
@@ -31,45 +33,47 @@
 
 ###  2.1 프로젝트의 목표
 - 우리는 꿈을 꿉니다. 꿈을 기록하고 모두와 함께 공유해보세요.
-- 꿈 내용을 기록하고, 타인과 공유할수있는 SNS형식의 웹사이트 구현 프로젝트.
+- 나의 꿈 내용을 기록하고, 타인과 공유할수있는 SNS형식의 웹사이트 구현 프로젝트.
 
 
-###  2.2 구현하고자하는 기능
-- 홈페이지
-	- 구글 로그인
-	- 이메일 로그인
-- 회원가입 진행페이지
-	- 필수입력사항 / 선택입력사항 총 2페이지
-- 메인페이지
-	- 게시글을 스크롤 해서 볼 수 있는 페이지. 커서 위치에따라 추가 게시글 랜딩
-	-  좌측 header(nav)를 통해서 화면모드 변경과 글쓰기 등의 작업이 가능
-- 마이페이지
-	- 선택한 유저가 작성한 게시글을 모아서 볼 수 있는 페이지.
-	- 본인페이지일경우 프로필 편집이 가능
+###  2.2 기능
+- 구글로그인, 개인이메일인증을 통한 가입을 통해서 가입 후 서비스이용 가능
+- 내가 꾼 꿈의 장르,느낌 등을 체크하고 글과 사진을 통해 기록을 남겨 공유할수있는 다이어리형 SNS
+- 앨런AI를 통해 작성한 꿈에 대한 해몽을 받고, 타인과 함께 공유 할 수 있는 플랫폼
+- 비회원에게도 공개개시글을 공유하여 함께 감상가능
 
 ## Ⅲ. 프로젝트 구조와 개발 일정
 ### 3.1 프로젝트 구조
 폴더구조
 
 ### 3.2 개발 일정
-타임라인
+![image](https://github.com/user-attachments/assets/570dcd10-f256-4828-84d4-a79e75005c93)
 
 ## Ⅳ. 와이어프레임 / UI
 ### 4.1 와이어프레임
-피그마 사진
+
+|LightMode|DarkMode|
+|:---:|:---:|
+|![image](https://github.com/user-attachments/assets/a4623c99-d5e3-47a8-912f-98d29bbf5776)|![image](https://github.com/user-attachments/assets/d2e3f136-0862-4492-95a2-0601dcb3a5b3)|
+|LightMode(Mobile)|DarkMode(Mobile)|
+|![image](https://github.com/user-attachments/assets/b5f25b69-16eb-495c-bc1a-76d1aaf539d3)|![image](https://github.com/user-attachments/assets/5d92b146-10aa-4210-95ba-38201563eb68)|
+|Asset|TagColorPalette|
+|![image](https://github.com/user-attachments/assets/586807ae-9004-4ad4-b443-96d9751c269d)|![image](https://github.com/user-attachments/assets/f3a2d83f-0ae9-417d-85a3-a0cb8cde09aa)|
 
 ### 4.2 UI
-시현영상 gif 삽입
+시연영상 gif 삽입
 
-## Ⅴ. 개발하며 느낀점
-### [FE]황초희
+## Ⅴ. 개발History
+
+### 느낀점
+#### [FE]황초희
 ``` 3차프로젝트 진행하면서 느낀점 ```
 
-### [FE]김지훈
+#### [FE]김지훈
 ``` 3차프로젝트 진행하면서 느낀점 ```
 
-### [FE]한지현
+#### [FE]한지현
 ``` 3차프로젝트 진행하면서 느낀점 ```
 
-### [FE]하진희
+#### [FE]하진희
 ``` 3차프로젝트 진행하면서 느낀점 ```
