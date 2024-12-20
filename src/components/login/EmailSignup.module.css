@@ -27,6 +27,9 @@ main:has(.email-signup) {
 .input-container input.invalid {
   border: 0.2rem solid var(--invalid-border-color);
 }
+.input-container input:first-of-type {
+  padding-right: 15rem;
+}
 
 .email-input,
 .code-input {
@@ -99,6 +102,9 @@ main:has(.email-signup) {
 @media (max-width: 480px) {
   .input-container input {
     max-height: 4.8rem;
+  }
+  .input-container input:first-of-type {
+    padding-right: 12rem;
   }
   .email-verify-btn,
   .code-verify-btn {
