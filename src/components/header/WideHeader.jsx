@@ -20,7 +20,7 @@ export default function WideHeader({
 }) {
   const { isOpen } = useSelector((state) => state.modal);
   const { user } = useSelector((state) => state.auth);
-  const { userId, userName, profileImageUrl } = user;
+  const { userId, profileImageUrl } = user;
   const [modalStyle, setModalStyle] = useState({});
   const modalRef = useRef(null);
   const dispatch = useDispatch();
@@ -56,7 +56,7 @@ export default function WideHeader({
         }
       };
 
-      updatePosition(); // Initial position update
+      updatePosition();
       window.addEventListener("resize", updatePosition);
 
       const cleanup = outsideClickModalClose(modalRef, buttonRef, () => {
