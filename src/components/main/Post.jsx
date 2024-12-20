@@ -7,6 +7,8 @@ import { MyPost, OtherPost } from "../dropDown/DropDown";
 import { outsideClickModalClose } from "@/utils/outsideClickModalClose";
 import { Divider, ShareModal } from "../Controls";
 import useTheme from "@/hooks/styling/useTheme";
+import WritePost from "../write/WritePost";
+import ReportModal from "../report/Report";
 
 export default function Post({
   styles,
@@ -17,6 +19,8 @@ export default function Post({
   const [isOpen, setIsOpen] = useState(false);
   const [modalStyle, setModalStyle] = useState({});
   const [shareModalOpen, setShareModalOpen] = useState(false);
+  const [isWriteModalOpen, setIsWriteModalOpen] = useState(false);
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const modalRef = useRef(null);
   const buttonRef = useRef(null);
   const containerRef = useRef(null);
@@ -246,10 +250,15 @@ export default function Post({
               }}
               postId={post.id}
               postIsPrivate={post.isPrivate}
+              setIsWriteModalOpen={setIsWriteModalOpen}
             />
           )}
           {isOpen && !post.isMyself && (
-            <OtherPost ref={modalRef} style={modalStyle} />
+            <OtherPost
+              ref={modalRef}
+              style={modalStyle}
+              setIsReportModalOpen={setIsReportModalOpen}
+            />
           )}
         </section>
         <Divider className={styles["divider"]} />
@@ -355,6 +364,22 @@ export default function Post({
           isOpen={shareModalOpen}
           closeModal={handleShareModalClose}
           link={`${baseUrl}/post/${post.id}`}
+        />
+      )}
+      {isWriteModalOpen && (
+        <WritePost
+          key={`${post.id}-modify`}
+          modifyId={post.id}
+          isWriteModalOpen={isWriteModalOpen}
+          closeWriteModal={() => setIsWriteModalOpen(false)}
+        />
+      )}
+      {isReportModalOpen && (
+        <ReportModal
+          key={`${post.id}-report`}
+          isOpen={isReportModalOpen}
+          closeModal={() => setIsReportModalOpen(false)}
+          postId={post.id}
         />
       )}
     </>

@@ -43,12 +43,7 @@ export default function NarrowHeader({
       href: "/search",
       img: "/images/search.svg",
     },
-    {
-      label: "알람",
-      className: "alarm-btn",
-      href: "/alarm",
-      img: "/images/alarm.svg",
-    },
+
     {
       label: "토몽",
       className: "tomong-btn",

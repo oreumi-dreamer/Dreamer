@@ -95,12 +95,14 @@ export default function CommentArticles({
             }`}
           >
             <Link href={`/users/${comment.authorId}`}>
-              <span>
+              <span className={styles["author-name"]}>
                 {comment.authorName.length > 7
-                  ? comment.authorName.slice(0, 10) + "..."
+                  ? comment.authorName.slice(0, 9) + "..."
                   : comment.authorName}
-              </span>{" "}
-              {`@${comment.authorId.length > 7 ? comment.authorId.slice(0, 10) + "..." : comment.authorId}`}
+              </span>
+              <span className={styles["author-id"]}>
+                {`@${comment.authorId.length > 7 ? comment.authorId.slice(0, 7) + "..." : comment.authorId}`}
+              </span>
             </Link>
           </li>
           <li>

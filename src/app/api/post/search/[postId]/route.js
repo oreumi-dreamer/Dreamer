@@ -43,6 +43,10 @@ export async function GET(request, { params }) {
 
     const postData = postDoc.data();
 
+    const commentsLength = postData.comments
+      ? postData.comments.filter((comment) => !comment.isDeleted).length
+      : 0;
+
     // 삭제된 게시글 체크
     if (postData.isDeleted) {
       return NextResponse.json(
@@ -111,7 +115,7 @@ export async function GET(request, { params }) {
       hasUserSparked: hasUserSparked,
       sparkCount: postData.sparkCount,
       comments: [],
-      commentsCount: postData.commentsCount,
+      commentsCount: commentsLength,
       dreamGenres: postData.dreamGenres,
       dreamMoods: postData.dreamMoods,
       dreamRating: postData.dreamRating,

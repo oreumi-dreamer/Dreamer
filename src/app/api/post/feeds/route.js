@@ -148,13 +148,17 @@ export async function GET(request) {
           .map((doc) => {
             const postData = doc.data();
 
+            const commentsLength = postData.comments
+              ? postData.comments.filter((comment) => !comment.isDeleted).length
+              : 0;
+
             // 점수 계산
             const followScore = followingUids.includes(postData.authorUid)
               ? 30
               : 0;
             const interactionScore = Math.min(
               30,
-              ((postData.sparkCount || 0) + (postData.commentsCount || 0)) / 2
+              ((postData.sparkCount || 0) + (commentsLength || 0)) / 2
             );
             const genreMatchScore = Math.min(
               25,
@@ -166,7 +170,7 @@ export async function GET(request) {
             const timeFreshnessScore = calculateTimeDecay(
               postData.createdAt,
               postData.sparkCount,
-              postData.commentsCount
+              commentsLength
             );
 
             const totalScore =
@@ -182,7 +186,7 @@ export async function GET(request) {
               authorUid: postData.authorUid,
               createdAt: postData.createdAt.toDate().toISOString(),
               sparkCount: postData.sparkCount || 0,
-              commentsCount: postData.commentsCount || 0,
+              commentsCount: commentsLength || 0,
               dreamGenres: postData.dreamGenres || [],
               dreamMoods: postData.dreamMoods || [],
               imageUrls: postData.imageUrls || [],
@@ -311,13 +315,17 @@ export async function GET(request) {
         .map((doc) => {
           const postData = doc.data();
 
+          const commentsLength = postData.comments
+            ? postData.comments.filter((comment) => !comment.isDeleted).length
+            : 0;
+
           // 점수 계산
           const followScore = followingUids.includes(postData.authorUid)
             ? 30
             : 0;
           const interactionScore = Math.min(
             30,
-            ((postData.sparkCount || 0) + (postData.commentsCount || 0)) / 2
+            ((postData.sparkCount || 0) + (commentsLength || 0)) / 2
           );
           const genreMatchScore = Math.min(
             25,
@@ -329,7 +337,7 @@ export async function GET(request) {
           const timeFreshnessScore = calculateTimeDecay(
             postData.createdAt,
             postData.sparkCount,
-            postData.commentsCount
+            commentsLength
           );
 
           const totalScore =
@@ -346,7 +354,7 @@ export async function GET(request) {
             authorUid: postData.authorUid,
             createdAt: postData.createdAt.toDate().toISOString(),
             sparkCount: postData.sparkCount || 0,
-            commentsCount: postData.commentsCount || 0,
+            commentsCount: commentsLength || 0,
             dreamGenres: postData.dreamGenres || [],
             dreamMoods: postData.dreamMoods || [],
             imageUrls: postData.imageUrls || [],

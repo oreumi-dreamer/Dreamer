@@ -43,6 +43,8 @@
   --focus-border-color: #a54cb4;
   --delete-btn-background: rgba(200, 200, 200, 0.75);
   --mainPost-img-overlay: rgba(0, 0, 0, 60%);
+  --reverse-black-font-color: #eef0de;
+  --profile-bio: #f89b9b20;
 
   --tomong-stamp-half-opacity: 0.5;
   --tomong-stamp-one-fifth-opacity: 0.2;
@@ -124,6 +126,8 @@
     --signup-email-background-color: #373737;
     --invalid-border-color: #ba5b5b;
     --invalid-text-color: #ba5b5b;
+    --reverse-black-font-color: #141420;
+    --profile-bio: #95959530;
   }
 }
 
@@ -178,6 +182,8 @@
   --signup-email-background-color: #373737;
   --invalid-border-color: #ba5b5b;
   --invalid-text-color: #ba5b5b;
+  --reverse-black-font-color: #141420;
+  --profile-bio: #95959520;
 }
 
 html {

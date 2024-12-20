@@ -14,7 +14,8 @@
 
 .profile-wrap {
   display: flex;
-  margin: auto;
+  margin-left: auto;
+  margin-right: auto;
   width: 100%;
   padding: 4.3rem 0 0.3rem 5.1rem;
 }
@@ -105,11 +106,20 @@
 }
 
 .profile-bio {
-  width: 21rem;
+  width: 36rem;
+  height: 6.6rem;
   color: var(--black-font-color);
 }
 
 /* profile form */
+
+.edit-profile-wrap {
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  padding: 4.3rem 0 0 5.1rem;
+}
 
 .profile-form {
   display: flex;
@@ -129,8 +139,9 @@
   align-items: center;
 }
 
-.profile-form-pic label {
-  margin-right: 4.5rem;
+.profile-form-pic .profile-image {
+  border-radius: 50%;
+  margin-bottom: 1.6rem;
 }
 
 .profile-form-info {
@@ -379,10 +390,12 @@
     position: relative;
   }
 
-  .user-profile-img img {
-    width: clamp(10rem, 20vw + 10rem, 15rem);
-    height: clamp(10rem, 20vw + 10rem, 15rem);
+  .user-profile-img {
     margin-right: 0;
+  }
+
+  .profile-image .lock-icon {
+    right: 0.5rem;
   }
 
   .profile-name-wrap {
@@ -395,9 +408,9 @@
 
   .profile-btn {
     position: absolute;
-    top: calc(36.5rem + 1.8rem);
+    bottom: 0;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translateX(-50%);
     margin-left: 0;
   }
 
@@ -410,6 +423,9 @@
   }
   .profile-bio {
     width: 32rem;
+    background-color: var(--profile-bio);
+    border-radius: 1rem;
+    padding: 0.5rem;
   }
 
   /* profile form */
@@ -419,9 +435,5 @@
 
   .profile-form-pic img {
     margin-right: 0;
-  }
-
-  .profile-form-pic label {
-    margin: 0;
   }
 }
