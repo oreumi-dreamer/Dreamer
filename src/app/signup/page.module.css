@@ -11,7 +11,6 @@ body:has(.signup-main) {
   padding: 4.4rem 0rem 5.3rem 0rem;
   border-radius: 2rem;
   background: var(--background-white);
-  /* min-width: 39rem; 반응형 문제 해결을 위해 주석 처리 */
 }
 
 @media (max-width: 720px) {
