@@ -31,7 +31,15 @@ export default function ProfileEdit({
   const [isPrivate, setIsPrivate] = useState(profile.isPrivate);
   const [newImage, setNewImage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isUserIdValid, setIsUserIdValid] = useState(false);
+  const [isUserNameValid, setIsUserNameValid] = useState(false);
   const dispatch = useDispatch();
+  console.log(
+    "isUserIdValid",
+    isUserIdValid,
+    "isUserNameValid",
+    isUserNameValid
+  );
 
   const handleNewImage = (e) => {
     const file = e.target.files[0];
@@ -55,7 +63,13 @@ export default function ProfileEdit({
         setDay(newLastDay);
       }
     }
-  }, [year, month]);
+    const idPattern = /^[a-z0-9]{4,20}$/;
+    !idPattern.test(userId) ? setIsUserIdValid(false) : setIsUserIdValid(true);
+
+    userName.length < 2 || userName.length > 20
+      ? setIsUserNameValid(false)
+      : setIsUserNameValid(true);
+  }, [year, month, userId, userName]);
 
   useEffect(() => {
     setProfile((pervProfile) => ({
@@ -266,7 +280,7 @@ export default function ProfileEdit({
                 <Button
                   type="submit"
                   highlight={true}
-                  disabled={userName.length < 2 || userId.length < 4}
+                  disabled={!isUserIdValid || !isUserNameValid}
                 >
                   수정 완료
                 </Button>
