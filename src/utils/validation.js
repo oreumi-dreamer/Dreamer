@@ -78,3 +78,18 @@ export function validateSecondForm(e) {
 
   return true;
 }
+
+export function validatePassword(password) {
+  const minLength = 6;
+  const maxLength = 4096;
+  const hasUpperCase = /[A-Z]/.test(password);
+  const hasLowerCase = /[a-z]/.test(password);
+  const hasNumber = /[0-9]/.test(password);
+  const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+  const isValidLength =
+    password.length >= minLength && password.length <= maxLength;
+
+  return (
+    hasUpperCase && hasLowerCase && hasNumber && hasSpecialChar && isValidLength
+  );
+}
