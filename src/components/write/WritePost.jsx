@@ -41,6 +41,8 @@ export default function WritePost({
   const profileImageUrl = user?.profileImageUrl || "/images/rabbit.svg";
   const userId = user?.userId;
   const userName = user?.userName;
+  //   const userIdLength = user?.userId?.length || 0;
+  //   const userNameLength = user?.userName?.length || 0;
 
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [selectedMoods, setSelectedMoods] = useState([]);
@@ -424,6 +426,27 @@ export default function WritePost({
     setIsPrivate(false);
   };
 
+  //   textarea 높이
+  const handleResizeHeight = (e) => {
+    if (window.innerWidth <= 720) {
+      const textarea = e.target;
+      const maxHeight = 100;
+      const minHeight = 30;
+      textarea.style.height = "auto";
+
+      if (textarea.value.trim() === "") {
+        textarea.style.height = `${minHeight}rem`;
+      } else {
+        textarea.style.height = `${(textarea.scrollHeight, maxHeight)}rem`;
+      }
+    }
+  };
+
+  const handleInputChange = (e) => {
+    handleResizeHeight(e);
+    handleContentChange(e);
+  };
+
   // 날짜
   const today = new Date();
   const year = ("0" + today.getFullYear()).slice(-2);
@@ -474,7 +497,7 @@ export default function WritePost({
             alt={`${userName}님의 프로필 사진`}
           />
           <p className={styles["user-name"]}>
-            {userName}
+            <span className={styles["user-name-text"]}>{userName}</span>
             <span className={styles["user-id"]}>@{userId}</span>
           </p>
         </div>
@@ -488,31 +511,20 @@ export default function WritePost({
           className={styles["new-post-form"]}
           onSubmit={handleSubmit}
         >
-          <div id={styles["title"]}>
-            <label
-              id="title-input"
-              className={styles["title-input"]}
-              htmlFor="title"
-            >
-              Title
-              <input
-                type="text"
-                id="title"
-                placeholder={`${year}년 ${month}월 ${date}일 꿈 일기`}
-                onChange={handleTitleChange}
-                value={inputValue}
-              />
-            </label>
-            <label id="hidden" className={styles["hidden"]} htmlFor="hidden">
-              <input
-                type="checkbox"
-                id="hidden"
-                checked={isPrivate}
-                onChange={() => setIsPrivate((prev) => !prev)}
-              />
-              비공개
-            </label>
-          </div>
+          <label
+            id="title-input"
+            className={styles["title-input"]}
+            htmlFor="title"
+          >
+            <span className="sr-only">제목</span>
+            <input
+              type="text"
+              id="title"
+              placeholder={`${year}년 ${month}월 ${date}일 꿈 일기`}
+              onChange={handleTitleChange}
+              value={inputValue}
+            />
+          </label>
 
           <div className={styles["write-field"]}>
             <div className={styles["write-field-opt"]}>
@@ -570,7 +582,7 @@ export default function WritePost({
                     onClick={openMoodModal}
                     ref={moodButtonRef}
                   >
-                    <ul>
+                    <ul className={styles["feeling-selected-list"]}>
                       {selectedMoods.map((item) => (
                         <li key={item.text}>{item.text}</li>
                       ))}
@@ -581,46 +593,48 @@ export default function WritePost({
 
               <div className={styles["rate-star-container"]}>
                 <p>오늘의 꿈 별점: </p>
-                <input
-                  type="radio"
-                  className={styles["rate-star"]}
-                  name="rate-star"
-                  value={1}
-                  onChange={handleRatingChange}
-                  checked={rating === "1"}
-                />
-                <input
-                  type="radio"
-                  className={styles["rate-star"]}
-                  name="rate-star"
-                  value={2}
-                  onChange={handleRatingChange}
-                  checked={rating === "2"}
-                />
-                <input
-                  type="radio"
-                  className={styles["rate-star"]}
-                  name="rate-star"
-                  value={3}
-                  onChange={handleRatingChange}
-                  checked={rating === "3"}
-                />
-                <input
-                  type="radio"
-                  className={styles["rate-star"]}
-                  name="rate-star"
-                  value={4}
-                  onChange={handleRatingChange}
-                  checked={rating === "4"}
-                />
-                <input
-                  type="radio"
-                  className={styles["rate-star"]}
-                  name="rate-star"
-                  value={5}
-                  onChange={handleRatingChange}
-                  checked={rating === "5"}
-                />
+                <div>
+                  <input
+                    type="radio"
+                    className={styles["rate-star"]}
+                    name="rate-star"
+                    value={1}
+                    onChange={handleRatingChange}
+                    checked={rating === "1"}
+                  />
+                  <input
+                    type="radio"
+                    className={styles["rate-star"]}
+                    name="rate-star"
+                    value={2}
+                    onChange={handleRatingChange}
+                    checked={rating === "2"}
+                  />
+                  <input
+                    type="radio"
+                    className={styles["rate-star"]}
+                    name="rate-star"
+                    value={3}
+                    onChange={handleRatingChange}
+                    checked={rating === "3"}
+                  />
+                  <input
+                    type="radio"
+                    className={styles["rate-star"]}
+                    name="rate-star"
+                    value={4}
+                    onChange={handleRatingChange}
+                    checked={rating === "4"}
+                  />
+                  <input
+                    type="radio"
+                    className={styles["rate-star"]}
+                    name="rate-star"
+                    value={5}
+                    onChange={handleRatingChange}
+                    checked={rating === "5"}
+                  />
+                </div>
               </div>
               <div className={styles["image-uploader"]}>
                 <label>
@@ -651,13 +665,28 @@ export default function WritePost({
             {isLoading ? (
               <Uploading />
             ) : (
-              <button
-                type="submit"
-                form="new-post-form"
-                className={styles["btn-submit"]}
-              >
-                전송
-              </button>
+              <>
+                <label
+                  id="hidden"
+                  className={styles["hidden"]}
+                  htmlFor="hidden"
+                >
+                  <input
+                    type="checkbox"
+                    id="hidden"
+                    checked={isPrivate}
+                    onChange={() => setIsPrivate((prev) => !prev)}
+                  />
+                  비공개
+                </label>
+                <button
+                  type="submit"
+                  form="new-post-form"
+                  className={styles["btn-submit"]}
+                >
+                  전송
+                </button>
+              </>
             )}
           </div>
         </form>
