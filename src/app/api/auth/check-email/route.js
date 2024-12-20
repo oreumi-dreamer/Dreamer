@@ -1,5 +1,5 @@
 // app/api/auth/check-email/route.js
-import { auth } from "@/lib/firebaseAdmin";
+import { db } from "@/lib/firebaseAdmin";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {
@@ -14,13 +14,14 @@ export async function POST(req) {
     }
 
     try {
-      const userRecord = await auth.getUserByEmail(email);
+      const usersSnapshot = await db
+        .collection("users")
+        .where("email", "==", email)
+        .limit(1)
+        .get();
 
-      return NextResponse.json({ exists: userRecord.emailVerified });
+      return NextResponse.json({ exists: !usersSnapshot.empty });
     } catch (error) {
-      if (error.code === "auth/user-not-found") {
-        return NextResponse.json({ exists: false });
-      }
       console.error("Error in check-email:", error);
       return NextResponse.json(
         { error: "이메일 확인 중 오류가 발생했습니다." },
