@@ -15,7 +15,6 @@ import useTheme from "@/hooks/styling/useTheme";
 import Loading from "@/components/Loading";
 import { outsideClickModalClose } from "@/utils/outsideClickModalClose";
 import { useRouter } from "next/navigation";
-import PostModal from "../modal/PostModal";
 import WritePost from "../write/WritePost";
 import ReportModal from "../report/Report";
 

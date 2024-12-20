@@ -75,20 +75,9 @@ html:has(.post-modal) {
   font-size: var(--h2-font-size);
   margin-bottom: 1.6rem;
 }
-.long-profile-info,
-.long-profile-info span {
-  display: block;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  width: 22ch;
-}
-.uploaded-time,
-.profile-info span {
-  display: block;
-  width: 100%;
-}
+
 .uploaded-time {
+  width: 100%;
   font-size: var(--body-font-size);
   color: var(--time-font-color);
 }
@@ -428,9 +417,10 @@ input[type="checkbox"]:checked + label.checkbox::before {
 }
 
 @media (max-width: 480px) {
-  .long-profile-info {
+  .profile-info {
     font-size: var(--body-font-size);
   }
+
   .post-tag {
     gap: 0.4rem;
   }
