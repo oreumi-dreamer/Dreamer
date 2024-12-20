@@ -15,7 +15,6 @@ import useTheme from "@/hooks/styling/useTheme";
 import Loading from "@/components/Loading";
 import { outsideClickModalClose } from "@/utils/outsideClickModalClose";
 import { useRouter } from "next/navigation";
-import PostModal from "../modal/PostModal";
 import WritePost from "../write/WritePost";
 import ReportModal from "../report/Report";
 
@@ -49,6 +48,8 @@ export default function PostContent({
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
   const router = useRouter();
+  const idRef = useRef(null);
+  const nameRef = useRef(null);
 
   useEffect(() => {
     const viewPost = async () => {
@@ -96,7 +97,41 @@ export default function PostContent({
       };
     }
   }, [modalRef, buttonRef, isOpen]);
+  useEffect(() => {
+    const handleResize = () => {
+      if (idRef.current && nameRef.current && postData) {
+        const containerWidth = idRef.current.parentElement.offsetWidth;
+        const idWidth = idRef.current.offsetWidth;
+        const nameWidth = nameRef.current.offsetWidth;
 
+        const idStyle = idRef.current.style;
+        const nameStyle = nameRef.current.style;
+
+        if (containerWidth - nameWidth <= 110) {
+          nameStyle.whiteSpace = "nowrap";
+          nameStyle.overflow = "hidden";
+          nameStyle.textOverflow = "ellipsis";
+          nameStyle.width = `${containerWidth - 20}px`;
+        }
+        if (containerWidth - idWidth <= 110) {
+          idStyle.whiteSpace = "nowrap";
+          idStyle.overflow = "hidden";
+          idStyle.textOverflow = "ellipsis";
+          idStyle.width = `${containerWidth - 40}px`;
+        }
+        if (containerWidth >= 470 && containerWidth <= 490) {
+          idStyle.width = `${containerWidth - 60}px`;
+        }
+      }
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [postData]);
   if (!isModalOpen) {
     return null;
   }
@@ -299,23 +334,16 @@ export default function PostContent({
                   height={49}
                   alt="프로필 사진"
                 />
-                <p
-                  className={`${styles["profile-info"]} ${
-                    postData.authorName.length > 7 ||
-                    postData.authorId.length > 7
-                      ? styles["long-profile-info"]
-                      : ""
-                  }`}
-                >
-                  {postData.authorName}
-                  <span>{`@${postData.authorId}`}</span>
+                <div className={styles["profile-info"]}>
+                  <span ref={nameRef}>{postData.authorName}</span>
+                  <span ref={idRef}>{`@${postData.authorId}`}</span>
                   <time
                     dateTime={postData.createdAt.slice(0, -5)}
                     className={styles["uploaded-time"]}
                   >
                     {postTime(postData.createdAt, postData.updatedAt)}
                   </time>
-                </p>
+                </div>
               </Link>
               <ul className={styles["button-list"]}>
                 {postData.isPrivate ? (

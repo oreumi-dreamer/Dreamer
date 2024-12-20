@@ -34,12 +34,6 @@ export default function ProfileEdit({
   const [isUserIdValid, setIsUserIdValid] = useState(false);
   const [isUserNameValid, setIsUserNameValid] = useState(false);
   const dispatch = useDispatch();
-  console.log(
-    "isUserIdValid",
-    isUserIdValid,
-    "isUserNameValid",
-    isUserNameValid
-  );
 
   const handleNewImage = (e) => {
     const file = e.target.files[0];

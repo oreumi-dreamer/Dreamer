@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styles from "./CommentArticles.module.css";
 import Link from "next/link";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
@@ -13,6 +13,7 @@ export default function CommentArticles({
 }) {
   const [commentData, setCommentData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     const viewComments = async () => {
       try {
@@ -88,25 +89,21 @@ export default function CommentArticles({
       >
         <ul className={styles["comment-info"]}>
           <li
-            className={`${
-              comment.authorName.length > 7 || comment.authorId.length > 7
-                ? styles["long-comment-info"]
-                : ""
-            }`}
+            className={
+              comment.authorId.length > 10 ? styles["long-comment-info"] : ""
+            }
           >
             <Link href={`/users/${comment.authorId}`}>
               <span className={styles["author-name"]}>
-                {comment.authorName.length > 7
-                  ? comment.authorName.slice(0, 9) + "..."
-                  : comment.authorName}
+                {comment.authorName}
               </span>
               <span className={styles["author-id"]}>
-                {`@${comment.authorId.length > 7 ? comment.authorId.slice(0, 7) + "..." : comment.authorId}`}
+                {`@${comment.authorId}`}
               </span>
             </Link>
           </li>
           <li>
-            <time>
+            <time className={styles.time}>
               {postTime(
                 new Date(comment.createdAt.seconds * 1000),
                 new Date(comment.createdAt.seconds * 1000)

@@ -60,13 +60,40 @@
   font-size: var(--body-text-font-size);
   color: var(--black-font-color);
 }
-.comment-info time {
+.time {
   font-size: var(--small-text-font-size);
   color: var(--time-font-color);
 }
 .comment-info img {
   position: absolute;
   top: 0.7rem;
+}
+article:has(.long-comment-info) {
+  margin-top: 5rem;
+}
+.comment-info:has(.long-comment-info) {
+  font-size: var(--small-text-font-size);
+  top: -3.5rem;
+  display: flex;
+}
+
+.comment-info:has(.long-comment-info) .author-id,
+.comment-info:has(.long-comment-info) .author-name {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.comment-info:has(.long-comment-info) .author-name {
+  max-width: 11rem;
+}
+.comment-info:has(.long-comment-info) .author-id {
+  max-width: 8rem;
+}
+.comment-info:has(.long-comment-info) time {
+  position: absolute;
+  top: 0;
+  white-space: nowrap;
 }
 
 .edit-delete-button {
@@ -94,18 +121,14 @@
   color: rgba(0, 0, 0, 0.8);
   text-decoration: underline;
 }
-
-/* long comment 시 적용되는 css */
-article:has(.long-comment-info) {
-  margin-top: 5rem;
-}
-.comment-info:has(.long-comment-info) {
-  font-size: var(--small-text-font-size);
-  top: -4rem;
-}
-
-.long-comment-info a {
-  display: flex;
-  flex-direction: column;
-  top: -3.5rem;
+@media (max-width: 720px) {
+  .comment-info:has(.long-comment-info) .author-id,
+  .comment-info:has(.long-comment-info) .author-name {
+    max-width: 100%;
+  }
+  .comment-info:has(.long-comment-info) time {
+    position: absolute;
+    top: 1.7rem;
+    right: 0;
+  }
 }
