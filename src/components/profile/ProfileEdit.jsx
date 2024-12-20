@@ -8,10 +8,8 @@ import {
   Select,
   Textarea,
 } from "../Controls";
-import { useRouter } from "next/navigation";
 import { loginSuccess } from "@/store/authSlice";
 import { useDispatch } from "react-redux";
-import useTheme from "@/hooks/styling/useTheme";
 import Loading from "../Loading";
 
 export default function ProfileEdit({
@@ -25,21 +23,23 @@ export default function ProfileEdit({
   const [userName, setUserName] = useState(profile.name);
   const [userId, setUserId] = useState(profile.id);
   const [bio, setBio] = useState(profile.bio);
-
   const birthDate = new Date(profile.birthDate);
-
   const [year, setYear] = useState(birthDate.getFullYear());
   const [month, setMonth] = useState(birthDate.getMonth() + 1);
   const [day, setDay] = useState(birthDate.getDate());
   const [lastDay, setLastDay] = useState(31);
   const [isPrivate, setIsPrivate] = useState(profile.isPrivate);
-
   const [newImage, setNewImage] = useState(null);
-
   const [isLoading, setIsLoading] = useState(false);
-
-  const router = useRouter();
+  const [isUserIdValid, setIsUserIdValid] = useState(false);
+  const [isUserNameValid, setIsUserNameValid] = useState(false);
   const dispatch = useDispatch();
+  console.log(
+    "isUserIdValid",
+    isUserIdValid,
+    "isUserNameValid",
+    isUserNameValid
+  );
 
   const handleNewImage = (e) => {
     const file = e.target.files[0];
@@ -63,7 +63,13 @@ export default function ProfileEdit({
         setDay(newLastDay);
       }
     }
-  }, [year, month]);
+    const idPattern = /^[a-z0-9]{4,20}$/;
+    !idPattern.test(userId) ? setIsUserIdValid(false) : setIsUserIdValid(true);
+
+    userName.length < 2 || userName.length > 20
+      ? setIsUserNameValid(false)
+      : setIsUserNameValid(true);
+  }, [year, month, userId, userName]);
 
   useEffect(() => {
     setProfile((pervProfile) => ({
@@ -274,7 +280,7 @@ export default function ProfileEdit({
                 <Button
                   type="submit"
                   highlight={true}
-                  disabled={userName.length < 2 || userId.length < 4}
+                  disabled={!isUserIdValid || !isUserNameValid}
                 >
                   수정 완료
                 </Button>
