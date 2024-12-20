@@ -144,10 +144,6 @@
   margin-bottom: 1.6rem;
 }
 
-.profile-form-pic label {
-  margin-right: 4.5rem;
-}
-
 .profile-form-info {
   display: flex;
   width: 100%;
@@ -439,9 +435,5 @@
 
   .profile-form-pic img {
     margin-right: 0;
-  }
-
-  .profile-form-pic label {
-    margin: 0;
   }
 }
