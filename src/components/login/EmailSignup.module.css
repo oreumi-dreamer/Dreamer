@@ -88,6 +88,7 @@ main:has(.email-signup) {
   .email-verify-btn,
   .code-verify-btn {
     right: 8.4rem;
+    top: 3.7rem;
   }
   .next-btn {
     bottom: 1.6rem;
@@ -101,7 +102,6 @@ main:has(.email-signup) {
   }
   .email-verify-btn,
   .code-verify-btn {
-    top: 4.2rem;
     padding: 0.6rem 1.2rem;
   }
   .invalid-text,
