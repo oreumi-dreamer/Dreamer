@@ -156,7 +156,7 @@ export default function ProfileEdit({
   };
 
   return (
-    <article className={styles["profile-wrap"]}>
+    <article className={styles["edit-profile-wrap"]}>
       <h2 className="sr-only">프로필 편집</h2>
       <form onSubmit={handleSubmit} className={styles["profile-form"]}>
         <fieldset className={styles["profile-form-pic"]}>
@@ -169,8 +169,8 @@ export default function ProfileEdit({
                   : "/images/rabbit.svg"
             }
             className={styles["profile-image"]}
-            width={160}
-            height={160}
+            width={150}
+            height={150}
             alt={profile.name + "님의 프로필 이미지"}
           />
           <ButtonLabel highlight={true}>

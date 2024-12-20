@@ -14,7 +14,8 @@
 
 .profile-wrap {
   display: flex;
-  margin: auto;
+  margin-left: auto;
+  margin-right: auto;
   width: 100%;
   padding: 4.3rem 0 0.3rem 5.1rem;
 }
@@ -105,11 +106,20 @@
 }
 
 .profile-bio {
-  width: 21rem;
+  width: 36rem;
+  height: 6.6rem;
   color: var(--black-font-color);
 }
 
 /* profile form */
+
+.edit-profile-wrap {
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  padding: 4.3rem 0 0 5.1rem;
+}
 
 .profile-form {
   display: flex;
@@ -127,6 +137,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.profile-form-pic .profile-image {
+  border-radius: 50%;
+  margin-bottom: 1.6rem;
 }
 
 .profile-form-pic label {
@@ -410,6 +425,9 @@
   }
   .profile-bio {
     width: 32rem;
+    background-color: var(--profile-bio);
+    border-radius: 1rem;
+    padding: 0.5rem;
   }
 
   /* profile form */
