@@ -345,7 +345,6 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
           className={styles["new-post-form"]}
           onSubmit={handleSubmit}
         >
-          <div id={styles["title"]}>
             <label
               id="title-input"
               className={styles["title-input"]}
@@ -360,16 +359,6 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
                 value={inputValue}
               />
             </label>
-            <label id="hidden" className={styles["hidden"]} htmlFor="hidden">
-              <input
-                type="checkbox"
-                id="hidden"
-                checked={isPrivate}
-                onChange={() => setIsPrivate((prev) => !prev)}
-              />
-              비공개
-            </label>
-          </div>
 
           <div className={styles["write-field"]}>
             <div className={styles["write-field-opt"]}>
@@ -535,6 +524,20 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
             {isLoading ? (
               <Uploading />
             ) : (
+              <>
+                <label
+                  id="hidden"
+                  className={styles["hidden"]}
+                  htmlFor="hidden"
+                >
+                  <input
+                    type="checkbox"
+                    id="hidden"
+                    checked={isPrivate}
+                    onChange={() => setIsPrivate((prev) => !prev)}
+                  />
+                  비공개
+                </label>
               <button
                 type="submit"
                 form="new-post-form"
@@ -542,6 +545,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
               >
                 전송
               </button>
+              </>
             )}
           </div>
         </form>
