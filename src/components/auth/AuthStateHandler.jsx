@@ -13,10 +13,9 @@ import { checkUserExists } from "@/utils/auth/checkUser";
 import Loading from "@/components/Loading";
 import NavProvider from "../NavProvider";
 
-// 인증 상태별 접근 제어 라우트 설정
 const authRoutes = {
-  // 로그인한 사용자가 접근할 수 없는 페이지
-  authenticatedBlocked: ["/join", "/signup"],
+  // 로그인한 사용자이면서 Firestore에도 등록된 사용자가 접근할 수 없는 페이지
+  registeredBlocked: ["/join"],
 
   // 로그인하지 않은 사용자가 접근할 수 없는 페이지
   unauthenticatedBlocked: [
@@ -25,7 +24,7 @@ const authRoutes = {
     "/account",
     "/account/modify-email",
     "/account/modify-password",
-    "/tomong",
+    "/signup", // signup도 인증이 필요
   ],
 
   // 인증 체크를 하지 않는 페이지
@@ -37,6 +36,7 @@ export default function AuthStateHandler({ children }) {
   const router = useRouter();
   const pathname = usePathname();
   const [isAuthChecked, setIsAuthChecked] = useState(false);
+  const [isUserRegistered, setIsUserRegistered] = useState(false);
   const isRegistering = useSelector((state) => state.auth.isRegistering);
   const isEmailVerified = useSelector(
     (state) => state.auth.user?.emailVerified
@@ -50,21 +50,41 @@ export default function AuthStateHandler({ children }) {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (user) {
         try {
-          // 로그인한 사용자가 접근할 수 없는 페이지 체크
-          if (authRoutes.authenticatedBlocked.includes(pathname)) {
-            console.log("Authenticated user blocked from:", pathname);
-            router.push("/");
-            return;
-          }
-
           const result = await checkUserExists(dispatch);
 
           if (result === true) {
             dispatch(setRegistrationComplete());
-          } else if (!isRegistering && isEmailVerified) {
+            setIsUserRegistered(true);
+
+            // Firestore에 등록된 사용자가 /signup에 접근하려고 할 때
+            if (pathname === "/signup") {
+              console.log("Registered user blocked from signup");
+              router.push("/");
+              return;
+            }
+
+            // Firestore에 등록된 사용자가 /join에 접근하려고 할 때
+            if (authRoutes.registeredBlocked.includes(pathname)) {
+              console.log("Registered user blocked from:", pathname);
+              router.push("/");
+              return;
+            }
+          } else {
             dispatch(resetRegistrationComplete());
-            console.log("Redirect to signup");
-            router.push("/signup");
+            setIsUserRegistered(false);
+
+            // Firestore에 미등록된 사용자는 /signup으로 리다이렉트
+            // 단, 이미 /signup에 있거나 예외 경로에 있는 경우는 제외
+            if (
+              !isRegistering &&
+              isEmailVerified &&
+              pathname !== "/signup" &&
+              !isExceptPath
+            ) {
+              console.log("Redirect to signup");
+              router.push("/signup");
+              return;
+            }
           }
         } catch (error) {
           console.error("Auth check error:", error);
@@ -72,6 +92,7 @@ export default function AuthStateHandler({ children }) {
         }
       } else {
         dispatch(logout());
+        setIsUserRegistered(false);
 
         // 로그인하지 않은 사용자가 접근할 수 없는 페이지 체크
         if (
