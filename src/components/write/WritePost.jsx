@@ -26,6 +26,8 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
   const profileImageUrl = user?.profileImageUrl || "/images/rabbit.svg";
   const userId = user?.userId;
   const userName = user?.userName;
+  //   const userIdLength = user?.userId?.length || 0;
+  //   const userNameLength = user?.userName?.length || 0;
 
   // 해시태그/기분 클릭 목록
   const [selectedGenres, setSelectedGenres] = useState([]);
@@ -329,7 +331,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
             alt={`${userName}님의 프로필 사진`}
           />
           <p className={styles["user-name"]}>
-            {userName}
+            <span className={styles["user-name-text"]}>{userName}</span>
             <span className={styles["user-id"]}>@{userId}</span>
           </p>
         </div>
@@ -349,7 +351,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
               className={styles["title-input"]}
               htmlFor="title"
             >
-              Title
+              <span className="sr-only">제목</span>
               <input
                 type="text"
                 id="title"
@@ -425,7 +427,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
                     onClick={openMoodModal}
                     ref={moodButtonRef}
                   >
-                    <ul>
+                    <ul className={styles["feeling-selected-list"]}>
                       {selectedMoods.map((item) => (
                         <li key={item.text}>{item.text}</li>
                       ))}
@@ -436,46 +438,48 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
 
               <div className={styles["rate-star-container"]}>
                 <p>오늘의 꿈 별점: </p>
-                <input
-                  type="radio"
-                  className={styles["rate-star"]}
-                  name="rate-star"
-                  value={1}
-                  onChange={handleRatingChange}
-                  checked={rating === "1"}
-                />
-                <input
-                  type="radio"
-                  className={styles["rate-star"]}
-                  name="rate-star"
-                  value={2}
-                  onChange={handleRatingChange}
-                  checked={rating === "2"}
-                />
-                <input
-                  type="radio"
-                  className={styles["rate-star"]}
-                  name="rate-star"
-                  value={3}
-                  onChange={handleRatingChange}
-                  checked={rating === "3"}
-                />
-                <input
-                  type="radio"
-                  className={styles["rate-star"]}
-                  name="rate-star"
-                  value={4}
-                  onChange={handleRatingChange}
-                  checked={rating === "4"}
-                />
-                <input
-                  type="radio"
-                  className={styles["rate-star"]}
-                  name="rate-star"
-                  value={5}
-                  onChange={handleRatingChange}
-                  checked={rating === "5"}
-                />
+                <div>
+                  <input
+                    type="radio"
+                    className={styles["rate-star"]}
+                    name="rate-star"
+                    value={1}
+                    onChange={handleRatingChange}
+                    checked={rating === "1"}
+                  />
+                  <input
+                    type="radio"
+                    className={styles["rate-star"]}
+                    name="rate-star"
+                    value={2}
+                    onChange={handleRatingChange}
+                    checked={rating === "2"}
+                  />
+                  <input
+                    type="radio"
+                    className={styles["rate-star"]}
+                    name="rate-star"
+                    value={3}
+                    onChange={handleRatingChange}
+                    checked={rating === "3"}
+                  />
+                  <input
+                    type="radio"
+                    className={styles["rate-star"]}
+                    name="rate-star"
+                    value={4}
+                    onChange={handleRatingChange}
+                    checked={rating === "4"}
+                  />
+                  <input
+                    type="radio"
+                    className={styles["rate-star"]}
+                    name="rate-star"
+                    value={5}
+                    onChange={handleRatingChange}
+                    checked={rating === "5"}
+                  />
+                </div>
               </div>
               <div className={styles["image-uploader"]}>
                 <label>

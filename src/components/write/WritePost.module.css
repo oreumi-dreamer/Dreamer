@@ -28,6 +28,7 @@
   gap: 1.6rem;
   align-items: center;
   margin-bottom: 3rem;
+  width: calc(100% - 4rem);
 }
 .user-profile-img {
   border-radius: 50%;
@@ -35,13 +36,22 @@
 }
 .user-name {
   display: flex;
-  font-size: 3.2rem;
+  flex-direction: column;
+  font-size: 2.4rem;
   font-weight: 700;
+  width: calc(100% - 5rem);
   color: var(--black-font-color);
 }
 .user-id {
   font-weight: normal;
+  font-size: 1.6rem;
   color: var(--gray-font-color);
+}
+.user-name-text,
+.user-id {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .btn-close {
   width: 3rem;
@@ -115,6 +125,10 @@
   margin-bottom: 2rem;
   padding: 2rem;
   box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 .write-field-opt {
   display: flex;
@@ -122,10 +136,11 @@
   align-items: flex-start;
   justify-content: space-around;
   gap: 0.4rem;
-  margin: 0 1.6rem;
+  margin: 0 0.6rem;
 }
 .genre-picker {
   display: flex;
+  width: 100%;
 }
 .genre-picker ul {
   display: flex;
@@ -150,12 +165,12 @@
   border: 0;
   border-radius: 1rem;
 }
-.btn-feeling-selected {
+/* .btn-feeling-selected {
   height: 2rem;
   padding: 0 2rem;
   background-color: var(--background-lightgray);
   border-radius: 1rem;
-}
+} */
 .btn-feeling-selected ul {
   display: flex;
   gap: 1rem;
@@ -163,6 +178,10 @@
 .btn-feeling-selected li {
   list-style: none;
   color: var(--black-font-color);
+  height: 2rem;
+  padding: 0 2rem;
+  background-color: var(--background-lightgray);
+  border-radius: 1rem;
 }
 /* 별점 */
 .rate-star-container {
@@ -230,22 +249,30 @@
   background-image: url("/images/dash.svg");
   background-repeat: repeat-x;
   background-position: center;
+  margin: 0.8rem 0;
 }
 .text-field-area {
   width: 100%;
-  height: calc(100% - 7rem);
-  padding: 1rem;
+  /* height: calc(100% - 16rem); */
+  height: 100%;
+  padding: 0.4rem;
   resize: none;
   border: 0;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .text-field-area.has-image {
-  height: calc(100% - 20rem);
+  height: calc(100% - 15rem);
 }
 
 .text-field-area textarea {
   background-color: inherit;
   color: var(--black-font-color);
+  height: 100%;
+  padding: 0.6rem;
 }
 .text-field-area::-webkit-scrollbar,
 .image-preview-field::-webkit-scrollbar {
@@ -327,5 +354,49 @@
   }
   .new-post-form {
     gap: 3rem;
+  }
+  #title {
+    width: 100%;
+  }
+  .genre-picker {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .genre-picker ul {
+    gap: 0.4rem;
+    align-items: flex-start;
+    margin-left: 0;
+    flex-wrap: wrap;
+  }
+  .genre-picker li {
+    font-size: 1.4rem;
+  }
+  .user-feeling {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+  }
+  .btn-feeling-selected .feeling-selected-list {
+    gap: 0.4rem;
+    flex-wrap: wrap;
+  }
+}
+@media (max-width: 480px) {
+  .new-post {
+    width: calc(100% - 6rem);
+  }
+  #title {
+    padding: 0.8rem;
+    /* padding-bottom: 0.8rem; */
+  }
+  .write-field {
+    padding: 0.8rem;
+  }
+  .write-field-opt {
+    margin: 0.8rem;
+  }
+  .rate-star-container {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }
