@@ -18,7 +18,7 @@ main:has(.login-title) {
   gap: 0;
 }
 main:has(.login-title) img {
-  max-width: 48rem;
+  max-width: 36rem;
 }
 
 .login-container {
@@ -26,7 +26,6 @@ main:has(.login-title) img {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 1.6rem;
 }
 
 .login-container .login-form {
@@ -47,7 +46,7 @@ main:has(.login-title) img {
   margin: 0.5rem 0 7.5rem 0;
 }
 .login-title {
-  font-size: var(--big-text-font-size);
+  font-size: var(--h2-font-size);
   font-weight: bold;
 }
 .login-button {
@@ -165,6 +164,10 @@ main:has(.login-title) img {
   background-color: var(--input-color);
 }
 
+.input-wrap input {
+  background: none;
+}
+
 .password-wrap {
   width: 100%;
   display: grid;
@@ -193,6 +196,10 @@ main:has(.login-title) img {
   align-items: center;
   gap: 1.6rem;
   padding: 0 1.5rem;
+}
+
+.bottom-btns button {
+  margin-bottom: 0;
 }
 
 @media (max-width: 720px) {
