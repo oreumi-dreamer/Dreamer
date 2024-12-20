@@ -22,6 +22,17 @@
   position: relative;
 }
 
+.post-user-info .user-name,
+.post-user-info .user-id {
+  max-width: 20rem;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.post-user-info .user-name{
+  max-width: 20rem;
+}
+
 div.divider {
   padding: 0;
 }
