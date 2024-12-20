@@ -149,7 +149,7 @@ export default function FindPassword({ styles, setShowFindPassword }) {
           />
         </label>
         <label className={styles["id-label"]}>
-          비밀번호
+          새 비밀번호
           {/* <div className={styles["password-wrap"]}> */}
           <Input
             type="password"

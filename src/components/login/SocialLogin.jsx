@@ -203,14 +203,13 @@ export default function SocialLogin() {
                 <Link href="/join">가입하기</Link>
               </li>
               <li className={styles["find-button"]}>
-                <span>비밀번호를 잊으셨나요?</span>
                 <button
                   onClick={(e) => {
                     e.preventDefault();
                     setShowFindPassword(true);
                   }}
                 >
-                  비밀번호 찾기
+                  비밀번호를 잊으셨나요?
                 </button>
               </li>
             </ul>
