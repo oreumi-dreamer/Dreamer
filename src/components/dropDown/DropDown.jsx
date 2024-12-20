@@ -3,7 +3,10 @@ import styles from "./DropDown.module.css";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 
 export const MyPost = forwardRef(
-  ({ style, togglePostPrivacy, postId, postIsPrivate }, ref) => {
+  (
+    { style, togglePostPrivacy, postId, postIsPrivate, setIsWriteModalOpen },
+    ref
+  ) => {
     async function deletePost() {
       try {
         const response = await fetchWithAuth(`/api/post/delete/${postId}`, {
@@ -22,6 +25,7 @@ export const MyPost = forwardRef(
           <li className={styles["drop-down-items"]}>
             <button
               className={`${styles["edit-btn"]} ${styles["drop-down-item"]}`}
+              onClick={() => setIsWriteModalOpen(true)}
             >
               수정하기
             </button>

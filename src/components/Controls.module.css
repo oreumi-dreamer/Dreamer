@@ -116,6 +116,11 @@
   margin-right: 0.8rem;
 }
 
+.dropdownContainer {
+  position: relative;
+  width: 100%;
+}
+
 .optionsList {
   position: absolute;
   top: calc(100% + 1rem);
@@ -124,6 +129,9 @@
   width: 100%;
   max-height: 200px;
   overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
   background-color: var(--background-white);
   border-radius: 10px;
   padding: 0.4rem;
@@ -133,7 +141,21 @@
   flex-direction: column;
   row-gap: 0.8rem;
   color: var(--black-font-color);
+  white-space: nowrap;
 }
+
+.optionsList::-webkit-scrollbar {
+  display: none;
+}
+
+.optionsList::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
+
+.optionsList::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
 /* option 사이마다 optionsList의 구분 선 가상 요소 추가 */
 
 .option {
@@ -179,6 +201,9 @@
 
 label.checkbox {
   width: fit-content;
+}
+
+label.checkbox > span {
   font-size: var(--body-font-size);
   font-weight: 400;
 }
@@ -200,8 +225,10 @@ label.checkbox a {
   content: "";
   width: 2rem;
   height: 2rem;
+  aspect-ratio: 1/1;
   background-image: url("/images/checkbox.svg");
-  background-size: contain;
+  background-size: cover;
+  background-repeat: no-repeat;
   margin-right: 0.8rem;
   cursor: pointer;
 }
@@ -258,13 +285,13 @@ label.checkbox a {
 }
 
 .scrollbar-track {
-  position: fixed;
+  position: absolute;
   right: 0;
   top: 0;
   width: 8px;
   height: 100%;
-  z-index: 100;
   background-color: rgba(229, 231, 235, 0.2);
+  z-index: 10000;
 }
 
 .scrollbar-thumb {
@@ -275,6 +302,7 @@ label.checkbox a {
   cursor: pointer;
   opacity: 0.6;
   transition: opacity 150ms ease;
+  padding: 0.1rem 0;
 }
 
 .scrollbar-thumb:hover {
@@ -521,4 +549,87 @@ label.checkbox a {
   grid-area: follow;
   margin-left: auto;
   height: fit-content;
+}
+
+.withdraw-modal {
+  width: 24rem;
+  display: flex;
+  flex-direction: column;
+  padding: 1.2rem 1rem 2rem;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--background-white);
+  color: var(--black-font-color);
+  border: none;
+  border-radius: 1rem;
+  z-index: 1000;
+  word-break: keep-all;
+}
+
+.withdraw-modal::backdrop {
+  background-color: var(--background-dimmed);
+  z-index: 999;
+}
+
+.withdraw-modal .btn-close {
+  margin-left: auto;
+}
+
+.withdraw-modal .btn-close img {
+  width: 1.6rem;
+  height: 1.6rem;
+}
+
+.withdraw-modal .modal-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 0.8rem;
+  padding: 0 1rem;
+}
+
+.withdraw-modal .modal-content h2 {
+  font-size: var(--h2-font-size);
+  font-weight: 700;
+}
+
+.withdraw-modal .modal-content p {
+  font-size: var(--body-font-size);
+  color: var(--black-font-color);
+  text-align: center;
+}
+
+.withdraw-modal .warning-text {
+  color: var(--error-color) !important;
+  font-size: var(--small-text-font-size) !important;
+}
+
+.withdraw-modal .button-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-items: center;
+  gap: 1rem;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.withdraw-modal .input-group {
+  width: 100%;
+  margin: 1rem 0;
+}
+
+.withdraw-modal .error {
+  color: var(--error-color);
+  font-size: var(--small-text-font-size);
+  margin-top: -0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Input 스타일 오버라이드 */
+.withdraw-modal .input-group input {
+  width: 100%;
+  text-align: center;
+  font-size: var(--body-font-size);
 }
