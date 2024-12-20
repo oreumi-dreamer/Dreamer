@@ -236,6 +236,27 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
     setIsPrivate(false);
   };
 
+  //   textarea 높이
+  const handleResizeHeight = (e) => {
+    if (window.innerWidth <= 720) {
+      const textarea = e.target;
+      const maxHeight = 100;
+      const minHeight = 30;
+      textarea.style.height = "auto";
+
+      if (textarea.value.trim() === "") {
+        textarea.style.height = `${minHeight}rem`;
+      } else {
+        textarea.style.height = `${(textarea.scrollHeight, maxHeight)}rem`;
+      }
+    }
+  };
+
+  const handleInputChange = (e) => {
+    handleResizeHeight(e);
+    handleContentChange(e);
+  };
+
   // 날짜
   const today = new Date();
   const year = ("0" + today.getFullYear()).slice(-2);
@@ -345,20 +366,20 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
           className={styles["new-post-form"]}
           onSubmit={handleSubmit}
         >
-            <label
-              id="title-input"
-              className={styles["title-input"]}
-              htmlFor="title"
-            >
-              <span className="sr-only">제목</span>
-              <input
-                type="text"
-                id="title"
-                placeholder={`${year}년 ${month}월 ${date}일 꿈 일기`}
-                onChange={handleTitleChange}
-                value={inputValue}
-              />
-            </label>
+          <label
+            id="title-input"
+            className={styles["title-input"]}
+            htmlFor="title"
+          >
+            <span className="sr-only">제목</span>
+            <input
+              type="text"
+              id="title"
+              placeholder={`${year}년 ${month}월 ${date}일 꿈 일기`}
+              onChange={handleTitleChange}
+              value={inputValue}
+            />
+          </label>
 
           <div className={styles["write-field"]}>
             <div className={styles["write-field-opt"]}>
@@ -489,7 +510,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
               <textarea
                 placeholder="오늘은 어떤 꿈을 꾸셨나요?"
                 className={`${styles["text-field-area"]} ${imageFiles && styles["has-image"]}`}
-                onChange={handleContentChange}
+                onChange={handleInputChange}
                 value={contentValue}
               />
               <section className={styles["image-preview-field"]}>
@@ -538,13 +559,13 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
                   />
                   비공개
                 </label>
-              <button
-                type="submit"
-                form="new-post-form"
-                className={styles["btn-submit"]}
-              >
-                전송
-              </button>
+                <button
+                  type="submit"
+                  form="new-post-form"
+                  className={styles["btn-submit"]}
+                >
+                  전송
+                </button>
               </>
             )}
           </div>
