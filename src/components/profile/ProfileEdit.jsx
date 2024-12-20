@@ -8,10 +8,8 @@ import {
   Select,
   Textarea,
 } from "../Controls";
-import { useRouter } from "next/navigation";
 import { loginSuccess } from "@/store/authSlice";
 import { useDispatch } from "react-redux";
-import useTheme from "@/hooks/styling/useTheme";
 import Loading from "../Loading";
 
 export default function ProfileEdit({
@@ -25,20 +23,14 @@ export default function ProfileEdit({
   const [userName, setUserName] = useState(profile.name);
   const [userId, setUserId] = useState(profile.id);
   const [bio, setBio] = useState(profile.bio);
-
   const birthDate = new Date(profile.birthDate);
-
   const [year, setYear] = useState(birthDate.getFullYear());
   const [month, setMonth] = useState(birthDate.getMonth() + 1);
   const [day, setDay] = useState(birthDate.getDate());
   const [lastDay, setLastDay] = useState(31);
   const [isPrivate, setIsPrivate] = useState(profile.isPrivate);
-
   const [newImage, setNewImage] = useState(null);
-
   const [isLoading, setIsLoading] = useState(false);
-
-  const router = useRouter();
   const dispatch = useDispatch();
 
   const handleNewImage = (e) => {
