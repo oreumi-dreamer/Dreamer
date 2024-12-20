@@ -1,9 +1,13 @@
+"use client";
+
 import { useState } from "react";
 import { Button, CommonModal, Select } from "../Controls";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
+import Loading from "../Loading";
 
 export default function ReportModal({ isOpen, closeModal, postId }) {
   const [reason, setReason] = useState("inappropriate");
+  const [isLoading, setIsLoading] = useState(false);
   const REPORT_REASONS = [
     { value: "inappropriate", label: "부적절한 콘텐츠" },
     { value: "spam", label: "허위정보 및 스팸" },
@@ -15,6 +19,8 @@ export default function ReportModal({ isOpen, closeModal, postId }) {
   ];
 
   const handleReport = async (reason, postId) => {
+    setIsLoading(true);
+    const html = document.querySelector("html");
     try {
       const response = await fetchWithAuth("/api/report", {
         method: "POST",
@@ -26,10 +32,14 @@ export default function ReportModal({ isOpen, closeModal, postId }) {
         throw new Error(errorData.error);
       }
 
+      setIsLoading(false);
+      html.style.overflowY = "scroll";
       alert("신고가 접수되었습니다.");
       closeModal();
     } catch (error) {
+      html.style.overflowY = "scroll";
       alert(error.message);
+      closeModal();
     }
   };
 
@@ -48,7 +58,7 @@ export default function ReportModal({ isOpen, closeModal, postId }) {
         placeholder="신고 사유 선택"
       />
       <Button onClick={buttonClick} highlight={true}>
-        신고하기
+        {isLoading ? <Loading type="miniCircle" /> : "제출"}
       </Button>
     </CommonModal>
   );
