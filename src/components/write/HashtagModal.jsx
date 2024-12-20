@@ -22,6 +22,7 @@ const HashtagModal = forwardRef(
         dialogRef.current.close();
       }
     }, [isModalOpen]);
+
     const handleBackgroundClick = (e) => {
       if (e.target === e.currentTarget) {
         onConfirm(selectedGenres);
@@ -32,14 +33,19 @@ const HashtagModal = forwardRef(
     const maxSelect = 5;
 
     const handleCheckboxChange = (item) => {
-      if (selectedGenres.includes(item)) {
-        setSelectedGenres((prev) => prev.filter((i) => i !== item));
+      const isSelected = selectedGenres.some((genre) => genre.id === item.id);
+
+      if (isSelected) {
+        setSelectedGenres((prev) =>
+          prev.filter((genre) => genre.id !== item.id)
+        );
       } else {
         if (selectedGenres.length < maxSelect) {
           setSelectedGenres((prev) => [...prev, item]);
         }
       }
     };
+
     const handleConfirm = () => {
       onConfirm(selectedGenres);
       closeModal();
@@ -73,7 +79,9 @@ const HashtagModal = forwardRef(
                 <li key={item.id}>
                   <input
                     type="checkbox"
-                    checked={selectedGenres.includes(item)}
+                    checked={selectedGenres.some(
+                      (genre) => genre.id === item.id
+                    )}
                     onChange={() => handleCheckboxChange(item)}
                     className={styles["hashtag-picker"]}
                     id={item.id}
@@ -92,5 +100,7 @@ const HashtagModal = forwardRef(
     );
   }
 );
+
+HashtagModal.displayName = "HashtagModal";
 
 export default HashtagModal;
