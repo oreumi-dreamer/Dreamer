@@ -15,6 +15,8 @@ import useTheme from "@/hooks/styling/useTheme";
 import Loading from "@/components/Loading";
 import { outsideClickModalClose } from "@/utils/outsideClickModalClose";
 import { useRouter } from "next/navigation";
+import PostModal from "../modal/PostModal";
+import WritePost from "../write/WritePost";
 
 export default function PostContent({
   type,
@@ -42,6 +44,7 @@ export default function PostContent({
   const buttonRef = useRef(null);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [shareModalOpen, setShareModalOpen] = useState(false);
+  const [isWriteModalOpen, setIsWriteModalOpen] = useState(false);
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
   const router = useRouter();
 
@@ -388,6 +391,7 @@ export default function PostContent({
                       }
                       postId={postId}
                       postIsPrivate={postData.isPrivate}
+                      setIsWriteModalOpen={setIsWriteModalOpen}
                     />
                   )}
                   {isOpen && modalType === "isNotMyPost" && (
@@ -589,6 +593,14 @@ export default function PostContent({
               isOpen={shareModalOpen}
               closeModal={handleShareModalClose}
               link={`${baseUrl}/post/${postId}`}
+            />
+          )}
+          {isWriteModalOpen && (
+            <WritePost
+              key={`${postId}-modify`}
+              isWriteModalOpen={isWriteModalOpen}
+              closeWriteModal={() => setIsWriteModalOpen(false)}
+              modifyId={postId}
             />
           )}
         </>
