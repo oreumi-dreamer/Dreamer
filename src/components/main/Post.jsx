@@ -7,6 +7,7 @@ import { MyPost, OtherPost } from "../dropDown/DropDown";
 import { outsideClickModalClose } from "@/utils/outsideClickModalClose";
 import { Divider, ShareModal } from "../Controls";
 import useTheme from "@/hooks/styling/useTheme";
+import WritePost from "../write/WritePost";
 
 export default function Post({
   styles,
@@ -17,6 +18,7 @@ export default function Post({
   const [isOpen, setIsOpen] = useState(false);
   const [modalStyle, setModalStyle] = useState({});
   const [shareModalOpen, setShareModalOpen] = useState(false);
+  const [isWriteModalOpen, setIsWriteModalOpen] = useState(false);
   const modalRef = useRef(null);
   const buttonRef = useRef(null);
   const containerRef = useRef(null);
@@ -246,6 +248,7 @@ export default function Post({
               }}
               postId={post.id}
               postIsPrivate={post.isPrivate}
+              setIsWriteModalOpen={setIsWriteModalOpen}
             />
           )}
           {isOpen && !post.isMyself && (
@@ -355,6 +358,14 @@ export default function Post({
           isOpen={shareModalOpen}
           closeModal={handleShareModalClose}
           link={`${baseUrl}/post/${post.id}`}
+        />
+      )}
+      {isWriteModalOpen && (
+        <WritePost
+          key={`${post.id}-modify`}
+          modifyId={post.id}
+          isWriteModalOpen={isWriteModalOpen}
+          closeWriteModal={() => setIsWriteModalOpen(false)}
         />
       )}
     </>
