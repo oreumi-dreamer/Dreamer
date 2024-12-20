@@ -8,7 +8,7 @@ import { outsideClickModalClose } from "@/utils/outsideClickModalClose";
 import { Divider, ShareModal } from "../Controls";
 import useTheme from "@/hooks/styling/useTheme";
 import WritePost from "../write/WritePost";
-import ReportModal from "../report/report";
+import ReportModal from "../report/Report";
 
 export default function Post({
   styles,
