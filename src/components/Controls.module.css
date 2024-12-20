@@ -114,6 +114,11 @@
   top: 50%;
   transform: translate(0, -50%);
   margin-right: 0.8rem;
+  transition: transform ease 0.3s;
+}
+
+.selectContainer button[aria-expanded="true"]::after {
+  transform: translate(0, -50%) rotate3d(1, 0, 0, 180deg);
 }
 
 .dropdownContainer {
@@ -123,7 +128,7 @@
 
 .optionsList {
   position: absolute;
-  top: calc(100% + 1rem);
+  top: calc(100% + 0.5rem);
   left: 0;
   right: 0;
   width: 100%;
@@ -568,15 +573,18 @@ label.checkbox a {
   word-break: keep-all;
 }
 
+.common-modal::backdrop,
 .withdraw-modal::backdrop {
   background-color: var(--background-dimmed);
   z-index: 999;
 }
 
+.common-modal .btn-close,
 .withdraw-modal .btn-close {
   margin-left: auto;
 }
 
+.common-modal .btn-close img,
 .withdraw-modal .btn-close img {
   width: 1.6rem;
   height: 1.6rem;
@@ -632,4 +640,23 @@ label.checkbox a {
   width: 100%;
   text-align: center;
   font-size: var(--body-font-size);
+}
+
+.common-modal {
+  width: 24rem;
+  overflow: visible;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.2rem 2rem 3.7rem;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--background-white);
+  color: var(--black-font-color);
+  border: none;
+  border-radius: 1rem;
+  row-gap: 1.6rem;
+  z-index: 1000;
 }

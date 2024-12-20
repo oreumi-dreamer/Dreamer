@@ -4,6 +4,7 @@ import useTheme from "@/hooks/styling/useTheme";
 import { MyPost, OtherPost } from "../dropDown/DropDown";
 import { outsideClickModalClose } from "@/utils/outsideClickModalClose";
 import WritePost from "../write/WritePost";
+import ReportModal from "../report/Report";
 
 export default function PostList({
   posts,
@@ -18,6 +19,7 @@ export default function PostList({
   const [modalType, setModalType] = useState(null);
   const [modalStyle, setModalStyle] = useState({});
   const [activePostId, setActivePostId] = useState(null);
+
   const modalRef = useRef(null);
   const buttonRef = useRef(null);
 
@@ -33,8 +35,14 @@ export default function PostList({
   }, [modalRef, buttonRef, isOpen]);
 
   const [isWriteModalOpen, setIsWriteModalOpen] = useState(false);
+  const [modifyPostId, setModifyPostId] = useState(null);
   const closeWriteModal = () => {
     setIsWriteModalOpen(false);
+  };
+
+  const modifyHandler = (postId) => {
+    setModifyPostId(postId);
+    setIsWriteModalOpen(true);
   };
 
   const togglePostPrivacy = async (postId, postIsPrivate) => {
@@ -129,6 +137,14 @@ export default function PostList({
     tomongStampUrl = "/images/tomong-stamp-dark.png";
   }
 
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
+  const [reportId, setReportId] = useState(null);
+
+  const handleReport = async (postId) => {
+    setReportId(postId);
+    setIsReportModalOpen(true);
+  };
+
   return (
     <>
       {posts.posts.map((post) => (
@@ -208,7 +224,7 @@ export default function PostList({
                     togglePostPrivacy={() =>
                       togglePostPrivacy(post.id, post.isPrivate)
                     }
-                    setIsWriteModalOpen={setIsWriteModalOpen}
+                    setIsWriteModalOpen={() => modifyHandler(post.id)}
                   />
                 )}
               {isOpen &&
@@ -218,6 +234,7 @@ export default function PostList({
                     ref={modalRef}
                     style={modalStyle}
                     className={styles["more-modal"]}
+                    setIsReportModalOpen={() => handleReport(post.id)}
                   />
                 )}
               <button>
@@ -233,16 +250,24 @@ export default function PostList({
               </button>
             </div>
           </article>
-          {isWriteModalOpen && (
-            <WritePost
-              key={`${post.id}-modify`}
-              isWriteModalOpen={isWriteModalOpen}
-              closeWriteModal={closeWriteModal}
-              modifyId={post.id}
-            />
-          )}
         </>
       ))}
+      {isWriteModalOpen && (
+        <WritePost
+          key={`${modifyPostId}-modify`}
+          isWriteModalOpen={isWriteModalOpen}
+          closeWriteModal={closeWriteModal}
+          modifyId={modifyPostId}
+        />
+      )}
+      {isReportModalOpen && (
+        <ReportModal
+          key={`${reportId}-report`}
+          isOpen={isReportModalOpen}
+          closeModal={() => setIsReportModalOpen(false)}
+          postId={reportId}
+        />
+      )}
     </>
   );
 }

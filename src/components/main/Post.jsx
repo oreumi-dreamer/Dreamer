@@ -8,6 +8,7 @@ import { outsideClickModalClose } from "@/utils/outsideClickModalClose";
 import { Divider, ShareModal } from "../Controls";
 import useTheme from "@/hooks/styling/useTheme";
 import WritePost from "../write/WritePost";
+import ReportModal from "../report/report";
 
 export default function Post({
   styles,
@@ -19,6 +20,7 @@ export default function Post({
   const [modalStyle, setModalStyle] = useState({});
   const [shareModalOpen, setShareModalOpen] = useState(false);
   const [isWriteModalOpen, setIsWriteModalOpen] = useState(false);
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const modalRef = useRef(null);
   const buttonRef = useRef(null);
   const containerRef = useRef(null);
@@ -252,7 +254,11 @@ export default function Post({
             />
           )}
           {isOpen && !post.isMyself && (
-            <OtherPost ref={modalRef} style={modalStyle} />
+            <OtherPost
+              ref={modalRef}
+              style={modalStyle}
+              setIsReportModalOpen={setIsReportModalOpen}
+            />
           )}
         </section>
         <Divider className={styles["divider"]} />
@@ -366,6 +372,14 @@ export default function Post({
           modifyId={post.id}
           isWriteModalOpen={isWriteModalOpen}
           closeWriteModal={() => setIsWriteModalOpen(false)}
+        />
+      )}
+      {isReportModalOpen && (
+        <ReportModal
+          key={`${post.id}-report`}
+          isOpen={isReportModalOpen}
+          closeModal={() => setIsReportModalOpen(false)}
+          postId={post.id}
         />
       )}
     </>

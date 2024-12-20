@@ -51,12 +51,12 @@ function MoreModal() {
         </button>
       </li>
       <li className={styles["modal-items"]}>
-        <Link
+        <a
           href="/logout"
           className={`${styles["logout-btn"]} ${styles["header-modal-btn"]}`}
         >
           로그아웃
-        </Link>
+        </a>
       </li>
     </ul>
   );

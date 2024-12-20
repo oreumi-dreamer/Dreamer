@@ -459,7 +459,7 @@ export function Select({
           </ul>
           <CustomScrollbar
             containerRef={listboxRef}
-            trackStyle={{ top: "calc(100% + 1rem)" }}
+            trackStyle={{ top: "calc(100% + 0.5rem)" }}
           />
         </div>
       )}
@@ -922,3 +922,34 @@ export function WithdrawModal({ isOpen, closeModal, userId }) {
     </dialog>
   );
 }
+
+export const CommonModal = ({ isOpen, closeModal, children }) => {
+  const dialogRef = useRef(null);
+
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    const html = document.querySelector("html");
+    if (isOpen) {
+      dialog?.showModal();
+      html.style.overflowY = "hidden";
+    } else {
+      html.style.overflowY = "scroll";
+      dialog?.close();
+    }
+  }, [isOpen]);
+
+  const handleClose = () => {
+    const html = document.querySelector("html");
+    html.style.overflowY = "scroll";
+    closeModal();
+  };
+
+  return (
+    <dialog ref={dialogRef} className={styles["common-modal"]}>
+      <button onClick={handleClose} className={styles["btn-close"]}>
+        <img src="/images/close-without-padding.svg" alt="닫기" />
+      </button>
+      {children}
+    </dialog>
+  );
+};

@@ -52,13 +52,14 @@ export const MyPost = forwardRef(
   }
 );
 
-export const OtherPost = forwardRef(({ style }, ref) => {
+export const OtherPost = forwardRef(({ style, setIsReportModalOpen }, ref) => {
   return (
     <div className={styles["drop-down"]} ref={ref} style={style}>
       <ul className={styles["other-post"]}>
         <li className={styles["drop-down-items"]}>
           <button
             className={`${styles["report-btn"]} ${styles["drop-down-item"]}`}
+            onClick={() => setIsReportModalOpen(true)}
           >
             신고하기
           </button>
