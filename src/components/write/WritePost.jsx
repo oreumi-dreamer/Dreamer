@@ -654,7 +654,7 @@ export default function WritePost({
               <span className="sr-only">글 작성</span>
               <textarea
                 placeholder="오늘은 어떤 꿈을 꾸셨나요?"
-                className={`${styles["text-field-area"]} ${(imageFiles || remainingImages) && styles["has-image"]}`}
+                className={`${styles["text-field-area"]} ${(imageFiles?.length > 0 || remainingImages?.length > 0) && styles["has-image"]}`}
                 onChange={handleContentChange}
                 value={contentValue}
               />
