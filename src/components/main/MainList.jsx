@@ -4,12 +4,12 @@ import Post from "./Post";
 import { useState, useEffect } from "react";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 import Loading from "../Loading";
-import { Button, CustomScrollbar } from "../Controls";
+import { Button } from "../Controls";
 import PostModal from "../modal/PostModal";
 
 export default function MainList() {
   const [posts, setPosts] = useState([]);
-  const [isLoading, setIsLoading] = useState(false); // true에서 false로 변경
+  const [isLoading, setIsLoading] = useState(false);
   const [cursor, setCursor] = useState(null);
   const [hasMore, setHasMore] = useState(true);
   const [showButton, setShowButton] = useState(true);

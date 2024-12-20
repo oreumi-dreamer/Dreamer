@@ -49,7 +49,7 @@ export default function Header() {
 
   // URL 변경 감지 및 상태 업데이트
   useEffect(() => {
-    handleURLChange(); // 초기 URL 상태 설정
+    handleURLChange();
 
     window.addEventListener("popstate", handleURLChange);
     return () => {

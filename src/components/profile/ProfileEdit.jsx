@@ -11,7 +11,6 @@ import {
 import { useRouter } from "next/navigation";
 import { loginSuccess } from "@/store/authSlice";
 import { useDispatch } from "react-redux";
-import useTheme from "@/hooks/styling/useTheme";
 import Loading from "../Loading";
 
 export default function ProfileEdit({
