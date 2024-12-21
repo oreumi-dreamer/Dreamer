@@ -60,7 +60,7 @@
     saturate(7499%) hue-rotate(53deg) brightness(109%) contrast(101%);
   --header-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.4);
   --input-color: #e8e8e8;
-  --input-disabled-color: #77777b;
+  --disabled-color: #77777b;
   --email-login-btn-color: #f5f5f5;
   --email-login-btn-hover-color: #959595;
   --email-login-btn-active-color: #f89b9b;
