@@ -145,9 +145,13 @@
 
 .profile-form {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
   width: 100%;
   flex-direction: row;
   column-gap: 3.8rem;
+  row-gap: 1.2rem;
 }
 
 .profile-form input,
@@ -167,10 +171,11 @@
 }
 
 .profile-form-info {
+  min-width: 32rem;
   display: flex;
-  width: 100%;
   flex-direction: column;
   row-gap: 0.8rem;
+  flex-grow: 1;
 }
 
 .profile-form-info label {
@@ -462,6 +467,11 @@
   /* profile form */
   .profile-form {
     flex-direction: column;
+  }
+
+  .profile-form-info {
+    width: 100%;
+    min-width: 0;
   }
 
   .profile-form-pic img {
