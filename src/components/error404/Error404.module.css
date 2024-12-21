@@ -14,6 +14,7 @@
 }
 
 .logo img {
+  filter: var(--filter-EEF0DE);
   width: 60rem;
 }
 
@@ -30,13 +31,5 @@
   padding: 1.5rem 7rem;
   border-radius: 1rem;
 }
-
-@media (prefers-color-scheme: dark) {
-  [data-theme="device"] .logo img {
-    filter: var(--filter-EEF0DE);
-  }
 }
-
-[data-theme="dark"] .logo img {
-  filter: var(--filter-EEF0DE);
 }
