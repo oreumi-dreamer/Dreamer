@@ -10,8 +10,14 @@ import useTheme from "@/hooks/styling/useTheme";
 import WritePost from "../write/WritePost";
 import ReportModal from "../report/Report";
 import styles from "./Post.module.css";
+import { highlightText } from "@/utils/highlightText";
 
-export default function Post({ post: initialPosts, setSelectedPostId }) {
+export default function Post({
+  post: initialPosts,
+  setSelectedPostId,
+  searchMode,
+  searchQuery,
+}) {
   const [post, setPost] = useState(initialPosts);
   const [isOpen, setIsOpen] = useState(false);
   const [modalStyle, setModalStyle] = useState({});
@@ -287,7 +293,11 @@ export default function Post({ post: initialPosts, setSelectedPostId }) {
               alt="해몽이 존재함"
             />
           )}
-          <p className={styles["post-text"]}>{post.content}</p>
+          <p className={styles["post-text"]}>
+            {searchMode
+              ? highlightText(post.content, searchQuery)
+              : post.content}
+          </p>
           {post.imageUrls && (
             <div
               className={`${styles["post-img-wrap"]}`}
