@@ -436,4 +436,7 @@
   .profile-form-pic img {
     margin-right: 0;
   }
+  .edit-profile-wrap {
+    padding: 0;
+  }
 }
