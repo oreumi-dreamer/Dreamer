@@ -102,7 +102,11 @@ export default function MainList() {
         ))}
 
         {isLoading && showButton && <Loading />}
-        {isLoading && !showButton && <Loading type="small" />}
+        {isLoading && !showButton && (
+          <Button disabled={true}>
+            <Loading type="miniCircle" />
+          </Button>
+        )}
 
         {!isLoading && hasMore && showButton && (
           <Button

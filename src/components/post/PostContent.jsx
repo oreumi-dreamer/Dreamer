@@ -312,7 +312,7 @@ export default function PostContent({
   return (
     <>
       {isLoading ? (
-        <Loading type="small" />
+        <Loading type="circle" />
       ) : (
         <>
           <img
