@@ -1,14 +1,17 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef, useState } from "react";
 import styles from "./DropDown.module.css";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
+import Loading from "../Loading";
 
 export const MyPost = forwardRef(
   (
     { style, togglePostPrivacy, postId, postIsPrivate, setIsWriteModalOpen },
     ref
   ) => {
+    const [isLoading, setIsLoading] = useState(false);
     async function deletePost() {
       try {
+        setIsLoading(true);
         const response = await fetchWithAuth(`/api/post/delete/${postId}`, {
           method: "DELETE",
         });
@@ -17,6 +20,8 @@ export const MyPost = forwardRef(
         }
       } catch (error) {
         console.error("게시물을 삭제할 수 없습니다", error);
+      } finally {
+        setIsLoading(false);
       }
     }
     return (
@@ -31,12 +36,21 @@ export const MyPost = forwardRef(
             </button>
           </li>
           <li className={styles["drop-down-items"]}>
-            <button
-              className={`${styles["delete-btn"]} ${styles["drop-down-item"]}`}
-              onClick={deletePost}
-            >
-              삭제하기
-            </button>
+            {isLoading ? (
+              <button
+                type="button"
+                className={`${styles["delete-btn"]} ${styles["drop-down-item"]}`}
+              >
+                <Loading type="miniCircle" className={styles["loading"]} />
+              </button>
+            ) : (
+              <button
+                className={`${styles["delete-btn"]} ${styles["drop-down-item"]}`}
+                onClick={deletePost}
+              >
+                삭제하기
+              </button>
+            )}
           </li>
           <li className={styles["drop-down-items"]}>
             <button
