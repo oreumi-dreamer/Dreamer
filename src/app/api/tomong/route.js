@@ -105,45 +105,69 @@ export async function GET(request) {
             for (const line of lines) {
               // data: 로 시작하는 라인만 처리
               if (line.trim().startsWith("data:")) {
-                controller.enqueue(encoder.encode(`data: ${line}\n\n`));
+                controller.enqueue(encoder.encode(`${line}\n\n`));
 
                 try {
                   // data: 접두사를 제거하고 JSON 처리
                   const jsonStr = line.replace(/^data:\s*/, "").trim();
 
                   if (jsonStr) {
-                    // 작은따옴표를 큰따옴표로 변환
-                    const cleanedJson = jsonStr.replace(/'/g, '"');
-                    const parsedData = JSON.parse(cleanedJson);
+                    // 1. 작은따옴표를 큰따옴표로 변환
+                    const properJson = jsonStr.replace(/'/g, '"');
 
-                    // complete 타입일 때만 저장
-                    if (parsedData.type === "complete" && postId) {
-                      const postRef = doc(db, "posts", postId);
-                      const postDoc = await getDoc(postRef);
-
-                      if (postDoc.exists()) {
-                        const tomongData = {
-                          content: parsedData.data.content,
-                          createdAt: Timestamp.now(),
-                        };
-
-                        const tomongLength = postDoc.data().tomong
-                          ? postDoc.data().tomong.length
-                          : 1;
-
-                        await updateDoc(postRef, {
-                          tomong: arrayUnion(tomongData),
-                          tomongLength: tomongLength,
-                          // tomongSelected: tomongLength,
-                        });
+                    // 2. content 내의 큰따옴표를 이스케이프
+                    const escapedContent = properJson.replace(
+                      /{"type":\s*"([^"]+)",\s*"data":\s*{"content":\s*"(.*?)"}}/g,
+                      (match, type, content) => {
+                        const escapedInnerContent = content.replace(
+                          /"/g,
+                          '\\"'
+                        );
+                        return `{"type":"${type}","data":{"content":"${escapedInnerContent}"}}`;
                       }
+                    );
+
+                    // 3. 개행 문자 이스케이프 처리
+                    const cleanedJson = escapedContent.replace(/\n/g, "\\n");
+
+                    try {
+                      const parsedData = JSON.parse(cleanedJson);
+
+                      // 4. complete 타입일 때만 Firestore에 저장
+                      if (parsedData.type === "complete" && postId) {
+                        const postRef = doc(db, "posts", postId);
+                        const postDoc = await getDoc(postRef);
+
+                        if (postDoc.exists()) {
+                          const tomongData = {
+                            content: parsedData.data.content,
+                            createdAt: Timestamp.now(),
+                          };
+
+                          const tomongLength = postDoc.data().tomong
+                            ? postDoc.data().tomong.length
+                            : 1;
+
+                          await updateDoc(postRef, {
+                            tomong: arrayUnion(tomongData),
+                            tomongLength: tomongLength,
+                          });
+                        }
+                      }
+                    } catch (parseError) {
+                      console.error(
+                        "JSON 파싱 오류:",
+                        parseError,
+                        "원본 데이터:",
+                        cleanedJson
+                      );
                     }
                   }
                 } catch (e) {
                   console.error(
-                    "Error parsing or saving tomong data:",
+                    "스트림 데이터 처리 오류:",
                     e,
-                    "Raw data:",
+                    "원본 라인:",
                     line
                   );
                 }

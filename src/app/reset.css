@@ -143,3 +143,11 @@ a:hover,
 a:active {
   text-decoration: none;
 }
+
+img {
+  object-fit: cover;
+}
+
+button img {
+  object-fit: contain;
+}
