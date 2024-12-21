@@ -157,6 +157,7 @@
   grid-area: private;
   font-size: var(--small-text-font-size);
   color: var(--black-font-color);
+  gap: 0.4rem;
 }
 
 .profile-form-birthdates {
@@ -202,6 +203,16 @@
 
 .relative {
   position: relative;
+}
+.validation {
+  position: absolute;
+  color: var(--invalid-text-color);
+}
+.relative:first-of-type .validation {
+  left: 2.6rem;
+}
+.relative:nth-of-type(2) .validation {
+  left: 3.6rem;
 }
 
 .char-limits {
