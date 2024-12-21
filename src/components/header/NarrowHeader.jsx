@@ -103,25 +103,21 @@ export default function NarrowHeader({
         onClick={handleToggleBtn}
       >
         {isLightMode ? (
-          <>
-            <span className="sr-only">다크모드로 변경</span>
-            <Image
-              src="/images/toggle-sun.svg"
-              aria-hidden="true"
-              width={35}
-              height={35}
-            />
-          </>
+          <Image
+            src="/images/toggle-sun.svg"
+            alt="다크 모드로 변경"
+            aria-hidden="true"
+            width={35}
+            height={35}
+          />
         ) : isDarkMode ? (
-          <>
-            <span className="sr-only">라이트모드로 변경</span>
-            <Image
-              src="/images/toggle-moon.svg"
-              aria-hidden="true"
-              width={35}
-              height={35}
-            />
-          </>
+          <Image
+            src="/images/toggle-moon.svg"
+            alt="라이트 모드로 변경"
+            aria-hidden="true"
+            width={35}
+            height={35}
+          />
         ) : (
           ""
         )}
