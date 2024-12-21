@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Button, CommonModal, Select } from "../Controls";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 import Loading from "../Loading";
+import { enableScroll, disableScroll } from "@/utils/scrollHandler";
 
 export default function ReportModal({ isOpen, closeModal, postId }) {
   const [reason, setReason] = useState("inappropriate");
