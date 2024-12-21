@@ -958,13 +958,33 @@ export const CommonModal = ({ isOpen, closeModal, children }) => {
     }
   }, [isOpen]);
 
+  // 백드롭 클릭을 감지하는 이벤트 핸들러
+  const handleClick = (e) => {
+    const dialogDimensions = dialogRef.current?.getBoundingClientRect();
+    if (dialogDimensions) {
+      const isClickedInDialog =
+        e.clientX >= dialogDimensions.left &&
+        e.clientX <= dialogDimensions.right &&
+        e.clientY >= dialogDimensions.top &&
+        e.clientY <= dialogDimensions.bottom;
+
+      if (!isClickedInDialog) {
+        handleClose();
+      }
+    }
+  };
+
   const handleClose = () => {
     enableScroll();
     closeModal();
   };
 
   return (
-    <dialog ref={dialogRef} className={styles["common-modal"]}>
+    <dialog
+      ref={dialogRef}
+      onClick={handleClick}
+      className={styles["common-modal"]}
+    >
       <button onClick={handleClose} className={styles["btn-close"]}>
         <img src="/images/close-without-padding.svg" alt="닫기" />
       </button>
