@@ -9,12 +9,9 @@ import { Divider, handleClickWithKeyboard, ShareModal } from "../Controls";
 import useTheme from "@/hooks/styling/useTheme";
 import WritePost from "../write/WritePost";
 import ReportModal from "../report/Report";
+import styles from "./Post.module.css";
 
-export default function Post({
-  styles,
-  post: initialPosts,
-  setSelectedPostId,
-}) {
+export default function Post({ post: initialPosts, setSelectedPostId }) {
   const [post, setPost] = useState(initialPosts);
   const [isOpen, setIsOpen] = useState(false);
   const [modalStyle, setModalStyle] = useState({});
