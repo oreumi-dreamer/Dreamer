@@ -33,7 +33,7 @@
 }
 
 .button:disabled {
-  background-color: var(--none-active-color);
+  background-color: var(--disabled-color);
   cursor: not-allowed;
 }
 
@@ -57,8 +57,8 @@
   transition: background-color 5000s ease-in-out 0s;
 }
 .input-text:disabled {
-  background-color: var(--input-disabled-color);
-  border: 0.2rem solid var(--input-disabled-color);
+  background-color: var(--disabled-color);
+  border: 0.2rem solid var(--disabled-color);
   color: #fff;
 }
 

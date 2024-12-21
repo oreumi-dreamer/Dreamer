@@ -5,7 +5,6 @@
   --h2-font-size: 2.4rem;
   --h3-font-size: 1.6rem;
   --body-font-size: 1.6rem;
-  --other-font-size: 2.8rem;
   --big-text-font-size: 3.2rem;
   --small-text-font-size: 1.2rem;
   --tiny-text-font-size: 1rem;
@@ -16,7 +15,6 @@
   --background-white: #fcfcfc;
   --background-gray: rgba(149, 149, 149, 0.5);
   --background-dimmed: rgba(17, 17, 17, 0.3);
-  --background-dark: #242424;
   --background-mobile-header: #e3eeff;
   --none-active-color: #959595;
   --black-font-color: #141420;
@@ -43,7 +41,6 @@
   --focus-border-color: #a54cb4;
   --delete-btn-background: rgba(200, 200, 200, 0.75);
   --mainPost-img-overlay: rgba(0, 0, 0, 60%);
-  --reverse-black-font-color: #eef0de;
   --profile-bio: #f89b9b20;
 
   --tomong-stamp-half-opacity: 0.5;
@@ -60,12 +57,12 @@
     saturate(7499%) hue-rotate(53deg) brightness(109%) contrast(101%);
   --header-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.4);
   --input-color: #e8e8e8;
-  --input-disabled-color: #77777b;
+  --disabled-color: #77777b;
+  --404-back-btn-color: #242424;
   --email-login-btn-color: #f5f5f5;
   --email-login-btn-hover-color: #959595;
   --email-login-btn-active-color: #f89b9b;
   --email-login-btn-active-text-color: #fff;
-  --email-button-color: none;
   --email-verify-btn-color: #77777b;
   --signup-email-background-color: none;
   --invalid-border-color: #f41e1e;
@@ -81,7 +78,6 @@
     --background-white: #111111;
     --background-gray: rgba(149, 149, 149, 0.5);
     --background-dimmed: rgba(17, 17, 17, 0.4);
-    --background-dark: #242424;
     --background-mobile-header: #242424;
     --none-active-color: #959595;
     --black-font-color: #e0e0e0;
@@ -94,7 +90,6 @@
     --dark-white-color: #e0e0e0;
     --placeholder-color: #959595;
     --comment-input-color: #95959530;
-    --comment-button-color: #838383;
     --comment-button-color: #838383;
     --dotted-color: #7e7e7e;
     --scroll-bar-color: #8a8a8a;
@@ -118,15 +113,14 @@
     --tomong-carousel-indicator-color: #666;
     --tomong-carousel-indicator-color-active: #ddd;
     --input-color: rgba(232, 232, 232, 0.2);
+    --404-back-btn-color: #111111;
     --email-login-btn-color: #111111;
     --email-login-btn-hover-color: #5b5b5b;
     --email-login-btn-active-color: #2a2a3c;
     --email-login-btn-active-text-color: #eef0de;
-    --email-button-color: rgba(17, 4, 4, 0.2);
     --signup-email-background-color: #373737;
     --invalid-border-color: #ba5b5b;
     --invalid-text-color: #ba5b5b;
-    --reverse-black-font-color: #141420;
     --profile-bio: #95959530;
   }
 }
@@ -139,7 +133,6 @@
   --background-white: #111111;
   --background-gray: rgba(149, 149, 149, 0.5);
   --background-dimmed: rgba(17, 17, 17, 0.4);
-  --background-dark: #242424;
   --background-mobile-header: #242424;
   --none-active-color: #959595;
   --black-font-color: #e0e0e0;
@@ -152,6 +145,7 @@
   --dark-white-color: #e0e0e0;
   --placeholder-color: #959595;
   --comment-input-color: #95959530;
+  --comment-button-color: #838383;
   --dotted-color: #7e7e7e;
   --scroll-bar-color: #8a8a8a;
   --dark-mode-text: #eef0de;
@@ -174,15 +168,14 @@
   --tomong-carousel-indicator-color: #666;
   --tomong-carousel-indicator-color-active: #ddd;
   --input-color: rgba(232, 232, 232, 0.2);
+  --404-back-btn-color: #111111;
   --email-login-btn-color: #111111;
   --email-login-btn-hover-color: #5b5b5b;
   --email-login-btn-active-color: #2a2a3c;
   --email-login-btn-active-text-color: #eef0de;
-  --email-button-color: rgba(232, 232, 232, 0.2);
   --signup-email-background-color: #373737;
   --invalid-border-color: #ba5b5b;
   --invalid-text-color: #ba5b5b;
-  --reverse-black-font-color: #141420;
   --profile-bio: #95959520;
 }
 

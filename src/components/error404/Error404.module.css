@@ -14,6 +14,7 @@
 }
 
 .logo img {
+  filter: var(--filter-EEF0DE);
   width: 60rem;
 }
 
@@ -25,18 +26,14 @@
 
 .go-back-btn {
   font-size: var(--body-font-size);
-  background-color: var(--black-font-color);
-  color: var(--reverse-black-font-color);
+  background-color: var(--404-back-btn-color);
+  color: var(--email-login-btn-active-text-color);
   padding: 1.5rem 7rem;
   border-radius: 1rem;
 }
-
-@media (prefers-color-scheme: dark) {
-  [data-theme="device"] .logo img {
-    filter: var(--filter-EEF0DE);
-  }
+.go-back-btn:hover {
+  background-color: #5b5b5b;
 }
-
-[data-theme="dark"] .logo img {
-  filter: var(--filter-EEF0DE);
+.go-back-btn:active {
+  background-color: #2a2a3c;
 }

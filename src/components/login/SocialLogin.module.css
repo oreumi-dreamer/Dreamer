@@ -71,28 +71,21 @@ main:has(.login-title) img {
   text-align: center;
 }
 
-.join-button button,
-.join-button button:hover,
-.join-button button:active,
-.join-button a,
-.join-button a:hover,
-.join-button a:active {
+.account-btns .join-button a,
+.account-btns .find-button button {
   background: none;
   padding: 0;
   color: var(--deep-pink-color);
   margin: 0 0 3.7rem 0.4rem;
-}
-.find-button button,
-.find-button button:hover,
-.find-button button:active,
-.find-button a,
-.find-button a:hover,
-.find-button a:active {
-  margin: 0 0 3.7rem 0.4rem;
-  padding: 0;
-  background: none;
-  color: var(--deep-pink-color);
   font-size: var(--body-font-size);
+}
+.account-btns .join-button a:hover,
+.account-btns .find-button button:hover {
+  color: var(--hover-btn-color);
+}
+.account-btns .join-button a:active,
+.account-btns .find-button button:active {
+  color: var(--active-btn-color);
 }
 
 /* '/' 첫페이지 구글,이메일 로그인 버튼 */
@@ -133,7 +126,7 @@ main:has(.login-title) img {
   color: var(--white-color);
 }
 .email-login-btn:hover {
-  background-color: var(--none-active-color);
+  background-color: var(--email-login-btn-hover-color);
 }
 .email-login-btn:active {
   background-color: var(--email-login-btn-active-color);
