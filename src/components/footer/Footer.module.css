@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin: 19.1rem 0 0 0;
+  margin: 19.1rem 6rem 0 0;
   max-width: 100%;
 }
 
@@ -27,7 +27,7 @@
 }
 
 .recommend-wrap .recommend-list {
-  max-width: 26rem;
+  width: 20rem;
   background-color: var(--background-white);
   border-radius: 1.5rem;
   filter: drop-shadow(6px 6px 9.4px rgba(0, 0, 0, 0.15));
@@ -105,7 +105,7 @@ button.recommend-follow {
   font-weight: 700;
 }
 
-@media (max-width: 860px) {
+@media (max-width: 969px) {
   .footer {
     margin-top: 4rem;
     margin-left: 6.4rem;

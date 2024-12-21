@@ -1,6 +1,12 @@
 "use client";
 
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, {
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  useCallback,
+} from "react";
 import Image from "next/image";
 import styles from "./WritePost.module.css";
 import StopModal from "./StopModal";
@@ -9,15 +15,24 @@ import MoodModal from "./MoodModal";
 import { useSelector } from "react-redux";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 import useTheme from "@/hooks/styling/useTheme";
-import Loading from "../Loading";
 import { useRouter } from "next/navigation";
+import Uploading from "./Uploading";
+import { DREAM_GENRES, DREAM_MOODS } from "@/utils/constants";
+import Loading from "../Loading";
+import { ConfirmModal } from "../Controls";
 
-export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
+export default function WritePost({
+  isWriteModalOpen,
+  closeWriteModal,
+  modifyId,
+}) {
   const [isWritingModalOpen, setIsWritingModalOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [contentValue, setContentValue] = useState("");
   const [isContentChanged, setIsContentChanged] = useState(false);
   const [imageFiles, setImageFiles] = useState(null);
+  const [remainingImages, setRemainingImages] = useState([]);
+  const [isFetching, setIsFetching] = useState(!!modifyId);
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useSelector((state) => state.auth);
   const { theme } = useTheme();
@@ -26,16 +41,193 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
   const profileImageUrl = user?.profileImageUrl || "/images/rabbit.svg";
   const userId = user?.userId;
   const userName = user?.userName;
+  //   const userIdLength = user?.userId?.length || 0;
+  //   const userNameLength = user?.userName?.length || 0;
 
-  // 해시태그/기분 클릭 목록
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [selectedMoods, setSelectedMoods] = useState([]);
-  const [rating, setRating] = useState(null); // 별점
-  const [isPrivate, setIsPrivate] = useState(false); // 비공개
-  // 모달 열림 확인
+  const [rating, setRating] = useState(null);
+  const [isPrivate, setIsPrivate] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isMoodModalOpen, setIsMoodModalOpen] = useState(false);
   const [isStopModalOpen, setIsStopModalOpen] = useState(false);
+
+  // 수정 모드일 때 데이터 불러오기
+  useEffect(() => {
+    const fetchPost = async () => {
+      if (modifyId && isWriteModalOpen) {
+        setIsWritingModalOpen(true);
+        try {
+          const response = await fetchWithAuth(`/api/post/search/${modifyId}`);
+          if (response.ok) {
+            const { post } = await response.json();
+            setInputValue(post.title);
+            setContentValue(post.content);
+            setSelectedGenres(
+              post.dreamGenres.map((id) => {
+                const genre = DREAM_GENRES.find((g) => g.id === id);
+                return {
+                  id: genre.id,
+                  text: genre.text,
+                  lightColor: genre.lightColor,
+                  darkColor: genre.darkColor,
+                };
+              })
+            );
+            setSelectedMoods(
+              post.dreamMoods.map((id) => {
+                const mood = DREAM_MOODS.find((m) => m.id === id);
+                return {
+                  id: mood.id,
+                  text: mood.text,
+                };
+              })
+            );
+            setRating(post.dreamRating.toString());
+            setIsPrivate(post.isPrivate);
+            setRemainingImages(post.imageUrls);
+            setIsFetching(false);
+          }
+        } catch (error) {
+          console.error("게시글 불러오기 실패:", error);
+        }
+      }
+    };
+
+    fetchPost();
+  }, [modifyId, isWriteModalOpen]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (contentValue === "") {
+      alert("작성된 내용이 없습니다");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append(
+      "title",
+      inputValue === "" ? `${year}년 ${month}월 ${date}일 꿈 일기` : inputValue
+    );
+    formData.append("content", contentValue);
+    formData.append("genres", JSON.stringify(genresId));
+    formData.append("moods", JSON.stringify(moodsId));
+    formData.append("rating", rating === null ? "0" : rating);
+    formData.append("isPrivate", isPrivate ? "true" : "false");
+
+    if (modifyId) {
+      formData.append("remainingImages", JSON.stringify(remainingImages));
+    }
+
+    if (imageFiles?.length > 0) {
+      Array.from(imageFiles).forEach((file) => {
+        formData.append("images", file);
+      });
+    }
+
+    try {
+      setIsLoading(true);
+      const endpoint = modifyId
+        ? `/api/post/update/${modifyId}`
+        : "/api/post/create";
+
+      const response = await fetchWithAuth(endpoint, {
+        method: "POST",
+        body: formData,
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        const postId = result.postId || modifyId;
+        location.href = `/users/${user.userId}?post=${postId}`;
+        closeWriteModal();
+        resetForm();
+      } else {
+        alert(modifyId ? "게시글 수정 실패" : "게시글 작성 실패");
+      }
+    } catch (error) {
+      console.error("에러", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const imageOrderRef = useRef([]);
+
+  useEffect(() => {
+    imageOrderRef.current = remainingImages.map((url, index) => ({
+      id: `image-${index}`,
+      url,
+    }));
+  }, [remainingImages.length]);
+
+  // 기존 이미지 삭제
+  const handleDeleteExistingImage = useCallback((imageToDelete) => {
+    setRemainingImages((prev) => {
+      const newImages = prev.filter((url) => url !== imageToDelete.url);
+      imageOrderRef.current = imageOrderRef.current.filter(
+        (item) => item.url !== imageToDelete.url
+      );
+      return newImages;
+    });
+  }, []);
+
+  // 이미지 미리보기 섹션 수정
+  const renderImagePreviews = () => {
+    return (
+      <section className={styles["image-preview-field"]}>
+        {isFetching && <Loading />}
+        {imageOrderRef.current.map((image, index) => (
+          <div key={image.id} className={styles["image-container"]}>
+            <button
+              type="button"
+              className={styles["image-delete"]}
+              onClick={() => handleDeleteExistingImage(image)}
+            >
+              <Image
+                src="/images/close.svg"
+                width={30}
+                height={30}
+                alt="이미지 삭제"
+              />
+            </button>
+            <img
+              src={image.url}
+              width={100}
+              height={100}
+              alt={`기존 이미지 ${index}`}
+              className={styles["preview-image"]}
+            />
+          </div>
+        ))}
+        {imageFiles &&
+          Array.from(imageFiles).map((img, index) => (
+            <div key={`new-${index}`} className={styles["image-container"]}>
+              <button
+                type="button"
+                className={styles["image-delete"]}
+                onClick={() => handleDeleteImage(index)}
+              >
+                <Image
+                  src="/images/close.svg"
+                  width={30}
+                  height={30}
+                  alt="이미지 삭제"
+                />
+              </button>
+              <img
+                src={URL.createObjectURL(img)}
+                width={100}
+                height={100}
+                alt={`새 이미지 ${index}`}
+                className={styles["preview-image"]}
+              />
+            </div>
+          ))}
+      </section>
+    );
+  };
 
   const genresId = selectedGenres.map((item) => item.id);
   const moodsId = selectedMoods.map((item) => item.id);
@@ -96,7 +288,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
     setRating(e.target.value);
   };
   const openModal = () => {
-    setIsModalOpen(false);
+    setIsModalOpen(true);
   };
 
   const openMoodModal = () => {
@@ -234,58 +426,32 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
     setIsPrivate(false);
   };
 
+  //   textarea 높이
+  const handleResizeHeight = (e) => {
+    if (window.innerWidth <= 720) {
+      const textarea = e.target;
+      const maxHeight = 100;
+      const minHeight = 30;
+      textarea.style.height = "auto";
+
+      if (textarea.value.trim() === "") {
+        textarea.style.height = `${minHeight}rem`;
+      } else {
+        textarea.style.height = `${(textarea.scrollHeight, maxHeight)}rem`;
+      }
+    }
+  };
+
+  const handleInputChange = (e) => {
+    handleResizeHeight(e);
+    handleContentChange(e);
+  };
+
   // 날짜
   const today = new Date();
   const year = ("0" + today.getFullYear()).slice(-2);
   const month = (today.getMonth() + 1).toString().padStart(2, "0");
   const date = today.getDate().toString().padStart(2, "0");
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (contentValue === "") {
-      alert("작성된 내용이 없습니다");
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append(
-      "title",
-      inputValue === "" ? `${year}년 ${month}월 ${date}일 꿈 일기` : inputValue
-    );
-    formData.append("content", contentValue);
-    formData.append("genres", JSON.stringify(genresId));
-    formData.append("moods", JSON.stringify(moodsId));
-    formData.append("rating", rating === null ? "0" : rating);
-    formData.append("isPrivate", isPrivate ? "true" : "false");
-    if (imageFiles?.length > 0) {
-      Array.from(imageFiles).forEach((file) => {
-        formData.append("images", file);
-      });
-    }
-
-    try {
-      setIsLoading(true);
-      const response = await fetchWithAuth("/api/post/create", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (response.ok) {
-        const result = await response.json();
-        const postId = result.postId;
-        router.push(`/post/${postId}`);
-        closeWriteModal();
-        resetForm();
-      } else {
-        alert("게시글 작성 실패");
-      }
-    } catch (error) {
-      console.error("에러", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   useEffect(() => {
     if (isWriteModalOpen) {
@@ -319,7 +485,9 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
         className={styles["modal-contents"]}
         onClick={(e) => e.stopPropagation()}
       >
-        <h2 className="sr-only">새로운 글 작성</h2>
+        <h2 className="sr-only">
+          {modifyId ? "게시글 수정하기" : "새로운 글 작성"}
+        </h2>
         <div className={styles["user-prof"]}>
           <img
             src={profileImageUrl}
@@ -329,7 +497,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
             alt={`${userName}님의 프로필 사진`}
           />
           <p className={styles["user-name"]}>
-            {userName}
+            <span className={styles["user-name-text"]}>{userName}</span>
             <span className={styles["user-id"]}>@{userId}</span>
           </p>
         </div>
@@ -343,31 +511,20 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
           className={styles["new-post-form"]}
           onSubmit={handleSubmit}
         >
-          <div id={styles["title"]}>
-            <label
-              id="title-input"
-              className={styles["title-input"]}
-              htmlFor="title"
-            >
-              Title
-              <input
-                type="text"
-                id="title"
-                placeholder={`${year}년 ${month}월 ${date}일 꿈 일기`}
-                onChange={handleTitleChange}
-                value={inputValue}
-              />
-            </label>
-            <label id="hidden" className={styles["hidden"]} htmlFor="hidden">
-              <input
-                type="checkbox"
-                id="hidden"
-                checked={isPrivate}
-                onChange={() => setIsPrivate((prev) => !prev)}
-              />
-              비공개
-            </label>
-          </div>
+          <label
+            id="title-input"
+            className={styles["title-input"]}
+            htmlFor="title"
+          >
+            <span className="sr-only">제목</span>
+            <input
+              type="text"
+              id="title"
+              placeholder={`${year}년 ${month}월 ${date}일 꿈 일기`}
+              onChange={handleTitleChange}
+              value={inputValue}
+            />
+          </label>
 
           <div className={styles["write-field"]}>
             <div className={styles["write-field-opt"]}>
@@ -425,7 +582,7 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
                     onClick={openMoodModal}
                     ref={moodButtonRef}
                   >
-                    <ul>
+                    <ul className={styles["feeling-selected-list"]}>
                       {selectedMoods.map((item) => (
                         <li key={item.text}>{item.text}</li>
                       ))}
@@ -436,46 +593,48 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
 
               <div className={styles["rate-star-container"]}>
                 <p>오늘의 꿈 별점: </p>
-                <input
-                  type="radio"
-                  className={styles["rate-star"]}
-                  name="rate-star"
-                  value={1}
-                  onChange={handleRatingChange}
-                  checked={rating === "1"}
-                />
-                <input
-                  type="radio"
-                  className={styles["rate-star"]}
-                  name="rate-star"
-                  value={2}
-                  onChange={handleRatingChange}
-                  checked={rating === "2"}
-                />
-                <input
-                  type="radio"
-                  className={styles["rate-star"]}
-                  name="rate-star"
-                  value={3}
-                  onChange={handleRatingChange}
-                  checked={rating === "3"}
-                />
-                <input
-                  type="radio"
-                  className={styles["rate-star"]}
-                  name="rate-star"
-                  value={4}
-                  onChange={handleRatingChange}
-                  checked={rating === "4"}
-                />
-                <input
-                  type="radio"
-                  className={styles["rate-star"]}
-                  name="rate-star"
-                  value={5}
-                  onChange={handleRatingChange}
-                  checked={rating === "5"}
-                />
+                <div>
+                  <input
+                    type="radio"
+                    className={styles["rate-star"]}
+                    name="rate-star"
+                    value={1}
+                    onChange={handleRatingChange}
+                    checked={rating === "1"}
+                  />
+                  <input
+                    type="radio"
+                    className={styles["rate-star"]}
+                    name="rate-star"
+                    value={2}
+                    onChange={handleRatingChange}
+                    checked={rating === "2"}
+                  />
+                  <input
+                    type="radio"
+                    className={styles["rate-star"]}
+                    name="rate-star"
+                    value={3}
+                    onChange={handleRatingChange}
+                    checked={rating === "3"}
+                  />
+                  <input
+                    type="radio"
+                    className={styles["rate-star"]}
+                    name="rate-star"
+                    value={4}
+                    onChange={handleRatingChange}
+                    checked={rating === "4"}
+                  />
+                  <input
+                    type="radio"
+                    className={styles["rate-star"]}
+                    name="rate-star"
+                    value={5}
+                    onChange={handleRatingChange}
+                    checked={rating === "5"}
+                  />
+                </div>
               </div>
               <div className={styles["image-uploader"]}>
                 <label>
@@ -491,53 +650,43 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
               </div>
             </div>
             <span className={styles["break-line"]}></span>
-            <p className={styles["text-field-area"]}>
+            <div className={styles["text-field-area"]}>
               <span className="sr-only">글 작성</span>
               <textarea
                 placeholder="오늘은 어떤 꿈을 꾸셨나요?"
-                className={`${styles["text-field-area"]} ${imageFiles && styles["has-image"]}`}
+                className={`${styles["text-field-area"]} ${(imageFiles?.length > 0 || remainingImages?.length > 0) && styles["has-image"]}`}
                 onChange={handleContentChange}
                 value={contentValue}
               />
-              <section className={styles["image-preview-field"]}>
-                {imageFiles &&
-                  Array.from(imageFiles).map((img, index) => (
-                    <div key={index} className={styles["image-container"]}>
-                      <button
-                        type="button"
-                        className={styles["image-delete"]}
-                        onClick={() => handleDeleteImage(index)}
-                      >
-                        <Image
-                          src="/images/close.svg"
-                          width={30}
-                          height={30}
-                          alt="이미지 삭제"
-                        />
-                      </button>
-                      <Image
-                        src={URL.createObjectURL(img)}
-                        width={100}
-                        height={100}
-                        alt={`이미지${index}`}
-                        className={styles["preview-image"]}
-                      />
-                    </div>
-                  ))}
-              </section>
-            </p>
+              {renderImagePreviews()}
+            </div>
           </div>
           <div className={styles["btn-submit-area"]}>
             {isLoading ? (
-              <Loading type="miniCircle" />
+              <Uploading />
             ) : (
-              <button
-                type="submit"
-                form="new-post-form"
-                className={styles["btn-submit"]}
-              >
-                전송
-              </button>
+              <>
+                <label
+                  id="hidden"
+                  className={styles["hidden"]}
+                  htmlFor="hidden"
+                >
+                  <input
+                    type="checkbox"
+                    id="hidden"
+                    checked={isPrivate}
+                    onChange={() => setIsPrivate((prev) => !prev)}
+                  />
+                  비공개
+                </label>
+                <button
+                  type="submit"
+                  form="new-post-form"
+                  className={styles["btn-submit"]}
+                >
+                  전송
+                </button>
+              </>
             )}
           </div>
         </form>
@@ -560,10 +709,11 @@ export default function WritePost({ isWriteModalOpen, closeWriteModal }) {
           style={moodModalStyle}
         />
         {isStopModalOpen && (
-          <StopModal
-            isStopModalOpen={isStopModalOpen}
-            closeModal={closeStopModal}
+          <ConfirmModal
+            isOpen={isStopModalOpen}
+            message="작성 중인 글이 있습니다. 창을 닫으시겠습니까?"
             onConfirm={handleStopModalConfirm}
+            closeModal={closeStopModal}
           />
         )}
       </div>

@@ -13,7 +13,7 @@ import Loading from "../Loading";
 import PostModal from "../modal/PostModal";
 import WritePost from "../write/WritePost";
 
-export default function Profile({ userName }) {
+export default function Profile({ userName, write, post }) {
   const router = useRouter();
   const [profile, setProfile] = useState(null);
   const [posts, setPosts] = useState(null);
@@ -23,6 +23,7 @@ export default function Profile({ userName }) {
   const [selectedPostId, setSelectedPostId] = useState(null);
   const mainRef = useRef(null);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isPrivate, setIsPrivate] = useState(false);
 
   const user = useSelector((state) => state.auth.user);
   const isLoggedIn = user?.exists ? true : false;
@@ -77,6 +78,7 @@ export default function Profile({ userName }) {
           isFollowing: data.isFollowing,
           isMyself: data.isMyself,
           birthDate: data.birthDate,
+          isPrivate: data.isPrivate,
         });
       }
 
@@ -94,7 +96,20 @@ export default function Profile({ userName }) {
     setIsShowModal(!!selectedPostId);
   }, [selectedPostId]);
 
+  useEffect(() => {
+    if (post) {
+      setSelectedPostId(post);
+    }
+  }, [post]);
+
   const [isWriteModalOpen, setIsWriteModalOpen] = useState(false);
+
+  useEffect(() => {
+    if (write) {
+      handleWriteBtnClick();
+    }
+  }, [write]);
+
   const [prevPage, setPrevPage] = useState("");
   const handleWriteBtnClick = () => {
     setPrevPage(window.location.pathname);
@@ -202,10 +217,12 @@ export default function Profile({ userName }) {
         isShow={isShowModal}
         onClose={handleModalClose}
       />
-      <WritePost
-        isWriteModalOpen={isWriteModalOpen}
-        closeWriteModal={closeWriteModal}
-      />
+      {isWriteModalOpen && (
+        <WritePost
+          isWriteModalOpen={isWriteModalOpen}
+          closeWriteModal={closeWriteModal}
+        />
+      )}
       {isLoginModalOpen && (
         <ConfirmModal
           message="로그인이 필요합니다. 로그인 하시겠습니까?"

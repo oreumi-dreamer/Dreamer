@@ -23,7 +23,6 @@ html:has(.post-modal) {
   width: 95vw;
   max-width: 155.4rem;
   height: 90vh;
-  min-height: 50rem;
   max-height: 100rem;
   border-radius: 1rem;
   background-color: var(--background-lightgray);
@@ -73,12 +72,12 @@ html:has(.post-modal) {
 .profile-info {
   display: flex;
   flex-wrap: wrap;
-  max-width: 12.7rem;
   font-size: var(--h2-font-size);
   margin-bottom: 1.6rem;
 }
 
 .uploaded-time {
+  width: 100%;
   font-size: var(--body-font-size);
   color: var(--time-font-color);
 }
@@ -108,10 +107,10 @@ html:has(.post-modal) {
 }
 
 .post-text {
-  min-width: 43.8rem;
+  min-width: 40.5rem;
   max-width: 66.5rem;
-  height: 82.3%;
-  max-height: 80.3rem;
+  height: 100%;
+  max-height: 79%;
   background-color: var(--background-white);
   border-radius: 1rem;
   padding: 1.6rem 1rem 4rem 4.3rem;
@@ -153,19 +152,32 @@ html:has(.post-modal) {
   text-decoration: underline;
 }
 
-.post-text::-webkit-scrollbar {
-  width: 3.2rem;
+.post-text::-webkit-scrollbar,
+.post-modal::-webkit-scrollbar {
+  width: 2.4rem;
 }
 
 .post-text::-webkit-scrollbar-thumb {
   background: var(--scroll-bar-color);
   height: 18.3rem;
-  border: 1.2rem solid var(--background-white);
+  border: 1rem solid var(--background-white);
   border-radius: 2.6rem;
 }
 
 .post-text::-webkit-scrollbar-track {
   background-color: var(--background-white);
+  border-radius: 1.3rem;
+}
+
+.post-modal::-webkit-scrollbar-thumb {
+  background: var(--scroll-bar-color);
+  height: 18.3rem;
+  border: 1rem solid var(--background-lightgray);
+  border-radius: 2.6rem;
+}
+
+.post-modal::-webkit-scrollbar-track {
+  background-color: var(--background-lightgray);
   border-radius: 1.3rem;
 }
 
@@ -240,7 +252,6 @@ img.tomong-icon {
 
 .comment-input {
   width: 100%;
-  min-width: 19rem;
   height: 9.4rem;
   background-color: unset;
   color: var(--black-font-color);
@@ -263,11 +274,10 @@ img.tomong-icon {
 .comment-setting {
   color: var(--black-font-color);
   display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-left: auto;
   gap: 0.8rem;
-
-  position: absolute;
-  bottom: -3rem;
-  right: 3rem;
   font-size: var(--small-text-font-size);
 }
 .comment-setting input {
@@ -275,8 +285,9 @@ img.tomong-icon {
 }
 
 .comment-setting button {
-  position: absolute;
-  bottom: -1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .comment-articles-section {
@@ -326,18 +337,26 @@ img.tomong-icon {
   background-size: contain;
 }
 
+.send-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 input[type="checkbox"]:checked + label.checkbox::before {
   background-image: url(/images/checkbox-checked.svg);
 }
 
 @media (max-width: 720px) {
   .post-modal {
-    padding: 2rem 2rem 2rem 2rem;
+    padding: 2rem 0 2rem 2rem;
     flex-direction: column;
     min-width: 34rem;
     overflow-y: scroll;
   }
-
+  .bookmark {
+    display: none;
+  }
   .post-section {
     padding-right: 0;
     margin-right: 0;
@@ -346,8 +365,13 @@ input[type="checkbox"]:checked + label.checkbox::before {
     background: url(/images/dash.svg) repeat-x bottom;
     background-size: 12px 2px;
   }
+  .post-info-section {
+    padding-left: 1.4rem;
+  }
   .post-text {
     min-width: 30rem;
+    padding-left: 1.6rem;
+    padding-right: 1.6rem;
     height: fit-content;
     max-height: max-content;
   }
@@ -356,6 +380,7 @@ input[type="checkbox"]:checked + label.checkbox::before {
     justify-content: flex-start;
     gap: 1rem;
     flex-wrap: wrap;
+    padding-right: 2rem;
   }
 
   .button-list li:first-of-type {
@@ -380,19 +405,38 @@ input[type="checkbox"]:checked + label.checkbox::before {
   .comment-input {
     height: 5rem;
   }
+  .close-btn {
+    top: 1.5rem;
+    right: 0;
+  }
+  .more-btn {
+    position: absolute;
+    top: 4.15rem;
+    right: 1rem;
+  }
 }
+
 @media (max-width: 480px) {
-  .post-section {
-    height: 60%;
-  }
-  .post-text {
-    min-width: 30rem;
-    height: 76%;
-  }
   .profile-info {
-    margin: 0;
+    font-size: var(--body-font-size);
   }
-  .comment-section {
-    height: 35%;
+
+  .post-tag {
+    gap: 0.4rem;
+  }
+  .post-tag li {
+    padding: 0.4rem 1rem;
+    font-size: var(--tiny-text-font-size);
+  }
+  .dream-felt {
+    padding: 0.4rem 1.6rem;
+    font-size: var(--tiny-text-font-size);
+  }
+  .button-list button img {
+    width: 2.4rem;
+    height: 2.4rem;
+  }
+  .dream-score {
+    font-size: var(--tiny-text-font-size);
   }
 }

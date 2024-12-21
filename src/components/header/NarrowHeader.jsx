@@ -43,12 +43,7 @@ export default function NarrowHeader({
       href: "/search",
       img: "/images/search.svg",
     },
-    {
-      label: "알람",
-      className: "alarm-btn",
-      href: "/alarm",
-      img: "/images/alarm.svg",
-    },
+
     {
       label: "토몽",
       className: "tomong-btn",
@@ -68,7 +63,7 @@ export default function NarrowHeader({
         } else {
           position = {
             position: "absolute",
-            top: `${buttonRect.top - modalHeight*2}px`,
+            top: `${buttonRect.top - modalHeight * 2}px`,
             left: `${buttonRect.right} - 50px`,
             zIndex: "10",
           };
@@ -174,7 +169,7 @@ export default function NarrowHeader({
         </nav>
         <nav>
           <Link
-            href={`/${userId}`}
+            href={`/users/${userId}`}
             className={`${styles["nav-item"]} ${styles["profile-btn"]}`}
             onClick={() => handleActiveBtn("프로필")}
           >

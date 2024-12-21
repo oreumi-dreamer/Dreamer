@@ -1,23 +1,26 @@
-.container {
-  width: 100vw;
+body:has(.main) {
   height: 100dvh;
   background: var(--background-blue-top);
+  background-color: var(--background-white);
   display: flex;
   flex-direction: column;
   row-gap: 1.6rem;
   justify-content: center;
   align-items: center;
+  overflow-y: hidden;
 }
 
-.container * {
+body:has(.main) * {
   word-break: keep-all;
 }
-.container h1 img {
+
+body:has(.main) h1 img {
   filter: var(--filter-EEF0DE);
 }
+
 .main {
   width: 80vw;
-  height: 80vh;
+  height: 70vh;
   background-color: var(--background-white);
   border-radius: 1.5rem;
   display: grid;
@@ -27,6 +30,11 @@
   align-items: center;
   justify-items: center;
   color: var(--black-font-color);
+}
+
+.main .tomong-body img {
+  height: 50%;
+  grid-area: tomong-img;
 }
 
 .main-result {
@@ -46,14 +54,14 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   overflow-y: hidden;
-  row-gap: 3.2rem;
 }
 
 .tomong-body img {
   object-fit: contain;
+  grid-area: img;
 }
 
 .headings {
@@ -61,17 +69,25 @@
   line-height: 1.5;
   margin-bottom: 1.6rem;
   text-align: center;
+  grid-area: headings;
 }
 
 .intro {
   text-align: center;
   margin-bottom: 1.6rem;
+  grid-area: intro;
+}
+
+.start-btn {
+  grid-area: start-btn;
 }
 
 .btn-row {
   width: 100%;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
+  gap: 1rem;
 }
 
 .tomong-stamp {
@@ -246,7 +262,46 @@ ul.post-tag li {
   }
 }
 
-/* .container p {
-  position: relative;
-  z-index: 10;
-} */
+@media (max-width: 720px) {
+  body:has(.main) {
+    justify-content: space-around;
+  }
+
+  body:has(.main) h1 img {
+    width: 16rem;
+  }
+
+  .main {
+    width: 90vw;
+    height: 80%;
+    padding: 2rem;
+  }
+
+  .main .tomong-body {
+    row-gap: 0;
+  }
+
+  .tomong-results-wrapper {
+    padding: 1.6rem;
+  }
+
+  .tomong-results-chevrons {
+    padding: 0 1rem;
+  }
+}
+
+@media (max-height: 650px) {
+  /* .main .tomong-first {
+    display: grid;
+    grid-template-areas: "headings headings" "intro tomong-img" "start-btn start-btn";
+    grid-template-rows: auto auto auto;
+  } */
+
+  .tomong-first {
+    position: relative;
+  }
+  .start-btn {
+    position: absolute;
+    bottom: 0;
+  }
+}

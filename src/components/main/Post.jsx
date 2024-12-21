@@ -1,12 +1,14 @@
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useEffect, useRef } from "react";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 import postTime from "@/utils/postTime";
 import { MyPost, OtherPost } from "../dropDown/DropDown";
 import { outsideClickModalClose } from "@/utils/outsideClickModalClose";
 import { Divider, ShareModal } from "../Controls";
 import useTheme from "@/hooks/styling/useTheme";
+import WritePost from "../write/WritePost";
+import ReportModal from "../report/Report";
 
 export default function Post({
   styles,
@@ -17,12 +19,84 @@ export default function Post({
   const [isOpen, setIsOpen] = useState(false);
   const [modalStyle, setModalStyle] = useState({});
   const [shareModalOpen, setShareModalOpen] = useState(false);
+  const [isWriteModalOpen, setIsWriteModalOpen] = useState(false);
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const modalRef = useRef(null);
   const buttonRef = useRef(null);
+  const containerRef = useRef(null);
 
   const { theme } = useTheme();
 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+
+  // 이미지 반응형적용
+  const [overlayWrapStyle, setOverlayWrapStyle] = useState("");
+  const [blurStyle, setBlurStyle] = useState("");
+  const [overlayStyle, setOverlayStyle] = useState("");
+  const [moreCount, setMoreCount] = useState(0);
+  const [containerWidth, setContainerWidth] = useState(0);
+  const [repeatCol, setRepeatCol] = useState(4);
+
+  const getImageCount = () => {
+    if (post.imageUrls && post.imageUrls.length > 0) {
+      if (containerWidth >= 550) {
+        return 5;
+      } else if (containerWidth >= 450) {
+        return 4;
+      } else if (containerWidth >= 350) {
+        return 3;
+      } else if (containerWidth >= 250) {
+        return 2;
+      } else if (containerWidth >= 0) {
+        return 1;
+      }
+      return post.imageUrls.length;
+    }
+    return 0;
+  };
+
+  const imageLayout = () => {
+    setOverlayWrapStyle(styles["has-overlay"]);
+    setBlurStyle(styles["blur"]);
+  };
+
+  const initOverlay = () => {
+    setOverlayWrapStyle("");
+    setBlurStyle("");
+    setOverlayStyle("");
+    setMoreCount(0);
+  };
+
+  const imageResponsive = () => {
+    const imageCount = getImageCount();
+    setRepeatCol(imageCount);
+    if (post.imageUrls.length > imageCount) {
+      imageLayout();
+      setOverlayStyle(styles["overlay"]);
+      setMoreCount(post.imageUrls.length - imageCount + 1);
+    } else {
+      initOverlay();
+    }
+  };
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (containerRef.current) {
+        setContainerWidth(containerRef.current.offsetWidth);
+      }
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    imageResponsive();
+  }, [containerWidth, post.imageUrls.length]);
 
   useEffect(() => {
     if (modalRef.current && buttonRef.current) {
@@ -34,6 +108,7 @@ export default function Post({
       };
     }
   }, [modalRef, buttonRef, isOpen]);
+
   const handlePostMoreBtnClick = () => {
     if (!isOpen) {
       setIsOpen(true);
@@ -78,6 +153,7 @@ export default function Post({
       return postIsPrivate;
     }
   };
+
   const changeSpark = (postId) => {
     setPost((prevData) => ({
       ...prevData,
@@ -126,9 +202,9 @@ export default function Post({
 
   return (
     <>
-      <article className={styles["article"]}>
+      <article className={styles["article"]} ref={containerRef}>
         <section className={styles["post-user-info"]}>
-          <Link href={`/${post.authorId}`}>
+          <Link href={`/users/${post.authorId}`}>
             <img
               src={post.profileImageUrl}
               alt={`${post.authorName}님의 프로필 사진`}
@@ -155,7 +231,7 @@ export default function Post({
           )}
           <button
             ref={buttonRef}
-            onClick={() => handlePostMoreBtnClick(post.objectID, post.authorId)}
+            onClick={() => handlePostMoreBtnClick(post.id, post.authorId)}
           >
             <Image
               src="/images/more.svg"
@@ -170,20 +246,25 @@ export default function Post({
               ref={modalRef}
               style={modalStyle}
               togglePostPrivacy={() => {
-                togglePostPrivacy(post.objectID, post.isPrivate);
+                togglePostPrivacy(post.id, post.isPrivate);
               }}
-              postId={post.objectID}
+              postId={post.id}
               postIsPrivate={post.isPrivate}
+              setIsWriteModalOpen={setIsWriteModalOpen}
             />
           )}
           {isOpen && !post.isMyself && (
-            <OtherPost ref={modalRef} style={modalStyle} />
+            <OtherPost
+              ref={modalRef}
+              style={modalStyle}
+              setIsReportModalOpen={setIsReportModalOpen}
+            />
           )}
         </section>
         <Divider className={styles["divider"]} />
         <section
           className={styles["post-content"]}
-          onClick={() => handleModalOpen(post.objectID)}
+          onClick={() => handleModalOpen(post.id)}
         >
           {post.isTomong && (
             <img
@@ -194,21 +275,33 @@ export default function Post({
           )}
           <p className={styles["post-text"]}>{post.content}</p>
           {post.imageUrls && (
-            <div className={styles["post-img-wrap"]}>
-              {post.imageUrls.map((url, index) => (
-                <img
-                  key={index}
-                  className={styles["post-img"]}
-                  src={url}
-                  alt={`게시글 이미지 ${index}`}
-                  loading="lazy"
-                />
-              ))}
+            <div
+              className={`${styles["post-img-wrap"]}`}
+              style={{ gridTemplateColumns: `repeat(${repeatCol}, 1fr)` }}
+            >
+              {post.imageUrls
+                .slice(0, getImageCount())
+                .map((url, index, arr) => {
+                  const isLastImage = index === arr.length - 1;
+                  return (
+                    <div key={index} className={overlayWrapStyle}>
+                      <img
+                        className={`${styles["post-img"]} ${blurStyle}`}
+                        src={url}
+                        alt={`게시글 이미지 ${index}`}
+                        loading="lazy"
+                      />
+                      {isLastImage && overlayStyle && moreCount > 0 && (
+                        <div className={styles["overlay"]}>+{moreCount}</div>
+                      )}
+                    </div>
+                  );
+                })}
             </div>
           )}
         </section>
         <section className={styles["post-btn-content"]}>
-          <button onClick={() => sparkHandle(post.objectID)}>
+          <button onClick={() => sparkHandle(post.id)}>
             {post.hasUserSparked ? (
               <>
                 {" "}
@@ -233,7 +326,7 @@ export default function Post({
               </>
             )}
           </button>
-          <button onClick={() => handleModalOpen(post.objectID)}>
+          <button onClick={() => handleModalOpen(post.id)}>
             <span className="sr-only">댓글 작성하기</span>
             <Image
               className={styles["icon-padding"]}
@@ -271,6 +364,22 @@ export default function Post({
           isOpen={shareModalOpen}
           closeModal={handleShareModalClose}
           link={`${baseUrl}/post/${post.id}`}
+        />
+      )}
+      {isWriteModalOpen && (
+        <WritePost
+          key={`${post.id}-modify`}
+          modifyId={post.id}
+          isWriteModalOpen={isWriteModalOpen}
+          closeWriteModal={() => setIsWriteModalOpen(false)}
+        />
+      )}
+      {isReportModalOpen && (
+        <ReportModal
+          key={`${post.id}-report`}
+          isOpen={isReportModalOpen}
+          closeModal={() => setIsReportModalOpen(false)}
+          postId={post.id}
         />
       )}
     </>

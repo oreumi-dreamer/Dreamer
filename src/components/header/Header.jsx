@@ -9,57 +9,46 @@ import useMediaQuery from "@/hooks/styling/useMediaQuery";
 import NarrowHeader from "./NarrowHeader";
 import useTheme from "@/hooks/styling/useTheme";
 import WritePost from "../write/WritePost";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 export default function Header() {
   const buttonRef = useRef(null);
   const { isOpen, modalType } = useSelector((state) => state.modal);
   const { isActive } = useSelector((state) => state.activeState);
+  const { user } = useSelector((state) => state.auth);
+  const { userId } = user || {};
   const { theme, changeTheme } = useTheme();
   const isNarrowHeader = useMediaQuery("(max-width: 1152px)");
   const dispatch = useDispatch();
   const router = useRouter();
+  const pathname = usePathname();
   const isLightMode =
     theme === "light" || localStorage.getItem("theme") === "light";
   const isDarkMode =
     theme === "dark" || localStorage.getItem("theme") === "dark";
 
-  const getActiveStateFromURL = (path) => {
-    switch (path) {
-      case "/":
-        return "홈";
-      case "/search":
-        return "검색";
-      case "/alarm":
-        return "알람";
-      case "/tomong":
-        return "토몽";
-      default:
-        if (/^\/[\wㄱ-ㅎ가-힣._~%\-]+$/.test(path)) {
-          return "프로필";
-        }
-        return "";
+  const getActiveStateFromURL = (pathname) => {
+    const decodedPath = decodeURIComponent(pathname);
+    if (pathname === "/") {
+      return "홈";
+    } else if (pathname === "/search") {
+      return "검색";
+    } else if (pathname === "/tomong") {
+      return "토몽 AI";
+    } else if (userId && decodedPath.includes(`/users/${userId}`)) {
+      return "프로필";
+    } else {
+      return "";
     }
   };
 
-  const handleURLChange = () => {
-    const currentPath = window.location.pathname;
-    const newActiveState = getActiveStateFromURL(currentPath);
-    dispatch(setActiveState(newActiveState));
-  };
-
-  // URL 변경 감지 및 상태 업데이트
   useEffect(() => {
-    handleURLChange(); // 초기 URL 상태 설정
-
-    window.addEventListener("popstate", handleURLChange);
-    return () => {
-      window.removeEventListener("popstate", handleURLChange);
-    };
-  }, []);
+    const newActiveState = getActiveStateFromURL(pathname);
+    dispatch(setActiveState(newActiveState));
+  }, [pathname, dispatch, userId, router.isReady]);
 
   useEffect(() => {
     dispatch(closeModal());
-  }, []);
+  }, [dispatch]);
 
   const handleActiveBtn = (btn) => {
     dispatch(setActiveState(btn));
@@ -110,10 +99,12 @@ export default function Header() {
             handleWriteBtnClick={handleWriteBtnClick}
             handleToggleBtn={handleToggleBtn}
           />
-          <WritePost
-            isWriteModalOpen={isWriteModalOpen}
-            closeWriteModal={closeWriteModal}
-          />
+          {isWriteModalOpen && (
+            <WritePost
+              isWriteModalOpen={isWriteModalOpen}
+              closeWriteModal={closeWriteModal}
+            />
+          )}
         </>
       ) : (
         <>
@@ -125,10 +116,12 @@ export default function Header() {
             handleWriteBtnClick={handleWriteBtnClick}
             handleToggleBtn={handleToggleBtn}
           />
-          <WritePost
-            isWriteModalOpen={isWriteModalOpen}
-            closeWriteModal={closeWriteModal}
-          />
+          {isWriteModalOpen && (
+            <WritePost
+              isWriteModalOpen={isWriteModalOpen}
+              closeWriteModal={closeWriteModal}
+            />
+          )}
         </>
       )}
     </>

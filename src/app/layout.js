@@ -5,7 +5,6 @@ import "../../public/fonts/NanumBarunPenB/NanumBarunPenB.css";
 import Providers from "@/components/Providers";
 import { metadataMaker } from "@/utils/metadata";
 import { themeScript } from "@/utils/themeScript";
-import { CustomScrollbar } from "@/components/Controls";
 import ThemeHandler from "@/components/theme/ThemeHandler";
 
 export const metadata = metadataMaker();
@@ -19,7 +18,6 @@ export default function RootLayout({ children }) {
       <body>
         <ThemeHandler>
           <Providers>{children}</Providers>
-          <CustomScrollbar />
         </ThemeHandler>
       </body>
     </html>

@@ -121,7 +121,6 @@
   .header-btn-container .nav-item {
     font-size: 2.2rem;
     margin-bottom: 2rem;
-    border-bottom: 2px solid transparent;
     width: 4rem;
     height: 4rem;
   }
@@ -191,7 +190,7 @@
   .header-btn-container {
     width: 100%;
     display: grid;
-    grid-template-columns: 4fr 2fr;
+    grid-template-columns: 3fr 2fr;
     justify-content: space-between;
     align-items: center;
     padding: 0;
@@ -233,16 +232,16 @@
   }
 
   .header nav ul li:last-child button {
-    width: 8.4rem;
-    height: 8.4rem;
+    width: 6.4rem;
+    height: 6.4rem;
     box-shadow:
       0 4px 6px -1px rgb(0 0 0 / 0.1),
       0 2px 4px -2px rgb(0 0 0 / 0.1);
   }
 
   .header nav ul li:last-child button img {
-    width: 4.8rem;
-    height: 4.8rem;
+    width: 3.2rem;
+    height: 3.2rem;
   }
 
   .header .nav-items * {

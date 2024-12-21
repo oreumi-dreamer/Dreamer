@@ -21,6 +21,7 @@
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+  word-break: break-all;
 }
 
 .comment-article:has(.comment-close):not(.comment-open) {
@@ -50,20 +51,54 @@
   left: 0.4rem;
 }
 
-.comment-info a {
+.author-id {
   color: var(--gray-font-color);
+  font-size: var(--small-text-font-size);
   margin-right: 0.4rem;
 }
-.comment-info a span {
-  font-size: var(--body-font-size);
+.author-name {
+  font-size: var(--body-text-font-size);
   color: var(--black-font-color);
 }
-.comment-info time {
+.time {
+  font-size: var(--small-text-font-size);
   color: var(--time-font-color);
 }
 .comment-info img {
   position: absolute;
   top: 0.7rem;
+}
+article:has(.long-comment-info) {
+  margin-top: 5rem;
+}
+.comment-info:has(.long-comment-info) {
+  font-size: var(--small-text-font-size);
+  top: -3.5rem;
+  display: flex;
+}
+
+.comment-info:has(.long-comment-info) .author-id,
+.comment-info:has(.long-comment-info) .author-name {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.comment-info:has(.long-comment-info) .author-name {
+  max-width: 8.8rem;
+}
+.comment-info:has(.long-comment-info) .author-id {
+  max-width: 8rem;
+}
+.comment-info:has(.long-comment-info) time,
+.comment-info:has(.long-comment-info) img {
+  position: absolute;
+  top: 0;
+  white-space: nowrap;
+}
+.comment-info:has(.long-comment-info) img {
+  top: 0.2rem;
+  right: -5.1rem;
 }
 
 .edit-delete-button {
@@ -90,4 +125,20 @@
 .edit-delete-button button:hover {
   color: rgba(0, 0, 0, 0.8);
   text-decoration: underline;
+}
+@media (max-width: 720px) {
+  .comment-info:has(.long-comment-info) .author-id,
+  .comment-info:has(.long-comment-info) .author-name {
+    max-width: 100%;
+  }
+  .comment-info:has(.long-comment-info) time,
+  .comment-info:has(.long-comment-info) img {
+    position: absolute;
+    top: 1.7rem;
+    right: -4rem;
+  }
+  .comment-info:has(.long-comment-info) img {
+    top: 1.9rem;
+    right: -5.2rem;
+  }
 }

@@ -27,8 +27,12 @@ main:has(.email-signup) {
 .input-container input.invalid {
   border: 0.2rem solid var(--invalid-border-color);
 }
+.input-container input:first-of-type {
+  padding-right: 15rem;
+}
 
-.input-container:first-of-type input {
+.email-input,
+.code-input {
   padding-right: 14rem;
 }
 
@@ -41,7 +45,8 @@ main:has(.email-signup) {
   color: var(--invalid-text-color);
 }
 
-.email-verify-btn {
+.email-verify-btn,
+.code-verify-btn {
   position: absolute;
   right: 6.9rem;
   top: 4.2rem;
@@ -57,7 +62,15 @@ main:has(.email-signup) {
   display: flex;
   justify-content: center;
   align-items: center;
-  filter: var(--filter-5f6368);
+  background-color: var(--signup-email-background-color);
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+}
+.email-login-button img {
+  filter: var(--filter-EEF0DE);
+  position: relative;
+  top: 0.15rem;
 }
 .next-btn {
   position: absolute;
@@ -70,4 +83,35 @@ main:has(.email-signup) {
   font-weight: bold;
   text-align: center;
   margin-bottom: 1.6rem;
+}
+@media (max-width: 720px) {
+  .input-container {
+    padding: 0 1.5rem;
+  }
+  .email-verify-btn,
+  .code-verify-btn {
+    right: 8.4rem;
+    top: 3.7rem;
+  }
+  .next-btn {
+    bottom: 1.6rem;
+    right: 2.5rem;
+    padding: 0.4rem 2rem;
+  }
+}
+@media (max-width: 480px) {
+  .input-container input {
+    max-height: 4.8rem;
+  }
+  .input-container input:first-of-type {
+    padding-right: 12rem;
+  }
+  .email-verify-btn,
+  .code-verify-btn {
+    padding: 0.6rem 1.2rem;
+  }
+  .invalid-text,
+  .user-login-field {
+    font-size: var(--small-text-font-size);
+  }
 }

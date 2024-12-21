@@ -1,4 +1,3 @@
-import Image from "next/image";
 import styles from "./SignupHeader.module.css";
 
 export default function SignupHeader() {

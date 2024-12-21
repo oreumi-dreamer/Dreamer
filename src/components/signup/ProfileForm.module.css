@@ -2,19 +2,24 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 2.4rem;
   position: relative;
   color: var(--black-font-color);
 }
 
 .profile-form p:first-of-type {
   font-size: var(--big-text-font-size);
+  font-weight: bold;
   margin-bottom: 1.6rem;
 }
 
 .profile-form p:nth-of-type(2) {
   font-size: var(--h3-font-size);
   margin-bottom: 2.4rem;
+}
+.profile-form fieldset {
+  width: 100%;
+  max-width: 54.6rem;
+  padding: 0 2.5rem;
 }
 
 .form-field:first-of-type {
@@ -84,7 +89,7 @@
 }
 
 .form-field:nth-of-type(2) textarea {
-  width: 49.6rem;
+  width: 100%;
   height: 8.8rem;
   background-color: var(--input-color);
   border: none;
@@ -181,14 +186,75 @@
   right: 4rem;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 720px) {
   .profile-form p:first-of-type {
     font-size: var(--h2-font-size);
+    margin: 0 0 0.5rem 0;
   }
+  .profile-form p:nth-of-type(2) {
+    font-size: var(--h3-font-size);
+    margin-bottom: 0.4rem;
+  }
+
+  .form-field:first-of-type {
+    margin-bottom: 1rem;
+  }
+
   .form-field:nth-of-type(2) textarea {
-    width: 100%;
+    margin-bottom: 3.2rem;
   }
-  .form-field:first-of-type span {
+
+  .form-field:nth-of-type(2) span {
+    bottom: 1rem;
+    right: 0.8rem;
+  }
+  .dark-mode {
+    margin-bottom: 2.8rem;
+  }
+  .buttons button {
+    bottom: -3.5rem;
+  }
+  .form-field:first-of-type img:not(button img) {
+    width: 12rem;
+    height: 12rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-form fieldset {
+    padding: 0;
+  }
+
+  .form-field:first-of-type img:not(button img) {
+    width: 10rem;
+    height: 10rem;
+  }
+  .form-field:first-of-type label {
+    padding: 0.6rem 1.6rem;
+  }
+  .form-field:first-of-type span,
+  .form-field:first-of-type label {
     font-size: var(--small-text-font-size);
+  }
+  .form-field:nth-of-type(2) span {
+    font-size: var(--small-text-font-size);
+  }
+
+  .buttons {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    column-gap: 1rem;
+  }
+
+  .buttons button {
+    position: inherit;
+    padding: 0.4rem 2rem;
+    border-radius: 5px;
+    font-size: var(--some-font-size);
+  }
+
+  .buttons button:nth-child(2) {
+    margin-left: auto;
   }
 }

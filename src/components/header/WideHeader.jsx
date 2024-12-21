@@ -20,7 +20,7 @@ export default function WideHeader({
 }) {
   const { isOpen } = useSelector((state) => state.modal);
   const { user } = useSelector((state) => state.auth);
-  const { userId, userName, profileImageUrl } = user;
+  const { userId, profileImageUrl } = user;
   const [modalStyle, setModalStyle] = useState({});
   const modalRef = useRef(null);
   const dispatch = useDispatch();
@@ -37,7 +37,6 @@ export default function WideHeader({
   const navItems = [
     { label: "홈", className: "home-btn", href: "/" },
     { label: "검색", className: "search-btn", href: "/search" },
-    { label: "알람", className: "alarm-btn", href: "/alarm" },
     { label: "토몽 AI", className: "tomong-btn", href: "/tomong" },
   ];
 
@@ -48,7 +47,7 @@ export default function WideHeader({
         const modalHeight = 295;
         const position = {
           position: "absolute",
-          top: `${buttonRect.top - modalHeight*2}px`,
+          top: `${buttonRect.top - modalHeight * 2}px`,
           left: `${buttonRect.left - 100}px`,
           zIndex: "10",
         };
@@ -57,7 +56,7 @@ export default function WideHeader({
         }
       };
 
-      updatePosition(); // Initial position update
+      updatePosition();
       window.addEventListener("resize", updatePosition);
 
       const cleanup = outsideClickModalClose(modalRef, buttonRef, () => {
@@ -120,7 +119,7 @@ export default function WideHeader({
           </ul>
         </nav>
         <Link
-          href={`/${userId}`}
+          href={`/users/${userId}`}
           className={`${styles["nav-item"]} ${styles["profile-btn"]} ${isActive === "프로필" ? styles.active : ""}`}
           onClick={() => handleActiveBtn("프로필")}
         >
@@ -131,7 +130,7 @@ export default function WideHeader({
             width={40}
             height={40}
           />
-          <p>{userName}</p>
+          <p>내 프로필</p>
         </Link>
         <button
           className={`${styles["nav-item"]} ${styles["more-btn"]} ${isOpen ? styles.active : ""}`}

@@ -7,6 +7,156 @@ import Link from "next/link";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
+import { auth } from "@/lib/firebase";
+
+export const CustomScrollbar = ({ containerRef, trackStyle }) => {
+  // 상수 정의
+  const TRACK_PADDING = 5; // px
+  const TOTAL_PADDING = TRACK_PADDING * 2;
+
+  const thumbRef = useRef(null);
+  const [thumbHeight, setThumbHeight] = useState(0);
+  const [thumbTop, setThumbTop] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startY, setStartY] = useState(0);
+  const [startScrollTop, setStartScrollTop] = useState(0);
+  const [container, setContainer] = useState(null);
+
+  const calculateThumbSize = useCallback(() => {
+    if (!container) return;
+
+    const scrollHeight = container.scrollHeight;
+    const clientHeight = container.clientHeight;
+    const trackHeight = clientHeight - TOTAL_PADDING;
+
+    const heightPercentage = (clientHeight / scrollHeight) * 100;
+    const minHeight = 20;
+    const calculatedHeight = Math.max(
+      minHeight,
+      (trackHeight * heightPercentage) / 100
+    );
+
+    setThumbHeight(calculatedHeight);
+  }, [container]);
+
+  const handleScroll = useCallback(() => {
+    if (!container || isDragging) return;
+
+    const scrollHeight = container.scrollHeight;
+    const clientHeight = container.clientHeight;
+    const scrollTop = container.scrollTop;
+    const trackHeight = clientHeight - thumbHeight - TOTAL_PADDING;
+
+    const scrollDistance = scrollHeight - clientHeight;
+    const percentage = scrollDistance > 0 ? scrollTop / scrollDistance : 0;
+    const newThumbTop = Math.min(
+      Math.max(TRACK_PADDING, percentage * trackHeight + TRACK_PADDING),
+      trackHeight + TRACK_PADDING
+    );
+
+    setThumbTop(newThumbTop);
+  }, [container, isDragging, thumbHeight]);
+
+  useEffect(() => {
+    // containerRef를 통해 직접 요소 참조
+    const element = containerRef?.current;
+    if (!element) return;
+
+    setContainer(element);
+    const resizeObserver = new ResizeObserver(() => {
+      requestAnimationFrame(() => {
+        calculateThumbSize();
+        handleScroll();
+      });
+    });
+
+    resizeObserver.observe(element);
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, [calculateThumbSize, handleScroll, containerRef]);
+
+  useEffect(() => {
+    if (!container) return;
+
+    const scrollHandler = () => {
+      requestAnimationFrame(() => {
+        handleScroll();
+      });
+    };
+
+    container.addEventListener("scroll", scrollHandler);
+    return () => container.removeEventListener("scroll", scrollHandler);
+  }, [container, handleScroll]);
+
+  const handleMouseDown = (e) => {
+    e.preventDefault();
+    setIsDragging(true);
+    setStartY(e.clientY);
+    setStartScrollTop(container.scrollTop);
+  };
+
+  useEffect(() => {
+    if (!isDragging) return;
+
+    const handleMouseMove = (e) => {
+      const deltaY = e.clientY - startY;
+      const scrollHeight = container.scrollHeight;
+      const clientHeight = container.clientHeight;
+      const trackHeight = clientHeight - thumbHeight;
+
+      const percentage = deltaY / trackHeight;
+      const scrollDistance = scrollHeight - clientHeight;
+      const newScrollTop = Math.min(
+        Math.max(0, startScrollTop + percentage * scrollDistance),
+        scrollDistance
+      );
+
+      container.scrollTop = newScrollTop;
+
+      const thumbPercentage = newScrollTop / scrollDistance;
+      const newThumbTop = Math.min(
+        Math.max(0, thumbPercentage * trackHeight),
+        trackHeight
+      );
+
+      setThumbTop(newThumbTop);
+    };
+
+    const handleMouseUp = () => {
+      setIsDragging(false);
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [isDragging, startY, startScrollTop, thumbHeight, container]);
+
+  if (container && container.scrollHeight <= container.clientHeight) {
+    return null;
+  }
+
+  return (
+    <div className={styles["scrollbar-track"]} style={trackStyle}>
+      <div
+        ref={thumbRef}
+        className={styles["scrollbar-thumb"]}
+        style={{
+          height: `${thumbHeight}px`,
+          top: `${thumbTop}px`,
+        }}
+        onMouseDown={handleMouseDown}
+        role="presentation"
+        aria-hidden="true"
+      />
+    </div>
+  );
+};
 
 export function Button({
   highlight,
@@ -55,16 +205,32 @@ export function ButtonLabel({ highlight, children, htmlFor }) {
   );
 }
 
-export function ButtonLink({ highlight, children, href }) {
+export function ButtonLink({ highlight, children, disabled, href, type }) {
   const buttonClass = highlight
     ? `${styles["button-highlight"]} ${styles["button"]}`
     : styles["button"];
 
-  return (
-    <a href={href} className={buttonClass}>
-      {children}
-    </a>
-  );
+  if (disabled) {
+    return (
+      <button className={buttonClass} disabled>
+        {children}
+      </button>
+    );
+  }
+
+  if (type === "a") {
+    return (
+      <a href={href} className={buttonClass}>
+        {children}
+      </a>
+    );
+  } else {
+    return (
+      <Link href={href} className={buttonClass}>
+        {children}
+      </Link>
+    );
+  }
 }
 
 export function Input({
@@ -75,6 +241,9 @@ export function Input({
   disabled,
   id,
   onBlur,
+  minLength,
+  maxLength,
+  onKeyDown,
 }) {
   let inputClass = styles["input"];
   if (type === "text" || type === "password" || type === "email") {
@@ -91,6 +260,9 @@ export function Input({
       disabled={disabled}
       style={background === "white" ? { backgroundColor: "white" } : {}}
       onBlur={onBlur}
+      onKeyDown={onKeyDown}
+      minLength={minLength}
+      maxLength={maxLength}
     />
   );
 }
@@ -255,32 +427,42 @@ export function Select({
       )}
 
       {isOpen && (
-        <ul
-          ref={listboxRef}
-          role="listbox"
-          aria-labelledby={`${id}-label`}
-          className={styles.optionsList}
-          tabIndex={-1}
-          style={background === "white" ? { backgroundColor: "white" } : {}}
-        >
-          {options.map((option, index) => (
-            <li
-              key={option.value}
-              ref={optionRefs.current[index]}
-              role="option"
-              aria-selected={selectedOption === option.value}
-              className={`${styles.option} ${focusedIndex === index ? styles.focused : ""}`}
-              onClick={(e) => handleOptionClick(option, e)}
-              onMouseEnter={() => setFocusedIndex(index)}
-              tabIndex={0}
-              onKeyDown={handleKeyDown}
-            >
-              {option.label}
-            </li>
-          ))}
-        </ul>
+        <div className={styles.dropdownContainer}>
+          <ul
+            ref={listboxRef}
+            role="listbox"
+            aria-labelledby={`${id}-label`}
+            className={styles.optionsList}
+            tabIndex={-1}
+            style={{
+              ...(background === "white" ? { backgroundColor: "white" } : {}),
+              maxHeight: "200px",
+            }}
+          >
+            {options.map((option, index) => (
+              <li
+                key={option.value}
+                ref={optionRefs.current[index]}
+                role="option"
+                aria-selected={selectedOption === option.value}
+                className={`${styles.option} ${
+                  focusedIndex === index ? styles.focused : ""
+                }`}
+                onClick={(e) => handleOptionClick(option, e)}
+                onMouseEnter={() => setFocusedIndex(index)}
+                tabIndex={0}
+                onKeyDown={handleKeyDown}
+              >
+                {option.label}
+              </li>
+            ))}
+          </ul>
+          <CustomScrollbar
+            containerRef={listboxRef}
+            trackStyle={{ top: "calc(100% + 0.5rem)" }}
+          />
+        </div>
       )}
-
       <select
         name={name}
         value={selectedOption}
@@ -298,13 +480,13 @@ export function Select({
   );
 }
 
-export function Checkbox({ type, background, value, onChange, children }) {
+export function Checkbox({ type, background, checked, onChange, children }) {
   if (type === "col") {
     return (
       <label className={`${styles["checkbox"]} ${styles["checkbox-col"]}`}>
         <input
           type="checkbox"
-          value={value}
+          checked={checked}
           onChange={onChange}
           className={styles["checkbox"]}
           style={background === "white" ? { backgroundColor: "white" } : {}}
@@ -317,7 +499,7 @@ export function Checkbox({ type, background, value, onChange, children }) {
       <label className={styles["checkbox"]}>
         <input
           type="checkbox"
-          value={value}
+          checked={checked}
           onChange={onChange}
           className={styles["checkbox"]}
           style={background === "white" ? { backgroundColor: "white" } : {}}
@@ -339,173 +521,6 @@ export function LoginForm({ onSubmit, className, children }) {
     </form>
   );
 }
-
-export const CustomScrollbar = () => {
-  const thumbRef = useRef(null);
-  const [thumbHeight, setThumbHeight] = useState(0);
-  const [thumbTop, setThumbTop] = useState(0);
-  const [isDragging, setIsDragging] = useState(false);
-  const [startY, setStartY] = useState(0);
-  const [startScrollTop, setStartScrollTop] = useState(0);
-  const [container, setContainer] = useState(null);
-
-  const calculateThumbSize = useCallback(() => {
-    if (!container) return;
-
-    // 전체 문서의 높이와 viewport 높이를 사용
-    const documentHeight = container.offsetHeight; // 컨테이너의 전체 높이
-    const viewportHeight = window.innerHeight; // viewport 높이
-
-    const heightPercentage = (viewportHeight / documentHeight) * 100;
-    const minHeight = 20;
-    const calculatedHeight = Math.max(
-      minHeight,
-      (viewportHeight * heightPercentage) / 100
-    );
-
-    setThumbHeight(calculatedHeight);
-  }, [container]);
-
-  const handleScroll = useCallback(() => {
-    if (!container || isDragging) return;
-
-    const documentHeight = container.offsetHeight;
-    const viewportHeight = window.innerHeight;
-    const scrollTop = window.scrollY;
-    const trackHeight = viewportHeight - thumbHeight;
-
-    // scrollDistance 추가
-    const scrollDistance = documentHeight - viewportHeight;
-
-    // percentage 계산 수정
-    const percentage = scrollDistance > 0 ? scrollTop / scrollDistance : 0;
-
-    // thumbTop 계산 수정
-    const newThumbTop = Math.min(
-      Math.max(0, percentage * trackHeight),
-      trackHeight
-    );
-
-    setThumbTop(newThumbTop);
-  }, [container, isDragging, thumbHeight]);
-
-  useEffect(() => {
-    const htmlElement = document.querySelector("body");
-    if (!htmlElement) return;
-
-    setContainer(htmlElement);
-    const resizeObserver = new ResizeObserver(() => {
-      requestAnimationFrame(() => {
-        calculateThumbSize();
-        handleScroll();
-      });
-    });
-
-    resizeObserver.observe(htmlElement);
-
-    const handleResize = () => {
-      requestAnimationFrame(() => {
-        calculateThumbSize();
-        handleScroll();
-      });
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    // 초기 계산
-    calculateThumbSize();
-    handleScroll();
-
-    return () => {
-      resizeObserver.disconnect();
-      window.removeEventListener("resize", handleResize);
-    };
-  }, [calculateThumbSize, handleScroll]);
-
-  useEffect(() => {
-    if (!container) return;
-
-    // 스크롤 이벤트 핸들러를 별도 함수로 분리
-    const scrollHandler = () => {
-      requestAnimationFrame(() => {
-        handleScroll();
-      });
-    };
-
-    window.addEventListener("scroll", scrollHandler);
-    return () => window.removeEventListener("scroll", scrollHandler);
-  }, [container, handleScroll]);
-
-  const handleMouseDown = (e) => {
-    e.preventDefault();
-    setIsDragging(true);
-    setStartY(e.clientY);
-    setStartScrollTop(window.scrollY); // container.scrollTop 대신 window.scrollY 사용
-  };
-
-  useEffect(() => {
-    if (!isDragging) return;
-
-    const handleMouseMove = (e) => {
-      const deltaY = e.clientY - startY;
-      const documentHeight = container.offsetHeight;
-      const viewportHeight = window.innerHeight;
-      const trackHeight = viewportHeight - thumbHeight;
-
-      // 스크롤바 위치 계산
-      const percentage = deltaY / trackHeight;
-      const scrollDistance = documentHeight - viewportHeight;
-      const newScrollTop = Math.min(
-        Math.max(0, startScrollTop + percentage * scrollDistance),
-        scrollDistance
-      ); // 스크롤 위치를 0과 최대값 사이로 제한
-
-      window.scrollTo(0, newScrollTop);
-
-      // 스크롤바 thumb의 위치도 제한하여 업데이트
-      const thumbPercentage = newScrollTop / scrollDistance;
-      const newThumbTop = Math.min(
-        Math.max(0, thumbPercentage * trackHeight),
-        trackHeight
-      ); // thumb 위치를 0과 track 높이 사이로 제한
-
-      setThumbTop(newThumbTop);
-    };
-
-    const handleMouseUp = () => {
-      setIsDragging(false);
-    };
-
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mouseup", handleMouseUp);
-
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mouseup", handleMouseUp);
-    };
-  }, [isDragging, startY, startScrollTop, thumbHeight, container]);
-
-  // 스크롤이 필요 없는 경우 스크롤바를 숨김
-  if (container && container.offsetHeight <= window.innerHeight) {
-    return null;
-  }
-
-  return (
-    <div className={styles["scrollbar-track"]}>
-      <div
-        ref={thumbRef}
-        className={styles["scrollbar-thumb"]}
-        style={{
-          height: `${thumbHeight}px`,
-          top: `${thumbTop}px`,
-        }}
-        onMouseDown={handleMouseDown}
-        role="presentation"
-        aria-hidden="true"
-      />
-    </div>
-  );
-};
 
 export function Divider({ className }) {
   const dividerClass = className
@@ -731,7 +746,7 @@ export function UsersList({
         {!isLoading &&
           users.map((user) => (
             <li key={user.userId}>
-              <Link href={`/${user.userId}`}>
+              <Link href={`/users/${user.userId}`} onClick={handleClose}>
                 <img
                   src={
                     user.profileImageUrl
@@ -765,3 +780,176 @@ export function UsersList({
     </dialog>
   );
 }
+
+export function WithdrawModal({ isOpen, closeModal, userId }) {
+  const dialogRef = useRef(null);
+  const [step, setStep] = useState(1);
+  const [confirmUserId, setConfirmUserId] = useState("");
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    const html = document.querySelector("html");
+    if (isOpen) {
+      dialog?.showModal();
+      html.style.overflowY = "hidden";
+    } else {
+      html.style.overflowY = "scroll";
+      dialog?.close();
+      // 모달이 닫힐 때 상태 초기화
+      setStep(1);
+      setConfirmUserId("");
+      setError("");
+    }
+  }, [isOpen]);
+
+  const handleClose = () => {
+    const html = document.querySelector("html");
+    html.style.overflowY = "scroll";
+    closeModal();
+  };
+
+  // 백드롭 클릭을 감지하는 이벤트 핸들러
+  const handleClick = (e) => {
+    const dialogDimensions = dialogRef.current?.getBoundingClientRect();
+    if (dialogDimensions) {
+      const isClickedInDialog =
+        e.clientX >= dialogDimensions.left &&
+        e.clientX <= dialogDimensions.right &&
+        e.clientY >= dialogDimensions.top &&
+        e.clientY <= dialogDimensions.bottom;
+
+      if (!isClickedInDialog) {
+        handleClose();
+      }
+    }
+  };
+
+  const handleWithdraw = async () => {
+    if (confirmUserId !== userId) {
+      setError("아이디가 일치하지 않습니다.");
+      return;
+    }
+
+    try {
+      // API 호출을 통한 회원 탈퇴 처리
+      const response = await fetchWithAuth("/api/auth/withdraw", {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(
+          error.error || "회원 탈퇴 처리 중 오류가 발생했습니다."
+        );
+      }
+
+      // 성공 시 처리
+      alert(
+        "회원 탈퇴가 완료되었습니다.\n그동안 DREMAER를 이용해 주셔서 감사합니다."
+      );
+      location.href = "/logout";
+    } catch (error) {
+      setError(error.message);
+      console.error("Withdraw error:", error);
+    }
+  };
+
+  return (
+    <dialog
+      ref={dialogRef}
+      className={styles["withdraw-modal"]}
+      onClick={handleClick}
+    >
+      <button onClick={handleClose} className={styles["btn-close"]}>
+        <img src="/images/close-without-padding.svg" alt="닫기" />
+      </button>
+
+      {step === 1 ? (
+        <div
+          className={styles["modal-content"]}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <h2>회원 탈퇴</h2>
+          <p>정말로 탈퇴하시겠습니까?</p>
+          <p className={styles["warning-text"]}>
+            탈퇴하시면 모든 데이터가 삭제되며, 복구할 수 없습니다.
+          </p>
+          <div className={styles["button-group"]}>
+            <Button onClick={() => setStep(2)} highlight={true}>
+              예
+            </Button>
+            <Button onClick={handleClose}>아니오</Button>
+          </div>
+        </div>
+      ) : (
+        <div
+          className={styles["modal-content"]}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <h2>회원 탈퇴 확인</h2>
+          <p>
+            회원 탈퇴를 진행하시려면 아이디를 입력해주세요.
+            <br />이 작업은 취소할 수 없습니다.
+          </p>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleWithdraw();
+            }}
+          >
+            <div className={styles["input-group"]}>
+              <Input
+                type="text"
+                value={confirmUserId}
+                onChange={(e) => setConfirmUserId(e.target.value)}
+                placeholder={userId}
+                required
+              />
+            </div>
+            {error && <p className={styles.error}>{error}</p>}
+            <div className={styles["button-group"]}>
+              <Button type="button" onClick={() => setStep(1)}>
+                이전
+              </Button>
+              <Button type="submit" highlight={true}>
+                확인
+              </Button>
+            </div>
+          </form>
+        </div>
+      )}
+    </dialog>
+  );
+}
+
+export const CommonModal = ({ isOpen, closeModal, children }) => {
+  const dialogRef = useRef(null);
+
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    const html = document.querySelector("html");
+    if (isOpen) {
+      dialog?.showModal();
+      html.style.overflowY = "hidden";
+    } else {
+      html.style.overflowY = "scroll";
+      dialog?.close();
+    }
+  }, [isOpen]);
+
+  const handleClose = () => {
+    const html = document.querySelector("html");
+    html.style.overflowY = "scroll";
+    closeModal();
+  };
+
+  return (
+    <dialog ref={dialogRef} className={styles["common-modal"]}>
+      <button onClick={handleClose} className={styles["btn-close"]}>
+        <img src="/images/close-without-padding.svg" alt="닫기" />
+      </button>
+      {children}
+    </dialog>
+  );
+};

@@ -22,6 +22,7 @@ const MoodModal = forwardRef(
         dialogRef.current.close();
       }
     }, [isModalOpen]);
+
     const handleBackgroundClick = (e) => {
       if (e.target === e.currentTarget) {
         onConfirm(selectedMoods);
@@ -32,14 +33,17 @@ const MoodModal = forwardRef(
     const maxSelect = 5;
 
     const handleCheckboxChange = (item) => {
-      if (selectedMoods.includes(item)) {
-        setSelectedMoods((prev) => prev.filter((i) => i !== item));
+      const isSelected = selectedMoods.some((mood) => mood.id === item.id);
+
+      if (isSelected) {
+        setSelectedMoods((prev) => prev.filter((mood) => mood.id !== item.id));
       } else {
         if (selectedMoods.length < maxSelect) {
           setSelectedMoods((prev) => [...prev, item]);
         }
       }
     };
+
     const handleConfirm = () => {
       onConfirm(selectedMoods);
       closeModal();
@@ -73,12 +77,12 @@ const MoodModal = forwardRef(
                 <li key={item.id}>
                   <input
                     type="checkbox"
-                    checked={selectedMoods.includes(item)}
+                    checked={selectedMoods.some((mood) => mood.id === item.id)}
                     onChange={() => handleCheckboxChange(item)}
                     className={styles["hashtag-picker"]}
                     id={item.id}
                   />
-                  <label for={item.id}>{item.text}</label>
+                  <label htmlFor={item.id}>{item.text}</label>
                 </li>
               ))}
             </ul>
@@ -92,5 +96,7 @@ const MoodModal = forwardRef(
     );
   }
 );
+
+MoodModal.displayName = "MoodModal";
 
 export default MoodModal;

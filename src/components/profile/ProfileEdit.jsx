@@ -8,10 +8,9 @@ import {
   Select,
   Textarea,
 } from "../Controls";
-import { useRouter } from "next/navigation";
 import { loginSuccess } from "@/store/authSlice";
 import { useDispatch } from "react-redux";
-import useTheme from "@/hooks/styling/useTheme";
+import Loading from "../Loading";
 
 export default function ProfileEdit({
   profile,
@@ -24,18 +23,16 @@ export default function ProfileEdit({
   const [userName, setUserName] = useState(profile.name);
   const [userId, setUserId] = useState(profile.id);
   const [bio, setBio] = useState(profile.bio);
-
   const birthDate = new Date(profile.birthDate);
-
   const [year, setYear] = useState(birthDate.getFullYear());
   const [month, setMonth] = useState(birthDate.getMonth() + 1);
   const [day, setDay] = useState(birthDate.getDate());
   const [lastDay, setLastDay] = useState(31);
   const [isPrivate, setIsPrivate] = useState(profile.isPrivate);
-
   const [newImage, setNewImage] = useState(null);
-
-  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isUserIdValid, setIsUserIdValid] = useState(false);
+  const [isUserNameValid, setIsUserNameValid] = useState(false);
   const dispatch = useDispatch();
 
   const handleNewImage = (e) => {
@@ -60,7 +57,20 @@ export default function ProfileEdit({
         setDay(newLastDay);
       }
     }
-  }, [year, month]);
+    const idPattern = /^[a-z0-9]{4,20}$/;
+    !idPattern.test(userId) ? setIsUserIdValid(false) : setIsUserIdValid(true);
+
+    userName.length < 2 || userName.length > 20
+      ? setIsUserNameValid(false)
+      : setIsUserNameValid(true);
+  }, [year, month, userId, userName]);
+
+  useEffect(() => {
+    setProfile((pervProfile) => ({
+      ...pervProfile,
+      isPrivate: isPrivate,
+    }));
+  }, [isPrivate, setProfile]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -91,13 +101,13 @@ export default function ProfileEdit({
 
     // API 호출
     try {
+      setIsLoading(true);
       const res = await fetchWithAuth("/api/account/modify", {
         method: "PUT",
         body: body,
       });
 
       const data = await res.json();
-
       if (!res.ok) {
         throw new Error(data.message || "프로필 수정에 실패했습니다.");
       }
@@ -109,18 +119,19 @@ export default function ProfileEdit({
             userName: userName,
             bio: bio,
             profileImageUrl: data.profileImageUrl,
+            isPrivate: isPrivate,
           },
         })
       );
 
-      alert("프로필이 성공적으로 수정되었습니다!"); // 임시로 alert를 사용함
+      // alert("프로필이 성공적으로 수정되었습니다!"); // 임시로 alert를 사용함
       if (newImage) {
         setProfile({
           ...profile,
           name: userName,
           id: userId,
           bio,
-          isPrivate,
+          isPrivate: isPrivate,
           birthDate: new Date(year, month - 1, day),
           profileImageUrl: newImage,
         });
@@ -130,19 +141,21 @@ export default function ProfileEdit({
           name: userName,
           id: userId,
           bio,
-          isPrivate,
+          isPrivate: isPrivate,
           birthDate: new Date(year, month - 1, day),
         });
       }
       setIsEdit(false);
-      router.push(`/${userId}`);
+      location.href = `/users/${userId}`;
     } catch (err) {
       alert(err.message); // 임시로 alert를 사용함
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <article className={styles["profile-wrap"]}>
+    <article className={styles["edit-profile-wrap"]}>
       <h2 className="sr-only">프로필 편집</h2>
       <form onSubmit={handleSubmit} className={styles["profile-form"]}>
         <fieldset className={styles["profile-form-pic"]}>
@@ -155,8 +168,8 @@ export default function ProfileEdit({
                   : "/images/rabbit.svg"
             }
             className={styles["profile-image"]}
-            width={160}
-            height={160}
+            width={150}
+            height={150}
             alt={profile.name + "님의 프로필 이미지"}
           />
           <ButtonLabel highlight={true}>
@@ -165,21 +178,31 @@ export default function ProfileEdit({
           </ButtonLabel>
         </fieldset>
         <fieldset className={styles["profile-form-info"]}>
-          <label>
+          <label className={styles["relative"]}>
             이름
+            <span className={styles.validation}>* 2~20자로 입력해주세요.</span>
             <Input
               type="text"
               value={userName}
               onChange={(e) => setUserName(e.target.value)}
+              minLength={2}
+              maxLength={20}
             />
+            <span className={styles["char-limits"]}>{userName.length}/20</span>
           </label>
-          <label>
+          <label className={styles["relative"]}>
             아이디
+            <span className={styles.validation}>
+              * 4~20자의 영문 소문자, 숫자로 입력해주세요.
+            </span>
             <Input
               type="text"
               value={userId}
               onChange={(e) => setUserId(e.target.value)}
+              minLength={4}
+              maxLength={20}
             />
+            <span className={styles["char-limits"]}>{userId.length}/20</span>
           </label>
           <label className={styles["relative"]}>
             한줄소개
@@ -229,8 +252,8 @@ export default function ProfileEdit({
                 />
                 <Checkbox
                   type="col"
-                  value={isPrivate}
-                  onChange={(e) => setIsPrivate(e.target.value)}
+                  checked={isPrivate}
+                  onChange={(e) => setIsPrivate(e.target.checked)}
                 >
                   비공개
                 </Checkbox>
@@ -238,17 +261,29 @@ export default function ProfileEdit({
             </label>
           </div>
           <div className={styles["form-btn-row"]}>
-            <Button
-              onClick={(e) => {
-                e.preventDefault();
-                setIsEdit(false);
-              }}
-            >
-              취소
-            </Button>
-            <Button type="submit" highlight={true}>
-              수정 완료
-            </Button>
+            {isLoading ? (
+              <button type="button">
+                <Loading type="miniCircle" className={styles["loading"]} />
+              </button>
+            ) : (
+              <>
+                <Button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setIsEdit(false);
+                  }}
+                >
+                  취소
+                </Button>
+                <Button
+                  type="submit"
+                  highlight={true}
+                  disabled={!isUserIdValid || !isUserNameValid}
+                >
+                  수정 완료
+                </Button>
+              </>
+            )}
           </div>
         </fieldset>
       </form>

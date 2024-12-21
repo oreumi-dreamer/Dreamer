@@ -42,6 +42,10 @@
   --option-hover-color: #ccc;
   --focus-border-color: #a54cb4;
   --delete-btn-background: rgba(200, 200, 200, 0.75);
+  --mainPost-img-overlay: rgba(0, 0, 0, 60%);
+  --reverse-black-font-color: #eef0de;
+  --profile-bio: #f89b9b20;
+
   --tomong-stamp-half-opacity: 0.5;
   --tomong-stamp-one-fifth-opacity: 0.2;
   --tomong-list-item-background: #fff;
@@ -63,6 +67,7 @@
   --email-login-btn-active-text-color: #fff;
   --email-button-color: none;
   --email-verify-btn-color: #77777b;
+  --signup-email-background-color: none;
   --invalid-border-color: #f41e1e;
   --invalid-text-color: #a12525;
 }
@@ -77,6 +82,7 @@
     --background-gray: rgba(149, 149, 149, 0.5);
     --background-dimmed: rgba(17, 17, 17, 0.4);
     --background-dark: #242424;
+    --background-mobile-header: #242424;
     --none-active-color: #959595;
     --black-font-color: #e0e0e0;
     --gray-font-color: #eef0de40;
@@ -117,8 +123,11 @@
     --email-login-btn-active-color: #2a2a3c;
     --email-login-btn-active-text-color: #eef0de;
     --email-button-color: rgba(17, 4, 4, 0.2);
+    --signup-email-background-color: #373737;
     --invalid-border-color: #ba5b5b;
     --invalid-text-color: #ba5b5b;
+    --reverse-black-font-color: #141420;
+    --profile-bio: #95959530;
   }
 }
 
@@ -131,6 +140,7 @@
   --background-gray: rgba(149, 149, 149, 0.5);
   --background-dimmed: rgba(17, 17, 17, 0.4);
   --background-dark: #242424;
+  --background-mobile-header: #242424;
   --none-active-color: #959595;
   --black-font-color: #e0e0e0;
   --gray-font-color: #eef0de40;
@@ -169,25 +179,18 @@
   --email-login-btn-active-color: #2a2a3c;
   --email-login-btn-active-text-color: #eef0de;
   --email-button-color: rgba(232, 232, 232, 0.2);
+  --signup-email-background-color: #373737;
   --invalid-border-color: #ba5b5b;
   --invalid-text-color: #ba5b5b;
+  --reverse-black-font-color: #141420;
+  --profile-bio: #95959520;
 }
 
 html {
   font-size: 62.5%;
   font-family: var(--font-family);
-  /* overflow: hidden; */
-  scrollbar-width: none;
   height: 100%;
   overflow-y: auto;
-}
-
-html[data-theme="light"] {
-  filter: none;
-}
-
-html::-webkit-scrollbar {
-  display: none;
 }
 
 html,
@@ -195,7 +198,6 @@ body {
   max-width: 100vw;
   overflow-x: hidden;
   background-color: var(--background-color);
-  overscroll-behavior: none;
 }
 
 body {
@@ -203,18 +205,22 @@ body {
   font-size: var(--body-font-size);
   line-height: 1.44;
   letter-spacing: 0.03em;
+  position: relative;
 }
 
 body:has(header):has(main):has(footer) {
-  display: flex;
-  justify-content: space-evenly;
-  flex-wrap: nowrap;
-  width: 100vw;
+  width: 100%;
+  min-height: 100%;
   height: auto;
   background-color: var(--background-color);
   column-gap: 6.4rem;
-  padding-left: calc(32rem);
-  padding-right: 6.4rem;
+  padding-left: 32rem;
+  padding-right: 26rem;
+}
+
+body {
+  width: 100%;
+  height: 100%;
 }
 
 main {
@@ -222,7 +228,27 @@ main {
 }
 
 body:has(header):has(main):has(footer) main {
-  padding: 16.6rem 0 16.6rem 6.4rem;
+  padding: 16.6rem 6.4rem 16.6rem 6.4rem;
+}
+
+/* 404 페이지에서는 padding을 0으로 설정 */
+body:has(#not-found-wrap) {
+  padding: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* 404 페이지에서는 header, footer를 숨김 처리 */
+body:has(#not-found-wrap) header,
+body:has(#not-found-wrap) footer {
+  display: none;
+}
+
+body:has(header):has(main):has(footer) footer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20rem;
 }
 
 * {
@@ -260,23 +286,24 @@ body:has(header):has(main):has(footer) main {
   }
 }
 
-@media (max-width: 860px) {
-  body:has(header):has(main):has(footer) main {
-    padding: 16.6rem 0 16.6rem 0;
-  }
-}
-
-@media (max-width: 860px) {
+@media (max-width: 969px) {
   body:has(header):has(main):has(footer) {
     flex-direction: column;
-    width: max-content;
+    width: 100%;
     min-height: 100dvh;
     display: grid;
+    justify-content: center;
+    grid-template-columns: 1fr;
     grid-template-rows: 1fr auto;
+    padding-right: 0;
   }
 
   body:has(header):has(main):has(footer) main {
-    padding: 16.6rem 0 0 6.4rem;
+    padding-top: 16.6rem;
+  }
+
+  body:has(header):has(main):has(footer) footer {
+    position: inherit;
   }
 
   html body:has(header):has(main.no-posts):has(footer) footer {
@@ -286,16 +313,44 @@ body:has(header):has(main):has(footer) main {
 }
 
 @media (max-width: 720px) {
-  body:has(header):has(main):has(footer) {
+  :root {
+    --h2-font-size: 2rem;
+    --some-font-size: 1.4rem;
+  }
+
+  html:has(header):has(main):has(footer) {
+    width: 100vw;
+    height: 100dvh;
+  }
+
+  body {
+    width: inherit;
     padding-left: 6.4rem;
     padding-right: 6.4rem;
   }
 
-  html body:has(header):has(main):has(footer) main {
+  body:has(main#loading-wrapper) {
+    overflow: hidden;
+  }
+
+  body:has(header):has(main):has(footer) {
+    width: 100vw;
+    padding-left: 3.2rem;
+    padding-right: 3.2rem;
+  }
+
+  body:has(header):has(main):has(footer) main {
+    width: 100%;
     padding: 3rem 0 3rem 0;
   }
 
   html body:has(header):has(main):has(footer) footer {
     padding-bottom: 6rem;
+  }
+}
+
+@media (max-width: 499px) {
+  body:has(header):has(main):has(footer) {
+    padding: 0 2rem;
   }
 }

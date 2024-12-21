@@ -3,6 +3,8 @@ import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 import useTheme from "@/hooks/styling/useTheme";
 import { MyPost, OtherPost } from "../dropDown/DropDown";
 import { outsideClickModalClose } from "@/utils/outsideClickModalClose";
+import WritePost from "../write/WritePost";
+import ReportModal from "../report/Report";
 
 export default function PostList({
   posts,
@@ -17,6 +19,7 @@ export default function PostList({
   const [modalType, setModalType] = useState(null);
   const [modalStyle, setModalStyle] = useState({});
   const [activePostId, setActivePostId] = useState(null);
+
   const modalRef = useRef(null);
   const buttonRef = useRef(null);
 
@@ -30,6 +33,18 @@ export default function PostList({
       };
     }
   }, [modalRef, buttonRef, isOpen]);
+
+  const [isWriteModalOpen, setIsWriteModalOpen] = useState(false);
+  const [modifyPostId, setModifyPostId] = useState(null);
+  const closeWriteModal = () => {
+    setIsWriteModalOpen(false);
+  };
+
+  const modifyHandler = (postId) => {
+    setModifyPostId(postId);
+    setIsWriteModalOpen(true);
+  };
+
   const togglePostPrivacy = async (postId, postIsPrivate) => {
     setIsOpen(false);
     try {
@@ -122,41 +137,52 @@ export default function PostList({
     tomongStampUrl = "/images/tomong-stamp-dark.png";
   }
 
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
+  const [reportId, setReportId] = useState(null);
+
+  const handleReport = async (postId) => {
+    setReportId(postId);
+    setIsReportModalOpen(true);
+  };
+
   return (
     <>
       {posts.posts.map((post) => (
-        <article
-          className={styles["post-wrap"]}
-          key={post.id}
-          onClick={(e) => {
-            const target = e.target.textContent;
-            if (
-              target !== "수정하기" &&
-              target !== "삭제하기" &&
-              target !== "공개글로 변경하기" &&
-              target !== "비밀글로 변경하기" &&
-              target !== "신고하기"
-            ) {
-              setSelectedPostId(post.id);
-            }
-          }}
-        >
-          {post.isTomong && (
-            <img
-              src={tomongStampUrl}
-              className={styles["tomong-stamp"]}
-              alt="해몽이 존재함"
-            />
-          )}
-          <h3 className={`${styles["post-title"]}`}>
-            {post.isPrivate && (
+        <>
+          <article
+            className={styles["post-wrap"]}
+            key={post.id}
+            onClick={(e) => {
+              const target = e.target.textContent;
+              if (
+                target !== "수정하기" &&
+                target !== "삭제하기" &&
+                target !== "공개글로 변경하기" &&
+                target !== "비밀글로 변경하기" &&
+                target !== "신고하기"
+              ) {
+                setSelectedPostId(post.id);
+              }
+            }}
+          >
+            {post.isTomong && (
               <img
-                src="/images/lock.svg"
-                alt="비밀글"
-                className={styles["private-post"]}
+                src={tomongStampUrl}
+                className={styles["tomong-stamp"]}
+                alt="해몽이 존재함"
               />
             )}
-            {post.title}
+
+            <h3 className={`${styles["post-title"]}`}>
+              {post.isPrivate && (
+                <img
+                  src="/images/lock.svg"
+                  alt="비밀글"
+                  className={styles["private-post"]}
+                />
+              )}
+              {post.title}
+            </h3>
             {post.hasImages && (
               <img
                 src="/images/image.svg"
@@ -164,64 +190,84 @@ export default function PostList({
                 className={styles["include-img"]}
               />
             )}
-          </h3>
-          <p className={styles["post-text"]}>{post.content}</p>
-          <div className={styles["post-btn-container"]}>
-            <button
-              onClick={(e) => {
-                e.stopPropagation(); // article 클릭 이벤트 방지
-                sparkHandle(post.id);
-              }}
-            >
-              <img
-                src={
-                  post.hasUserSparked
-                    ? "/images/star-fill.svg"
-                    : "/images/star.svg"
-                }
-                alt={post.hasUserSparked ? "반짝 취소" : "반짝"}
-              />
-              <span>{post.sparkCount}</span>
-            </button>
-            <button onClick={() => setSelectedPostId(post.id)}>
-              <img src="/images/message.svg" alt="댓글" />
-              <span>{post.commentsCount}</span>
-            </button>
-            {isOpen && modalType === "isMyPost" && activePostId === post.id && (
-              <MyPost
-                ref={modalRef}
-                style={modalStyle}
-                className={styles["more-modal"]}
-                postId={post.id}
-                postIsPrivate={post.isPrivate}
-                togglePostPrivacy={() =>
-                  togglePostPrivacy(post.id, post.isPrivate)
-                }
-              />
-            )}
-            {isOpen &&
-              modalType === "isNotMyPost" &&
-              activePostId === post.id && (
-                <OtherPost
-                  ref={modalRef}
-                  style={modalStyle}
-                  className={styles["more-modal"]}
-                />
-              )}
-            <button>
-              <img
-                src="/images/more.svg"
-                alt="더보기"
-                ref={buttonRef}
+            <p className={styles["post-text"]}>{post.content}</p>
+            <div className={styles["post-btn-container"]}>
+              <button
                 onClick={(e) => {
                   e.stopPropagation(); // article 클릭 이벤트 방지
-                  handlePostMoreBtnClick(post.id);
+                  sparkHandle(post.id);
                 }}
-              />
-            </button>
-          </div>
-        </article>
+              >
+                <img
+                  src={
+                    post.hasUserSparked
+                      ? "/images/star-fill.svg"
+                      : "/images/star.svg"
+                  }
+                  alt={post.hasUserSparked ? "반짝 취소" : "반짝"}
+                />
+                <span>{post.sparkCount}</span>
+              </button>
+              <button onClick={() => setSelectedPostId(post.id)}>
+                <img src="/images/message.svg" alt="댓글" />
+                <span>{post.commentsCount}</span>
+              </button>
+              {isOpen &&
+                modalType === "isMyPost" &&
+                activePostId === post.id && (
+                  <MyPost
+                    ref={modalRef}
+                    style={modalStyle}
+                    className={styles["more-modal"]}
+                    postId={post.id}
+                    postIsPrivate={post.isPrivate}
+                    togglePostPrivacy={() =>
+                      togglePostPrivacy(post.id, post.isPrivate)
+                    }
+                    setIsWriteModalOpen={() => modifyHandler(post.id)}
+                  />
+                )}
+              {isOpen &&
+                modalType === "isNotMyPost" &&
+                activePostId === post.id && (
+                  <OtherPost
+                    ref={modalRef}
+                    style={modalStyle}
+                    className={styles["more-modal"]}
+                    setIsReportModalOpen={() => handleReport(post.id)}
+                  />
+                )}
+              <button>
+                <img
+                  src="/images/more.svg"
+                  alt="더보기"
+                  ref={buttonRef}
+                  onClick={(e) => {
+                    e.stopPropagation(); // article 클릭 이벤트 방지
+                    handlePostMoreBtnClick(post.id);
+                  }}
+                />
+              </button>
+            </div>
+          </article>
+        </>
       ))}
+      {isWriteModalOpen && (
+        <WritePost
+          key={`${modifyPostId}-modify`}
+          isWriteModalOpen={isWriteModalOpen}
+          closeWriteModal={closeWriteModal}
+          modifyId={modifyPostId}
+        />
+      )}
+      {isReportModalOpen && (
+        <ReportModal
+          key={`${reportId}-report`}
+          isOpen={isReportModalOpen}
+          closeModal={() => setIsReportModalOpen(false)}
+          postId={reportId}
+        />
+      )}
     </>
   );
 }

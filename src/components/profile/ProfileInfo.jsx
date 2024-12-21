@@ -47,17 +47,30 @@ export default function ProfileInfo({
     <>
       <article className={styles["profile-wrap"]}>
         <h2 className="sr-only">프로필</h2>
-        <img
-          src={
-            profile.profileImageUrl
-              ? profile.profileImageUrl
-              : "/images/rabbit.svg"
-          }
-          className={styles["profile-image"]}
-          width={160}
-          height={160}
-          alt={profile.name + "님의 프로필 이미지"}
-        />
+        <div className={styles["profile-image"]}>
+          <img
+            src={
+              profile.profileImageUrl
+                ? profile.profileImageUrl
+                : "/images/rabbit.svg"
+            }
+            width={160}
+            height={160}
+            className={styles["user-profile-img"]}
+            alt={profile.name + "님의 프로필 이미지"}
+          />
+          {profile.isPrivate && (
+            <div className={styles["lock-icon"]}>
+              <img
+                src="/images/lock.svg"
+                width={16}
+                height={16}
+                alt="비공개계정"
+              />
+            </div>
+          )}
+        </div>
+
         <div className={styles["profile-info"]}>
           <div className={styles["profile-name-wrap"]}>
             <p className={styles["profile-name"]}>{profile.name}</p>

@@ -1,9 +1,14 @@
+body:has(.login-title) {
+  background: var(--background-pink-top);
+  padding: 0 !important;
+}
 main:has(.login-title) {
-  background: #fff;
   max-width: 86rem;
-  height: 92rem;
   border-radius: 2rem;
   margin: 8rem auto;
+  height: 92rem;
+  max-height: 92rem;
+  padding: 5.7rem 15.7rem 8.4rem 15.7rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -13,18 +18,20 @@ main:has(.login-title) {
   gap: 0;
 }
 main:has(.login-title) img {
-  max-width: 48rem;
+  max-width: 36rem;
 }
-.login-form {
-  gap: 0;
-}
+
 .login-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 1.6rem;
 }
+
+.login-container .login-form {
+  row-gap: 0;
+}
+
 .id-label {
   margin-bottom: 4rem;
 }
@@ -35,8 +42,11 @@ main:has(.login-title) img {
   color: var(--invalid-text-color);
   margin-bottom: 0.8rem;
 }
+.login-loading {
+  margin: 0.5rem 0 7.5rem 0;
+}
 .login-title {
-  font-size: var(--big-text-font-size);
+  font-size: var(--h2-font-size);
   font-weight: bold;
 }
 .login-button {
@@ -51,6 +61,16 @@ main:has(.login-title) img {
   gap: 0.8rem;
   margin-bottom: 0.8rem;
 }
+
+.account-btns {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 1.6rem;
+  text-align: center;
+}
+
 .join-button button,
 .join-button button:hover,
 .join-button button:active,
@@ -61,6 +81,18 @@ main:has(.login-title) img {
   padding: 0;
   color: var(--deep-pink-color);
   margin: 0 0 3.7rem 0.4rem;
+}
+.find-button button,
+.find-button button:hover,
+.find-button button:active,
+.find-button a,
+.find-button a:hover,
+.find-button a:active {
+  margin: 0 0 3.7rem 0.4rem;
+  padding: 0;
+  background: none;
+  color: var(--deep-pink-color);
+  font-size: var(--body-font-size);
 }
 
 /* '/' 첫페이지 구글,이메일 로그인 버튼 */
@@ -113,4 +145,116 @@ main:has(.login-title) img {
 .email-login-btn:disabled {
   background-color: var(--email-login-btn-active-color);
   cursor: not-allowed;
+}
+
+/* 비밀번호 찾기 창 */
+.login-container .find-form label {
+  margin-bottom: 0;
+  display: grid;
+  grid-template-rows: auto 1fr 2.4rem;
+}
+
+.input-wrap {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  column-gap: 0.6rem;
+  border-radius: 1rem;
+  background-color: var(--input-color);
+}
+
+.input-wrap input {
+  background: none;
+}
+
+.password-wrap {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  column-gap: 0.6rem;
+  border-radius: 1rem;
+}
+
+.input-wrap button {
+  width: fit-content;
+  height: fit-content;
+  margin-right: 0.6rem;
+}
+
+.invalid-text {
+  font-weight: 400;
+  font-size: var(--body-font-size);
+  color: var(--invalid-text-color);
+}
+
+.bottom-btns {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.6rem;
+  padding: 0 1.5rem;
+}
+
+.bottom-btns button {
+  margin-bottom: 0;
+}
+
+@media (max-width: 720px) {
+  main:has(.login-title) {
+    height: fit-content;
+    margin: 8rem 2rem 0 2rem;
+    padding: 1.6rem 2.5rem;
+    justify-content: flex-start;
+  }
+  main:has(.login-title) img {
+    margin-right: 0rem;
+  }
+  .login-container {
+    gap: 0.5rem;
+  }
+  .login-title {
+    font-size: var(--h2-font-size);
+  }
+  .login-button {
+    margin-bottom: 4rem;
+  }
+  .id-label,
+  .pw-label {
+    padding: 0 1.5rem;
+  }
+  .id-label input,
+  .pw-label input {
+    max-height: 4.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .google-login-btn,
+  .email-login-btn {
+    width: 18rem;
+  }
+
+  .login-container {
+    gap: 0;
+  }
+  .id-label,
+  .pw-label {
+    margin-bottom: 2rem;
+  }
+  .id-label input,
+  .pw-label input {
+    max-height: 4.5rem;
+  }
+  .login-button {
+    margin-bottom: 3rem;
+  }
+  .error-message,
+  .google-login,
+  .join-button,
+  .find-button {
+    font-size: var(--small-text-font-size);
+  }
 }

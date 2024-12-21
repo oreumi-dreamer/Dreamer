@@ -23,7 +23,10 @@ export default function ProfileForm({
       reader.readAsDataURL(file);
     }
   };
-
+  const handleThemeChange = (e) => {
+    setTheme(e.target.value);
+    localStorage.setItem("userTheme", e.target.value);
+  };
   return (
     <form
       id="signupFormSecond"
@@ -61,7 +64,7 @@ export default function ProfileForm({
               className={styles["image-delete"]}
             >
               <Image
-                src="Images/close.svg"
+                src="images/close.svg"
                 width={20}
                 height={20}
                 alt="이미지 제거"
@@ -91,7 +94,7 @@ export default function ProfileForm({
               name="theme"
               id="deviceMode"
               value="deviceMode"
-              onChange={(e) => setTheme(e.target.value)}
+              onChange={handleThemeChange}
               checked={theme === "deviceMode"}
             />
             <label htmlFor="deviceMode">기기 설정 사용</label>
@@ -101,7 +104,7 @@ export default function ProfileForm({
               name="theme"
               id="light"
               value="light"
-              onChange={(e) => setTheme(e.target.value)}
+              onChange={handleThemeChange}
               checked={theme === "light"}
             />
             <label htmlFor="light">라이트 모드</label>
@@ -111,7 +114,7 @@ export default function ProfileForm({
               name="theme"
               id="dark"
               value="dark"
-              onChange={(e) => setTheme(e.target.value)}
+              onChange={handleThemeChange}
               checked={theme === "dark"}
             />
             <label htmlFor="dark">다크 모드</label>
