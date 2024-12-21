@@ -16,6 +16,7 @@
 .logo img {
   width: 90%;
   max-width: 31.4rem;
+  object-fit: contain;
 }
 
 .mode-toggle-btn {
@@ -227,7 +228,7 @@
   .header-btn-container .nav-item {
     font-size: 2.2rem;
     margin-bottom: 2.5rem;
-    border-bottom: 2px solid transparent;
+    border-bottom: 3px solid transparent;
   }
 
   .header-btn-container nav {
