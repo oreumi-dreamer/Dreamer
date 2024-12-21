@@ -70,6 +70,10 @@
   color: #fff;
 }
 
+.input-white {
+  background-color: var(--background-white);
+}
+
 .textarea {
   height: 8.8rem;
   resize: none;

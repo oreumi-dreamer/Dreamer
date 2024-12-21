@@ -255,10 +255,20 @@ export function Input({
   minLength,
   maxLength,
   onKeyDown,
+  placeholder,
 }) {
   let inputClass = styles["input"];
-  if (type === "text" || type === "password" || type === "email") {
+  if (
+    type === "text" ||
+    type === "password" ||
+    type === "email" ||
+    type === "search"
+  ) {
     inputClass = styles["input-text"];
+  }
+
+  if (background === "white") {
+    inputClass = `${inputClass} ${styles["input-white"]}`;
   }
 
   return (
@@ -266,10 +276,10 @@ export function Input({
       type={type}
       value={value}
       onChange={onChange}
+      placeholder={placeholder}
       id={id}
       className={inputClass}
       disabled={disabled}
-      style={background === "white" ? { backgroundColor: "white" } : {}}
       onBlur={onBlur}
       onKeyDown={onKeyDown}
       minLength={minLength}
