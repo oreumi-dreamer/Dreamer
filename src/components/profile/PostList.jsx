@@ -110,6 +110,7 @@ const PostList = React.memo(function PostList({
 
   const modalProps = {
     isOpen,
+    setIsOpen,
     modalType,
     activePostId,
     modalRef,
