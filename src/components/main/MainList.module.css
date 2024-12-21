@@ -29,7 +29,7 @@
   overflow: hidden;
 }
 
-.post-user-info .user-name{
+.post-user-info .user-name {
   max-width: 20rem;
 }
 
@@ -74,6 +74,9 @@ div.divider {
 
 .post-user-info .private-icon {
   margin: 0.7rem 0 0 1rem;
+}
+.private-icon {
+  object-fit: contain;
 }
 
 .post-content {
