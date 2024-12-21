@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./PostModal.module.css";
 import PostContent from "../post/PostContent";
 import { ConfirmModal } from "../Controls";
@@ -9,16 +9,27 @@ export default function PostModal({ postId, isShow, onClose }) {
   const [comment, setComment] = useState(undefined);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
 
+  const html = document.querySelector("html");
+
   function handleModalClose() {
     if (comment) {
       setIsConfirmModalOpen(true);
       return;
     }
+
+    html.style.overflowY = "scroll";
+
     setIsModalOpen(false);
     onClose();
     setComment(undefined);
     setIsLoading(true);
   }
+
+  useEffect(() => {
+    if (isShow) {
+      html.style.overflowY = "hidden";
+    }
+  }, [isShow]);
 
   return (
     <>
