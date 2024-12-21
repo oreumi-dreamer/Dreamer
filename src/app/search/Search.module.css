@@ -5,6 +5,7 @@
   align-items: center;
   flex-basis: 100%;
   row-gap: 2rem;
+  color: var(--black-font-color);
 }
 
 .container h2 {
@@ -48,6 +49,7 @@
 }
 
 .results-container {
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 1.6rem;
