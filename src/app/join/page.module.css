@@ -3,6 +3,8 @@ body:has(.login-title) {
   width: 100vw;
   height: 100vh;
   padding: 0 !important;
+  display: flex;
+  justify-content: center;
 }
 .main {
   display: flex;
@@ -25,7 +27,7 @@ body:has(.login-title) {
 .main h1 img {
   width: 85vw;
   max-width: 36rem;
-  margin-right: 10rem;
+  margin-right: 5rem;
   filter: var(--filter-EEF0DE);
 }
 .login-container {
@@ -59,7 +61,7 @@ body:has(.login-title) {
 @media (max-width: 720px) {
   main:has(.login-title) {
     height: fit-content;
-    margin: 8rem 2rem 0 2rem;
+    margin: 8rem 2rem;
     padding: 1.6rem 2.5rem;
     justify-content: flex-start;
   }

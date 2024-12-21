@@ -267,3 +267,13 @@ button.login-button:has(div):disabled {
     font-size: var(--small-text-font-size);
   }
 }
+
+@media (max-height: 860px) {
+  body:has(.login-title) {
+    align-items: flex-start;
+  }
+
+  main:has(.login-title) {
+    margin: 8rem 0;
+  }
+}
