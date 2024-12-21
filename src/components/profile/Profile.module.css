@@ -98,6 +98,7 @@
 
 .profile-info {
   width: 100%;
+  word-break: break-all;
   overflow: hidden;
 }
 
