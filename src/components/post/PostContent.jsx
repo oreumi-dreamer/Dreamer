@@ -104,23 +104,25 @@ export default function PostContent({
         const idWidth = idRef.current.offsetWidth;
         const nameWidth = nameRef.current.offsetWidth;
 
-        const idStyle = idRef.current.style;
-        const nameStyle = nameRef.current.style;
+        if (containerWidth - idWidth - nameWidth < 23) {
+          const idStyle = idRef.current.style;
+          const nameStyle = nameRef.current.style;
 
-        if (containerWidth - nameWidth <= 110) {
-          nameStyle.whiteSpace = "nowrap";
-          nameStyle.overflow = "hidden";
-          nameStyle.textOverflow = "ellipsis";
-          nameStyle.width = `${containerWidth - 20}px`;
-        }
-        if (containerWidth - idWidth <= 110) {
-          idStyle.whiteSpace = "nowrap";
-          idStyle.overflow = "hidden";
-          idStyle.textOverflow = "ellipsis";
-          idStyle.width = `${containerWidth - 40}px`;
-        }
-        if (containerWidth >= 470 && containerWidth <= 490) {
-          idStyle.width = `${containerWidth - 60}px`;
+          if (containerWidth - nameWidth <= 110) {
+            nameStyle.whiteSpace = "nowrap";
+            nameStyle.overflow = "hidden";
+            nameStyle.textOverflow = "ellipsis";
+            nameStyle.width = `${containerWidth - 20}px`;
+          }
+          if (containerWidth - idWidth <= 110) {
+            idStyle.whiteSpace = "nowrap";
+            idStyle.overflow = "hidden";
+            idStyle.textOverflow = "ellipsis";
+            idStyle.width = `${containerWidth - 40}px`;
+          }
+          if (containerWidth >= 470 && containerWidth <= 490) {
+            idStyle.width = `${containerWidth - 60}px`;
+          }
         }
       }
     };
