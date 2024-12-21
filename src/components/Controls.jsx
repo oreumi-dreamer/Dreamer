@@ -9,6 +9,16 @@ import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { auth } from "@/lib/firebase";
 
+export const handleClickWithKeyboard = (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+  if (e.key === "Enter" || e.key === " ") {
+    e.target.click();
+  } else if (e.key === "Tab") {
+    e.target.blur();
+  }
+};
+
 export const CustomScrollbar = ({ containerRef, trackStyle }) => {
   // 상수 정의
   const TRACK_PADDING = 5; // px
@@ -483,26 +493,38 @@ export function Select({
 export function Checkbox({ type, background, checked, onChange, children }) {
   if (type === "col") {
     return (
-      <label className={`${styles["checkbox"]} ${styles["checkbox-col"]}`}>
+      <label
+        className={`${styles["checkbox"]} ${styles["checkbox-col"]}`}
+        tabIndex={0}
+        role="checkbox"
+        onKeyDown={handleClickWithKeyboard}
+      >
         <input
           type="checkbox"
           checked={checked}
           onChange={onChange}
           className={styles["checkbox"]}
           style={background === "white" ? { backgroundColor: "white" } : {}}
+          tabIndex={-1}
         />
         {children}
       </label>
     );
   } else {
     return (
-      <label className={styles["checkbox"]}>
+      <label
+        className={styles["checkbox"]}
+        tabIndex={0}
+        role="checkbox"
+        onKeyDown={handleClickWithKeyboard}
+      >
         <input
           type="checkbox"
           checked={checked}
           onChange={onChange}
           className={styles["checkbox"]}
           style={background === "white" ? { backgroundColor: "white" } : {}}
+          tabIndex={-1}
         />
         {children}
       </label>
