@@ -66,7 +66,7 @@ export default function Recommends({ className, styles }) {
               >
                 <img
                   src={user.profileImageUrl}
-                  alt={user.displayName + "님의 프로필 사진"}
+                  alt={user.userName + "님의 프로필 사진"}
                 />
                 <span>{user.userName}</span>
                 <span>@{user.userId}</span>
