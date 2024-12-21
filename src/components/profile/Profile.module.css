@@ -84,6 +84,7 @@
   padding: 0.5rem 1rem;
   grid-area: follow-btn;
   margin-left: 2.4rem;
+  white-space: nowrap;
 }
 
 .profile-btn:hover {
@@ -106,7 +107,6 @@
 }
 
 .profile-bio {
-  width: 36rem;
   height: 6.6rem;
   color: var(--black-font-color);
 }
@@ -435,5 +435,8 @@
 
   .profile-form-pic img {
     margin-right: 0;
+  }
+  .edit-profile-wrap {
+    padding: 0;
   }
 }
