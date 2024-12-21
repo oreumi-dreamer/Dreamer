@@ -51,7 +51,8 @@
 
 📦Dreamer  
  ┣ 📂public  
- ┃ ┣ 📂fonts  
+ ┃ ┣ <summary>📂fonts</summary>
+ 
  ┃ ┃ ┣ 📂NanumBarunPenB  
  ┃ ┃ ┗ 📂NanumBarunPenR  
  ┃ ┣ 📂images  
