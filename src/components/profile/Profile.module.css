@@ -53,6 +53,7 @@
 .profile-image .lock-icon img {
   width: 3rem;
   height: 3rem;
+  object-fit: contain;
 }
 
 .profile-name-wrap {

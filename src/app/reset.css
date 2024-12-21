@@ -147,3 +147,7 @@ a:active {
 img {
   object-fit: cover;
 }
+
+button img {
+  object-fit: contain;
+}
