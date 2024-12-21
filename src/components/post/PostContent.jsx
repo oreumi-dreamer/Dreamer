@@ -5,7 +5,7 @@ import markdownStyles from "@/components/tomong/Result.module.css";
 import { DREAM_GENRES, DREAM_MOODS } from "@/utils/constants";
 import { ConfirmModal, Divider, ShareModal } from "../Controls";
 import convertToHtml from "@/utils/markdownToHtml";
-import postTime from "@/utils/postTime";
+import { postTime } from "@/utils/postTime";
 import CommentArticles from "../modal/CommentArticles";
 import { MyPost, OtherPost } from "../dropDown/DropDown";
 import { useState, useEffect, useRef } from "react";
@@ -15,6 +15,8 @@ import useTheme from "@/hooks/styling/useTheme";
 import Loading from "@/components/Loading";
 import { outsideClickModalClose } from "@/utils/outsideClickModalClose";
 import { useRouter } from "next/navigation";
+import WritePost from "../write/WritePost";
+import ReportModal from "../report/Report";
 
 export default function PostContent({
   type,
@@ -42,8 +44,12 @@ export default function PostContent({
   const buttonRef = useRef(null);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [shareModalOpen, setShareModalOpen] = useState(false);
+  const [isWriteModalOpen, setIsWriteModalOpen] = useState(false);
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
   const router = useRouter();
+  const idRef = useRef(null);
+  const nameRef = useRef(null);
 
   useEffect(() => {
     const viewPost = async () => {
@@ -91,7 +97,43 @@ export default function PostContent({
       };
     }
   }, [modalRef, buttonRef, isOpen]);
+  useEffect(() => {
+    const handleResize = () => {
+      if (idRef.current && nameRef.current && postData) {
+        const containerWidth = idRef.current.parentElement.offsetWidth;
+        const idWidth = idRef.current.offsetWidth;
+        const nameWidth = nameRef.current.offsetWidth;
 
+        if (containerWidth - idWidth - nameWidth < 23) {
+          const idStyle = idRef.current.style;
+          const nameStyle = nameRef.current.style;
+
+          if (containerWidth - nameWidth <= 110) {
+            nameStyle.whiteSpace = "nowrap";
+            nameStyle.overflow = "hidden";
+            nameStyle.textOverflow = "ellipsis";
+            nameStyle.width = `${containerWidth - 20}px`;
+          }
+          if (containerWidth - idWidth <= 110) {
+            idStyle.whiteSpace = "nowrap";
+            idStyle.overflow = "hidden";
+            idStyle.textOverflow = "ellipsis";
+            idStyle.width = `${containerWidth - 40}px`;
+          }
+          if (containerWidth >= 470 && containerWidth <= 490) {
+            idStyle.width = `${containerWidth - 60}px`;
+          }
+        }
+      }
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [postData]);
   if (!isModalOpen) {
     return null;
   }
@@ -267,10 +309,20 @@ export default function PostContent({
     setShareModalOpen(false);
   }
 
+  function handleReportModalOpen() {
+    setIsReportModalOpen(true);
+    setIsOpen(false);
+  }
+
+  function handleWriteModalOpen() {
+    setIsWriteModalOpen(true);
+    setIsOpen(false);
+  }
+
   return (
     <>
       {isLoading ? (
-        <Loading type="small" />
+        <Loading type="circle" />
       ) : (
         <>
           <img
@@ -294,23 +346,16 @@ export default function PostContent({
                   height={49}
                   alt="프로필 사진"
                 />
-                <p
-                  className={`${styles["profile-info"]} ${
-                    postData.authorName.length > 7 ||
-                    postData.authorId.length > 7
-                      ? styles["long-profile-info"]
-                      : ""
-                  }`}
-                >
-                  {postData.authorName}
-                  <span>{`@${postData.authorId}`}</span>
+                <div className={styles["profile-info"]}>
+                  <span ref={nameRef}>{postData.authorName}</span>
+                  <span ref={idRef}>{`@${postData.authorId}`}</span>
                   <time
                     dateTime={postData.createdAt.slice(0, -5)}
                     className={styles["uploaded-time"]}
                   >
                     {postTime(postData.createdAt, postData.updatedAt)}
                   </time>
-                </p>
+                </div>
               </Link>
               <ul className={styles["button-list"]}>
                 {postData.isPrivate ? (
@@ -388,6 +433,7 @@ export default function PostContent({
                       }
                       postId={postId}
                       postIsPrivate={postData.isPrivate}
+                      setIsWriteModalOpen={handleWriteModalOpen}
                     />
                   )}
                   {isOpen && modalType === "isNotMyPost" && (
@@ -395,6 +441,7 @@ export default function PostContent({
                       ref={modalRef}
                       style={modalStyle}
                       className={styles["more-modal"]}
+                      setIsReportModalOpen={handleReportModalOpen}
                     />
                   )}
                 </li>
@@ -589,6 +636,21 @@ export default function PostContent({
               isOpen={shareModalOpen}
               closeModal={handleShareModalClose}
               link={`${baseUrl}/post/${postId}`}
+            />
+          )}
+          {isWriteModalOpen && (
+            <WritePost
+              key={`${postId}-modify`}
+              isWriteModalOpen={isWriteModalOpen}
+              closeWriteModal={() => setIsWriteModalOpen(false)}
+              modifyId={postId}
+            />
+          )}
+          {isReportModalOpen && (
+            <ReportModal
+              isOpen={isReportModalOpen}
+              closeModal={() => setIsReportModalOpen(false)}
+              postId={postId}
             />
           )}
         </>

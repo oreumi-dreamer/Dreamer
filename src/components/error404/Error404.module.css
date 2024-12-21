@@ -14,18 +14,26 @@
 }
 
 .logo img {
+  filter: var(--filter-EEF0DE);
   width: 60rem;
 }
 
 .page-not-found {
   font-size: var(--h2-font-size);
   padding: 2rem 0 4rem;
+  color: var(--black-font-color);
 }
 
 .go-back-btn {
   font-size: var(--body-font-size);
-  background-color: var(--background-dark);
-  color: var(--background-white);
+  background-color: var(--404-back-btn-color);
+  color: var(--email-login-btn-active-text-color);
   padding: 1.5rem 7rem;
   border-radius: 1rem;
+}
+.go-back-btn:hover {
+  background-color: #5b5b5b;
+}
+.go-back-btn:active {
+  background-color: #2a2a3c;
 }

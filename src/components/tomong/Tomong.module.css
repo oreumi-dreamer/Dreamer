@@ -32,7 +32,7 @@ body:has(.main) h1 img {
   color: var(--black-font-color);
 }
 
-.main .tomong-body img {
+.main .tomong-body > img {
   height: 50%;
   grid-area: tomong-img;
 }
@@ -90,11 +90,13 @@ body:has(.main) h1 img {
   gap: 1rem;
 }
 
-.tomong-stamp {
+.dreams-list label img.tomong-stamp {
   position: absolute;
   top: -3.15rem;
   right: -3rem;
   width: 13.5rem;
+  height: inherit;
+
   opacity: var(--tomong-stamp-one-fifth-opacity);
   -webkit-user-select: none;
   -khtml-user-select: none;

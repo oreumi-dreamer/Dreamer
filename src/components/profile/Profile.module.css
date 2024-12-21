@@ -14,7 +14,8 @@
 
 .profile-wrap {
   display: flex;
-  margin: auto;
+  margin-left: auto;
+  margin-right: auto;
   width: 100%;
   padding: 4.3rem 0 0.3rem 5.1rem;
 }
@@ -52,6 +53,7 @@
 .profile-image .lock-icon img {
   width: 3rem;
   height: 3rem;
+  object-fit: contain;
 }
 
 .profile-name-wrap {
@@ -83,6 +85,7 @@
   padding: 0.5rem 1rem;
   grid-area: follow-btn;
   margin-left: 2.4rem;
+  white-space: nowrap;
 }
 
 .profile-btn:hover {
@@ -93,29 +96,62 @@
   background-color: var(--active-btn-color);
 }
 
+.profile-info {
+  width: 100%;
+  overflow: hidden;
+}
+
 .profile-stat {
-  display: flex;
+  display: grid;
+  justify-content: flex-start;
   margin-bottom: 0.8rem;
   white-space: nowrap;
   color: var(--black-font-color);
+  column-gap: 1.4rem;
+  row-gap: 0.6rem;
+  grid-template-areas: "postcount following follower";
 }
 
-.profile-stat li {
-  margin-right: 1.4rem;
+.wrap-layout {
+  grid-template-areas: "postcount postcount" "following follower";
+}
+
+.profile-stat li:nth-child(1) {
+  grid-area: postcount;
+}
+
+.profile-stat li:nth-child(2) {
+  grid-area: following;
+}
+
+.profile-stat li:nth-child(3) {
+  grid-area: follower;
 }
 
 .profile-bio {
-  width: 21rem;
+  height: 6.6rem;
   color: var(--black-font-color);
 }
 
 /* profile form */
 
+.edit-profile-wrap {
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  padding: 4.3rem 0 0 5.1rem;
+}
+
 .profile-form {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
   width: 100%;
   flex-direction: row;
   column-gap: 3.8rem;
+  row-gap: 1.2rem;
 }
 
 .profile-form input,
@@ -129,15 +165,18 @@
   align-items: center;
 }
 
-.profile-form-pic label {
-  margin-right: 4.5rem;
+.profile-form-pic .profile-image {
+  border-radius: 50%;
+  margin-bottom: 1.6rem;
 }
 
 .profile-form-info {
+  min-width: 32rem;
   display: flex;
-  width: 100%;
   flex-direction: column;
   row-gap: 0.8rem;
+  flex-grow: 1;
+  word-break: break-all;
 }
 
 .profile-form-info label {
@@ -146,6 +185,7 @@
   grid-area: private;
   font-size: var(--small-text-font-size);
   color: var(--black-font-color);
+  gap: 0.4rem;
 }
 
 .profile-form-birthdates {
@@ -192,6 +232,16 @@
 .relative {
   position: relative;
 }
+.validation {
+  position: absolute;
+  color: var(--invalid-text-color);
+}
+.relative:first-of-type .validation {
+  left: 2.6rem;
+}
+.relative:nth-of-type(2) .validation {
+  left: 3.6rem;
+}
 
 .char-limits {
   position: absolute;
@@ -210,17 +260,6 @@
 
 .form-btn-row button:nth-child(1) {
   color: var(--always-black-font);
-}
-
-.form-btn-row .loading {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  pointer-events: none;
-  background-color: var(--hover-btn-color);
-  width: 10.2rem;
-  height: 3.6rem;
-  border-radius: 1rem;
 }
 
 /* post */
@@ -311,6 +350,7 @@
   margin-top: 0.5rem;
   width: 1.5rem;
   height: 1.5rem;
+  object-fit: contain;
 }
 
 .private-post {
@@ -370,6 +410,13 @@
 }
 
 @media (max-width: 860px) {
+  .profile-info {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
   .profile-wrap {
     padding: 4.3rem 0 4.3rem 0;
     flex-direction: column;
@@ -379,10 +426,12 @@
     position: relative;
   }
 
-  .user-profile-img img {
-    width: clamp(10rem, 20vw + 10rem, 15rem);
-    height: clamp(10rem, 20vw + 10rem, 15rem);
+  .user-profile-img {
     margin-right: 0;
+  }
+
+  .profile-image .lock-icon {
+    right: 0.5rem;
   }
 
   .profile-name-wrap {
@@ -395,9 +444,9 @@
 
   .profile-btn {
     position: absolute;
-    top: calc(36.5rem + 1.8rem);
+    bottom: 0;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translateX(-50%);
     margin-left: 0;
   }
 
@@ -409,7 +458,11 @@
     margin-right: 0;
   }
   .profile-bio {
-    width: 32rem;
+    width: 100%;
+    max-width: 32rem;
+    background-color: var(--profile-bio);
+    border-radius: 1rem;
+    padding: 0.5rem;
   }
 
   /* profile form */
@@ -417,11 +470,22 @@
     flex-direction: column;
   }
 
+  .profile-form-info {
+    width: 100%;
+    min-width: 0;
+  }
+
   .profile-form-pic img {
     margin-right: 0;
   }
+  .edit-profile-wrap {
+    padding: 0;
+  }
+}
 
-  .profile-form-pic label {
-    margin: 0;
+@media (max-width: 480px) {
+  .posts-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.6rem;
   }
 }

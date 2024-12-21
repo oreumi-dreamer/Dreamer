@@ -3,6 +3,8 @@ body:has(.login-title) {
   width: 100vw;
   height: 100vh;
   padding: 0 !important;
+  display: flex;
+  justify-content: center;
 }
 .main {
   display: flex;
@@ -11,24 +13,25 @@ body:has(.login-title) {
   align-items: center;
   gap: 5.995rem;
   height: 100vh;
+  width: 90vw;
   max-width: 86rem;
-  height: 92rem;
-  max-height: 92rem;
+  height: fit-content;
   border-radius: 2rem;
   margin: 8rem auto;
   background-color: var(--background-white);
   color: var(--black-font-color);
   gap: 0;
-  padding: 5.7rem 15.7rem 8.4rem 15.7rem;
+  padding: 5.7rem 5.2rem 4.3rem;
 }
 
 .main h1 img {
   width: 85vw;
-  max-width: 48rem;
-  margin-right: 10rem;
+  max-width: 36rem;
+  margin-right: 5rem;
   filter: var(--filter-EEF0DE);
 }
 .login-container {
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -39,10 +42,26 @@ body:has(.login-title) {
   font-size: var(--big-text-font-size);
   font-weight: bold;
 }
+
+.login-container form {
+  width: 100%;
+  padding: 0;
+  max-width: none;
+}
+
+.login-container form fieldset {
+  width: 100%;
+  max-width: 49.6rem;
+  padding-top: 0;
+  padding-bottom: 0;
+  display: flex;
+  flex-direction: column;
+}
+
 @media (max-width: 720px) {
   main:has(.login-title) {
     height: fit-content;
-    margin: 8rem 2rem 0 2rem;
+    margin: 8rem 2rem;
     padding: 1.6rem 2.5rem;
     justify-content: flex-start;
   }

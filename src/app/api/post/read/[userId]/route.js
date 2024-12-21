@@ -119,6 +119,10 @@ export async function GET(request, { params }) {
       const postData = doc.data();
       lastVisible = doc.id;
 
+      const commentsLength = postData.comments
+        ? postData.comments.filter((comment) => !comment.isDeleted).length
+        : 0;
+
       // summary 모드일 때는 요약 정보만 포함
       if (summary) {
         posts.push({
@@ -132,7 +136,7 @@ export async function GET(request, { params }) {
             Array.isArray(postData.spark) && userUid
               ? postData.spark.includes(userUid)
               : false,
-          commentsCount: postData.commentsCount || 0,
+          commentsCount: commentsLength || 0,
           createdAt: postData.createdAt?.toDate().toISOString(),
           updatedAt: postData.updatedAt?.toDate().toISOString(),
           isTomong: postData.tomong
@@ -155,7 +159,7 @@ export async function GET(request, { params }) {
           isPrivate: postData.isPrivate,
           sparkCount: postData.sparkCount,
           comments: postData.comments ? postData.comments : [],
-          commentsCount: postData.commentsCount,
+          commentsCount: commentsLength,
           dreamGenres: postData.dreamGenres,
           dreamMoods: postData.dreamMoods,
           dreamRating: postData.dreamRating,

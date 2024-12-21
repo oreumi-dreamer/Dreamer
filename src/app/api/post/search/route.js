@@ -1,11 +1,24 @@
 // /api/post/search/route.js
-
+import { headers } from "next/headers";
+import { verifyUser } from "@/lib/api/auth";
 import { searchOnlyPostsIndex } from "@/lib/algolia";
 import { NextResponse } from "next/server";
 import { db } from "@/lib/firebase";
 import { collection, getDocs, query, where } from "firebase/firestore";
 
 export async function GET(request) {
+  // 인증 확인
+  const headersList = headers();
+  const authorization = headersList.get("Authorization");
+  let userData = null;
+
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+
+  if (authorization?.startsWith("Bearer ")) {
+    const idToken = authorization.split("Bearer ")[1];
+    userData = await verifyUser(baseUrl, idToken);
+  }
+
   const { searchParams } = new URL(request.url);
   const searchQuery = searchParams.get("q") || "";
   const genre = searchParams.get("genre");
@@ -51,6 +64,7 @@ export async function GET(request) {
           "postId",
           "comments",
           "lastmodified",
+          "spark",
         ],
       }
     );
@@ -81,6 +95,7 @@ export async function GET(request) {
       userMap[doc.id] = {
         userId: doc.data().userId,
         userName: doc.data().userName,
+        profileImageUrl: doc.data().profileImageUrl,
       };
     });
 
@@ -92,17 +107,21 @@ export async function GET(request) {
         authorUid: hit.authorUid,
         authorId: userMap[hit.authorUid]?.userId || "알 수 없음",
         authorName: userMap[hit.authorUid]?.userName || "알 수 없음",
+        profileImageUrl:
+          userMap[hit.authorUid]?.profileImageUrl || "/images/rabbit.svg",
         imageUrls: hit.imageUrls || [],
         dreamGenres: hit.dreamGenres || [],
         dreamMoods: hit.dreamMoods || [],
         dreamRating: hit.dreamRating,
-        sparkCount: hit.sparkCount || 0,
+        spark: [],
+        sparkCount: hit.spark?.length || 0,
+        hasUserSparked: hit.spark?.includes(userData.uid) || false,
         createdAt: hit.createdAt,
         updatedAt: hit.updatedAt,
         isDeleted: hit.isDeleted || false,
         isPrivate: hit.isPrivate || false,
         postId: hit.postId,
-        commentCount: hit.comments?.length || 0,
+        commentsCount: hit.comments?.length || 0,
         lastmodified: hit.lastmodified,
       })),
       totalPages: nbPages,

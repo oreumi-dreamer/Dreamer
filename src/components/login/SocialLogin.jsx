@@ -14,12 +14,14 @@ import { checkUserExists } from "@/utils/auth/checkUser";
 import { Button, Input, LoginForm } from "../Controls";
 import styles from "./SocialLogin.module.css";
 import Loading from "../Loading";
+import FindPassword from "./FindPassword";
 
 export default function SocialLogin() {
   const router = useRouter();
   const [error, setError] = useState("");
   const [showEmailForm, setShowEmailForm] = useState(false);
-  const [showSignupForm, setShowSignupForm] = useState(false);
+  const [showFindPassword, setShowFindPassword] = useState(false);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailValid, setEmailValid] = useState(false);
@@ -32,7 +34,7 @@ export default function SocialLogin() {
       if (!reduxUser) return;
 
       const exists = await checkUserExists(dispatch);
-      if (exists === false && !showSignupForm) {
+      if (exists === false) {
         router.push("/signup");
       } else if (!reduxUser.emailVerified) {
         setError("이메일 인증이 필요합니다. 이메일을 확인하세요.");
@@ -113,11 +115,11 @@ export default function SocialLogin() {
 
       // 결과에 따라 리다이렉트
       // 이메일 회원가입 중인 경우는 리다이렉션하지 않음
-      if (exists === false && !showSignupForm) {
+      if (exists === false) {
         router.push("/signup");
-      } else if (!reduxUser.emailVerified && !showSignupForm) {
+      } else if (!reduxUser.emailVerified) {
         setError("이메일 인증이 필요합니다. 이메일을 확인하세요.");
-      } else if (exists && reduxUser.emailVerified && !showSignupForm) {
+      } else if (exists && reduxUser.emailVerified) {
         router.push("/");
       }
     } catch (error) {
@@ -133,7 +135,7 @@ export default function SocialLogin() {
 
   return (
     <section className={styles["login-container"]}>
-      {showEmailForm && !showSignupForm ? (
+      {showEmailForm && !showFindPassword ? (
         <>
           <h2 className={styles["login-title"]}>이메일로 로그인하기</h2>
           <p>다시 꿈꾸러 오셔서 기뻐요!</p>
@@ -170,10 +172,13 @@ export default function SocialLogin() {
               {error}
             </p>
             {isLoginLoading ? (
-              <Loading
-                type={"miniCircle"}
-                className={styles["login-loading"]}
-              />
+              <Button
+                type="button"
+                className={styles["login-button"]}
+                disabled={true}
+              >
+                <Loading type={"miniCircle"} />
+              </Button>
             ) : (
               <Button
                 type="submit"
@@ -195,12 +200,29 @@ export default function SocialLogin() {
                 />
               </button>
             </div>
-            <div className={styles["join-button"]}>
-              <span>회원이 아니신가요?</span>
-              <Link href="/join">가입하기</Link>
-            </div>
+            <ul className={styles["account-btns"]}>
+              <li className={styles["join-button"]}>
+                <span>회원이 아니신가요?</span>
+                <Link href="/join">가입하기</Link>
+              </li>
+              <li className={styles["find-button"]}>
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setShowFindPassword(true);
+                  }}
+                >
+                  비밀번호를 잊으셨나요?
+                </button>
+              </li>
+            </ul>
           </LoginForm>
         </>
+      ) : showFindPassword ? (
+        <FindPassword
+          styles={styles}
+          setShowFindPassword={setShowFindPassword}
+        />
       ) : (
         <>
           <h2 className="sr-only">로그인</h2>

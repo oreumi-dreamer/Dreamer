@@ -2,21 +2,28 @@ import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
-import postTime from "@/utils/postTime";
+import { postTime, postTimeScreenReader } from "@/utils/postTime";
 import { MyPost, OtherPost } from "../dropDown/DropDown";
 import { outsideClickModalClose } from "@/utils/outsideClickModalClose";
-import { Divider, ShareModal } from "../Controls";
+import { Divider, handleClickWithKeyboard, ShareModal } from "../Controls";
 import useTheme from "@/hooks/styling/useTheme";
+import WritePost from "../write/WritePost";
+import ReportModal from "../report/Report";
+import styles from "./Post.module.css";
+import { highlightText } from "@/utils/highlightText";
 
 export default function Post({
-  styles,
   post: initialPosts,
   setSelectedPostId,
+  searchMode,
+  searchQuery,
 }) {
   const [post, setPost] = useState(initialPosts);
   const [isOpen, setIsOpen] = useState(false);
   const [modalStyle, setModalStyle] = useState({});
   const [shareModalOpen, setShareModalOpen] = useState(false);
+  const [isWriteModalOpen, setIsWriteModalOpen] = useState(false);
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const modalRef = useRef(null);
   const buttonRef = useRef(null);
   const containerRef = useRef(null);
@@ -196,9 +203,23 @@ export default function Post({
     setShareModalOpen(false);
   };
 
+  const handleReportModalOpen = () => {
+    setIsReportModalOpen(true);
+    setIsOpen(false);
+  };
+
+  const handleWriteModalOpen = () => {
+    setIsWriteModalOpen(true);
+    setIsOpen(false);
+  };
+
   return (
     <>
       <article className={styles["article"]} ref={containerRef}>
+        <h3 className="sr-only">
+          {post.authorName}님이{" "}
+          {" " + postTimeScreenReader(post.createdAt, post.createdAt)}에 올린 꿈
+        </h3>
         <section className={styles["post-user-info"]}>
           <Link href={`/users/${post.authorId}`}>
             <img
@@ -246,16 +267,24 @@ export default function Post({
               }}
               postId={post.id}
               postIsPrivate={post.isPrivate}
+              setIsWriteModalOpen={handleWriteModalOpen}
             />
           )}
           {isOpen && !post.isMyself && (
-            <OtherPost ref={modalRef} style={modalStyle} />
+            <OtherPost
+              ref={modalRef}
+              style={modalStyle}
+              setIsReportModalOpen={handleReportModalOpen}
+            />
           )}
         </section>
         <Divider className={styles["divider"]} />
         <section
           className={styles["post-content"]}
           onClick={() => handleModalOpen(post.id)}
+          onKeyDown={handleClickWithKeyboard}
+          role="button"
+          tabIndex={0}
         >
           {post.isTomong && (
             <img
@@ -264,7 +293,11 @@ export default function Post({
               alt="해몽이 존재함"
             />
           )}
-          <p className={styles["post-text"]}>{post.content}</p>
+          <p className={styles["post-text"]}>
+            {searchMode
+              ? highlightText(post.content, searchQuery)
+              : post.content}
+          </p>
           {post.imageUrls && (
             <div
               className={`${styles["post-img-wrap"]}`}
@@ -355,6 +388,22 @@ export default function Post({
           isOpen={shareModalOpen}
           closeModal={handleShareModalClose}
           link={`${baseUrl}/post/${post.id}`}
+        />
+      )}
+      {isWriteModalOpen && (
+        <WritePost
+          key={`${post.id}-modify`}
+          modifyId={post.id}
+          isWriteModalOpen={isWriteModalOpen}
+          closeWriteModal={() => setIsWriteModalOpen(false)}
+        />
+      )}
+      {isReportModalOpen && (
+        <ReportModal
+          key={`${post.id}-report`}
+          isOpen={isReportModalOpen}
+          closeModal={() => setIsReportModalOpen(false)}
+          postId={post.id}
         />
       )}
     </>

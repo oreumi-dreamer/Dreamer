@@ -39,7 +39,7 @@ export default function Account() {
     <>
       <main className={styles["container"]}>
         <header className={styles["header"]}>
-          <h1 className={styles["title"]}>계정 설정</h1>
+          <h2 className={styles["title"]}>계정 설정</h2>
         </header>
 
         <section className={styles["section"]}>

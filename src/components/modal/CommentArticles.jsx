@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styles from "./CommentArticles.module.css";
 import Link from "next/link";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
-import postTime from "@/utils/postTime";
+import { postTime } from "@/utils/postTime";
 import Loading from "../Loading";
 
 export default function CommentArticles({
@@ -13,6 +13,7 @@ export default function CommentArticles({
 }) {
   const [commentData, setCommentData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     const viewComments = async () => {
       try {
@@ -70,7 +71,7 @@ export default function CommentArticles({
   }
 
   if (isLoading) {
-    return <Loading type="small" />;
+    return <Loading type="circle" />;
   }
   if (!commentData) {
     return (
@@ -88,23 +89,23 @@ export default function CommentArticles({
       >
         <ul className={styles["comment-info"]}>
           <li
-            className={`${
-              comment.authorName.length > 7 || comment.authorId.length > 7
+            className={
+              comment.authorId.length + comment.authorName.length > 13
                 ? styles["long-comment-info"]
                 : ""
-            }`}
+            }
           >
             <Link href={`/users/${comment.authorId}`}>
-              <span>
-                {comment.authorName.length > 7
-                  ? comment.authorName.slice(0, 10) + "..."
-                  : comment.authorName}
-              </span>{" "}
-              {`@${comment.authorId.length > 7 ? comment.authorId.slice(0, 10) + "..." : comment.authorId}`}
+              <span className={styles["author-name"]}>
+                {comment.authorName}
+              </span>
+              <span className={styles["author-id"]}>
+                {`@${comment.authorId}`}
+              </span>
             </Link>
           </li>
           <li>
-            <time>
+            <time className={styles.time}>
               {postTime(
                 new Date(comment.createdAt.seconds * 1000),
                 new Date(comment.createdAt.seconds * 1000)

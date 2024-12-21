@@ -1,10 +1,12 @@
-import { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 import useTheme from "@/hooks/styling/useTheme";
-import { MyPost, OtherPost } from "../dropDown/DropDown";
 import { outsideClickModalClose } from "@/utils/outsideClickModalClose";
+import WritePost from "../write/WritePost";
+import ReportModal from "../report/Report";
+import PostCard from "./PostCard";
 
-export default function PostList({
+const PostList = React.memo(function PostList({
   posts,
   setPosts,
   styles,
@@ -17,6 +19,7 @@ export default function PostList({
   const [modalType, setModalType] = useState(null);
   const [modalStyle, setModalStyle] = useState({});
   const [activePostId, setActivePostId] = useState(null);
+
   const modalRef = useRef(null);
   const buttonRef = useRef(null);
 
@@ -30,6 +33,18 @@ export default function PostList({
       };
     }
   }, [modalRef, buttonRef, isOpen]);
+
+  const [isWriteModalOpen, setIsWriteModalOpen] = useState(false);
+  const [modifyPostId, setModifyPostId] = useState(null);
+  const closeWriteModal = () => {
+    setIsWriteModalOpen(false);
+  };
+
+  const modifyHandler = (postId) => {
+    setModifyPostId(postId);
+    setIsWriteModalOpen(true);
+  };
+
   const togglePostPrivacy = async (postId, postIsPrivate) => {
     setIsOpen(false);
     try {
@@ -58,31 +73,7 @@ export default function PostList({
     }
   };
 
-  function handlePostMoreBtnClick(postId) {
-    const modalType = isMyself ? "isMyPost" : "isNotMyPost";
-
-    if (!isOpen) {
-      setModalType(modalType);
-      setIsOpen(true);
-      setActivePostId(postId);
-
-      if (buttonRef.current) {
-        const position = {
-          position: "absolute",
-          bottom: "20px",
-          right: "0px",
-          zIndex: "1000",
-        };
-        setModalStyle(position);
-      }
-    } else {
-      setModalType(null);
-      setIsOpen(false);
-      setActivePostId(null);
-    }
-  }
-
-  const changeSpark = (postId) => {
+  const handleSparkUpdate = useCallback((postId) => {
     setPosts((currentPosts) => ({
       ...currentPosts,
       posts: currentPosts.posts.map((post) =>
@@ -90,27 +81,12 @@ export default function PostList({
           ? {
               ...post,
               sparkCount: post.sparkCount + (post.hasUserSparked ? -1 : 1),
-              hasUserSparked: post.hasUserSparked ? false : true,
+              hasUserSparked: !post.hasUserSparked,
             }
           : post
       ),
     }));
-  };
-
-  const sparkHandle = async (postId) => {
-    if (!isLoggedIn) return;
-    changeSpark(postId); // 반짝 토글 시 UI 변경
-
-    try {
-      const res = await fetchWithAuth(`/api/post/spark/${postId}`);
-      if (!res.ok || res.status !== 200) {
-        throw new Error("반짝 실패");
-      }
-    } catch (error) {
-      console.error("Error sparking post:", error);
-      changeSpark(postId); // 반짝 실패 시 원래 상태로 복구
-    }
-  };
+  }, []);
 
   let tomongStampUrl = "/images/tomong-stamp.png";
 
@@ -122,107 +98,102 @@ export default function PostList({
     tomongStampUrl = "/images/tomong-stamp-dark.png";
   }
 
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
+  const [reportId, setReportId] = useState(null);
+
+  const handleReport = async (postId) => {
+    setReportId(postId);
+    setIsReportModalOpen(true);
+  };
+
+  /* PostCard 컴포넌트에 전달할 props */
+
+  const modalProps = {
+    isOpen,
+    setIsOpen,
+    modalType,
+    activePostId,
+    modalRef,
+    buttonRef,
+    modalStyle,
+  };
+
+  const handlePostAction = useCallback((actionType, postId, ...args) => {
+    switch (actionType) {
+      case "modify":
+        modifyHandler(postId);
+        break;
+      case "togglePrivacy":
+        togglePostPrivacy(postId, args[0]);
+        break;
+      case "report":
+        handleReport(postId);
+        break;
+    }
+  }, []);
+
+  const handleMoreClick = useCallback(
+    (postId) => {
+      const type = isMyself ? "isMyPost" : "isNotMyPost";
+
+      if (!isOpen || activePostId !== postId) {
+        setModalType(type);
+        setIsOpen(true);
+        setActivePostId(postId);
+        setModalStyle({
+          position: "absolute",
+          bottom: "20px",
+          right: "0px",
+          zIndex: "1000",
+        });
+      } else {
+        setModalType(null);
+        setIsOpen(false);
+        setActivePostId(null);
+      }
+    },
+    [isMyself, isOpen, activePostId]
+  );
+
+  const handlePostSelect = useCallback((postId) => {
+    setSelectedPostId(postId);
+  }, []);
+
   return (
     <>
       {posts.posts.map((post) => (
-        <article
-          className={styles["post-wrap"]}
+        <PostCard
           key={post.id}
-          onClick={(e) => {
-            const target = e.target.textContent;
-            if (
-              target !== "수정하기" &&
-              target !== "삭제하기" &&
-              target !== "공개글로 변경하기" &&
-              target !== "비밀글로 변경하기" &&
-              target !== "신고하기"
-            ) {
-              setSelectedPostId(post.id);
-            }
-          }}
-        >
-          {post.isTomong && (
-            <img
-              src={tomongStampUrl}
-              className={styles["tomong-stamp"]}
-              alt="해몽이 존재함"
-            />
-          )}
-
-          <h3 className={`${styles["post-title"]}`}>
-            {post.isPrivate && (
-              <img
-                src="/images/lock.svg"
-                alt="비밀글"
-                className={styles["private-post"]}
-              />
-            )}
-            {post.title}
-          </h3>
-          {post.hasImages && (
-            <img
-              src="/images/image.svg"
-              alt="이미지"
-              className={styles["include-img"]}
-            />
-          )}
-          <p className={styles["post-text"]}>{post.content}</p>
-          <div className={styles["post-btn-container"]}>
-            <button
-              onClick={(e) => {
-                e.stopPropagation(); // article 클릭 이벤트 방지
-                sparkHandle(post.id);
-              }}
-            >
-              <img
-                src={
-                  post.hasUserSparked
-                    ? "/images/star-fill.svg"
-                    : "/images/star.svg"
-                }
-                alt={post.hasUserSparked ? "반짝 취소" : "반짝"}
-              />
-              <span>{post.sparkCount}</span>
-            </button>
-            <button onClick={() => setSelectedPostId(post.id)}>
-              <img src="/images/message.svg" alt="댓글" />
-              <span>{post.commentsCount}</span>
-            </button>
-            {isOpen && modalType === "isMyPost" && activePostId === post.id && (
-              <MyPost
-                ref={modalRef}
-                style={modalStyle}
-                className={styles["more-modal"]}
-                postId={post.id}
-                postIsPrivate={post.isPrivate}
-                togglePostPrivacy={() =>
-                  togglePostPrivacy(post.id, post.isPrivate)
-                }
-              />
-            )}
-            {isOpen &&
-              modalType === "isNotMyPost" &&
-              activePostId === post.id && (
-                <OtherPost
-                  ref={modalRef}
-                  style={modalStyle}
-                  className={styles["more-modal"]}
-                />
-              )}
-            <button>
-              <img
-                src="/images/more.svg"
-                alt="더보기"
-                ref={buttonRef}
-                onClick={(e) => {
-                  e.stopPropagation(); // article 클릭 이벤트 방지
-                  handlePostMoreBtnClick(post.id);
-                }}
-              />
-            </button>
-          </div>
-        </article>
+          post={post}
+          isLoggedIn={isLoggedIn}
+          styles={styles}
+          tomongStampUrl={tomongStampUrl}
+          onSparkUpdate={handleSparkUpdate}
+          setPosts={setPosts}
+          modalProps={modalProps}
+          onPostAction={handlePostAction}
+          onMoreClick={handleMoreClick}
+          onPostSelect={handlePostSelect}
+        />
       ))}
+      {isWriteModalOpen && (
+        <WritePost
+          key={`${modifyPostId}-modify`}
+          isWriteModalOpen={isWriteModalOpen}
+          closeWriteModal={closeWriteModal}
+          modifyId={modifyPostId}
+        />
+      )}
+      {isReportModalOpen && (
+        <ReportModal
+          key={`${reportId}-report`}
+          isOpen={isReportModalOpen}
+          closeModal={() => setIsReportModalOpen(false)}
+          postId={reportId}
+        />
+      )}
     </>
   );
-}
+});
+
+export default PostList;

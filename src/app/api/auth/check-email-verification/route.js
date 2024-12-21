@@ -68,11 +68,10 @@ export async function PUT(req) {
   }
 }
 
-// GET 메서드 추가 - 이메일 인증 상태 확인
-export async function GET(req) {
+// POST 메서드 추가 - 이메일 인증 상태 확인
+export async function POST(req) {
   try {
-    const { searchParams } = new URL(req.url);
-    const email = searchParams.get("email");
+    const { email } = await req.json();
 
     if (!email) {
       return Response.json(

@@ -10,10 +10,6 @@
   padding: 4rem 0;
 }
 
-html:has(.post-modal) {
-  overflow: hidden;
-}
-
 .post-modal {
   z-index: 1000;
   position: fixed;
@@ -23,7 +19,6 @@ html:has(.post-modal) {
   width: 95vw;
   max-width: 155.4rem;
   height: 90vh;
-  min-height: 50rem;
   max-height: 100rem;
   border-radius: 1rem;
   background-color: var(--background-lightgray);
@@ -76,20 +71,9 @@ html:has(.post-modal) {
   font-size: var(--h2-font-size);
   margin-bottom: 1.6rem;
 }
-.long-profile-info,
-.long-profile-info span {
-  display: block;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  width: 16ch;
-}
-.uploaded-time,
-.profile-info span {
-  display: block;
-  width: 100%;
-}
+
 .uploaded-time {
+  width: 100%;
   font-size: var(--body-font-size);
   color: var(--time-font-color);
 }
@@ -103,6 +87,9 @@ html:has(.post-modal) {
 .button-list li {
   display: flex;
   align-items: center;
+}
+.button-list li img {
+  object-fit: contain;
 }
 
 .button-list button {
@@ -119,10 +106,10 @@ html:has(.post-modal) {
 }
 
 .post-text {
-  min-width: 43.8rem;
+  min-width: 40.5rem;
   max-width: 66.5rem;
-  height: 82.3%;
-  max-height: 80.3rem;
+  height: 100%;
+  max-height: 79%;
   background-color: var(--background-white);
   border-radius: 1rem;
   padding: 1.6rem 1rem 4rem 4.3rem;
@@ -152,6 +139,9 @@ html:has(.post-modal) {
   display: inline-block;
   width: 100%;
   margin: 2.5rem 0;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-all;
   font-size: var(--h2-font-size);
 }
 
@@ -264,7 +254,6 @@ img.tomong-icon {
 
 .comment-input {
   width: 100%;
-  min-width: 19rem;
   height: 9.4rem;
   background-color: unset;
   color: var(--black-font-color);
@@ -362,12 +351,14 @@ input[type="checkbox"]:checked + label.checkbox::before {
 
 @media (max-width: 720px) {
   .post-modal {
-    padding: 2rem 2rem 2rem 2rem;
+    padding: 2rem 0 2rem 2rem;
     flex-direction: column;
     min-width: 34rem;
     overflow-y: scroll;
   }
-
+  .bookmark {
+    display: none;
+  }
   .post-section {
     padding-right: 0;
     margin-right: 0;
@@ -375,6 +366,9 @@ input[type="checkbox"]:checked + label.checkbox::before {
     margin-bottom: 1rem;
     background: url(/images/dash.svg) repeat-x bottom;
     background-size: 12px 2px;
+  }
+  .post-info-section {
+    padding-left: 1.4rem;
   }
   .post-text {
     min-width: 30rem;
@@ -388,6 +382,7 @@ input[type="checkbox"]:checked + label.checkbox::before {
     justify-content: flex-start;
     gap: 1rem;
     flex-wrap: wrap;
+    padding-right: 2rem;
   }
 
   .button-list li:first-of-type {
@@ -412,10 +407,38 @@ input[type="checkbox"]:checked + label.checkbox::before {
   .comment-input {
     height: 5rem;
   }
+  .close-btn {
+    top: 1.5rem;
+    right: 0;
+  }
+  .more-btn {
+    position: absolute;
+    top: 4.15rem;
+    right: 1rem;
+  }
 }
 
 @media (max-width: 480px) {
-  .long-profile-info {
+  .profile-info {
     font-size: var(--body-font-size);
+  }
+
+  .post-tag {
+    gap: 0.4rem;
+  }
+  .post-tag li {
+    padding: 0.4rem 1rem;
+    font-size: var(--tiny-text-font-size);
+  }
+  .dream-felt {
+    padding: 0.4rem 1.6rem;
+    font-size: var(--tiny-text-font-size);
+  }
+  .button-list button img {
+    width: 2.4rem;
+    height: 2.4rem;
+  }
+  .dream-score {
+    font-size: var(--tiny-text-font-size);
   }
 }

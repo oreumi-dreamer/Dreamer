@@ -43,12 +43,7 @@ export default function NarrowHeader({
       href: "/search",
       img: "/images/search.svg",
     },
-    {
-      label: "알람",
-      className: "alarm-btn",
-      href: "/alarm",
-      img: "/images/alarm.svg",
-    },
+
     {
       label: "토몽",
       className: "tomong-btn",
@@ -108,25 +103,21 @@ export default function NarrowHeader({
         onClick={handleToggleBtn}
       >
         {isLightMode ? (
-          <>
-            <span className="sr-only">다크모드로 변경</span>
-            <Image
-              src="/images/toggle-sun.svg"
-              alt="라이트모드"
-              width={35}
-              height={35}
-            />
-          </>
+          <Image
+            src="/images/toggle-sun.svg"
+            alt="다크 모드로 변경"
+            aria-hidden="true"
+            width={35}
+            height={35}
+          />
         ) : isDarkMode ? (
-          <>
-            <span className="sr-only">라이트모드로 변경</span>
-            <Image
-              src="/images/toggle-moon.svg"
-              alt="다크모드"
-              width={35}
-              height={35}
-            />
-          </>
+          <Image
+            src="/images/toggle-moon.svg"
+            alt="라이트 모드로 변경"
+            aria-hidden="true"
+            width={35}
+            height={35}
+          />
         ) : (
           ""
         )}

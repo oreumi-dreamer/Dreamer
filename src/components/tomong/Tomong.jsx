@@ -83,7 +83,7 @@ export function TomongSelect({ setProcess, setSelectedDream }) {
       <h2 className={styles["title"]}>꿈을 골라주세요!</h2>
       <div className={styles["tomong-body"]}>
         {isLoading ? (
-          <Loading type="small" />
+          <Loading type="circle" />
         ) : !dreams.length ? (
           <>
             <p>아직 {userName}님이 들려준 꿈이 없어요!</p>
@@ -291,7 +291,7 @@ export function TomongResult({
     <>
       <h2 className={styles["title"]}>꿈을 해몽해드릴게요!</h2>
       {isLoading ? (
-        <Loading type="small" />
+        <Loading type="circle" />
       ) : (
         <>
           <div
@@ -330,7 +330,9 @@ export function TomongLists({ setProcess, setTomongDream }) {
       let data = null;
       if (res.ok) {
         data = await res.json();
-        const filteredDream = data.posts.filter((post) => !!post.tomongs);
+        const filteredDream = data.posts.filter(
+          (post) => post.tomongs?.length > 0
+        );
         setDreams(filteredDream);
       }
 
@@ -350,7 +352,7 @@ export function TomongLists({ setProcess, setTomongDream }) {
       <h2 className={styles["title"]}>해몽된 꿈 목록</h2>
       <div className={styles["tomong-body"]}>
         {isLoading ? (
-          <Loading type="small" />
+          <Loading type="circle" />
         ) : !dreams.length ? (
           <>
             <p>토몽이가 해석해 준 {userName}님의 꿈이 없어요!</p>

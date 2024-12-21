@@ -13,6 +13,7 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
   const [isNameValid, setIsNameValid] = useState(false);
   const [isBirthValid, setIsBirthValid] = useState(false);
   const [isAgree, setIsAgree] = useState(false);
+  const [idError, setIdError] = useState("");
 
   const router = useRouter();
 
@@ -52,6 +53,9 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
     const inputClass = e.target.classList;
 
     if (type === "userId") {
+      if (userId !== "") {
+        checkId();
+      }
       if (!valid) {
         inputClass.add(`${styles.invalid}`);
       } else {
@@ -67,6 +71,24 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
       }
     }
   };
+
+  async function checkId() {
+    try {
+      const idRes = await fetch("/api/join/check-userid", {
+        method: "POST",
+        body: JSON.stringify({ userId: userId }),
+      });
+      const idData = await idRes.json();
+      if (idData.isDuplicate) {
+        setIsIdValid(false);
+        setIdError("이미 사용중인 아이디입니다.");
+      } else {
+        setIdError("");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   const todayYear = new Date().getFullYear();
 
@@ -101,8 +123,10 @@ export default function BasicInfoForm({ onSubmit, formData, setters }) {
             required
           />
           <span className={styles["invalid-text"]}>
-            {!isIdValid &&
+            {!idError &&
+              !isIdValid &&
               "아이디는 4~20자의 영문 소문자와 숫자로 입력해주세요."}
+            {idError && idError}
           </span>
           <img
             src={isIdValid ? "/images/valid.svg" : "/images/invalid.svg"}

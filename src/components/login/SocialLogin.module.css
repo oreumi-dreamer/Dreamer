@@ -1,14 +1,17 @@
 body:has(.login-title) {
   background: var(--background-pink-top);
-  padding: 0 !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8rem auto !important;
 }
 main:has(.login-title) {
   max-width: 86rem;
   border-radius: 2rem;
-  margin: 8rem auto;
-  height: 92rem;
-  max-height: 92rem;
-  padding: 5.7rem 15.7rem 8.4rem 15.7rem;
+  width: 90vw;
+  max-width: 86rem;
+  height: fit-content;
+  padding: 4.7rem 15.7rem 2.5rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -18,18 +21,20 @@ main:has(.login-title) {
   gap: 0;
 }
 main:has(.login-title) img {
-  max-width: 48rem;
+  max-width: 36rem;
 }
-.login-form {
-  gap: 0;
-}
+
 .login-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 1.6rem;
 }
+
+.login-container .login-form {
+  row-gap: 0;
+}
+
 .id-label {
   margin-bottom: 4rem;
 }
@@ -44,7 +49,7 @@ main:has(.login-title) img {
   margin: 0.5rem 0 7.5rem 0;
 }
 .login-title {
-  font-size: var(--big-text-font-size);
+  font-size: var(--h2-font-size);
   font-weight: bold;
 }
 .login-button {
@@ -52,6 +57,10 @@ main:has(.login-title) img {
   max-width: 14.5rem;
   margin-bottom: 6.8rem;
 }
+button.login-button:has(div):disabled {
+  background: none;
+}
+
 .google-login {
   display: flex;
   flex-direction: column;
@@ -59,16 +68,41 @@ main:has(.login-title) img {
   gap: 0.8rem;
   margin-bottom: 0.8rem;
 }
-.join-button button,
-.join-button button:hover,
-.join-button button:active,
-.join-button a,
-.join-button a:hover,
-.join-button a:active {
+
+.account-btns {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 1.6rem;
+  text-align: center;
+}
+
+.account-btns .join-button a,
+.account-btns .find-button button {
   background: none;
   padding: 0;
   color: var(--deep-pink-color);
   margin: 0 0 3.7rem 0.4rem;
+}
+.find-button button,
+.find-button button:hover,
+.find-button button:active,
+.find-button a,
+.find-button a:hover,
+.find-button a:active {
+  padding: 0;
+  background: none;
+  color: var(--deep-pink-color);
+  font-size: var(--body-font-size);
+}
+.account-btns .join-button a:hover,
+.account-btns .find-button button:hover {
+  color: var(--hover-btn-color);
+}
+.account-btns .join-button a:active,
+.account-btns .find-button button:active {
+  color: var(--active-btn-color);
 }
 
 /* '/' 첫페이지 구글,이메일 로그인 버튼 */
@@ -109,7 +143,7 @@ main:has(.login-title) img {
   color: var(--white-color);
 }
 .email-login-btn:hover {
-  background-color: var(--none-active-color);
+  background-color: var(--email-login-btn-hover-color);
 }
 .email-login-btn:active {
   background-color: var(--email-login-btn-active-color);
@@ -123,10 +157,64 @@ main:has(.login-title) img {
   cursor: not-allowed;
 }
 
+/* 비밀번호 찾기 창 */
+.login-container .find-form label {
+  margin-bottom: 0;
+  display: grid;
+  grid-template-rows: auto 1fr 2.4rem;
+}
+
+.input-wrap {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  column-gap: 0.6rem;
+  border-radius: 1rem;
+  background-color: var(--input-color);
+}
+
+.input-wrap input {
+  background: none;
+}
+
+.password-wrap {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  column-gap: 0.6rem;
+  border-radius: 1rem;
+}
+
+.input-wrap button {
+  width: fit-content;
+  height: fit-content;
+  margin-right: 0.6rem;
+}
+
+.invalid-text {
+  font-weight: 400;
+  font-size: var(--body-font-size);
+  color: var(--invalid-text-color);
+}
+
+.bottom-btns {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.6rem;
+  padding: 0 1.5rem;
+}
+
+.bottom-btns button {
+  margin-bottom: 0;
+}
+
 @media (max-width: 720px) {
   main:has(.login-title) {
     height: fit-content;
-    margin: 8rem 2rem 0 2rem;
     padding: 1.6rem 2.5rem;
     justify-content: flex-start;
   }
@@ -174,7 +262,18 @@ main:has(.login-title) img {
   }
   .error-message,
   .google-login,
-  .join-button {
+  .join-button,
+  .find-button {
     font-size: var(--small-text-font-size);
+  }
+}
+
+@media (max-height: 860px) {
+  body:has(.login-title) {
+    align-items: flex-start;
+  }
+
+  main:has(.login-title) {
+    margin: 8rem 0;
   }
 }

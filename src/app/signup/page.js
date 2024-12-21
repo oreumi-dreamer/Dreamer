@@ -156,10 +156,10 @@ export default function Signup() {
     <main className={styles["signup-main"]}>
       <SignupHeader />
       <h2 className="sr-only">회원 가입</h2>
-      {isLoading && <Loading type="small" />}
+      {isLoading && <Loading type="circle" />}
       {error && <div className={styles.error}>{error}</div>}
       {isJoined ? (
-        <Loading type="small" />
+        <Loading type="circle" />
       ) : (
         <>
           {process === 0 && (

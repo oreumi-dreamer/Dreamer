@@ -8,10 +8,8 @@ import {
   Select,
   Textarea,
 } from "../Controls";
-import { useRouter } from "next/navigation";
 import { loginSuccess } from "@/store/authSlice";
 import { useDispatch } from "react-redux";
-import useTheme from "@/hooks/styling/useTheme";
 import Loading from "../Loading";
 
 export default function ProfileEdit({
@@ -25,20 +23,16 @@ export default function ProfileEdit({
   const [userName, setUserName] = useState(profile.name);
   const [userId, setUserId] = useState(profile.id);
   const [bio, setBio] = useState(profile.bio);
-
   const birthDate = new Date(profile.birthDate);
-
   const [year, setYear] = useState(birthDate.getFullYear());
   const [month, setMonth] = useState(birthDate.getMonth() + 1);
   const [day, setDay] = useState(birthDate.getDate());
   const [lastDay, setLastDay] = useState(31);
   const [isPrivate, setIsPrivate] = useState(profile.isPrivate);
-
   const [newImage, setNewImage] = useState(null);
-
   const [isLoading, setIsLoading] = useState(false);
-
-  const router = useRouter();
+  const [isUserIdValid, setIsUserIdValid] = useState(false);
+  const [isUserNameValid, setIsUserNameValid] = useState(false);
   const dispatch = useDispatch();
 
   const handleNewImage = (e) => {
@@ -63,7 +57,13 @@ export default function ProfileEdit({
         setDay(newLastDay);
       }
     }
-  }, [year, month]);
+    const idPattern = /^[a-z0-9]{4,20}$/;
+    !idPattern.test(userId) ? setIsUserIdValid(false) : setIsUserIdValid(true);
+
+    userName.length < 2 || userName.length > 20
+      ? setIsUserNameValid(false)
+      : setIsUserNameValid(true);
+  }, [year, month, userId, userName]);
 
   useEffect(() => {
     setProfile((pervProfile) => ({
@@ -108,7 +108,6 @@ export default function ProfileEdit({
       });
 
       const data = await res.json();
-      console.log(data);
       if (!res.ok) {
         throw new Error(data.message || "프로필 수정에 실패했습니다.");
       }
@@ -156,7 +155,7 @@ export default function ProfileEdit({
   };
 
   return (
-    <article className={styles["profile-wrap"]}>
+    <article className={styles["edit-profile-wrap"]}>
       <h2 className="sr-only">프로필 편집</h2>
       <form onSubmit={handleSubmit} className={styles["profile-form"]}>
         <fieldset className={styles["profile-form-pic"]}>
@@ -169,8 +168,8 @@ export default function ProfileEdit({
                   : "/images/rabbit.svg"
             }
             className={styles["profile-image"]}
-            width={160}
-            height={160}
+            width={150}
+            height={150}
             alt={profile.name + "님의 프로필 이미지"}
           />
           <ButtonLabel highlight={true}>
@@ -181,6 +180,7 @@ export default function ProfileEdit({
         <fieldset className={styles["profile-form-info"]}>
           <label className={styles["relative"]}>
             이름
+            <span className={styles.validation}>* 2~20자로 입력해주세요.</span>
             <Input
               type="text"
               value={userName}
@@ -192,6 +192,9 @@ export default function ProfileEdit({
           </label>
           <label className={styles["relative"]}>
             아이디
+            <span className={styles.validation}>
+              * 4~20자의 영문 소문자, 숫자로 입력해주세요.
+            </span>
             <Input
               type="text"
               value={userId}
@@ -259,9 +262,9 @@ export default function ProfileEdit({
           </div>
           <div className={styles["form-btn-row"]}>
             {isLoading ? (
-              <button type="button">
+              <Button type="button" disabled={true}>
                 <Loading type="miniCircle" className={styles["loading"]} />
-              </button>
+              </Button>
             ) : (
               <>
                 <Button
@@ -275,7 +278,7 @@ export default function ProfileEdit({
                 <Button
                   type="submit"
                   highlight={true}
-                  disabled={userName.length < 2 || userId.length < 4}
+                  disabled={!isUserIdValid || !isUserNameValid}
                 >
                   수정 완료
                 </Button>

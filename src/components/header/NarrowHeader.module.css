@@ -18,6 +18,10 @@
   display: block;
 }
 
+.logo img {
+  filter: var(--filter-EEF0DE);
+}
+
 .mode-toggle-btn {
   width: 5.6rem;
   height: 5.6rem;
@@ -150,18 +154,11 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  [data-theme="device"] .logo img {
-    /* #e0e0e0 */
-    filter: var(--filter-EEF0DE);
-  }
   [data-theme="device"] .mode-toggle-btn.light-mode img {
     filter: none;
   }
 }
 
-[data-theme="dark"] .logo img {
-  filter: var(--filter-EEF0DE);
-}
 [data-theme="dark"] .mode-toggle-btn.light-mode img {
   filter: none;
 }
@@ -190,7 +187,7 @@
   .header-btn-container {
     width: 100%;
     display: grid;
-    grid-template-columns: 4fr 2fr;
+    grid-template-columns: 3fr 2fr;
     justify-content: space-between;
     align-items: center;
     padding: 0;

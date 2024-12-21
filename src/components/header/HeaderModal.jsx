@@ -1,6 +1,6 @@
 import React, { forwardRef } from "react";
 import styles from "./HeaderModal.module.css";
-import { setModalType } from "@/store/modalSlice";
+import { closeModal, setModalType } from "@/store/modalSlice";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import useTheme from "@/hooks/styling/useTheme";
@@ -31,6 +31,7 @@ function MoreModal() {
         <Link
           href="/account"
           className={`${styles["setting-btn"]} ${styles["header-modal-btn"]}`}
+          onClick={() => dispatch(closeModal())}
         >
           계정 설정
         </Link>
@@ -46,17 +47,19 @@ function MoreModal() {
       <li className={styles["modal-items"]}>
         <button
           className={`${styles["inquiry-btn"]} ${styles["header-modal-btn"]}`}
+          onClick={() => dispatch(closeModal())}
         >
           문의 사항
         </button>
       </li>
       <li className={styles["modal-items"]}>
-        <Link
+        <a
           href="/logout"
           className={`${styles["logout-btn"]} ${styles["header-modal-btn"]}`}
+          onClick={() => dispatch(closeModal())}
         >
           로그아웃
-        </Link>
+        </a>
       </li>
     </ul>
   );

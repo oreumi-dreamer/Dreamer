@@ -8,6 +8,17 @@ import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { auth } from "@/lib/firebase";
+import { disableScroll, enableScroll } from "@/utils/scrollHandler";
+
+export const handleClickWithKeyboard = (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+  if (e.key === "Enter" || e.key === " ") {
+    e.target.click();
+  } else if (e.key === "Tab") {
+    e.target.blur();
+  }
+};
 
 export const CustomScrollbar = ({ containerRef, trackStyle }) => {
   // 상수 정의
@@ -244,10 +255,20 @@ export function Input({
   minLength,
   maxLength,
   onKeyDown,
+  placeholder,
 }) {
   let inputClass = styles["input"];
-  if (type === "text" || type === "password" || type === "email") {
+  if (
+    type === "text" ||
+    type === "password" ||
+    type === "email" ||
+    type === "search"
+  ) {
     inputClass = styles["input-text"];
+  }
+
+  if (background === "white") {
+    inputClass = `${inputClass} ${styles["input-white"]}`;
   }
 
   return (
@@ -255,10 +276,10 @@ export function Input({
       type={type}
       value={value}
       onChange={onChange}
+      placeholder={placeholder}
       id={id}
       className={inputClass}
       disabled={disabled}
-      style={background === "white" ? { backgroundColor: "white" } : {}}
       onBlur={onBlur}
       onKeyDown={onKeyDown}
       minLength={minLength}
@@ -459,7 +480,7 @@ export function Select({
           </ul>
           <CustomScrollbar
             containerRef={listboxRef}
-            trackStyle={{ top: "calc(100% + 1rem)" }}
+            trackStyle={{ top: "calc(100% + 0.5rem)" }}
           />
         </div>
       )}
@@ -483,26 +504,38 @@ export function Select({
 export function Checkbox({ type, background, checked, onChange, children }) {
   if (type === "col") {
     return (
-      <label className={`${styles["checkbox"]} ${styles["checkbox-col"]}`}>
+      <label
+        className={`${styles["checkbox"]} ${styles["checkbox-col"]}`}
+        tabIndex={0}
+        role="checkbox"
+        onKeyDown={handleClickWithKeyboard}
+      >
         <input
           type="checkbox"
           checked={checked}
           onChange={onChange}
           className={styles["checkbox"]}
           style={background === "white" ? { backgroundColor: "white" } : {}}
+          tabIndex={-1}
         />
         {children}
       </label>
     );
   } else {
     return (
-      <label className={styles["checkbox"]}>
+      <label
+        className={styles["checkbox"]}
+        tabIndex={0}
+        role="checkbox"
+        onKeyDown={handleClickWithKeyboard}
+      >
         <input
           type="checkbox"
           checked={checked}
           onChange={onChange}
           className={styles["checkbox"]}
           style={background === "white" ? { backgroundColor: "white" } : {}}
+          tabIndex={-1}
         />
         {children}
       </label>
@@ -564,19 +597,18 @@ export function ShareModal({ isOpen, closeModal, link }) {
 
   useEffect(() => {
     const dialog = dialogRef.current;
-    const html = document.querySelector("html");
+
     if (isOpen) {
       dialog?.showModal();
-      html.style.overflowY = "hidden";
+      disableScroll();
     } else {
-      html.style.overflowY = "scroll";
+      enableScroll();
       dialog?.close();
     }
   }, [isOpen]);
 
   const handleClose = () => {
-    const html = document.querySelector("html");
-    html.style.overflowY = "scroll";
+    enableScroll();
     setIsCopied(false);
     closeModal();
   };
@@ -667,19 +699,18 @@ export function UsersList({
 
   useEffect(() => {
     const dialog = dialogRef.current;
-    const html = document.querySelector("html");
+
     if (isOpen) {
       dialog?.showModal();
-      html.style.overflowY = "hidden";
+      disableScroll();
     } else {
-      html.style.overflowY = "scroll";
+      enableScroll();
       dialog?.close();
     }
   }, [isOpen]);
 
   const handleClose = () => {
-    const html = document.querySelector("html");
-    html.style.overflowY = "scroll";
+    enableScroll();
     closeModal();
   };
 
@@ -737,7 +768,7 @@ export function UsersList({
       </button>
       <h2>{type === "followers" ? "팔로워" : "팔로잉"}</h2>
       <ul className={styles["users-list"]}>
-        {isLoading && <Loading type="small" />}
+        {isLoading && <Loading type="circle" />}
         {!isLoading && users.length === 0 && (
           <p className={styles["no-users"]}>
             아직 {type === "followers" ? "팔로워가 " : "팔로잉이 "}없어요!
@@ -746,7 +777,7 @@ export function UsersList({
         {!isLoading &&
           users.map((user) => (
             <li key={user.userId}>
-              <Link href={`/users/${user.userId}`}>
+              <Link href={`/users/${user.userId}`} onClick={handleClose}>
                 <img
                   src={
                     user.profileImageUrl
@@ -789,12 +820,12 @@ export function WithdrawModal({ isOpen, closeModal, userId }) {
 
   useEffect(() => {
     const dialog = dialogRef.current;
-    const html = document.querySelector("html");
+
     if (isOpen) {
       dialog?.showModal();
-      html.style.overflowY = "hidden";
+      disableScroll();
     } else {
-      html.style.overflowY = "scroll";
+      enableScroll();
       dialog?.close();
       // 모달이 닫힐 때 상태 초기화
       setStep(1);
@@ -804,8 +835,7 @@ export function WithdrawModal({ isOpen, closeModal, userId }) {
   }, [isOpen]);
 
   const handleClose = () => {
-    const html = document.querySelector("html");
-    html.style.overflowY = "scroll";
+    enableScroll();
     closeModal();
   };
 
@@ -922,3 +952,53 @@ export function WithdrawModal({ isOpen, closeModal, userId }) {
     </dialog>
   );
 }
+
+export const CommonModal = ({ isOpen, closeModal, children }) => {
+  const dialogRef = useRef(null);
+
+  useEffect(() => {
+    const dialog = dialogRef.current;
+
+    if (isOpen) {
+      dialog?.showModal();
+      disableScroll();
+    } else {
+      enableScroll();
+      dialog?.close();
+    }
+  }, [isOpen]);
+
+  // 백드롭 클릭을 감지하는 이벤트 핸들러
+  const handleClick = (e) => {
+    const dialogDimensions = dialogRef.current?.getBoundingClientRect();
+    if (dialogDimensions) {
+      const isClickedInDialog =
+        e.clientX >= dialogDimensions.left &&
+        e.clientX <= dialogDimensions.right &&
+        e.clientY >= dialogDimensions.top &&
+        e.clientY <= dialogDimensions.bottom;
+
+      if (!isClickedInDialog) {
+        handleClose();
+      }
+    }
+  };
+
+  const handleClose = () => {
+    enableScroll();
+    closeModal();
+  };
+
+  return (
+    <dialog
+      ref={dialogRef}
+      onClick={handleClick}
+      className={styles["common-modal"]}
+    >
+      <button onClick={handleClose} className={styles["btn-close"]}>
+        <img src="/images/close-without-padding.svg" alt="닫기" />
+      </button>
+      {children}
+    </dialog>
+  );
+};

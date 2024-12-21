@@ -20,7 +20,7 @@ export default function WideHeader({
 }) {
   const { isOpen } = useSelector((state) => state.modal);
   const { user } = useSelector((state) => state.auth);
-  const { userId, userName, profileImageUrl } = user;
+  const { userId, profileImageUrl } = user;
   const [modalStyle, setModalStyle] = useState({});
   const modalRef = useRef(null);
   const dispatch = useDispatch();
@@ -37,7 +37,6 @@ export default function WideHeader({
   const navItems = [
     { label: "홈", className: "home-btn", href: "/" },
     { label: "검색", className: "search-btn", href: "/search" },
-    { label: "알람", className: "alarm-btn", href: "/alarm" },
     { label: "토몽 AI", className: "tomong-btn", href: "/tomong" },
   ];
 
@@ -57,7 +56,7 @@ export default function WideHeader({
         }
       };
 
-      updatePosition(); // Initial position update
+      updatePosition();
       window.addEventListener("resize", updatePosition);
 
       const cleanup = outsideClickModalClose(modalRef, buttonRef, () => {
@@ -86,7 +85,11 @@ export default function WideHeader({
         className={`${styles["mode-toggle-btn"]} ${isLightMode ? styles["light-mode"] : isDarkMode ? styles["dark-mode"] : null} ${isHidden ? styles["hidden-btn"] : ""}`}
         onClick={handleToggleBtn}
       >
-        <div className={`${styles["toggle-switch"]}`}></div>
+        <div className={`${styles["toggle-switch"]}`}>
+          <span className="sr-only">
+            {isLightMode ? "다크 모드로 전환" : "라이트 모드로 전환"}
+          </span>
+        </div>
       </button>
       <div className={styles["header-btn-container"]}>
         <nav>
