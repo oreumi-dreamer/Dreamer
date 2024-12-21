@@ -85,15 +85,20 @@ article:has(.long-comment-info) {
   text-overflow: ellipsis;
 }
 .comment-info:has(.long-comment-info) .author-name {
-  max-width: 11rem;
+  max-width: 8.8rem;
 }
 .comment-info:has(.long-comment-info) .author-id {
   max-width: 8rem;
 }
-.comment-info:has(.long-comment-info) time {
+.comment-info:has(.long-comment-info) time,
+.comment-info:has(.long-comment-info) img {
   position: absolute;
   top: 0;
   white-space: nowrap;
+}
+.comment-info:has(.long-comment-info) img {
+  top: 0.2rem;
+  right: -5.1rem;
 }
 
 .edit-delete-button {
@@ -126,9 +131,14 @@ article:has(.long-comment-info) {
   .comment-info:has(.long-comment-info) .author-name {
     max-width: 100%;
   }
-  .comment-info:has(.long-comment-info) time {
+  .comment-info:has(.long-comment-info) time,
+  .comment-info:has(.long-comment-info) img {
     position: absolute;
     top: 1.7rem;
-    right: 0;
+    right: -4rem;
+  }
+  .comment-info:has(.long-comment-info) img {
+    top: 1.9rem;
+    right: -5.2rem;
   }
 }

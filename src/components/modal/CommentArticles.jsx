@@ -90,7 +90,9 @@ export default function CommentArticles({
         <ul className={styles["comment-info"]}>
           <li
             className={
-              comment.authorId.length > 10 ? styles["long-comment-info"] : ""
+              comment.authorId.length + comment.authorName.length > 10
+                ? styles["long-comment-info"]
+                : ""
             }
           >
             <Link href={`/users/${comment.authorId}`}>
