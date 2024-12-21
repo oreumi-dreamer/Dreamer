@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import styles from "./ProfileForm.module.css";
+import { handleClickWithKeyboard } from "../Controls";
 
 export default function ProfileForm({
   onSubmit,
@@ -43,12 +44,20 @@ export default function ProfileForm({
         <div className={styles["form-field"]}>
           <p htmlFor="profileImage">프로필 사진</p>
           <span>1920px*1920px 이하의 JPG 혹은 PNG 권장</span>
-          <label htmlFor="profileImage">파일 첨부</label>
+          <label
+            htmlFor="profileImage"
+            tabIndex={0}
+            onKeyDown={handleClickWithKeyboard}
+            role="button"
+          >
+            파일 첨부
+          </label>
           <input
             type="file"
             id="profileImage"
             accept="image/*"
             onChange={handleImageChange}
+            tabIndex={-1}
           />
           <Image
             src={profileImage ? profileImage : "/images/rabbit.svg"}
@@ -96,8 +105,16 @@ export default function ProfileForm({
               value="deviceMode"
               onChange={handleThemeChange}
               checked={theme === "deviceMode"}
+              tabIndex={-1}
             />
-            <label htmlFor="deviceMode">기기 설정 사용</label>
+            <label
+              htmlFor="deviceMode"
+              tabIndex={0}
+              onKeyDown={handleClickWithKeyboard}
+              role="button"
+            >
+              기기 설정 사용
+            </label>
 
             <input
               type="radio"
@@ -106,8 +123,16 @@ export default function ProfileForm({
               value="light"
               onChange={handleThemeChange}
               checked={theme === "light"}
+              tabIndex={-1}
             />
-            <label htmlFor="light">라이트 모드</label>
+            <label
+              htmlFor="light"
+              tabIndex={0}
+              onKeyDown={handleClickWithKeyboard}
+              role="button"
+            >
+              라이트 모드
+            </label>
 
             <input
               type="radio"
@@ -116,8 +141,16 @@ export default function ProfileForm({
               value="dark"
               onChange={handleThemeChange}
               checked={theme === "dark"}
+              tabIndex={-1}
             />
-            <label htmlFor="dark">다크 모드</label>
+            <label
+              htmlFor="dark"
+              tabIndex={0}
+              onKeyDown={handleClickWithKeyboard}
+              role="button"
+            >
+              다크 모드
+            </label>
           </div>
         </div>
       </fieldset>
