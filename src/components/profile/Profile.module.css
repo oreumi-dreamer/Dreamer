@@ -96,15 +96,36 @@
   background-color: var(--active-btn-color);
 }
 
+.profile-info {
+  width: 100%;
+  overflow: hidden;
+}
+
 .profile-stat {
-  display: flex;
+  display: grid;
+  justify-content: flex-start;
   margin-bottom: 0.8rem;
   white-space: nowrap;
   color: var(--black-font-color);
+  column-gap: 1.4rem;
+  row-gap: 0.6rem;
+  grid-template-areas: "postcount following follower";
 }
 
-.profile-stat li {
-  margin-right: 1.4rem;
+.wrap-layout {
+  grid-template-areas: "postcount postcount" "following follower";
+}
+
+.profile-stat li:nth-child(1) {
+  grid-area: postcount;
+}
+
+.profile-stat li:nth-child(2) {
+  grid-area: following;
+}
+
+.profile-stat li:nth-child(3) {
+  grid-area: follower;
 }
 
 .profile-bio {
@@ -124,9 +145,13 @@
 
 .profile-form {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
   width: 100%;
   flex-direction: row;
   column-gap: 3.8rem;
+  row-gap: 1.2rem;
 }
 
 .profile-form input,
@@ -146,10 +171,12 @@
 }
 
 .profile-form-info {
+  min-width: 32rem;
   display: flex;
-  width: 100%;
   flex-direction: column;
   row-gap: 0.8rem;
+  flex-grow: 1;
+  word-break: break-all;
 }
 
 .profile-form-info label {
@@ -441,6 +468,11 @@
   /* profile form */
   .profile-form {
     flex-direction: column;
+  }
+
+  .profile-form-info {
+    width: 100%;
+    min-width: 0;
   }
 
   .profile-form-pic img {

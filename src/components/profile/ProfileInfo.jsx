@@ -1,6 +1,7 @@
 import { UsersList } from "../Controls";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
+import { handleClickWithKeyboard } from "../Controls";
 
 export default function ProfileInfo({
   profile,
@@ -14,6 +15,35 @@ export default function ProfileInfo({
   const [following, setFollowing] = useState([]);
   const [users, setUsers] = useState([]);
   const [isUsersLoading, setIsUsersLoading] = useState(true);
+
+  const statListRef = useRef(null);
+
+  // 팔로워, 팔로잉 목록이 한 줄에 표시되도록 레이아웃 조정
+  useEffect(() => {
+    const statList = statListRef.current;
+    if (!statList) return;
+
+    const resizeObserver = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const containerWidth = entry.contentRect.width;
+        const items = Array.from(statList.children);
+        const totalItemsWidth = items.reduce((sum, item) => {
+          return sum + item.getBoundingClientRect().width;
+        }, 0);
+
+        const totalWidth = totalItemsWidth + 14 * 2;
+
+        if (totalWidth > containerWidth) {
+          statList.classList.add(styles["wrap-layout"]);
+        } else {
+          statList.classList.remove(styles["wrap-layout"]);
+        }
+      }
+    });
+
+    resizeObserver.observe(statList);
+    return () => resizeObserver.disconnect();
+  }, []);
 
   const handleFollowersClick = async () => {
     setIsShowUsersModal(true);
@@ -98,12 +128,22 @@ export default function ProfileInfo({
             )}
             <p className={styles["profile-id"]}>@{profile.id}</p>
           </div>
-          <ul className={styles["profile-stat"]}>
+          <ul className={styles["profile-stat"]} ref={statListRef}>
             <li>게시물 {profile.length}개</li>
-            <li onClick={handleFollowingClick} role="button">
+            <li
+              onClick={handleFollowingClick}
+              role="button"
+              tabIndex={0}
+              onKeyDown={handleClickWithKeyboard}
+            >
               팔로잉 {profile.followingCount ? profile.followingCount : 0}명
             </li>
-            <li onClick={handleFollowersClick} role="button">
+            <li
+              onClick={handleFollowersClick}
+              role="button"
+              tabIndex={0}
+              onKeyDown={handleClickWithKeyboard}
+            >
               팔로워 {profile.followersCount ? profile.followersCount : 0}명
             </li>
           </ul>

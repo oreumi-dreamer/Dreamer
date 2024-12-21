@@ -88,21 +88,6 @@ const PostList = React.memo(function PostList({
     }));
   }, []);
 
-  const changeSpark = (postId) => {
-    setPosts((currentPosts) => ({
-      ...currentPosts,
-      posts: currentPosts.posts.map((post) =>
-        post.id === postId
-          ? {
-              ...post,
-              sparkCount: post.sparkCount + (post.hasUserSparked ? -1 : 1),
-              hasUserSparked: post.hasUserSparked ? false : true,
-            }
-          : post
-      ),
-    }));
-  };
-
   let tomongStampUrl = "/images/tomong-stamp.png";
 
   if (
@@ -125,6 +110,7 @@ const PostList = React.memo(function PostList({
 
   const modalProps = {
     isOpen,
+    setIsOpen,
     modalType,
     activePostId,
     modalRef,

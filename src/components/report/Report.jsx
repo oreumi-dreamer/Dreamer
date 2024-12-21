@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button, CommonModal, Select } from "../Controls";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 import Loading from "../Loading";
@@ -20,7 +20,6 @@ export default function ReportModal({ isOpen, closeModal, postId }) {
 
   const handleReport = async (reason, postId) => {
     setIsLoading(true);
-    const html = document.querySelector("html");
     try {
       const response = await fetchWithAuth("/api/report", {
         method: "POST",
@@ -33,11 +32,10 @@ export default function ReportModal({ isOpen, closeModal, postId }) {
       }
 
       setIsLoading(false);
-      html.style.overflowY = "scroll";
+      enableScroll();
       alert("신고가 접수되었습니다.");
       closeModal();
     } catch (error) {
-      html.style.overflowY = "scroll";
       alert(error.message);
       closeModal();
     }

@@ -71,7 +71,7 @@ export default function CommentArticles({
   }
 
   if (isLoading) {
-    return <Loading type="small" />;
+    return <Loading type="circle" />;
   }
   if (!commentData) {
     return (

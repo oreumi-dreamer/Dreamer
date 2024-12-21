@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import styles from "./PostModal.module.css";
 import PostContent from "../post/PostContent";
 import { ConfirmModal } from "../Controls";
+import { disableScroll, enableScroll } from "@/utils/scrollHandler";
 
 export default function PostModal({ postId, isShow, onClose }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -24,7 +25,6 @@ export default function PostModal({ postId, isShow, onClose }) {
   }
 
   useEffect(() => {
-    const html = document.querySelector("html");
     const dialog = dialogRef.current;
 
     if (isShow && dialog) {
@@ -33,7 +33,7 @@ export default function PostModal({ postId, isShow, onClose }) {
 
       dialog.showModal();
       setIsModalOpen(true);
-      html.style.overflowY = "hidden";
+      disableScroll();
 
       // 첫 번째 포커스 가능한 요소로 포커스 이동
       const focusableElements = dialog.querySelectorAll(
@@ -62,7 +62,7 @@ export default function PostModal({ postId, isShow, onClose }) {
             console.error("Dialog close error:", error);
           }
         }
-        html.style.overflowY = "scroll";
+        enableScroll();
 
         // 이전에 포커스되었던 요소로 포커스 이동
         if (previousFocusRef.current) {

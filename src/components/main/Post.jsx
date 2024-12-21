@@ -200,6 +200,16 @@ export default function Post({
     setShareModalOpen(false);
   };
 
+  const handleReportModalOpen = () => {
+    setIsReportModalOpen(true);
+    setIsOpen(false);
+  };
+
+  const handleWriteModalOpen = () => {
+    setIsWriteModalOpen(true);
+    setIsOpen(false);
+  };
+
   return (
     <>
       <article className={styles["article"]} ref={containerRef}>
@@ -254,14 +264,14 @@ export default function Post({
               }}
               postId={post.id}
               postIsPrivate={post.isPrivate}
-              setIsWriteModalOpen={setIsWriteModalOpen}
+              setIsWriteModalOpen={handleWriteModalOpen}
             />
           )}
           {isOpen && !post.isMyself && (
             <OtherPost
               ref={modalRef}
               style={modalStyle}
-              setIsReportModalOpen={setIsReportModalOpen}
+              setIsReportModalOpen={handleReportModalOpen}
             />
           )}
         </section>

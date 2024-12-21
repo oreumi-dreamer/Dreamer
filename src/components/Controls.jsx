@@ -8,6 +8,7 @@ import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { auth } from "@/lib/firebase";
+import { disableScroll, enableScroll } from "@/utils/scrollHandler";
 
 export const handleClickWithKeyboard = (e) => {
   e.preventDefault();
@@ -586,19 +587,18 @@ export function ShareModal({ isOpen, closeModal, link }) {
 
   useEffect(() => {
     const dialog = dialogRef.current;
-    const html = document.querySelector("html");
+
     if (isOpen) {
       dialog?.showModal();
-      html.style.overflowY = "hidden";
+      disableScroll();
     } else {
-      html.style.overflowY = "scroll";
+      enableScroll();
       dialog?.close();
     }
   }, [isOpen]);
 
   const handleClose = () => {
-    const html = document.querySelector("html");
-    html.style.overflowY = "scroll";
+    enableScroll();
     setIsCopied(false);
     closeModal();
   };
@@ -689,19 +689,18 @@ export function UsersList({
 
   useEffect(() => {
     const dialog = dialogRef.current;
-    const html = document.querySelector("html");
+
     if (isOpen) {
       dialog?.showModal();
-      html.style.overflowY = "hidden";
+      disableScroll();
     } else {
-      html.style.overflowY = "scroll";
+      enableScroll();
       dialog?.close();
     }
   }, [isOpen]);
 
   const handleClose = () => {
-    const html = document.querySelector("html");
-    html.style.overflowY = "scroll";
+    enableScroll();
     closeModal();
   };
 
@@ -759,7 +758,7 @@ export function UsersList({
       </button>
       <h2>{type === "followers" ? "팔로워" : "팔로잉"}</h2>
       <ul className={styles["users-list"]}>
-        {isLoading && <Loading type="small" />}
+        {isLoading && <Loading type="circle" />}
         {!isLoading && users.length === 0 && (
           <p className={styles["no-users"]}>
             아직 {type === "followers" ? "팔로워가 " : "팔로잉이 "}없어요!
@@ -811,12 +810,12 @@ export function WithdrawModal({ isOpen, closeModal, userId }) {
 
   useEffect(() => {
     const dialog = dialogRef.current;
-    const html = document.querySelector("html");
+
     if (isOpen) {
       dialog?.showModal();
-      html.style.overflowY = "hidden";
+      disableScroll();
     } else {
-      html.style.overflowY = "scroll";
+      enableScroll();
       dialog?.close();
       // 모달이 닫힐 때 상태 초기화
       setStep(1);
@@ -826,8 +825,7 @@ export function WithdrawModal({ isOpen, closeModal, userId }) {
   }, [isOpen]);
 
   const handleClose = () => {
-    const html = document.querySelector("html");
-    html.style.overflowY = "scroll";
+    enableScroll();
     closeModal();
   };
 
@@ -950,24 +948,43 @@ export const CommonModal = ({ isOpen, closeModal, children }) => {
 
   useEffect(() => {
     const dialog = dialogRef.current;
-    const html = document.querySelector("html");
+
     if (isOpen) {
       dialog?.showModal();
-      html.style.overflowY = "hidden";
+      disableScroll();
     } else {
-      html.style.overflowY = "scroll";
+      enableScroll();
       dialog?.close();
     }
   }, [isOpen]);
 
+  // 백드롭 클릭을 감지하는 이벤트 핸들러
+  const handleClick = (e) => {
+    const dialogDimensions = dialogRef.current?.getBoundingClientRect();
+    if (dialogDimensions) {
+      const isClickedInDialog =
+        e.clientX >= dialogDimensions.left &&
+        e.clientX <= dialogDimensions.right &&
+        e.clientY >= dialogDimensions.top &&
+        e.clientY <= dialogDimensions.bottom;
+
+      if (!isClickedInDialog) {
+        handleClose();
+      }
+    }
+  };
+
   const handleClose = () => {
-    const html = document.querySelector("html");
-    html.style.overflowY = "scroll";
+    enableScroll();
     closeModal();
   };
 
   return (
-    <dialog ref={dialogRef} className={styles["common-modal"]}>
+    <dialog
+      ref={dialogRef}
+      onClick={handleClick}
+      className={styles["common-modal"]}
+    >
       <button onClick={handleClose} className={styles["btn-close"]}>
         <img src="/images/close-without-padding.svg" alt="닫기" />
       </button>

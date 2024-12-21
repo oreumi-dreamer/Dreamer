@@ -20,6 +20,7 @@ import Uploading from "./Uploading";
 import { DREAM_GENRES, DREAM_MOODS } from "@/utils/constants";
 import Loading from "../Loading";
 import { ConfirmModal } from "../Controls";
+import { enableScroll, disableScroll } from "@/utils/scrollHandler";
 
 export default function WritePost({
   isWriteModalOpen,
@@ -455,12 +456,12 @@ export default function WritePost({
 
   useEffect(() => {
     if (isWriteModalOpen) {
-      document.documentElement.style.overflow = "hidden";
+      disableScroll();
     } else {
-      document.documentElement.style.overflow = "";
+      enableScroll();
     }
     return () => {
-      document.documentElement.style.overflow = "";
+      enableScroll();
     };
   }, [isWriteModalOpen]);
 

@@ -92,7 +92,10 @@ const PostCard = React.memo(
                 togglePostPrivacy={() =>
                   onPostAction("togglePrivacy", post.id, post.isPrivate)
                 }
-                setIsWriteModalOpen={() => onPostAction("modify", post.id)}
+                setIsWriteModalOpen={() => {
+                  onPostAction("modify", post.id);
+                  modalProps.setIsOpen(false);
+                }}
               />
             )}
           {modalProps.isOpen &&
@@ -102,7 +105,10 @@ const PostCard = React.memo(
                 ref={modalProps.modalRef}
                 style={modalProps.modalStyle}
                 className={styles["more-modal"]}
-                setIsReportModalOpen={() => onPostAction("report", post.id)}
+                setIsReportModalOpen={() => {
+                  onPostAction("report", post.id);
+                  modalProps.setIsOpen(false);
+                }}
               />
             )}
           <button

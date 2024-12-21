@@ -55,7 +55,7 @@ export default function Recommends({ className, styles }) {
   return (
     <ul className={className}>
       {loading ? (
-        <Loading type="small" />
+        <Loading type="circle" />
       ) : (
         <>
           {usersList.map((user) => (

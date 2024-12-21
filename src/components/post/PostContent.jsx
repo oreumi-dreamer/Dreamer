@@ -309,10 +309,20 @@ export default function PostContent({
     setShareModalOpen(false);
   }
 
+  function handleReportModalOpen() {
+    setIsReportModalOpen(true);
+    setIsOpen(false);
+  }
+
+  function handleWriteModalOpen() {
+    setIsWriteModalOpen(true);
+    setIsOpen(false);
+  }
+
   return (
     <>
       {isLoading ? (
-        <Loading type="small" />
+        <Loading type="circle" />
       ) : (
         <>
           <img
@@ -423,7 +433,7 @@ export default function PostContent({
                       }
                       postId={postId}
                       postIsPrivate={postData.isPrivate}
-                      setIsWriteModalOpen={setIsWriteModalOpen}
+                      setIsWriteModalOpen={handleWriteModalOpen}
                     />
                   )}
                   {isOpen && modalType === "isNotMyPost" && (
@@ -431,7 +441,7 @@ export default function PostContent({
                       ref={modalRef}
                       style={modalStyle}
                       className={styles["more-modal"]}
-                      setIsReportModalOpen={setIsReportModalOpen}
+                      setIsReportModalOpen={handleReportModalOpen}
                     />
                   )}
                 </li>
