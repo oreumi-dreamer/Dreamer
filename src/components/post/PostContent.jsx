@@ -5,7 +5,7 @@ import markdownStyles from "@/components/tomong/Result.module.css";
 import { DREAM_GENRES, DREAM_MOODS } from "@/utils/constants";
 import { ConfirmModal, Divider, ShareModal } from "../Controls";
 import convertToHtml from "@/utils/markdownToHtml";
-import postTime from "@/utils/postTime";
+import { postTime } from "@/utils/postTime";
 import CommentArticles from "../modal/CommentArticles";
 import { MyPost, OtherPost } from "../dropDown/DropDown";
 import { useState, useEffect, useRef } from "react";
