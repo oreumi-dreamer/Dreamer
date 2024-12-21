@@ -92,6 +92,9 @@ html:has(.post-modal) {
   display: flex;
   align-items: center;
 }
+.button-list li img {
+  object-fit: contain;
+}
 
 .button-list button {
   display: flex;
