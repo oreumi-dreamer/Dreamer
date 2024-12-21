@@ -1,7 +1,8 @@
 
+
 # ![DreamerLogo](https://github.com/user-attachments/assets/96c445fd-727c-4a60-a93f-ca1bc00b6178)
 
->  [<img src = "https://github.com/user-attachments/assets/c26addd5-86c6-4bcb-8633-d2cdeb9a2ba4" width= "250px"/>](https://dreamer.today)
+>  [<img src = "https://github.com/user-attachments/assets/c26addd5-86c6-4bcb-8633-d2cdeb9a2ba4" width= "250px"/>](https://dreamer.today)  
 >  배포환경 : Vercel
 
 
@@ -366,12 +367,12 @@
 - [회의록](https://docs.google.com/spreadsheets/d/1g7FxrfT_1m8kESLA2BRrnAQPoZ6RvkaNFjj1dblro_o/edit?gid=0#gid=0)  
 
 ### 💣문제상황 공유 및 해결
-#### 데일리스크럼 시간을 이용한 건의사항 공유 및 추가협의진행
+#### ▪ 데일리스크럼 시간을 이용한 건의사항 공유 및 추가협의진행
 ![image](https://github.com/user-attachments/assets/67ba384b-e6fb-4924-908c-96caa1452dd0)
 
 ![image](https://github.com/user-attachments/assets/6646ae06-098a-4f8d-98d9-9ea2118dde17)
 
-`` #### 깃허브 이슈와 프로젝트를 이용한 실시간 상태공유
+#### ▪ 깃허브 이슈와 프로젝트를 이용한 실시간 상태공유
 ![image](https://github.com/user-attachments/assets/dd5de133-ab3d-43cb-b88e-1ae1b73337c8)   
 ![image](https://github.com/user-attachments/assets/5c0674b3-fa35-4dc8-bd05-62c3f979b885)
 
