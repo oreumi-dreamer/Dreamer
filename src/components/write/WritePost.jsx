@@ -638,7 +638,7 @@ export default function WritePost({
               </div>
               <div className={styles["image-uploader"]}>
                 <label>
-                  <div className={styles["btn-upload"]}>이미지 추가하기</div>
+                  <p className={styles["btn-upload"]}>이미지 추가하기</p>
                   <input
                     type="file"
                     accept="image/*"

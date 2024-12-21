@@ -107,7 +107,7 @@ export default function ProfileInfo({
               팔로워 {profile.followersCount ? profile.followersCount : 0}명
             </li>
           </ul>
-          <div className={styles["profile-bio"]}>{profile.bio}</div>
+          <p className={styles["profile-bio"]}>{profile.bio}</p>
         </div>
       </article>
       {isShowUsersModal && (
