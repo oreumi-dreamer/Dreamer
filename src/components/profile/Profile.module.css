@@ -382,6 +382,13 @@
 }
 
 @media (max-width: 860px) {
+  .profile-info {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
   .profile-wrap {
     padding: 4.3rem 0 4.3rem 0;
     flex-direction: column;
@@ -423,7 +430,8 @@
     margin-right: 0;
   }
   .profile-bio {
-    width: 32rem;
+    width: 100%;
+    max-width: 32rem;
     background-color: var(--profile-bio);
     border-radius: 1rem;
     padding: 0.5rem;
@@ -436,5 +444,12 @@
 
   .profile-form-pic img {
     margin-right: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .posts-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.6rem;
   }
 }
