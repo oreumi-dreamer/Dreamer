@@ -1,0 +1,19 @@
+User-agent: *
+
+# Allow
+Allow: /
+Allow: /privacy
+Allow: /terms
+Allow: /post/
+
+# Disallow private or system paths
+Disallow: /api/
+Disallow: /account/
+Disallow: /alarm/
+Disallow: /join/
+Disallow: /logout/
+Disallow: /signup/
+Disallow: /tomong/
+
+# Sitemap
+Sitemap: https://dreamer.today/sitemap.xml
