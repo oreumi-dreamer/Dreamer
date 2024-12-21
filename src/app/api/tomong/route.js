@@ -112,38 +112,51 @@ export async function GET(request) {
                   const jsonStr = line.replace(/^data:\s*/, "").trim();
 
                   if (jsonStr) {
-                    // 작은따옴표를 큰따옴표로 변환
-                    const cleanedJson = jsonStr.replace(/'/g, '"');
-                    const parsedData = JSON.parse(cleanedJson);
+                    // 1. 작은따옴표를 큰따옴표로 변환
+                    // 2. 이스케이프된 문자열 처리
+                    const cleanedJson = jsonStr
+                      .replace(/'/g, '"')
+                      .replace(/\n/g, "\\n");
 
-                    // complete 타입일 때만 저장
-                    if (parsedData.type === "complete" && postId) {
-                      const postRef = doc(db, "posts", postId);
-                      const postDoc = await getDoc(postRef);
+                    // 3. JSON 파싱 전에 유효성 검사
+                    try {
+                      const parsedData = JSON.parse(cleanedJson);
 
-                      if (postDoc.exists()) {
-                        const tomongData = {
-                          content: parsedData.data.content,
-                          createdAt: Timestamp.now(),
-                        };
+                      // complete 타입일 때만 저장
+                      if (parsedData.type === "complete" && postId) {
+                        const postRef = doc(db, "posts", postId);
+                        const postDoc = await getDoc(postRef);
 
-                        const tomongLength = postDoc.data().tomong
-                          ? postDoc.data().tomong.length
-                          : 1;
+                        if (postDoc.exists()) {
+                          const tomongData = {
+                            content: parsedData.data.content,
+                            createdAt: Timestamp.now(),
+                          };
 
-                        await updateDoc(postRef, {
-                          tomong: arrayUnion(tomongData),
-                          tomongLength: tomongLength,
-                          // tomongSelected: tomongLength,
-                        });
+                          const tomongLength = postDoc.data().tomong
+                            ? postDoc.data().tomong.length
+                            : 1;
+
+                          await updateDoc(postRef, {
+                            tomong: arrayUnion(tomongData),
+                            tomongLength: tomongLength,
+                          });
+                        }
                       }
+                    } catch (parseError) {
+                      console.error(
+                        "JSON 파싱 오류:",
+                        parseError,
+                        "원본 데이터:",
+                        cleanedJson
+                      );
                     }
                   }
                 } catch (e) {
                   console.error(
-                    "Error parsing or saving tomong data:",
+                    "스트림 데이터 처리 오류:",
                     e,
-                    "Raw data:",
+                    "원본 라인:",
                     line
                   );
                 }
