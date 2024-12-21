@@ -133,7 +133,7 @@ main:has(.login-title) img {
   color: var(--white-color);
 }
 .email-login-btn:hover {
-  background-color: var(--none-active-color);
+  background-color: var(--email-login-btn-hover-color);
 }
 .email-login-btn:active {
   background-color: var(--email-login-btn-active-color);
