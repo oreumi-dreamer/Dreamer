@@ -183,7 +183,7 @@ html {
   font-size: 62.5%;
   font-family: var(--font-family);
   height: 100%;
-  overflow-y: auto;
+  overflow-y: scroll;
 }
 
 html,
