@@ -79,6 +79,14 @@ main:has(.login-title) img {
   margin: 0 0 3.7rem 0.4rem;
   font-size: var(--body-font-size);
 }
+.account-btns .join-button a:hover,
+.account-btns .find-button button:hover {
+  color: var(--hover-btn-color);
+}
+.account-btns .join-button a:active,
+.account-btns .find-button button:active {
+  color: var(--active-btn-color);
+}
 
 /* '/' 첫페이지 구글,이메일 로그인 버튼 */
 .google-login-btn,

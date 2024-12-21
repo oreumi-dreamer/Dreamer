@@ -31,5 +31,9 @@
   padding: 1.5rem 7rem;
   border-radius: 1rem;
 }
+.go-back-btn:hover {
+  background-color: #5b5b5b;
 }
+.go-back-btn:active {
+  background-color: #2a2a3c;
 }
