@@ -85,7 +85,11 @@ export default function WideHeader({
         className={`${styles["mode-toggle-btn"]} ${isLightMode ? styles["light-mode"] : isDarkMode ? styles["dark-mode"] : null} ${isHidden ? styles["hidden-btn"] : ""}`}
         onClick={handleToggleBtn}
       >
-        <div className={`${styles["toggle-switch"]}`}></div>
+        <div className={`${styles["toggle-switch"]}`}>
+          <span className="sr-only">
+            {isLightMode ? "다크 모드로 전환" : "라이트 모드로 전환"}
+          </span>
+        </div>
       </button>
       <div className={styles["header-btn-container"]}>
         <nav>

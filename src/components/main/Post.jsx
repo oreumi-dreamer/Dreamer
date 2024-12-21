@@ -2,10 +2,10 @@ import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
-import postTime from "@/utils/postTime";
+import { postTime, postTimeScreenReader } from "@/utils/postTime";
 import { MyPost, OtherPost } from "../dropDown/DropDown";
 import { outsideClickModalClose } from "@/utils/outsideClickModalClose";
-import { Divider, ShareModal } from "../Controls";
+import { Divider, handleClickWithKeyboard, ShareModal } from "../Controls";
 import useTheme from "@/hooks/styling/useTheme";
 import WritePost from "../write/WritePost";
 import ReportModal from "../report/Report";
@@ -203,6 +203,10 @@ export default function Post({
   return (
     <>
       <article className={styles["article"]} ref={containerRef}>
+        <h3 className="sr-only">
+          {post.authorName}님이{" "}
+          {" " + postTimeScreenReader(post.createdAt, post.createdAt)}에 올린 꿈
+        </h3>
         <section className={styles["post-user-info"]}>
           <Link href={`/users/${post.authorId}`}>
             <img
@@ -265,6 +269,9 @@ export default function Post({
         <section
           className={styles["post-content"]}
           onClick={() => handleModalOpen(post.id)}
+          onKeyDown={handleClickWithKeyboard}
+          role="button"
+          tabIndex={0}
         >
           {post.isTomong && (
             <img

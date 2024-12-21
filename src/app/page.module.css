@@ -11,11 +11,13 @@ body:has(.main) {
   align-items: center;
   gap: 5.995rem;
   height: 100vh;
+  padding: 0;
 }
 .main h1 img {
   margin-right: 5rem;
   width: 85vw;
   max-width: 60rem;
+  max-height: 25rem;
   filter: var(--filter-EEF0DE);
 }
 @media (max-width: 480px) {

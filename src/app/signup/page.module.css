@@ -3,9 +3,13 @@ body:has(.signup-main) {
   height: 100%;
   background: var(--background-pink-top);
   padding: 0 !important;
+  display: flex;
+  justify-content: center;
 }
 
 .signup-main {
+  width: 90vw;
+  height: fit-content;
   max-width: 86rem;
   margin: 8rem auto 0 auto;
   padding: 4.4rem 0rem 5.3rem 0rem;

@@ -262,9 +262,9 @@ export default function ProfileEdit({
           </div>
           <div className={styles["form-btn-row"]}>
             {isLoading ? (
-              <button type="button">
+              <Button type="button" disabled={true}>
                 <Loading type="miniCircle" className={styles["loading"]} />
-              </button>
+              </Button>
             ) : (
               <>
                 <Button

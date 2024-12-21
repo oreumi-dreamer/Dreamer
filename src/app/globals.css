@@ -261,6 +261,13 @@ body:has(header):has(main):has(footer) footer {
   font-family: "NanumBarunPen", sans-serif;
 }
 
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+div:focus-visible {
+  outline: -webkit-focus-ring-color auto 1px;
+}
+
 .sr-only {
   position: absolute;
   width: 1px;

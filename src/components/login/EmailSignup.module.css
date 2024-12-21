@@ -21,14 +21,49 @@ main:has(.email-signup) {
 .input-container label {
   grid-area: label;
 }
-.input-container input {
+
+.input-group {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  grid-column-gap: 0.6rem;
+  column-gap: 0.6rem;
+  border-radius: 1rem;
+  background-color: var(--input-color);
   grid-area: input;
+  border: 0.2rem solid transparent;
 }
-.input-container input.invalid {
+
+.input-group input {
+  padding-right: 0;
+  background: none;
+}
+
+.input-group button {
+  padding: 0.6rem 2.4rem;
+  margin-right: 0.6rem;
+  min-height: inherit;
+}
+
+.input-group:has(input:invalid) {
   border: 0.2rem solid var(--invalid-border-color);
 }
-.input-container input:first-of-type {
-  padding-right: 15rem;
+
+.input-group input:invalid,
+.input-group input:valid,
+.input-group input:focus,
+.input-group input:active,
+.input-group input:disabled {
+  border: 0 solid transparent;
+}
+
+.input-group:has(input:focus) {
+  border: 0.2rem solid var(--focus-border-color);
+}
+
+.input-group:has(input:disabled) {
+  background-color: var(--input-disabled-color);
 }
 
 .email-input,
@@ -47,14 +82,12 @@ main:has(.email-signup) {
 
 .email-verify-btn,
 .code-verify-btn {
-  position: absolute;
-  right: 6.9rem;
-  top: 4rem;
   color: #fff;
   background-color: var(--email-verify-btn-color);
 }
+
 .user-login-field p {
-  margin-bottom: 1.4rem;
+  text-align: center;
 }
 .user-login-field .login-buttons {
   display: flex;
@@ -75,10 +108,24 @@ main:has(.email-signup) {
   position: relative;
   top: 0.15rem;
 }
-.next-btn {
-  position: absolute;
-  bottom: 4.3rem;
-  right: 5.2rem;
+
+.next-btn-row {
+  width: 100%;
+  display: grid;
+  grid-template-areas: "blank msg btn";
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+}
+
+.next-btn-row p {
+  grid-area: msg;
+  font-size: var(--small-text-font-size);
+  color: var(--invalid-text-color);
+}
+
+.next-btn-row button {
+  margin-left: auto;
+  grid-area: btn;
 }
 
 .check-your-email {
@@ -89,25 +136,15 @@ main:has(.email-signup) {
 }
 @media (max-width: 720px) {
   .input-container {
-    padding: 0 1.5rem;
-  }
-  .email-verify-btn,
-  .code-verify-btn {
-    right: 8.4rem;
-    top: 3.5rem;
+    column-gap: 1.6rem;
   }
   .next-btn {
-    bottom: 1.6rem;
-    right: 2.5rem;
     padding: 0.4rem 2rem;
   }
 }
 @media (max-width: 480px) {
   .input-container input {
     max-height: 4.8rem;
-  }
-  .input-container input:first-of-type {
-    padding-right: 12rem;
   }
   .email-verify-btn,
   .code-verify-btn {

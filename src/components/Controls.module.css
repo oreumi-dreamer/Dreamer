@@ -10,6 +10,14 @@
   line-height: 1.44;
 }
 
+.button:has(div > div),
+.button:has(div > div):hover,
+.button:has(div > div):active,
+.button:has(div > div):disabled {
+  background: none;
+  cursor: progress;
+}
+
 .button:hover {
   background-color: var(--none-active-color);
   color: var(--white-color);

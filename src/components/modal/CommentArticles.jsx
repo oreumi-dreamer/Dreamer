@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import styles from "./CommentArticles.module.css";
 import Link from "next/link";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
-import postTime from "@/utils/postTime";
+import { postTime } from "@/utils/postTime";
 import Loading from "../Loading";
 
 export default function CommentArticles({
