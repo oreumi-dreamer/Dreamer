@@ -42,7 +42,7 @@ export default function ProfileForm({
 
         <div className={styles["form-field"]}>
           <p htmlFor="profileImage">프로필 사진</p>
-          <span>사진 파일 확장자, 가로세로 크기, 파일 크기 등 조건</span>
+          <span>1920px*1920px 이하의 JPG 혹은 PNG 권장</span>
           <label htmlFor="profileImage">파일 첨부</label>
           <input
             type="file"

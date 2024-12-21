@@ -10,4 +10,5 @@
   height: 100%;
   max-height: 20rem;
   min-height: 12rem;
+  object-fit: contain;
 }
