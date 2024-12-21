@@ -235,17 +235,6 @@
   color: var(--always-black-font);
 }
 
-.form-btn-row .loading {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  pointer-events: none;
-  background-color: var(--hover-btn-color);
-  width: 10.2rem;
-  height: 3.6rem;
-  border-radius: 1rem;
-}
-
 /* post */
 
 .no-posts {
