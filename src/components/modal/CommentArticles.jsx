@@ -90,7 +90,7 @@ export default function CommentArticles({
         <ul className={styles["comment-info"]}>
           <li
             className={
-              comment.authorId.length + comment.authorName.length > 10
+              comment.authorId.length + comment.authorName.length > 13
                 ? styles["long-comment-info"]
                 : ""
             }

@@ -140,6 +140,9 @@ html:has(.post-modal) {
   display: inline-block;
   width: 100%;
   margin: 2.5rem 0;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-all;
   font-size: var(--h2-font-size);
 }
 
