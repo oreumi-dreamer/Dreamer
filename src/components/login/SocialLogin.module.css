@@ -71,27 +71,12 @@ main:has(.login-title) img {
   text-align: center;
 }
 
-.join-button button,
-.join-button button:hover,
-.join-button button:active,
-.join-button a,
-.join-button a:hover,
-.join-button a:active {
+.account-btns .join-button a,
+.account-btns .find-button button {
   background: none;
   padding: 0;
   color: var(--deep-pink-color);
   margin: 0 0 3.7rem 0.4rem;
-}
-.find-button button,
-.find-button button:hover,
-.find-button button:active,
-.find-button a,
-.find-button a:hover,
-.find-button a:active {
-  margin: 0 0 3.7rem 0.4rem;
-  padding: 0;
-  background: none;
-  color: var(--deep-pink-color);
   font-size: var(--body-font-size);
 }
 
