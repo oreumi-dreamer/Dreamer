@@ -96,15 +96,36 @@
   background-color: var(--active-btn-color);
 }
 
+.profile-info {
+  width: 100%;
+  overflow: hidden;
+}
+
 .profile-stat {
-  display: flex;
+  display: grid;
+  justify-content: flex-start;
   margin-bottom: 0.8rem;
   white-space: nowrap;
   color: var(--black-font-color);
+  column-gap: 1.4rem;
+  row-gap: 0.6rem;
+  grid-template-areas: "postcount following follower";
 }
 
-.profile-stat li {
-  margin-right: 1.4rem;
+.wrap-layout {
+  grid-template-areas: "postcount postcount" "following follower";
+}
+
+.profile-stat li:nth-child(1) {
+  grid-area: postcount;
+}
+
+.profile-stat li:nth-child(2) {
+  grid-area: following;
+}
+
+.profile-stat li:nth-child(3) {
+  grid-area: follower;
 }
 
 .profile-bio {
