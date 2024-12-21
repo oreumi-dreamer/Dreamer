@@ -180,6 +180,7 @@ export default function ProfileEdit({
         <fieldset className={styles["profile-form-info"]}>
           <label className={styles["relative"]}>
             이름
+            <span className={styles.validation}>* 2~20자로 입력해주세요.</span>
             <Input
               type="text"
               value={userName}
@@ -191,6 +192,9 @@ export default function ProfileEdit({
           </label>
           <label className={styles["relative"]}>
             아이디
+            <span className={styles.validation}>
+              * 4~20자의 영문 소문자, 숫자로 입력해주세요.
+            </span>
             <Input
               type="text"
               value={userId}
