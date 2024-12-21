@@ -37,12 +37,13 @@ main:has(.email-signup) {
 
 .input-group input {
   padding-right: 0;
+  background: none;
 }
 
 .input-group button {
   padding: 0.6rem 2.4rem;
   margin-right: 0.6rem;
-  min-height: none;
+  min-height: inherit;
 }
 
 .input-group:has(input:invalid) {

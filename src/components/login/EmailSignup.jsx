@@ -30,6 +30,7 @@ export default function EmailSignup({
   const [isEmailSent, setIsEmailSent] = useState(false);
   const [isEmailSentBtnClicked, setIsEmailSentBtnClicked] = useState(false);
   const [isCodeBtnClicked, setIsCodeBtnClicked] = useState(false);
+  const [isSubmitBtnClicked, setIsSubmitBtnClicked] = useState(false);
   const [emailInfo, setEmailInfo] = useState("");
   const [codeInfo, setCodeInfo] = useState("");
   const [emailProcess, setEmailProcess] = useState("코드 발송");
@@ -46,15 +47,16 @@ export default function EmailSignup({
 
   // 카운트다운 효과
   useEffect(() => {
+    if (isEmailVerified) {
+      return;
+    }
+
     if (countdown > 0) {
       const timer = setInterval(() => {
         setCountdown((prev) => prev - 1);
       }, 1000);
-      return () => clearInterval(timer);
-    }
 
-    if (isEmailVerified) {
-      return () => clearInterval();
+      return () => clearInterval(timer);
     }
   }, [countdown, isEmailVerified]);
 
@@ -183,8 +185,11 @@ export default function EmailSignup({
 
   const handleSignup = async (e) => {
     e.preventDefault();
+    setError("");
+    setIsSubmitBtnClicked(true);
     if (!isEmailVerified) {
       setError("이메일 인증을 먼저 완료해주세요.");
+      setIsSubmitBtnClicked(false);
       return;
     }
 
@@ -192,23 +197,26 @@ export default function EmailSignup({
       setError(
         "비밀번호는 대문자, 소문자, 숫자, 특수문자를 포함하고 6자 이상이어야 합니다."
       );
+      setIsSubmitBtnClicked(false);
       return;
     }
 
     if (password !== confirmPassword) {
       setError("비밀번호가 일치하지 않습니다.");
+      setIsSubmitBtnClicked(false);
       return;
     }
 
     let verifiedEmailAddress;
 
     try {
-      const response = await fetch(
-        `/api/auth/check-email-verification?email=${email}`,
-        {
-          method: "GET",
-        }
-      );
+      const response = await fetch(`/api/auth/check-email-verification`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
 
       const data = await response.json();
 
@@ -227,6 +235,7 @@ export default function EmailSignup({
     } catch (error) {
       console.error("이메일 인증 확인 오류:", error);
       setError("이메일 인증 확인 중 오류가 발생했습니다. 다시 시도해주세요.");
+      setIsSubmitBtnClicked(false);
       return;
     }
 
@@ -264,6 +273,7 @@ export default function EmailSignup({
       } else {
         setError("회원가입 중 오류가 발생했습니다. 다시 시도해주세요.");
       }
+      setIsSubmitBtnClicked(false);
       dispatch(resetRegistering());
     }
   };
@@ -279,13 +289,16 @@ export default function EmailSignup({
               id="email"
               value={email}
               onChange={handleEmailChange}
+              onKeyDown={(e) =>
+                e.key === "Enter" && handleSendVerificationCode(e)
+              }
               disabled={isEmailVerified}
               required
               className={styles["email-input"]}
             />
             <Button
               type="button"
-              disabled={isEmailSent && countdown > 0}
+              disabled={(isEmailSent && countdown > 0) || isEmailVerified}
               className={styles["email-verify-btn"]}
               onClick={handleSendVerificationCode}
             >
@@ -320,6 +333,7 @@ export default function EmailSignup({
                 id="verificationCode"
                 value={verificationCode}
                 onChange={(e) => setVerificationCode(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleVerifyCode(e)}
                 maxLength={6}
                 placeholder="6자리 숫자 입력"
                 className={styles["code-input"]}
@@ -451,11 +465,14 @@ export default function EmailSignup({
           type="submit"
           highlight={true}
           disabled={
-            !isEmailVerified || !isPasswordValid || !isConfirmPasswordValid
+            !isEmailVerified ||
+            !isPasswordValid ||
+            !isConfirmPasswordValid ||
+            isSubmitBtnClicked
           }
           className={styles["next-btn"]}
         >
-          가입하기
+          {isSubmitBtnClicked ? <Loading type="miniCircle" /> : "가입하기"}
         </Button>
       </div>
     </LoginForm>
