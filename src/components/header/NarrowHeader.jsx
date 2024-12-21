@@ -107,7 +107,7 @@ export default function NarrowHeader({
             <span className="sr-only">다크모드로 변경</span>
             <Image
               src="/images/toggle-sun.svg"
-              alt="라이트모드"
+              aria-hidden="true"
               width={35}
               height={35}
             />
@@ -117,7 +117,7 @@ export default function NarrowHeader({
             <span className="sr-only">라이트모드로 변경</span>
             <Image
               src="/images/toggle-moon.svg"
-              alt="다크모드"
+              aria-hidden="true"
               width={35}
               height={35}
             />
