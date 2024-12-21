@@ -255,6 +255,7 @@ export function Input({
   minLength,
   maxLength,
   onKeyDown,
+  placeholder,
 }) {
   let inputClass = styles["input"];
   if (
@@ -275,6 +276,7 @@ export function Input({
       type={type}
       value={value}
       onChange={onChange}
+      placeholder={placeholder}
       id={id}
       className={inputClass}
       disabled={disabled}
