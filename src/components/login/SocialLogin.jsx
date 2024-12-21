@@ -172,10 +172,13 @@ export default function SocialLogin() {
               {error}
             </p>
             {isLoginLoading ? (
-              <Loading
-                type={"miniCircle"}
-                className={styles["login-loading"]}
-              />
+              <Button
+                type="button"
+                className={styles["login-button"]}
+                disabled={true}
+              >
+                <Loading type={"miniCircle"} />
+              </Button>
             ) : (
               <Button
                 type="submit"
