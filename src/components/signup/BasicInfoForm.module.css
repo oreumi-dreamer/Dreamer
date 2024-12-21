@@ -214,3 +214,25 @@
     border-radius: 5px;
   }
 }
+
+@media (max-width: 379px) {
+  .input-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas: "year year" "month day";
+    gap: 0.4rem;
+  }
+
+  .input-wrapper > div:first-of-type {
+    grid-area: year;
+  }
+
+  .input-wrapper > div:nth-of-type(2) {
+    grid-area: month;
+  }
+
+  .input-wrapper > div:nth-of-type(3) {
+    grid-area: day;
+  }
+}
