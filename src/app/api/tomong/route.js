@@ -112,11 +112,13 @@ export async function GET(request) {
                   const jsonStr = line.replace(/^data:\s*/, "").trim();
 
                   if (jsonStr) {
-                    // 1. content 내의 큰따옴표를 이스케이프
-                    const escapedContent = jsonStr.replace(
+                    // 1. 작은따옴표를 큰따옴표로 변환
+                    const properJson = jsonStr.replace(/'/g, '"');
+
+                    // 2. content 내의 큰따옴표를 이스케이프
+                    const escapedContent = properJson.replace(
                       /{"type":\s*"([^"]+)",\s*"data":\s*{"content":\s*"(.*?)"}}/g,
                       (match, type, content) => {
-                        // content 내의 큰따옴표를 이스케이프
                         const escapedInnerContent = content.replace(
                           /"/g,
                           '\\"'
@@ -125,13 +127,13 @@ export async function GET(request) {
                       }
                     );
 
-                    // 2. 개행 문자 이스케이프 처리
+                    // 3. 개행 문자 이스케이프 처리
                     const cleanedJson = escapedContent.replace(/\n/g, "\\n");
 
                     try {
                       const parsedData = JSON.parse(cleanedJson);
 
-                      // 3. complete 타입일 때만 Firestore에 저장
+                      // 4. complete 타입일 때만 Firestore에 저장
                       if (parsedData.type === "complete" && postId) {
                         const postRef = doc(db, "posts", postId);
                         const postDoc = await getDoc(postRef);
