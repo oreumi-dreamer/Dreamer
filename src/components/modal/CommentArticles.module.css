@@ -67,6 +67,7 @@
 .comment-info img {
   position: absolute;
   top: 0.7rem;
+  object-fit: contain;
 }
 article:has(.long-comment-info) {
   margin-top: 5rem;
