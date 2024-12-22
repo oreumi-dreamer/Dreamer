@@ -67,6 +67,8 @@
   --signup-email-background-color: none;
   --invalid-border-color: #f41e1e;
   --invalid-text-color: #a12525;
+
+  --content-right-padding: 0;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -177,6 +179,13 @@
   --invalid-border-color: #ba5b5b;
   --invalid-text-color: #ba5b5b;
   --profile-bio: #95959520;
+}
+
+@supports (-webkit-touch-callout: none) {
+  /* iOS 디바이스 대상 */
+  :root {
+    --content-right-padding: 2rem;
+  }
 }
 
 html {
