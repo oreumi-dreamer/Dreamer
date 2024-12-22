@@ -102,11 +102,15 @@ article:has(.long-comment-info) {
   right: -5.1rem;
 }
 
-.edit-delete-button {
+.edit-delete-button,
+.delete-btn {
   display: flex;
   position: absolute;
   top: -2.3rem;
   right: 1.5rem;
+}
+.delete-btn {
+  top: -1.8rem;
 }
 
 .edit-delete-button li:first-of-type::after {
@@ -118,12 +122,14 @@ article:has(.long-comment-info) {
   color: var(--comment-button-color);
 }
 
-.edit-delete-button button {
+.edit-delete-button button,
+.delete-btn {
   color: var(--comment-button-color);
   font-size: var(--small-text-font-size);
 }
 
-.edit-delete-button button:hover {
+.edit-delete-button button:hover,
+.delete-btn:hover {
   color: rgba(0, 0, 0, 0.8);
   text-decoration: underline;
 }

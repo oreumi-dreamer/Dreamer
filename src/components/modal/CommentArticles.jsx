@@ -135,6 +135,14 @@ export default function CommentArticles({
             </li>
           </ul>
         )}
+        {isMyself && user?.userId !== comment.authorId && (
+          <button
+            className={styles["delete-btn"]}
+            onClick={() => handleDeleteComment(comment.commentId)}
+          >
+            삭제
+          </button>
+        )}
         {comment.isDreamInterpretation && (
           <img
             src="/images/oneiromancy.svg"
