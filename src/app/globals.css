@@ -303,7 +303,7 @@ div:focus-visible {
   }
 
   body:has(header):has(main):has(footer) footer {
-    position: inherit;
+    position: unset;
   }
 
   html body:has(header):has(main.no-posts):has(footer) footer {
