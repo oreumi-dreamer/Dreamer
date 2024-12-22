@@ -11,6 +11,7 @@ export default function CommentArticles({
   isMyself,
   isCommentSubmitting,
   setPosts,
+  setFeedPosts,
 }) {
   const [commentData, setCommentData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -68,6 +69,15 @@ export default function CommentArticles({
         };
       });
 
+    setFeedPosts &&
+      setFeedPosts((prevPosts) =>
+        prevPosts.map((post) =>
+          post.id === postId
+            ? { ...post, commentsCount: post.commentsCount - 1 }
+            : post
+        )
+      );
+
     try {
       const commentDeleteRes = await fetchWithAuth(
         `/api/comment/delete/${postId}`,
@@ -96,6 +106,15 @@ export default function CommentArticles({
             ),
           };
         });
+
+      setFeedPosts &&
+        setFeedPosts((prevPosts) =>
+          prevPosts.map((post) =>
+            post.id === postId
+              ? { ...post, commentsCount: post.commentsCount + 1 }
+              : post
+          )
+        );
       console.error("댓글 삭제 오류 :", error);
     }
   }

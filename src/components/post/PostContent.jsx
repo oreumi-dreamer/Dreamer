@@ -30,6 +30,7 @@ export default function PostContent({
   comment,
   setComment,
   setPosts = () => {},
+  setFeedPosts = () => {},
 }) {
   const [isScrap, setIsScrap] = useState(false);
   const [postData, setPostData] = useState(null);
@@ -164,6 +165,17 @@ export default function PostContent({
             ),
           };
         });
+      setFeedPosts &&
+        setFeedPosts((prevPosts) =>
+          prevPosts.map((post) =>
+            post.id === postId
+              ? {
+                  ...post,
+                  commentsCount: post.commentsCount + 1,
+                }
+              : post
+          )
+        );
 
       try {
         setIsCommentSubmitting(true);
@@ -203,6 +215,18 @@ export default function PostContent({
               ),
             };
           });
+
+        setFeedPosts &&
+          setFeedPosts((prevPosts) =>
+            prevPosts.map((post) =>
+              post.id === postId
+                ? {
+                    ...post,
+                    commentsCount: post.commentsCount + 1,
+                  }
+                : post
+            )
+          );
       }
     }
     setIsCommentSubmitting(false);
@@ -244,13 +268,33 @@ export default function PostContent({
     const hasSparked = postData.hasUserSparked;
     const sparkCount = postData.sparkCount;
 
+    // 로컬 상태 업데이트
     setPostData((prev) => ({
       ...prev,
       hasUserSparked: !hasSparked,
       sparkCount: hasSparked ? sparkCount - 1 : sparkCount + 1,
     }));
 
-    setPosts &&
+    // feeds일 경우
+    if (setFeedPosts) {
+      setFeedPosts((prevPosts) => {
+        const updatedPosts = prevPosts.map((post) => {
+          if (post.id === postId) {
+            const newSparkCount = hasSparked ? sparkCount - 1 : sparkCount + 1;
+            return {
+              ...post,
+              sparkCount: newSparkCount,
+              hasUserSparked: !hasSparked,
+            };
+          }
+          return post;
+        });
+        return updatedPosts;
+      });
+    }
+
+    // 그 외의 경우
+    if (setPosts) {
       setPosts((prevPosts) => {
         return {
           ...prevPosts,
@@ -258,46 +302,56 @@ export default function PostContent({
             post.id === postId
               ? {
                   ...post,
-                  sparkCount: post.sparkCount + (post.hasUserSparked ? -1 : 1),
-                  hasUserSparked: !post.hasUserSparked,
+                  sparkCount: hasSparked ? sparkCount - 1 : sparkCount + 1,
+                  hasUserSparked: !hasSparked,
                 }
               : post
           ),
         };
       });
+    }
 
-    if (e.currentTarget.className === "star") {
-      try {
-        const starRes = await fetchWithAuth(`/api/post/spark/${postId}`);
-
-        if (!starRes.ok || starRes.status !== 200) {
-          throw new Error("반짝을 실행하지 못했어요.");
-        }
-      } catch (error) {
-        console.error("반짝을 실행하지 못했어요 :", error);
-        setPostData((prev) => ({
-          ...prev,
-          hasUserSparked: !hasSparked,
-          sparkCount: hasSparked ? sparkCount - 1 : sparkCount + 1,
-        }));
-
-        setPosts &&
-          setPosts((prevPosts) => {
-            return {
-              ...prevPosts,
-              posts: prevPosts.posts.map((post) =>
-                post.id === postId
-                  ? {
-                      ...post,
-                      sparkCount:
-                        post.sparkCount + (post.hasUserSparked ? -1 : 1),
-                      hasUserSparked: !post.hasUserSparked,
-                    }
-                  : post
-              ),
-            };
-          });
+    try {
+      const starRes = await fetchWithAuth(`/api/post/spark/${postId}`);
+      if (!starRes.ok) {
+        throw new Error("반짝을 실행하지 못했어요.");
       }
+    } catch (error) {
+      // 실패 시 원상태로 복구
+      setPostData((prev) => ({
+        ...prev,
+        hasUserSparked: hasSparked,
+        sparkCount: sparkCount,
+      }));
+
+      if (setFeedPosts) {
+        setFeedPosts((prevPosts) =>
+          prevPosts.map((post) =>
+            post.id === postId
+              ? { ...post, sparkCount: sparkCount, hasUserSparked: hasSparked }
+              : post
+          )
+        );
+      }
+
+      if (setPosts) {
+        setPosts((prevPosts) => {
+          return {
+            ...prevPosts,
+            posts: prevPosts.posts.map((post) =>
+              post.id === postId
+                ? {
+                    ...post,
+                    sparkCount: hasSparked ? sparkCount - 1 : sparkCount + 1,
+                    hasUserSparked: !hasSparked,
+                  }
+                : post
+            ),
+          };
+        });
+      }
+
+      console.error("반짝을 실행하지 못했어요 :", error);
     }
   }
 
@@ -688,6 +742,7 @@ export default function PostContent({
                 isCommentSubmitting={isCommentSubmitting}
                 isMyself={postData.isMyself}
                 setPosts={setPosts}
+                setFeedPosts={setFeedPosts}
               />
             </section>
           </section>

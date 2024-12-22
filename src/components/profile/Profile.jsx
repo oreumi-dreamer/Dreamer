@@ -217,6 +217,7 @@ export default function Profile({ userName, write, post }) {
         isShow={isShowModal}
         onClose={handleModalClose}
         setPosts={setPosts}
+        setFeedPosts={false}
       />
       {isWriteModalOpen && (
         <WritePost

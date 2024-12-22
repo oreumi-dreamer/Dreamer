@@ -88,6 +88,14 @@ export default function MainList() {
     setIsShowModal(!!selectedPostId);
   }, [selectedPostId]);
 
+  const updatePost = (postId, updatedData) => {
+    setPosts((prevPosts) =>
+      prevPosts.map((post) =>
+        post.id === postId ? { ...post, ...updatedData } : post
+      )
+    );
+  };
+
   return (
     <>
       <main className={styles["main-container"]} ref={mainRef}>
@@ -97,6 +105,7 @@ export default function MainList() {
             styles={styles}
             key={post.id}
             post={post}
+            onPostUpdate={updatePost}
             setSelectedPostId={() => handleModalOpen(post)}
           />
         ))}
@@ -123,6 +132,8 @@ export default function MainList() {
         postId={selectedPostId}
         isShow={isShowModal}
         onClose={handleModalClose}
+        setFeedPosts={setPosts}
+        setPosts={false}
       />
     </>
   );
