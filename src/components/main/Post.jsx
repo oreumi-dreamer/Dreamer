@@ -371,7 +371,7 @@ export default function Post({
               height={40}
             />
           </button>
-          <button className={styles["mark-btn"]}>
+          {/* <button className={styles["mark-btn"]}> // 추후 스크랩 기능 추가 시 주석 해제
             <Image
               className={styles["icon-padding"]}
               src="/images/mark.svg"
@@ -379,7 +379,7 @@ export default function Post({
               width={40}
               height={40}
             />
-          </button>
+          </button> */}
         </section>
       </article>
       {shareModalOpen && (
