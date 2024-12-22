@@ -574,7 +574,9 @@ export default function WritePost({
                     className={styles["btn-feeling"]}
                     onClick={openMoodModal}
                     ref={moodButtonRef}
-                  ></button>
+                  >
+                    <span className="sr-only">상태 고르기</span>
+                  </button>
                 )}
                 {selectedMoods.length !== 0 && (
                   <button
@@ -583,6 +585,7 @@ export default function WritePost({
                     onClick={openMoodModal}
                     ref={moodButtonRef}
                   >
+                    <span className="sr-only">상태 고르기</span>
                     <ul className={styles["feeling-selected-list"]}>
                       {selectedMoods.map((item) => (
                         <li key={item.text}>{item.text}</li>

@@ -147,32 +147,48 @@
 .genre-picker {
   display: flex;
   width: 100%;
+  height: fit-content;
   position: relative;
+  column-gap: 0.6rem;
 }
+
+.genre-picket button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .genre-picker ul {
   display: flex;
+  flex-wrap: wrap;
   flex-direction: row;
   gap: 0.4rem;
   align-items: center;
   margin-left: 1rem;
-  width: calc(100% - 3rem);
-  overflow-x: scroll;
+  width: 100%;
+  height: fit-content;
   white-space: nowrap;
-  position: absolute;
-  left: 2.4rem;
-  top: 0.1rem;
 }
 .genre-picker li {
   padding: 0.2rem 1rem;
   border-radius: 3rem;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .user-feeling {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 1rem;
   width: 100%;
   position: relative;
 }
+
+.user-feeling p {
+  white-space: nowrap;
+}
+
 .btn-feeling {
   background-color: var(--background-lightgray);
   width: 14rem;
@@ -184,24 +200,33 @@
   left: 6rem;
   margin-left: 0.4rem;
 }
-/* .btn-feeling-selected {
-  height: 2rem;
-  padding: 0 2rem;
-  background-color: var(--background-lightgray);
-  border-radius: 1rem;
-} */
+.btn-feeling-selected {
+  width: 100%;
+}
 .btn-feeling-selected ul {
+  width: 100%;
   display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
-  width: calc(100% - 5.9rem);
-  overflow-x: scroll;
   white-space: nowrap;
-  position: absolute;
-  top: 0.18rem;
-  left: 6rem;
   margin-left: 0.4rem;
 }
+
+.btn-feeling-selected ul:after {
+  content: "";
+  display: block;
+  width: 0.1rem;
+  height: 100%;
+  background-color: var(--post-text-blur);
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
 .btn-feeling-selected li {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   list-style: none;
   color: var(--black-font-color);
   height: 2rem;
@@ -212,6 +237,7 @@
 /* 별점 */
 .rate-star-container {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   position: relative;
   width: 100%;
@@ -220,10 +246,20 @@
   margin-right: 0.2rem;
 }
 .rate-star-container div {
-  position: absolute;
-  left: 9.4rem;
-  top: 0;
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  height: fit-content;
 }
+
+.rate-star-container div input {
+  display: flex;
+  width: fit-content;
+  height: fit-content;
+  align-items: center;
+  justify-content: center;
+}
+
 .rate-star {
   appearance: none;
 }

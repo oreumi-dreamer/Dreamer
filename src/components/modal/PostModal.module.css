@@ -18,8 +18,7 @@
   transform: translate(-50%, -50%);
   width: 95vw;
   max-width: 155.4rem;
-  height: 90vh;
-  max-height: 100rem;
+  height: 90dvh;
   border-radius: 1rem;
   background-color: var(--background-lightgray);
   border: none;
@@ -351,8 +350,9 @@ input[type="checkbox"]:checked + label.checkbox::before {
 
 @media (max-width: 720px) {
   .post-modal {
-    padding: 2rem 0 2rem 2rem;
+    padding: 2rem var(--content-right-padding) 2rem 2rem;
     flex-direction: column;
+    align-items: center;
     min-width: 34rem;
     overflow-y: scroll;
   }
