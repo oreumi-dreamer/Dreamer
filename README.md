@@ -349,8 +349,21 @@
 |![image](https://github.com/user-attachments/assets/586807ae-9004-4ad4-b443-96d9751c269d)|![image](https://github.com/user-attachments/assets/f3a2d83f-0ae9-417d-85a3-a0cb8cde09aa)|
 
 ### 4.2 UI
-시연영상 gif 삽입
-
+|회원가입|회원가입2|
+|:---:|:---:|
+|![Signup](https://github.com/user-attachments/assets/9c6e9f49-c200-4b44-bf54-7e884d88e469)|![Signup2](https://github.com/user-attachments/assets/c17d3525-aaac-457e-af89-a7ac5ed74f6c)|
+|로그인|메인페이지|
+|![login](https://github.com/user-attachments/assets/11722499-b2fa-4361-9e85-6925ceb06cf6)|![main](https://github.com/user-attachments/assets/72cf10bf-246d-47e3-b108-27ba41aa337a)|
+|모드변경|게시글|
+|![changeMode](https://github.com/user-attachments/assets/bd2c0ce9-18cc-4482-8124-e64f4aee9d15)|![Post](https://github.com/user-attachments/assets/2692c0cf-e359-4030-bd36-6544837176ef)|
+|댓글달기|공유하기|
+|![recommend](https://github.com/user-attachments/assets/25a5fe73-893a-4a69-8c1d-afe3f05d0805)|![공유](https://github.com/user-attachments/assets/ca257d6b-f149-48a5-ace2-cacd7afac120)|
+|신고하기|내프로필|
+|![신고](https://github.com/user-attachments/assets/1965f59b-ff7b-4f08-8d75-d050c5463c02)|![내 프로필](https://github.com/user-attachments/assets/e86131c3-b686-4f6a-9307-b8c281485c69)|
+|글쓰기|AI해몽|
+|![글쓰기](https://github.com/user-attachments/assets/1134d552-305f-4f2f-9427-a2426ba42ae3)|![AI해몽](https://github.com/user-attachments/assets/84688e6e-363c-426d-a41d-9c9cdf24d81c)|
+|검색|계정설정/회원탈퇴|
+|![검색](https://github.com/user-attachments/assets/bd35f1a6-5623-484a-bed7-7a3488060ff8)|![계정설정](https://github.com/user-attachments/assets/d775f365-4ea8-4ccc-9698-962ba21fa90c)|
 ## Ⅴ. 개발History
 ### 📅 데일리 스크럼(Daily Scrum)
 팀의 원활한 커뮤니케이션과 진행 상황의 공유를 위해 아래와 같이 데일리 스크럼을 진행합니다.
@@ -376,6 +389,14 @@
 #### ▪ 깃허브 이슈와 프로젝트를 이용한 실시간 상태공유
 ![image](https://github.com/user-attachments/assets/dd5de133-ab3d-43cb-b88e-1ae1b73337c8)   
 ![image](https://github.com/user-attachments/assets/5c0674b3-fa35-4dc8-bd05-62c3f979b885)
+
+### 🛠️ 추가개발사항
+- 프로필 페이지 게시글 목록 무한스크롤 구현
+- 문의사항 페이지
+- 게시글 스크랩 기능
+- 알림 기능
+- 관리자 페이지 기능 추가
+- React Native 모바일 앱 구현
 
 ### ✨느낀점
 #### [FE]황초희
