@@ -18,8 +18,7 @@
   transform: translate(-50%, -50%);
   width: 95vw;
   max-width: 155.4rem;
-  height: 90vh;
-  max-height: 100rem;
+  height: 90dvh;
   border-radius: 1rem;
   background-color: var(--background-lightgray);
   border: none;
