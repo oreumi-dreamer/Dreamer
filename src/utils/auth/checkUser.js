@@ -20,6 +20,8 @@ export const checkUserExists = async (dispatch) => {
             userName: userData.userName,
             profileImageUrl: userData.profileImageUrl,
             theme: userData.theme,
+            followersCount: userData.followersCount,
+            followingCount: userData.followingCount,
           },
         })
       );
