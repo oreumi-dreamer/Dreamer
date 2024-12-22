@@ -16,7 +16,7 @@ export default function MainList() {
   const [isShowModal, setIsShowModal] = useState(false);
   const [selectedPostId, setSelectedPostId] = useState(null);
   const mainRef = useRef(null);
-  const LIMIT = 5;
+  const LIMIT = 10;
 
   const fetchPosts = async (nextCursor = null) => {
     if (isLoading) return;
