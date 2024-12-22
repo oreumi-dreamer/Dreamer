@@ -5,10 +5,11 @@ import styles from "./Controls.module.css";
 import Loading from "./Loading";
 import Link from "next/link";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { auth } from "@/lib/firebase";
 import { disableScroll, enableScroll } from "@/utils/scrollHandler";
+import { loginSuccess } from "@/store/authSlice";
 
 export const handleClickWithKeyboard = (e) => {
   e.preventDefault();
@@ -695,6 +696,7 @@ export function UsersList({
   const dialogRef = useRef(null);
 
   const { user } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
   const router = useRouter();
 
   useEffect(() => {
@@ -745,6 +747,16 @@ export function UsersList({
         user.userId === userId ? { ...user, isFollowing: !isFollowing } : user
       )
     );
+
+    dispatch(
+      loginSuccess({
+        user: {
+          ...user,
+          followingCount: user.followingCount + (isFollowing ? -1 : 1),
+        },
+      })
+    );
+
     const res = await fetchWithAuth(`/api/account/follow/${userId}`);
     const data = await res.json();
 
@@ -753,6 +765,14 @@ export function UsersList({
         prevUsers.map((user) =>
           user.userId === userId ? { ...user, isFollowing: !isFollowing } : user
         )
+      );
+      dispatch(
+        loginSuccess({
+          user: {
+            ...user,
+            followingCount: user.followingCount + (isFollowing ? -1 : 1),
+          },
+        })
       );
     }
   };

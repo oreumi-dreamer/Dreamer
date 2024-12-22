@@ -2,6 +2,7 @@ import { UsersList } from "../Controls";
 import { useState, useEffect, useRef } from "react";
 import { fetchWithAuth } from "@/utils/auth/tokenUtils";
 import { handleClickWithKeyboard } from "../Controls";
+import { useSelector } from "react-redux";
 
 export default function ProfileInfo({
   profile,
@@ -17,6 +18,8 @@ export default function ProfileInfo({
   const [isUsersLoading, setIsUsersLoading] = useState(true);
 
   const statListRef = useRef(null);
+
+  const user = useSelector((state) => state.auth.user);
 
   // 팔로워, 팔로잉 목록이 한 줄에 표시되도록 레이아웃 조정
   useEffect(() => {
@@ -136,7 +139,13 @@ export default function ProfileInfo({
               tabIndex={0}
               onKeyDown={handleClickWithKeyboard}
             >
-              팔로잉 {profile.followingCount ? profile.followingCount : 0}명
+              팔로잉{" "}
+              {profile.isMyself
+                ? user.followingCount
+                : profile.followingCount
+                  ? profile.followingCount
+                  : 0}
+              명
             </li>
             <li
               onClick={handleFollowersClick}
@@ -144,7 +153,13 @@ export default function ProfileInfo({
               tabIndex={0}
               onKeyDown={handleClickWithKeyboard}
             >
-              팔로워 {profile.followersCount ? profile.followersCount : 0}명
+              팔로워{" "}
+              {profile.isMyself
+                ? user.followersCount
+                : profile.followersCount
+                  ? profile.followersCount
+                  : 0}
+              명
             </li>
           </ul>
           <p className={styles["profile-bio"]}>{profile.bio}</p>

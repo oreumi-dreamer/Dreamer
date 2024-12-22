@@ -37,6 +37,8 @@ export async function GET() {
       via: via,
       uid: uid,
       theme: userDoc.data()?.theme,
+      followingCount: userDoc.data()?.following.length || 0,
+      followersCount: userDoc.data()?.followers.length || 0,
     });
   } catch (error) {
     console.error("Verification error:", error);
