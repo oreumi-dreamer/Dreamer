@@ -60,8 +60,11 @@ export async function DELETE(request, { params }) {
       );
     }
 
-    // 댓글 작성자 확인
-    if (comments[commentIndex].authorUid !== userData.uid) {
+    // 댓글 작성자 확인 (댓글 작성자 본인이 아니거나 게시글 작성자가 아닌경우 삭제 불가능)
+    if (
+      comments[commentIndex].authorUid !== userData.uid &&
+      postData.authorUid !== userData.uid
+    ) {
       return new Response(
         JSON.stringify({ error: "댓글을 삭제할 권한이 없습니다." }),
         { status: 403 }
