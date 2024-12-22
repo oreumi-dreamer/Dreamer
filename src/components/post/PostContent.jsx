@@ -29,6 +29,7 @@ export default function PostContent({
   setIsLoading,
   comment,
   setComment,
+  setPosts = () => {},
 }) {
   const [isScrap, setIsScrap] = useState(false);
   const [postData, setPostData] = useState(null);
@@ -149,6 +150,21 @@ export default function PostContent({
       alert("입력한 댓글의 내용이 없습니다.");
     }
     if (comment && comment.trim().length > 0) {
+      setPosts &&
+        setPosts((prevPosts) => {
+          return {
+            ...prevPosts,
+            posts: prevPosts.posts.map((post) =>
+              post.id === postId
+                ? {
+                    ...post,
+                    commentsCount: post.commentsCount + 1,
+                  }
+                : post
+            ),
+          };
+        });
+
       try {
         setIsCommentSubmitting(true);
         const formData = new FormData();
@@ -172,6 +188,21 @@ export default function PostContent({
         }
       } catch (error) {
         console.error("댓글 작성 중 오류가 발생했습니다. :", error);
+
+        setPosts &&
+          setPosts((prevPosts) => {
+            return {
+              ...prevPosts,
+              posts: prevPosts.posts.map((post) =>
+                post.id === postId
+                  ? {
+                      ...post,
+                      commentsCount: post.commentsCount - 1,
+                    }
+                  : post
+              ),
+            };
+          });
       }
     }
     setIsCommentSubmitting(false);
@@ -219,6 +250,22 @@ export default function PostContent({
       sparkCount: hasSparked ? sparkCount - 1 : sparkCount + 1,
     }));
 
+    setPosts &&
+      setPosts((prevPosts) => {
+        return {
+          ...prevPosts,
+          posts: prevPosts.posts.map((post) =>
+            post.id === postId
+              ? {
+                  ...post,
+                  sparkCount: post.sparkCount + (post.hasUserSparked ? -1 : 1),
+                  hasUserSparked: !post.hasUserSparked,
+                }
+              : post
+          ),
+        };
+      });
+
     if (e.currentTarget.className === "star") {
       try {
         const starRes = await fetchWithAuth(`/api/post/spark/${postId}`);
@@ -233,6 +280,23 @@ export default function PostContent({
           hasUserSparked: !hasSparked,
           sparkCount: hasSparked ? sparkCount - 1 : sparkCount + 1,
         }));
+
+        setPosts &&
+          setPosts((prevPosts) => {
+            return {
+              ...prevPosts,
+              posts: prevPosts.posts.map((post) =>
+                post.id === postId
+                  ? {
+                      ...post,
+                      sparkCount:
+                        post.sparkCount + (post.hasUserSparked ? -1 : 1),
+                      hasUserSparked: !post.hasUserSparked,
+                    }
+                  : post
+              ),
+            };
+          });
       }
     }
   }
@@ -398,7 +462,7 @@ export default function PostContent({
                     />
                   </button>
                 </li>
-                <li>
+                {/* <li> // 추후 스크랩 기능 추가 시 주석 해제
                   <button onClick={handleScrapButtonClick} className="scrap">
                     <img
                       src={
@@ -409,7 +473,7 @@ export default function PostContent({
                       height={30}
                     />
                   </button>
-                </li>
+                </li> */}
                 <li className={styles["more-btn"]}>
                   <button
                     type="button"
@@ -593,7 +657,11 @@ export default function PostContent({
                 </li>
 
                 <li>
-                  <button type="submit" disabled={isCommentSubmitting}>
+                  <button
+                    type="submit"
+                    className={styles["comment-submit-btn"]}
+                    disabled={isCommentSubmitting}
+                  >
                     {isCommentSubmitting ? (
                       <Loading
                         type="miniCircle"
@@ -619,6 +687,7 @@ export default function PostContent({
                 user={user}
                 isCommentSubmitting={isCommentSubmitting}
                 isMyself={postData.isMyself}
+                setPosts={setPosts}
               />
             </section>
           </section>

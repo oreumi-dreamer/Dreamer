@@ -10,6 +10,7 @@ export default function CommentArticles({
   user,
   isMyself,
   isCommentSubmitting,
+  setPosts,
 }) {
   const [commentData, setCommentData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -52,6 +53,21 @@ export default function CommentArticles({
   }
 
   async function handleDeleteComment(commentId) {
+    setPosts &&
+      setPosts((prevPosts) => {
+        return {
+          ...prevPosts,
+          posts: prevPosts.posts.map((post) =>
+            post.id === postId
+              ? {
+                  ...post,
+                  commentsCount: post.commentsCount - 1,
+                }
+              : post
+          ),
+        };
+      });
+
     try {
       const commentDeleteRes = await fetchWithAuth(
         `/api/comment/delete/${postId}`,
@@ -66,6 +82,20 @@ export default function CommentArticles({
         );
       }
     } catch (error) {
+      setPosts &&
+        setPosts((prevPosts) => {
+          return {
+            ...prevPosts,
+            posts: prevPosts.posts.map((post) =>
+              post.id === postId
+                ? {
+                    ...post,
+                    commentsCount: post.commentsCount - 1,
+                  }
+                : post
+            ),
+          };
+        });
       console.error("댓글 삭제 오류 :", error);
     }
   }
@@ -123,19 +153,23 @@ export default function CommentArticles({
             </li>
           )}
         </ul>
-        {user?.userId === comment.authorId && (
-          <ul className={styles["edit-delete-button"]}>
-            <li>
-              <button>수정</button>
-            </li>
-            <li>
-              <button onClick={() => handleDeleteComment(comment.commentId)}>
-                삭제
-              </button>
-            </li>
-          </ul>
+        {user?.uid === comment.authorUid && (
+          //   추후 수정 기능 추가 시 주석 해제
+          // <ul className={styles["edit-delete-button"]}>
+          //   <li>
+          //     <button>수정</button>
+          //   </li>
+          //   <li>
+          <button
+            className={styles["delete-btn"]}
+            onClick={() => handleDeleteComment(comment.commentId)}
+          >
+            삭제
+          </button>
+          //   </li>
+          // </ul>
         )}
-        {isMyself && user?.userId !== comment.authorId && (
+        {isMyself && user?.uid !== comment.authorUid && (
           <button
             className={styles["delete-btn"]}
             onClick={() => handleDeleteComment(comment.commentId)}
