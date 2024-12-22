@@ -44,14 +44,14 @@ function MoreModal() {
           모드 전환
         </button>
       </li>
-      <li className={styles["modal-items"]}>
+      {/* <li className={styles["modal-items"]}>
         <button
           className={`${styles["inquiry-btn"]} ${styles["header-modal-btn"]}`}
           onClick={() => dispatch(closeModal())}
         >
           문의 사항
         </button>
-      </li>
+      </li> */}
       <li className={styles["modal-items"]}>
         <a
           href="/logout"

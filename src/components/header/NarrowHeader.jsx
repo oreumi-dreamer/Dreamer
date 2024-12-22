@@ -56,7 +56,7 @@ export default function NarrowHeader({
     if (modalRef.current && buttonRef.current) {
       const updatePosition = () => {
         const buttonRect = buttonRef.current.getBoundingClientRect();
-        const modalHeight = 295;
+        const modalHeight = 265;
         let position;
         if (isTopHeader) {
           position = calculateMobileModalPosition(buttonRef, 10, 58);

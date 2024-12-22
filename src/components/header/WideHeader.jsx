@@ -44,7 +44,7 @@ export default function WideHeader({
     if (modalRef.current && buttonRef.current) {
       const updatePosition = () => {
         const buttonRect = buttonRef.current.getBoundingClientRect();
-        const modalHeight = 295;
+        const modalHeight = 265;
         const position = {
           position: "absolute",
           top: `${buttonRect.top - modalHeight * 2}px`,
