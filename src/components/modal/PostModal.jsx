@@ -4,7 +4,13 @@ import PostContent from "../post/PostContent";
 import { ConfirmModal } from "../Controls";
 import { disableScroll, enableScroll } from "@/utils/scrollHandler";
 
-export default function PostModal({ postId, isShow, onClose }) {
+export default function PostModal({
+  postId,
+  isShow,
+  onClose,
+  setPosts,
+  setFeedPosts,
+}) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [comment, setComment] = useState(undefined);
@@ -89,6 +95,8 @@ export default function PostModal({ postId, isShow, onClose }) {
         <PostContent
           type="modal"
           postId={postId}
+          setPosts={setPosts}
+          setFeedPosts={setFeedPosts}
           onClose={onClose}
           handleModalClose={handleModalClose}
           isModalOpen={isModalOpen}

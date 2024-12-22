@@ -152,6 +152,8 @@ export default function SearchPage() {
         postId={selectedPostId}
         isShow={isShowModal}
         onClose={handleModalClose}
+        setFeedPosts={setSearchResults}
+        setPosts={false}
       />
     </>
   );

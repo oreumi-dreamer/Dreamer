@@ -289,6 +289,13 @@ img.tomong-icon {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 3rem;
+  height: 3rem;
+}
+
+.comment-setting button div div {
+  width: 3rem;
+  height: 3rem;
 }
 
 .comment-articles-section {

@@ -13,12 +13,12 @@ import styles from "./Post.module.css";
 import { highlightText } from "@/utils/highlightText";
 
 export default function Post({
-  post: initialPosts,
+  post,
+  onPostUpdate,
   setSelectedPostId,
   searchMode,
   searchQuery,
 }) {
-  const [post, setPost] = useState(initialPosts);
   const [isOpen, setIsOpen] = useState(false);
   const [modalStyle, setModalStyle] = useState({});
   const [shareModalOpen, setShareModalOpen] = useState(false);
@@ -168,7 +168,12 @@ export default function Post({
   };
 
   const sparkHandle = async (postId) => {
-    changeSpark(postId); // 반짝 토글 시 UI 변경
+    onPostUpdate(postId, {
+      hasUserSparked: !post.hasUserSparked,
+      sparkCount: post.hasUserSparked
+        ? post.sparkCount - 1
+        : post.sparkCount + 1,
+    }); // 반짝 토글 시 UI 변경
 
     try {
       const res = await fetchWithAuth(`/api/post/spark/${postId}`);
@@ -177,7 +182,12 @@ export default function Post({
       }
     } catch (error) {
       console.error("Error sparking post:", error);
-      changeSpark(postId); // 반짝 실패 시 원래 상태로 복구
+      onPostUpdate(postId, {
+        hasUserSparked: !post.hasUserSparked,
+        sparkCount: post.hasUserSparked
+          ? post.sparkCount - 1
+          : post.sparkCount + 1,
+      }); // 반짝 실패 시 원래 상태로 복구
     }
   };
 
@@ -371,7 +381,7 @@ export default function Post({
               height={40}
             />
           </button>
-          <button className={styles["mark-btn"]}>
+          {/* <button className={styles["mark-btn"]}> // 추후 스크랩 기능 추가 시 주석 해제
             <Image
               className={styles["icon-padding"]}
               src="/images/mark.svg"
@@ -379,7 +389,7 @@ export default function Post({
               width={40}
               height={40}
             />
-          </button>
+          </button> */}
         </section>
       </article>
       {shareModalOpen && (

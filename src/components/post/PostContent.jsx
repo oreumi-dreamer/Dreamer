@@ -29,6 +29,8 @@ export default function PostContent({
   setIsLoading,
   comment,
   setComment,
+  setPosts = () => {},
+  setFeedPosts = () => {},
 }) {
   const [isScrap, setIsScrap] = useState(false);
   const [postData, setPostData] = useState(null);
@@ -149,6 +151,32 @@ export default function PostContent({
       alert("입력한 댓글의 내용이 없습니다.");
     }
     if (comment && comment.trim().length > 0) {
+      setPosts &&
+        setPosts((prevPosts) => {
+          return {
+            ...prevPosts,
+            posts: prevPosts.posts.map((post) =>
+              post.id === postId
+                ? {
+                    ...post,
+                    commentsCount: post.commentsCount + 1,
+                  }
+                : post
+            ),
+          };
+        });
+      setFeedPosts &&
+        setFeedPosts((prevPosts) =>
+          prevPosts.map((post) =>
+            post.id === postId
+              ? {
+                  ...post,
+                  commentsCount: post.commentsCount + 1,
+                }
+              : post
+          )
+        );
+
       try {
         setIsCommentSubmitting(true);
         const formData = new FormData();
@@ -172,6 +200,33 @@ export default function PostContent({
         }
       } catch (error) {
         console.error("댓글 작성 중 오류가 발생했습니다. :", error);
+
+        setPosts &&
+          setPosts((prevPosts) => {
+            return {
+              ...prevPosts,
+              posts: prevPosts.posts.map((post) =>
+                post.id === postId
+                  ? {
+                      ...post,
+                      commentsCount: post.commentsCount - 1,
+                    }
+                  : post
+              ),
+            };
+          });
+
+        setFeedPosts &&
+          setFeedPosts((prevPosts) =>
+            prevPosts.map((post) =>
+              post.id === postId
+                ? {
+                    ...post,
+                    commentsCount: post.commentsCount + 1,
+                  }
+                : post
+            )
+          );
       }
     }
     setIsCommentSubmitting(false);
@@ -213,27 +268,90 @@ export default function PostContent({
     const hasSparked = postData.hasUserSparked;
     const sparkCount = postData.sparkCount;
 
+    // 로컬 상태 업데이트
     setPostData((prev) => ({
       ...prev,
       hasUserSparked: !hasSparked,
       sparkCount: hasSparked ? sparkCount - 1 : sparkCount + 1,
     }));
 
-    if (e.currentTarget.className === "star") {
-      try {
-        const starRes = await fetchWithAuth(`/api/post/spark/${postId}`);
+    // feeds일 경우
+    if (setFeedPosts) {
+      setFeedPosts((prevPosts) => {
+        const updatedPosts = prevPosts.map((post) => {
+          if (post.id === postId) {
+            const newSparkCount = hasSparked ? sparkCount - 1 : sparkCount + 1;
+            return {
+              ...post,
+              sparkCount: newSparkCount,
+              hasUserSparked: !hasSparked,
+            };
+          }
+          return post;
+        });
+        return updatedPosts;
+      });
+    }
 
-        if (!starRes.ok || starRes.status !== 200) {
-          throw new Error("반짝을 실행하지 못했어요.");
-        }
-      } catch (error) {
-        console.error("반짝을 실행하지 못했어요 :", error);
-        setPostData((prev) => ({
-          ...prev,
-          hasUserSparked: !hasSparked,
-          sparkCount: hasSparked ? sparkCount - 1 : sparkCount + 1,
-        }));
+    // 그 외의 경우
+    if (setPosts) {
+      setPosts((prevPosts) => {
+        return {
+          ...prevPosts,
+          posts: prevPosts.posts.map((post) =>
+            post.id === postId
+              ? {
+                  ...post,
+                  sparkCount: hasSparked ? sparkCount - 1 : sparkCount + 1,
+                  hasUserSparked: !hasSparked,
+                }
+              : post
+          ),
+        };
+      });
+    }
+
+    try {
+      const starRes = await fetchWithAuth(`/api/post/spark/${postId}`);
+      if (!starRes.ok) {
+        throw new Error("반짝을 실행하지 못했어요.");
       }
+    } catch (error) {
+      // 실패 시 원상태로 복구
+      setPostData((prev) => ({
+        ...prev,
+        hasUserSparked: hasSparked,
+        sparkCount: sparkCount,
+      }));
+
+      if (setFeedPosts) {
+        setFeedPosts((prevPosts) =>
+          prevPosts.map((post) =>
+            post.id === postId
+              ? { ...post, sparkCount: sparkCount, hasUserSparked: hasSparked }
+              : post
+          )
+        );
+      }
+
+      if (setPosts) {
+        setPosts((prevPosts) => {
+          return {
+            ...prevPosts,
+            posts: prevPosts.posts.map((post) =>
+              post.id === postId
+                ? {
+                    ...post,
+                    sparkCount: hasSparked ? sparkCount - 1 : sparkCount + 1,
+                    hasUserSparked: !hasSparked,
+                  }
+                : post
+            ),
+          };
+        });
+      }
+
+      console.error("반짝을 실행하지 못했어요 :", error);
     }
   }
 
@@ -398,7 +516,7 @@ export default function PostContent({
                     />
                   </button>
                 </li>
-                <li>
+                {/* <li> // 추후 스크랩 기능 추가 시 주석 해제
                   <button onClick={handleScrapButtonClick} className="scrap">
                     <img
                       src={
@@ -409,7 +527,7 @@ export default function PostContent({
                       height={30}
                     />
                   </button>
-                </li>
+                </li> */}
                 <li className={styles["more-btn"]}>
                   <button
                     type="button"
@@ -593,7 +711,11 @@ export default function PostContent({
                 </li>
 
                 <li>
-                  <button type="submit" disabled={isCommentSubmitting}>
+                  <button
+                    type="submit"
+                    className={styles["comment-submit-btn"]}
+                    disabled={isCommentSubmitting}
+                  >
                     {isCommentSubmitting ? (
                       <Loading
                         type="miniCircle"
@@ -619,6 +741,8 @@ export default function PostContent({
                 user={user}
                 isCommentSubmitting={isCommentSubmitting}
                 isMyself={postData.isMyself}
+                setPosts={setPosts}
+                setFeedPosts={setFeedPosts}
               />
             </section>
           </section>
