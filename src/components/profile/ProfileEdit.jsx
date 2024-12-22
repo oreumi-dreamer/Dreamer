@@ -158,6 +158,19 @@ export default function ProfileEdit({
       <h2 className="sr-only">프로필 편집</h2>
       <form onSubmit={handleSubmit} className={styles["profile-form"]}>
         <fieldset className={styles["profile-form-pic"]}>
+          {/* 이미지 제거 api 적용 시 
+          <button
+            type="button"
+            onClick={() => setNewImage("/images/rabbit.svg")}
+            className={styles["image-delete"]}
+          >
+            <img
+              src="/images/close.svg"
+              width={20}
+              height={20}
+              alt="이미지 제거"
+            />
+          </button> */}
           <img
             src={
               newImage
