@@ -124,7 +124,6 @@ export default function ProfileEdit({
         })
       );
 
-      // alert("프로필이 성공적으로 수정되었습니다!"); // 임시로 alert를 사용함
       if (newImage) {
         setProfile({
           ...profile,
