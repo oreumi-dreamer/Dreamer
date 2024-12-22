@@ -92,22 +92,25 @@ export async function GET(request) {
         const uniqueAuthorUids = [
           ...new Set(allDocs.map((doc) => doc.data().authorUid)),
         ];
-        const usersRef = collection(db, "users");
-        const userQuery = query(
-          usersRef,
-          where("__name__", "in", uniqueAuthorUids)
-        );
-        const userSnapshot = await getDocs(userQuery);
 
-        // 작성자 정보 매핑
+        // uniqueAuthorUids가 비어있지 않을 때만 사용자 정보 조회
         const userMap = {};
-        userSnapshot.forEach((doc) => {
-          userMap[doc.id] = {
-            userId: doc.data().userId,
-            userName: doc.data().userName,
-            profileImageUrl: doc.data().profileImageUrl,
-          };
-        });
+        if (uniqueAuthorUids.length > 0) {
+          const usersRef = collection(db, "users");
+          const userQuery = query(
+            usersRef,
+            where("__name__", "in", uniqueAuthorUids)
+          );
+          const userSnapshot = await getDocs(userQuery);
+
+          userSnapshot.forEach((doc) => {
+            userMap[doc.id] = {
+              userId: doc.data().userId,
+              userName: doc.data().userName,
+              profileImageUrl: doc.data().profileImageUrl,
+            };
+          });
+        }
 
         // 시간 기반 점수 계산 함수
         const calculateTimeDecay = (
@@ -262,22 +265,25 @@ export async function GET(request) {
       const uniqueAuthorUids = [
         ...new Set(allDocs.map((doc) => doc.data().authorUid)),
       ];
-      const usersRef = collection(db, "users");
-      const userQuery = query(
-        usersRef,
-        where("__name__", "in", uniqueAuthorUids)
-      );
-      const userSnapshot = await getDocs(userQuery);
 
-      // 작성자 정보 매핑
+      // uniqueAuthorUids가 비어있지 않을 때만 사용자 정보 조회
       const userMap = {};
-      userSnapshot.forEach((doc) => {
-        userMap[doc.id] = {
-          userId: doc.data().userId,
-          userName: doc.data().userName,
-          profileImageUrl: doc.data().profileImageUrl,
-        };
-      });
+      if (uniqueAuthorUids.length > 0) {
+        const usersRef = collection(db, "users");
+        const userQuery = query(
+          usersRef,
+          where("__name__", "in", uniqueAuthorUids)
+        );
+        const userSnapshot = await getDocs(userQuery);
+
+        userSnapshot.forEach((doc) => {
+          userMap[doc.id] = {
+            userId: doc.data().userId,
+            userName: doc.data().userName,
+            profileImageUrl: doc.data().profileImageUrl,
+          };
+        });
+      }
 
       // 시간 기반 점수 계산 함수
       const calculateTimeDecay = (
