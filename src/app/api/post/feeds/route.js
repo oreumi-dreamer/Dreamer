@@ -147,9 +147,9 @@ export async function GET(request) {
         };
 
         // 점수 계산 및 게시물 데이터 가공
-        const posts = allDocs
-          .map((doc) => {
-            const postData = doc.data();
+        const posts = await Promise.all(
+          allDocs.map(async (document) => {
+            const postData = document.data();
 
             const commentsLength = postData.comments
               ? postData.comments.filter((comment) => !comment.isDeleted).length
@@ -176,14 +176,27 @@ export async function GET(request) {
               commentsLength
             );
 
+            // 신고 점수 계산 (수정된 부분)
+            const reportRef = doc(db, "reports", document.id);
+            const reportSnap = await getDoc(reportRef);
+            let reportPenalty = 0;
+            if (reportSnap.exists()) {
+              const reportData = reportSnap.data();
+              if (reportData.reportCount >= 2) {
+                const reportCount = reportData.reportCount; // reportCount 변수 추가
+                reportPenalty = reportCount * 40; // 신고 횟수 * 40점 감점
+              }
+            }
+
             const totalScore =
               followScore +
               interactionScore +
               genreMatchScore +
-              timeFreshnessScore;
+              timeFreshnessScore -
+              reportPenalty;
 
             return {
-              id: doc.id,
+              id: document.id,
               title: postData.title,
               content: postData.content,
               authorUid: postData.authorUid,
@@ -210,7 +223,9 @@ export async function GET(request) {
               isPrivate: postData.isPrivate || false,
             };
           })
-          .sort((a, b) => b.score - a.score);
+        );
+
+        posts.sort((a, b) => b.score - a.score);
 
         const lastVisible = allDocs[allDocs.length - 1];
 
@@ -317,9 +332,9 @@ export async function GET(request) {
       };
 
       // 점수 계산 및 게시물 데이터 가공
-      const posts = allDocs
-        .map((doc) => {
-          const postData = doc.data();
+      const posts = await Promise.all(
+        allDocs.map(async (document) => {
+          const postData = document.data();
 
           const commentsLength = postData.comments
             ? postData.comments.filter((comment) => !comment.isDeleted).length
@@ -346,15 +361,28 @@ export async function GET(request) {
             commentsLength
           );
 
+          // 신고 점수 계산 (수정된 부분)
+          const reportRef = doc(db, "reports", document.id);
+          const reportSnap = await getDoc(reportRef);
+          let reportPenalty = 0;
+          if (reportSnap.exists()) {
+            const reportData = reportSnap.data();
+            if (reportData.reportCount >= 2) {
+              const reportCount = reportData.reportCount; // reportCount 변수 추가
+              reportPenalty = reportCount * 40; // 신고 횟수 * 20점 감점
+            }
+          }
+
           const totalScore =
             followScore +
             interactionScore +
             genreMatchScore +
-            timeFreshnessScore;
+            timeFreshnessScore -
+            reportPenalty;
 
           return {
-            id: doc.id,
-            objectID: doc.id,
+            id: document.id,
+            objectID: document.id,
             title: postData.title,
             content: postData.content,
             authorUid: postData.authorUid,
@@ -381,7 +409,9 @@ export async function GET(request) {
             isPrivate: postData.isPrivate || false,
           };
         })
-        .sort((a, b) => b.score - a.score);
+      );
+
+      posts.sort((a, b) => b.score - a.score);
 
       const lastVisible = allDocs[allDocs.length - 1];
 

@@ -33,12 +33,15 @@ export default function ReportModal({ isOpen, closeModal, postId }) {
       }
 
       setIsLoading(false);
-      enableScroll();
+
       alert("신고가 접수되었습니다.");
       closeModal();
     } catch (error) {
       alert(error.message);
       closeModal();
+    } finally {
+      closeModal();
+      enableScroll();
     }
   };
 
