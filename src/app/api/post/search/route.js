@@ -120,6 +120,7 @@ export async function GET(request) {
         updatedAt: hit.updatedAt,
         isDeleted: hit.isDeleted || false,
         isPrivate: hit.isPrivate || false,
+        isMyself: hit.authorUid === userData.uid,
         postId: hit.postId,
         commentsCount: hit.comments?.length || 0,
         lastmodified: hit.lastmodified,
