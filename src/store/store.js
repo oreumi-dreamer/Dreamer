@@ -23,6 +23,7 @@ export const store = configureStore({
     getDefaultMiddleware({
       serializableCheck: false,
     }),
+  devTools: process.env.NEXT_PUBLIC_BASE_URL.startsWith("http://"),
 });
 
 export const persistor = persistStore(store);
