@@ -170,7 +170,7 @@
     padding-top: 0;
     flex-direction: row;
     min-height: 0;
-    top: inherit;
+    top: unset;
     bottom: 0;
     background: var(--background-mobile-header);
     box-shadow: var(--header-shadow);
