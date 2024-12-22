@@ -217,8 +217,7 @@ export default function Post({
     <>
       <article className={styles["article"]} ref={containerRef}>
         <h3 className="sr-only">
-          {post.authorName}님이{" "}
-          {" " + postTimeScreenReader(post.createdAt, post.createdAt)}에 올린 꿈
+          {`${post.authorName}님이 ${postTimeScreenReader(post.createdAt, post.createdAt)}에 올린 꿈`}
         </h3>
         <section className={styles["post-user-info"]}>
           <Link href={`/users/${post.authorId}`}>
