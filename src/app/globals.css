@@ -289,6 +289,11 @@ div:focus-visible {
   clip: rect(0 0 0 0);
 }
 
+input,
+textarea {
+  font-size: var(--body-font-size);
+}
+
 @media (max-width: 1152px) {
   body:has(header):has(main):has(footer) {
     padding-left: 10.4rem;

@@ -256,7 +256,7 @@ img.tomong-icon {
   height: 9.4rem;
   background-color: unset;
   color: var(--black-font-color);
-  border: none;
+  border: 2px solid transparent;
   padding: 1.4rem 1.2rem;
   resize: none;
   scrollbar-width: none;
@@ -386,19 +386,16 @@ input[type="checkbox"]:checked + label.checkbox::before {
   }
 
   .button-list {
-    justify-content: flex-start;
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    grid-template-areas: "star share more";
     gap: 1rem;
-    flex-wrap: wrap;
     padding-right: 2rem;
   }
 
   .button-list li:first-of-type {
     position: relative;
     left: 0;
-  }
-
-  .comment-section {
-    height: 48%;
   }
 
   .comment-form {
@@ -417,11 +414,6 @@ input[type="checkbox"]:checked + label.checkbox::before {
   .close-btn {
     top: 1.5rem;
     right: 0;
-  }
-  .more-btn {
-    position: absolute;
-    top: 4.15rem;
-    right: 1rem;
   }
 }
 

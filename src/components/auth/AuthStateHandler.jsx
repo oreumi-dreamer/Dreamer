@@ -25,6 +25,7 @@ const authRoutes = {
     "/account/modify-email",
     "/account/modify-password",
     "/signup", // signup도 인증이 필요
+    "/users",
   ],
 
   // 인증 체크를 하지 않는 페이지
@@ -101,7 +102,7 @@ export default function AuthStateHandler({ children }) {
           )
         ) {
           console.log("Unauthenticated user blocked from:", pathname);
-          router.push("/join");
+          router.push("/");
           return;
         }
       }

@@ -391,6 +391,7 @@ label.checkbox a {
   margin-top: 2.4rem;
   border-radius: 1rem;
   font-size: 1.6rem;
+  color: var(--black-font-color);
 }
 .confirm-modal .btn-yes {
   background-color: var(--deep-pink-color);

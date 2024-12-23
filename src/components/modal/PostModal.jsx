@@ -86,8 +86,15 @@ export default function PostModal({
         ref={dialogRef}
         className={styles["post-modal"]}
         onClick={(e) => {
-          // dialog 자체가 클릭된 경우에만 처리 (버블링된 이벤트는 무시)
-          if (e.target === dialogRef.current) {
+          // dialog의 padding 영역이 아닌, backdrop 영역(dialog 자체)을 클릭했을 때만 닫히도록 함
+          const rect = dialogRef.current.getBoundingClientRect();
+          const isInDialog =
+            rect.top <= e.clientY &&
+            e.clientY <= rect.bottom &&
+            rect.left <= e.clientX &&
+            e.clientX <= rect.right;
+
+          if (!isInDialog) {
             handleModalClose();
           }
         }}
