@@ -386,9 +386,10 @@ input[type="checkbox"]:checked + label.checkbox::before {
   }
 
   .button-list {
-    justify-content: flex-start;
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    grid-template-areas: "star share more";
     gap: 1rem;
-    flex-wrap: wrap;
     padding-right: 2rem;
   }
 
@@ -413,11 +414,6 @@ input[type="checkbox"]:checked + label.checkbox::before {
   .close-btn {
     top: 1.5rem;
     right: 0;
-  }
-  .more-btn {
-    position: absolute;
-    top: 4.15rem;
-    right: 1rem;
   }
 }
 
