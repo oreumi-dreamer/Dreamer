@@ -102,7 +102,7 @@ export default function AuthStateHandler({ children }) {
           )
         ) {
           console.log("Unauthenticated user blocked from:", pathname);
-          router.push("/join");
+          router.push("/");
           return;
         }
       }
