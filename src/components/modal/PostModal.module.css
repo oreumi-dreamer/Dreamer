@@ -397,10 +397,6 @@ input[type="checkbox"]:checked + label.checkbox::before {
     left: 0;
   }
 
-  .comment-section {
-    height: 48%;
-  }
-
   .comment-form {
     max-height: 5rem;
     margin: 1.5rem 0 4.5rem;
