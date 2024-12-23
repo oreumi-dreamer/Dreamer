@@ -448,13 +448,14 @@ export default function WritePost({
   const handleResizeHeightText = (e) => {
     if (window.innerWidth <= 720) {
       const textarea = e.target;
+      const maxHeight = 500;
       const minHeight = 25;
       textarea.style.height = "auto";
 
       if (textarea.value.trim() === "") {
         textarea.style.height = `${minHeight}rem`;
       } else {
-        textarea.style.height = `${textarea.scrollHeight}px`;
+        textarea.style.height = `${(textarea.scrollHeight, maxHeight)}rem`;
       }
     }
   };
