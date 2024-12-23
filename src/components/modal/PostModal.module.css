@@ -25,6 +25,8 @@
   display: flex;
   padding: 3.7rem 0 3.5rem 3.2rem;
   box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.2);
+  -webkit-overflow-scrolling: touch; /*  iOS 스크롤 동작 개선 */
+  overscroll-behavior: contain; /* 스크롤 전파 방지 */
 }
 
 .post-section {
@@ -437,5 +439,11 @@ input[type="checkbox"]:checked + label.checkbox::before {
   }
   .dream-score {
     font-size: var(--tiny-text-font-size);
+  }
+}
+
+@supports (-webkit-touch-callout: none) {
+  .post-modal {
+    height: 75dvh;
   }
 }
