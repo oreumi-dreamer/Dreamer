@@ -37,13 +37,10 @@ export default function WritePost({
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useSelector((state) => state.auth);
   const { theme } = useTheme();
-  const router = useRouter();
 
   const profileImageUrl = user?.profileImageUrl || "/images/rabbit.svg";
   const userId = user?.userId;
   const userName = user?.userName;
-  //   const userIdLength = user?.userId?.length || 0;
-  //   const userNameLength = user?.userName?.length || 0;
 
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [selectedMoods, setSelectedMoods] = useState([]);
