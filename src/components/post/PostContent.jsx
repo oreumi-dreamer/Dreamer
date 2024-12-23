@@ -32,7 +32,7 @@ export default function PostContent({
   setPosts = () => {},
   setFeedPosts = () => {},
 }) {
-  const [isScrap, setIsScrap] = useState(false);
+  // const [isScrap, setIsScrap] = useState(false);
   const [postData, setPostData] = useState(null);
   const [isPrivate, setIsPrivate] = useState(false);
   const [oneiromancy, setOneiromancy] = useState(false);
@@ -613,7 +613,11 @@ export default function PostContent({
                 </span>
               </div>
 
-              <strong>{postData.title}</strong>
+              <strong>
+                {postData.title
+                  ? postData.title
+                  : `${new Date(postData.createdAt).getFullYear()}년 ${new Date(postData.createdAt).getMonth() + 1}월 ${new Date(postData.createdAt).getDate()}일 꿈 일기 `}
+              </strong>
               <p>{postData.content}</p>
 
               {postData.imageUrls.length > 0 &&

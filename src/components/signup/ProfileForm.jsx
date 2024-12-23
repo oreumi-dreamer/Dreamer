@@ -162,7 +162,9 @@ export default function ProfileForm({
         <button type="button" onClick={onSkip}>
           다음에 하기
         </button>
-        <button type="submit">다음</button>
+        <button type="submit" disabled={bio === ""}>
+          다음
+        </button>
       </div>
     </form>
   );
