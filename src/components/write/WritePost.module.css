@@ -85,8 +85,6 @@
 .title-input input[type="text"] {
   background-color: inherit;
   border: 0;
-
-  /* margin-left: 1rem; */
   width: 100%;
   color: var(--black-font-color);
 }
@@ -126,11 +124,9 @@
   height: 100%;
   min-height: 60%;
   margin-top: 1rem;
-
   margin-bottom: 2rem;
   padding: 2rem;
   box-sizing: border-box;
-
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -151,13 +147,11 @@
   position: relative;
   column-gap: 0.6rem;
 }
-
 .genre-picket button {
   display: flex;
   align-items: center;
   justify-content: center;
 }
-
 .genre-picker ul {
   display: flex;
   flex-wrap: wrap;
@@ -211,7 +205,6 @@
   white-space: nowrap;
   margin-left: 0.4rem;
 }
-
 .btn-feeling-selected ul:after {
   content: "";
   display: block;
@@ -222,7 +215,6 @@
   bottom: 0;
   right: 0;
 }
-
 .btn-feeling-selected li {
   display: flex;
   justify-content: center;
@@ -251,7 +243,6 @@
   align-items: center;
   height: fit-content;
 }
-
 .rate-star-container div input {
   display: flex;
   width: fit-content;
@@ -259,7 +250,6 @@
   align-items: center;
   justify-content: center;
 }
-
 .rate-star {
   appearance: none;
 }
@@ -284,7 +274,6 @@
 .rate-star:hover ~ .rate-star::after {
   background-image: url("/images/star.svg");
 }
-
 /* 이미지첨부 */
 .image-uploader .btn-upload {
   background-color: var(--background-lightgray);
@@ -296,21 +285,18 @@
   color: var(--black-font-color);
   text-align: center;
 }
-
 .image-uploader .btn-upload:hover {
   background-color: var(--none-active-color);
   color: var(--white-color);
 }
-
 .image-uploader .btn-upload:active {
   background-color: var(--deep-pink-color);
   color: var(--white-color);
 }
-
 .image-uploader #file {
   display: none;
 }
-
+/* 구분선 */
 .break-line {
   display: inline-block;
   width: 100%;
@@ -322,22 +308,17 @@
 }
 .text-field-area {
   width: 100%;
-  /* height: calc(100% - 16rem); */
   height: 100%;
-  /* min-height: 40%; */
   padding: 0.4rem;
   resize: none;
   border: 0;
-
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
-
 .text-field-area.has-image {
   height: calc(100% - 12rem);
 }
-
 .text-field-area textarea {
   background-color: inherit;
   color: var(--black-font-color);
@@ -359,15 +340,12 @@
 .btn-feeling-selected ul::-webkit-scrollbar {
   height: 0.6rem;
 }
-
 .text-field-area::-webkit-scrollbar-thumb {
   width: 100%;
 }
-
 .image-preview-field::-webkit-scrollbar-thumb {
   height: 100%;
 }
-
 .text-field-area::-webkit-scrollbar-thumb,
 .image-preview-field::-webkit-scrollbar-thumb,
 .genre-picker ul::-webkit-scrollbar-thumb,
@@ -386,12 +364,10 @@
 .btn-feeling-selected ul::-webkit-scrollbar-track {
   border-radius: 1rem;
 }
-
 .genre-picker ul::-webkit-scrollbar-thumb,
 .btn-feeling-selected ul::-webkit-scrollbar-thumb {
   border: 0.1rem solid transparent;
 }
-
 /* 추가이미지 */
 .image-preview-field {
   display: flex;
@@ -402,17 +378,14 @@
   overflow-y: hidden;
   padding: 1rem;
 }
-
 .image-preview-field .preview-image {
   object-fit: contain;
 }
-
 .image-preview-field .image-container {
   position: relative;
   width: 10rem;
   height: 10rem;
 }
-
 .image-preview-field .image-delete {
   position: absolute;
   top: 0;
@@ -422,7 +395,6 @@
   width: 3rem;
   height: 3rem;
 }
-
 .btn-submit-area {
   width: calc(100% - 5rem);
   display: flex;
@@ -432,7 +404,6 @@
   right: 2.5rem;
   bottom: 2rem;
 }
-
 .btn-submit {
   background-color: var(--deep-pink-color);
   padding: 0.8rem 4rem;
@@ -463,7 +434,6 @@
     background-color: inherit;
     width: 1.2rem;
     border-radius: 1rem;
-    /* display: none; */
   }
   .write-field::-webkit-scrollbar-thumb {
     width: 100%;
@@ -478,14 +448,12 @@
     border-radius: 1rem;
   }
   .genre-picker {
-    /* flex-direction: column; */
     align-items: flex-start;
   }
   .genre-picker ul {
     gap: 0.4rem;
     align-items: flex-start;
     margin-left: 0;
-    /* flex-wrap: wrap; */
     left: 3.2rem;
     top: 0.2rem;
   }
@@ -493,7 +461,6 @@
     font-size: 1.4rem;
   }
   .user-feeling {
-    /* flex-direction: column; */
     align-items: flex-start;
     gap: 0.4rem;
   }
@@ -502,7 +469,6 @@
   }
   .btn-feeling-selected .feeling-selected-list {
     gap: 0.4rem;
-    /* flex-wrap: wrap; */
   }
   .rate-star-container p {
     font-size: 1.4rem;
@@ -515,6 +481,9 @@
   }
   .text-field-area {
     height: auto;
+  }
+  .text-field-area.has-image {
+    height: 25rem;
   }
   .text-field-area textarea {
     height: 40rem;
