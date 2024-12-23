@@ -256,7 +256,7 @@ img.tomong-icon {
   height: 9.4rem;
   background-color: unset;
   color: var(--black-font-color);
-  border: none;
+  border: 2px solid transparent;
   padding: 1.4rem 1.2rem;
   resize: none;
   scrollbar-width: none;
