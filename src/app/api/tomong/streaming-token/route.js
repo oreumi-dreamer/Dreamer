@@ -1,3 +1,5 @@
+// api/tomong/streaming-token/route.js
+
 import { generateToken } from "@/lib/api/tokenManager";
 import { verifyUser } from "@/lib/api/auth";
 import { headers } from "next/headers";

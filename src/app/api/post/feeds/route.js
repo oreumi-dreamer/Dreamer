@@ -1,3 +1,5 @@
+//api/post/feeds/route.js
+
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { db } from "@/lib/firebase";

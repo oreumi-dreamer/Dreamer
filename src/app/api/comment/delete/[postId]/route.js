@@ -1,3 +1,5 @@
+// api/comment/delete/[postId]/route.js
+
 import { headers } from "next/headers";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 

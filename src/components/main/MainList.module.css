@@ -4,7 +4,7 @@
   flex-direction: column;
   align-items: center;
   flex-basis: 100%;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .load-more-button {
