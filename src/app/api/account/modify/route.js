@@ -1,4 +1,4 @@
-// /api/account/profile/route.js
+// /api/account/modify/route.js
 
 import { headers } from "next/headers";
 import { db } from "@/lib/firebase";

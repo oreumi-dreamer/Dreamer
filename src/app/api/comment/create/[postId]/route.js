@@ -1,3 +1,5 @@
+// api/comment/create/[postId]/route.js
+
 import { headers } from "next/headers";
 import {
   doc,

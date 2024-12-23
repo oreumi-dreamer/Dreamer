@@ -185,6 +185,10 @@
 .buttons button:last-of-type {
   right: 4rem;
 }
+.buttons button:disabled {
+  background-color: var(--none-active-color);
+  color: #fff;
+}
 
 @media (max-width: 720px) {
   .profile-form p:first-of-type {

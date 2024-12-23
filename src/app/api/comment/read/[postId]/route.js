@@ -1,3 +1,5 @@
+// api/comment/read/[postId]/route.js
+
 import { headers } from "next/headers";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
