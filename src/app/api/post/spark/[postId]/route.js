@@ -1,3 +1,5 @@
+// api/post/spark/[postId]/route.js
+
 import { headers } from "next/headers";
 import {
   doc,

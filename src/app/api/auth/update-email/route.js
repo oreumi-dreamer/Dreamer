@@ -1,3 +1,5 @@
+// api/auth/update-email/route.js
+
 import { auth, db } from "@/lib/firebaseAdmin";
 import { getFirestore, Timestamp } from "firebase-admin/firestore";
 

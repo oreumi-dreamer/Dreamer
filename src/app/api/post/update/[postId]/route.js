@@ -85,7 +85,7 @@ export async function POST(request, { params }) {
       moods.some((mood) => !moodIds.includes(mood))
     ) {
       return new Response(
-        JSON.stringify({ error: "유효하지 않은 장르 또는 느낌입니���." }),
+        JSON.stringify({ error: "유효하지 않은 장르 또는 느낌입니다." }),
         { status: 400 }
       );
     }
