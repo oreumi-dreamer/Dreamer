@@ -137,16 +137,19 @@ export default function FindPassword({ styles, setShowFindPassword }) {
             {emailError ? emailError : ""}
           </span>
         </label>
-        <label className={styles["id-label"]}>
-          인증번호
-          <Input
-            type="text"
-            id="code"
-            value={code}
-            onChange={(e) => setCode(e.target.value)}
-            required
-          />
-        </label>
+        {isEmailSent && (
+          <label className={styles["id-label"]}>
+            인증번호
+            <Input
+              type="text"
+              id="code"
+              value={code}
+              onChange={(e) => setCode(e.target.value)}
+              required
+            />
+          </label>
+        )}
+
         <label className={styles["id-label"]}>
           새 비밀번호
           <Input
@@ -155,6 +158,7 @@ export default function FindPassword({ styles, setShowFindPassword }) {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            disabled={code === ""}
           />
           <span className={styles["invalid-text"]}>
             {isPasswordValid
@@ -170,6 +174,7 @@ export default function FindPassword({ styles, setShowFindPassword }) {
             value={passwordConfirm}
             onChange={(e) => setPasswordConfirm(e.target.value)}
             required
+            disabled={code === ""}
           />
           <span className={styles["invalid-text"]}>
             {passwordConfirm !== "" && isPasswordMatch
@@ -194,7 +199,9 @@ export default function FindPassword({ styles, setShowFindPassword }) {
               type="submit"
               highlight={true}
               className={styles["login-button"]}
-              disabled={email !== "" ? false : true}
+              disabled={
+                !isEmailSent || passwordConfirm === "" || !isPasswordMatch
+              }
             >
               비밀번호 변경
             </Button>
