@@ -22,7 +22,12 @@ export const MyPost = forwardRef(
           method: "DELETE",
         });
         if (response.ok) {
-          window.location.reload();
+          const currentUrl = window.location.href;
+          const url = new URL(currentUrl);
+          // 쿼리를 제거
+          url.searchParams.delete("post");
+
+          window.location.href = url.href;
         }
       } catch (error) {
         console.error("게시물을 삭제할 수 없습니다", error);
