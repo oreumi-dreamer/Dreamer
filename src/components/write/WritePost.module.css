@@ -482,6 +482,9 @@
   .text-field-area {
     height: auto;
   }
+  .text-field-area.has-image {
+    height: 25rem;
+  }
   .text-field-area textarea {
     height: 40rem;
   }
