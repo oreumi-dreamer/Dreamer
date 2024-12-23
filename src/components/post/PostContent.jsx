@@ -32,7 +32,7 @@ export default function PostContent({
   setPosts = () => {},
   setFeedPosts = () => {},
 }) {
-  const [isScrap, setIsScrap] = useState(false);
+  // const [isScrap, setIsScrap] = useState(false);
   const [postData, setPostData] = useState(null);
   const [isPrivate, setIsPrivate] = useState(false);
   const [oneiromancy, setOneiromancy] = useState(false);
