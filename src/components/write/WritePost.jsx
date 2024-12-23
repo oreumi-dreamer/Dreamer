@@ -281,6 +281,12 @@ export default function WritePost({
   const handleContentChange = (e) => {
     setContentValue(e.target.value);
     setIsContentChanged(true);
+
+    if (e.target.classList.contains(styles["has-image"])) {
+      handleResizeHeight(e);
+    } else {
+      handleResizeHeightText(e);
+    }
   };
   const handleRatingChange = (e) => {
     setRating(e.target.value);
@@ -429,13 +435,26 @@ export default function WritePost({
     if (window.innerWidth <= 720) {
       const textarea = e.target;
       const maxHeight = 100;
-      const minHeight = 30;
+      const minHeight = 25;
       textarea.style.height = "auto";
 
       if (textarea.value.trim() === "") {
         textarea.style.height = `${minHeight}rem`;
       } else {
         textarea.style.height = `${(textarea.scrollHeight, maxHeight)}rem`;
+      }
+    }
+  };
+  const handleResizeHeightText = (e) => {
+    if (window.innerWidth <= 720) {
+      const textarea = e.target;
+      const minHeight = 25;
+      textarea.style.height = "auto";
+
+      if (textarea.value.trim() === "") {
+        textarea.style.height = `${minHeight}rem`;
+      } else {
+        textarea.style.height = `${textarea.scrollHeight}px`;
       }
     }
   };
