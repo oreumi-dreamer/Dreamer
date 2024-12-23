@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Button, Input, LoginForm } from "../Controls";
 import { validatePassword } from "@/utils/validation";
-import Link from "next/link";
 import Loading from "../Loading";
 
 export default function FindPassword({ styles, setShowFindPassword }) {
@@ -138,37 +137,29 @@ export default function FindPassword({ styles, setShowFindPassword }) {
             {emailError ? emailError : ""}
           </span>
         </label>
-        <label className={styles["id-label"]}>
-          인증번호
-          <Input
-            type="text"
-            id="code"
-            value={code}
-            onChange={(e) => setCode(e.target.value)}
-            required
-          />
-        </label>
+        {isEmailSent && (
+          <label className={styles["id-label"]}>
+            인증번호
+            <Input
+              type="text"
+              id="code"
+              value={code}
+              onChange={(e) => setCode(e.target.value)}
+              required
+            />
+          </label>
+        )}
+
         <label className={styles["id-label"]}>
           새 비밀번호
-          {/* <div className={styles["password-wrap"]}> */}
           <Input
             type="password"
             id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            disabled={code === ""}
           />
-          {/* <img
-              src={
-                isPasswordValid ? "/images/valid.svg" : "/images/invalid.svg"
-              }
-              width={40}
-              height={40}
-              alt={
-                isPasswordValid ? "유효한 비밀번호" : "유효하지 않은 비밀번호"
-              }
-            /> */}
-          {/* </div> */}
           <span className={styles["invalid-text"]}>
             {isPasswordValid
               ? ""
@@ -177,39 +168,20 @@ export default function FindPassword({ styles, setShowFindPassword }) {
         </label>
         <label className={styles["id-label"]}>
           비밀번호 재확인
-          {/* <div className={styles["password-wrap"]}> */}
           <Input
             type="password"
             id="password"
             value={passwordConfirm}
             onChange={(e) => setPasswordConfirm(e.target.value)}
             required
+            disabled={code === ""}
           />
-          {/* <img
-              src={
-                passwordConfirm !== "" && isPasswordMatch
-                  ? "/images/valid.svg"
-                  : "/images/invalid.svg"
-              }
-              width={40}
-              height={40}
-              alt={
-                passwordConfirm !== "" && isPasswordMatch
-                  ? "일치하는 비밀번호"
-                  : "일치하지 않은 비밀번호"
-              }
-            /> */}
-          {/* </div> */}
           <span className={styles["invalid-text"]}>
             {passwordConfirm !== "" && isPasswordMatch
               ? ""
               : "비밀번호가 일치하지 않습니다."}
           </span>
         </label>
-
-        {/* <p role="alert" className={styles["error-message"]}>
-          {error}
-        </p> */}
         <ul className={styles["bottom-btns"]}>
           <li>
             <Button
@@ -227,7 +199,9 @@ export default function FindPassword({ styles, setShowFindPassword }) {
               type="submit"
               highlight={true}
               className={styles["login-button"]}
-              disabled={email !== "" ? false : true}
+              disabled={
+                !isEmailSent || passwordConfirm === "" || !isPasswordMatch
+              }
             >
               비밀번호 변경
             </Button>
