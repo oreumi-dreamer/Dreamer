@@ -222,7 +222,6 @@ body:has(header):has(main):has(footer) {
 
 body {
   width: 100%;
-  height: 100%;
 }
 
 main {
