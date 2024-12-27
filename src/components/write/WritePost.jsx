@@ -705,7 +705,7 @@ export default function WritePost({
                   form="new-post-form"
                   className={styles["btn-submit"]}
                 >
-                  전송
+                  작성하기
                 </button>
               </>
             )}
